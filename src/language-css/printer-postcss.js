@@ -120,7 +120,11 @@ function genericPrint(path, options, print) {
       // Workaround a bug where the location is off.
       // https://github.com/postcss/postcss-scss/issues/63
       if (text.indexOf(rawText) === -1) {
-        if (node.raws.inline) {
+        if (
+          node.raws.inline ||
+          // postcss-less@3
+          node.inline
+        ) {
           return concat(["// ", rawText]);
         }
         return concat(["/* ", rawText, " */"]);
