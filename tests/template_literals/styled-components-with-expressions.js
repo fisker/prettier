@@ -41,3 +41,57 @@ margin: 0;
 	left: 0;right: 0;
 }
 `;
+
+// #6259 #4520
+styled.div`
+         ${expr}:not(:first-child) {
+    // should not add space after :not
+}
+         ${expr}[checked] {
+    // should not add space before [
+}
+  margin: 0;.input {}
+`
+
+// #5465 #5614
+css`
+         prop: var(--foo--${expr});
+background-color: var(--${props => props.color});
+`
+
+// #5219
+css`
+         src: "${expr}";
+`;
+
+// #6392
+styled(_A)`
+         ${B}, ${C} {}
+`
+
+// #5961
+styled.div`
+         @media (min-width: 1px) {
+${Step}:nth-child(odd) {
+// should not add space after :nth-child
+}
+}
+`;
+
+// #4355
+styled.div`
+         border: 1px solid ${({active}) => active ? themeColor.active : themeColor.inactive};
+`
+
+// #2350
+styled.div`
+         display: block;
+  ${props => props.rounded && 'border-radius: 5px;'}
+`;
+
+// #2883
+css`
+&.foo .${bar}::before,&.foo[value="hello"] .${bar}::before {
+  position: absolute;
+}
+`;

@@ -1,5 +1,6 @@
 "use strict";
 
+const Placeholder = require("id-placeholder");
 const { isBlockComment, hasLeadingComment } = require("./comments");
 
 const {
@@ -16,6 +17,38 @@ const {
   utils: { mapDoc, stripTrailingHardline }
 } = require("../doc");
 
+const cssPlaceholder = new Placeholder("prettier");
+const CSS_PROPERTY_PLACEHOLDER = new Placeholder("prettier").get(0);
+const CSS_EXTRA_SEMICOLON_MARK = new Placeholder("prettier").get(0);
+const placeholderPiecesToStringArray = pieces =>
+  pieces.map(({ isPlaceholder, string, placeholder }) =>
+    isPlaceholder ? placeholder : string
+  );
+
+const cleanCSS = string =>
+  string
+    // preserve `prettier-ignore` comments
+    .replace(/\/\*\s*prettier-ignore\s*\*\//g, "_")
+    .replace(/\/\/\s*prettier-ignore/g, "_")
+    // remove block comments
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    // remove quoted strings
+    .replace(/(['"]).*?(\1)/g, "_")
+    // remove strings in parentheses
+    .replace(/\(.*?\)/g, "_")
+    // remove inline comments
+    .replace(/\/\/.*/g, "");
+const cssIdentityRegExp = /[^$a-zA-Z\d_-]/;
+const findCSSIdentity = (string, fromEnd) => {
+  const arrayMethod = fromEnd ? "pop" : "shift";
+  const piece = cssPlaceholder.parse(string)[arrayMethod]();
+
+  if (!piece || piece.isPlaceholder) {
+    return;
+  }
+
+  return piece.string.split(cssIdentityRegExp)[arrayMethod]();
+};
 function embed(path, print, textToDoc, options) {
   const node = path.getValue();
   const parent = path.getParentNode();
@@ -32,18 +65,95 @@ function embed(path, print, textToDoc, options) {
 
       if (isCss) {
         // Get full template literal with expressions replaced by placeholders
-        const rawQuasis = node.quasis.map(q => q.value.raw);
-        let placeholderID = 0;
-        const text = rawQuasis.reduce((prevVal, currVal, idx) => {
-          return idx == 0
-            ? currVal
-            : prevVal +
-                "@prettier-placeholder-" +
-                placeholderID++ +
-                "-id" +
-                currVal;
+        const text = node.quasis.reduce((prevVal, current, index) => {
+          const raw = current.value.raw;
+          return index === 0
+            ? raw
+            : prevVal + cssPlaceholder.get(index - 1) + raw;
         }, "");
-        const doc = textToDoc(text, { parser: "css" });
+
+        // css parser can't handle the following css
+        // ```css
+        // div {
+        //   css-placeholder;
+        // }
+        // ```
+        // so we fake it into
+        // ```css
+        // div {
+        //   prop-placeholder: css-placeholder;
+        // }
+        // ```
+        // and will restore back after parse
+
+        const pieces = cssPlaceholder.parse(text);
+        const texts = placeholderPiecesToStringArray(pieces);
+
+        pieces.forEach(({ isPlaceholder, placeholder }, index) => {
+          if (!isPlaceholder) {
+            return;
+          }
+
+          let text = placeholder;
+          let before = texts.slice(0, index).join();
+          let after = texts.slice(index + 1).join();
+
+          // move identity character
+          const leadingIdentity = findCSSIdentity(before, true);
+          const tailingIdentity = findCSSIdentity(after);
+          if (leadingIdentity) {
+            texts[index - 1] = texts[index - 1].slice(
+              0,
+              -leadingIdentity.length
+            );
+            text = leadingIdentity + text;
+          }
+          if (tailingIdentity) {
+            texts[index + 1] = texts[index + 1].slice(tailingIdentity.length);
+            text += tailingIdentity;
+          }
+
+          // check orphan placeholder
+          after = cleanCSS(
+            texts
+              .slice(index + 1)
+              .filter(text => !cssPlaceholder.isPlaceholder(text))
+              .join("")
+          );
+          const endsWithLineBreak = /^\s*\n/.test(after);
+          after = after.trim();
+
+          const needExtraSemicolon =
+            !after ||
+            endsWithLineBreak ||
+            after[0] !== ";" ||
+            cssPlaceholder.isPlaceholder(
+              texts.slice(index + 1).filter(text => text.trim())[0] || ""
+            );
+
+          before = cleanCSS(texts.slice(0, index).join("")).trim();
+
+          if (
+            (!after ||
+              endsWithLineBreak ||
+              after[0] === ";" ||
+              after[0] === "}") &&
+            (!before ||
+              before.slice(-1) === ";" ||
+              before.slice(-1) === "{" ||
+              before.slice(-1) === "}")
+          ) {
+            text = `${CSS_PROPERTY_PLACEHOLDER}: ${text}`;
+
+            if (needExtraSemicolon) {
+              text += `${CSS_EXTRA_SEMICOLON_MARK};`;
+            }
+          }
+
+          texts[index] = text;
+        });
+
+        const doc = textToDoc(texts.join(""), { parser: "css" });
         return transformCssDoc(doc, path, print);
       }
 
@@ -255,62 +365,112 @@ function transformCssDoc(quasisDoc, path, print) {
 // and replace them with the expression docs one by one
 // returns a new doc with all the placeholders replaced,
 // or null if it couldn't replace any expression
+const CSS_EXTRA_SEMICOLON_MARK_LENGTH = CSS_EXTRA_SEMICOLON_MARK.length;
+const endsWithCSSSemicolonMark = string =>
+  string.slice(-CSS_EXTRA_SEMICOLON_MARK_LENGTH) === CSS_EXTRA_SEMICOLON_MARK;
+const hasCSSPlaceholder = doc => {
+  if (!doc || !doc.parts) {
+    return false;
+  }
+  const text = doc.parts.filter(part => typeof part === "string").join();
+  return (
+    [CSS_PROPERTY_PLACEHOLDER, CSS_EXTRA_SEMICOLON_MARK].some(
+      placeholder => text.indexOf(placeholder) !== -1
+    ) || cssPlaceholder.hasPlaceholder(text)
+  );
+};
 function replacePlaceholders(quasisDoc, expressionDocs) {
   if (!expressionDocs || !expressionDocs.length) {
     return quasisDoc;
   }
 
-  const expressions = expressionDocs.slice();
-  let replaceCounter = 0;
-  const newDoc = mapDoc(quasisDoc, doc => {
-    if (!doc || !doc.parts || !doc.parts.length) {
+  const replacedExpressions = [];
+  const restoredDoc = mapDoc(quasisDoc, doc => {
+    if (!hasCSSPlaceholder(doc)) {
       return doc;
     }
-    let parts = doc.parts;
-    const atIndex = parts.indexOf("@");
-    const placeholderIndex = atIndex + 1;
-    if (
-      atIndex > -1 &&
-      typeof parts[placeholderIndex] === "string" &&
-      parts[placeholderIndex].startsWith("prettier-placeholder")
-    ) {
-      // If placeholder is split, join it
-      const at = parts[atIndex];
-      const placeholder = parts[placeholderIndex];
-      const rest = parts.slice(placeholderIndex + 1);
-      parts = parts
-        .slice(0, atIndex)
-        .concat([at + placeholder])
-        .concat(rest);
-    }
-    const atPlaceholderIndex = parts.findIndex(
-      part =>
-        typeof part === "string" && part.startsWith("@prettier-placeholder")
-    );
-    if (atPlaceholderIndex > -1) {
-      const placeholder = parts[atPlaceholderIndex];
-      const rest = parts.slice(atPlaceholderIndex + 1);
-      const placeholderMatch = placeholder.match(
-        /@prettier-placeholder-(.+)-id([\s\S]*)/
-      );
-      const placeholderID = placeholderMatch[1];
-      // When the expression has a suffix appended, like:
-      // animation: linear ${time}s ease-out;
-      const suffix = placeholderMatch[2];
-      const expression = expressions[placeholderID];
 
-      replaceCounter++;
-      parts = parts
-        .slice(0, atPlaceholderIndex)
-        .concat(["${", expression, "}" + suffix])
-        .concat(rest);
-    }
+    const parts = doc.parts.slice().reduce((parts, part, index, original) => {
+      if (typeof part !== "string") {
+        parts.push(part);
+        return parts;
+      }
+
+      // clean extra semicolon mark
+      if (endsWithCSSSemicolonMark(part)) {
+        part = part.slice(0, -CSS_EXTRA_SEMICOLON_MARK_LENGTH);
+        original[index] = part;
+
+        // find following semicolon
+        let semicolonIndex = -1;
+        for (let i = index + 1; i < original.length; i++) {
+          const value = original[i];
+          if (typeof value !== "string" || !value.trim()) {
+            continue;
+          }
+          if (value !== ";") {
+            throw new Error(
+              "CSS_EXTRA_SEMICOLON_MARK should always follow with a semicolon"
+            );
+          }
+          semicolonIndex = i;
+          break;
+        }
+        original[semicolonIndex] = "";
+      }
+      part = part.replace(new RegExp(CSS_EXTRA_SEMICOLON_MARK + ";", "g"), "");
+
+      // clean css prop placeholder
+      if (part === CSS_PROPERTY_PLACEHOLDER) {
+        if (original[index + 1] !== ":") {
+          throw new Error(
+            "CSS_PROPERTY_PLACEHOLDER should always follow with a colon"
+          );
+        }
+        original[index] = "";
+        original[index + 1] = "";
+
+        // clean up following spaces
+        for (let i = index + 2; i < original.length; i++) {
+          const value = original[i];
+          if (typeof value !== "string" || value.trim()) {
+            break;
+          }
+          original[i] = "";
+        }
+        return parts;
+      }
+      part = part.replace(new RegExp(CSS_PROPERTY_PLACEHOLDER + ":", "g"), "");
+
+      // replace placeholders
+      return cssPlaceholder
+        .parse(part)
+        .reduce((parts, { isPlaceholder, string, index }) => {
+          if (!isPlaceholder) {
+            parts.push(string);
+            return parts;
+          }
+
+          if (replacedExpressions.indexOf(index) === -1) {
+            replacedExpressions.push(index);
+          }
+
+          parts.push("${");
+          parts.push(expressionDocs[index]);
+          parts.push("}");
+
+          return parts;
+        }, parts);
+    }, []);
+
     return Object.assign({}, doc, {
       parts: parts
     });
   });
 
-  return expressions.length === replaceCounter ? newDoc : null;
+  if (expressionDocs.length === replacedExpressions.length) {
+    return restoredDoc;
+  }
 }
 
 function printGraphqlComments(lines) {

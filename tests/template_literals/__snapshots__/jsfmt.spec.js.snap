@@ -1,5 +1,901 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`css-comment-like-stings.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// double quoted '//'
+css\`
+[href*="//"]{\${a}}
+\`
+
+// single quoted '//'
+css\`
+[href*='//']{\${a}}
+\`
+
+// escaped quotes
+css\`
+[href*='//\\'']{\${a}}
+\`
+
+// in url()
+css\`
+a {background: url(//example.com);\${a};}
+\`
+
+// prettier-ignore like comment
+css\`
+a {content: "// prettier-ignore";\${a};}
+\`
+
+// prettier-ignore like comment
+css\`
+a{content: "/* prettier-ignore */";\${a}}
+\`
+
+// actual URL
+css\`
+[href="https://example.com"]{\${a}}
+\`
+
+// quoted '/**/'
+css\`
+         a{
+content: "/* ";
+content: " */";
+\${a}
+}
+\`
+=====================================output=====================================
+// double quoted '//'
+css\`
+  [href*="//"] {
+    \${a}
+  }
+\`;
+
+// single quoted '//'
+css\`
+  [href*='//'] {
+    \${a}
+  }
+\`;
+
+// escaped quotes
+css\`
+  [href*='//\\''] {
+    \${a}
+  }
+\`;
+
+// in url()
+css\`
+  a {
+    background: url(//example.com);
+    \${a};
+  }
+\`;
+
+// prettier-ignore like comment
+css\`
+  a {
+    content: "// prettier-ignore";
+    \${a};
+  }
+\`;
+
+// prettier-ignore like comment
+css\`
+  a {
+    content: "/* prettier-ignore */";
+    \${a}
+  }
+\`;
+
+// actual URL
+css\`
+  [href="https://example.com"] {
+    \${a}
+  }
+\`;
+
+// quoted '/**/'
+css\`
+  a {
+    content: "/* ";
+    content: " */";
+    \${a}
+  }
+\`;
+
+================================================================================
+`;
+
+exports[`css-ignore.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+css\`
+/* prettier-ignore */
+this{line:should;be:\${ugly}}
+\`
+
+css\`
+this{line:should;be:\${pretty}}
+
+/* prettier-ignore */
+this{line:should;be:\${ugly}}
+
+this{line:should;be:\${pretty}}
+\`
+
+// css don't support inline comment of \`prettier-ignore\`
+css\`
+this{line:should;be:\${pretty}} // prettier-ignore
+\`
+css\`
+this{line:should;be:\${pretty}}
+
+this{line:should;be:\${pretty}} // prettier-ignore
+\`
+=====================================output=====================================
+css\`
+  /* prettier-ignore */
+  this{line:should;be:\${ugly}}
+\`;
+
+css\`
+  this {
+    line: should;
+    be: \${pretty};
+  }
+
+  /* prettier-ignore */
+  this{line:should;be:\${ugly}}
+
+  this {
+    line: should;
+    be: \${pretty};
+  }
+\`;
+
+// css don't support inline comment of \`prettier-ignore\`
+css\`
+  this {
+    line: should;
+    be: \${pretty};
+  } // prettier-ignore
+\`;
+css\`
+  this {
+    line: should;
+    be: \${pretty};
+  }
+
+  this {
+    line: should;
+    be: \${pretty};
+  } // prettier-ignore
+\`;
+
+================================================================================
+`;
+
+exports[`css-in-at-rule.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// name
+css\`
+         @foo\${exp}bar (min-width: 100px) {div {}}
+\`;
+css\`
+         @\${exp}bar (min-width: 100px) {div {}}
+\`;
+css\`
+         @foo\${exp} (min-width: 100px) {div {}}
+\`;
+
+// prop
+css\`
+         @media (foo\${exp}bar: 100px) {div {}}
+\`;
+css\`
+         @media (\${exp}bar: 100px) {div {}}
+\`;
+css\`
+         @media (foo\${exp}: 100px) {div {}}
+\`;
+
+// value
+css\`
+         @media (min-width: foo\${exp}bar) {div {}}
+\`;
+css\`
+         @media (min-width: \${exp}bar) {div {}}
+\`;
+css\`
+         @media (min-width: foo\${exp}) {div {}}
+\`;
+
+// condition
+css\`
+         @media (foo\${exp}bar) {div {}}
+\`;
+css\`
+         @media (\${exp}bar) {div {}}
+\`;
+css\`
+         @media (foo\${exp}) {div {}}
+\`;
+
+=====================================output=====================================
+// name
+css\`
+  @foo\${exp}bar (min-width: 100px) {
+    div {
+    }
+  }
+\`;
+css\`
+  @\${exp}bar (min-width: 100px) {
+    div {
+    }
+  }
+\`;
+css\`
+  @foo\${exp} (min-width: 100px) {
+    div {
+    }
+  }
+\`;
+
+// prop
+css\`
+  @media (foo\${exp}bar: 100px) {
+    div {
+    }
+  }
+\`;
+css\`
+  @media (\${exp}bar: 100px) {
+    div {
+    }
+  }
+\`;
+css\`
+  @media (foo\${exp}: 100px) {
+    div {
+    }
+  }
+\`;
+
+// value
+css\`
+  @media (min-width: foo\${exp}bar) {
+    div {
+    }
+  }
+\`;
+css\`
+  @media (min-width: \${exp}bar) {
+    div {
+    }
+  }
+\`;
+css\`
+  @media (min-width: foo\${exp}) {
+    div {
+    }
+  }
+\`;
+
+// condition
+css\`
+  @media (foo\${exp}bar) {
+    div {
+    }
+  }
+\`;
+css\`
+  @media (\${exp}bar) {
+    div {
+    }
+  }
+\`;
+css\`
+  @media (foo\${exp}) {
+    div {
+    }
+  }
+\`;
+
+================================================================================
+`;
+
+exports[`css-in-comment.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+//  block comment
+css\`
+         foo{/*\${a}*/}
+\`;
+
+// inline comment
+css\`
+         foo{
+foo:bar;
+//\${a}
+foo:bar;
+}
+\`;
+=====================================output=====================================
+//  block comment
+css\`
+  foo {
+    /*\${a}*/
+  }
+\`;
+
+// inline comment
+css\`
+  foo {
+    foo: bar;
+    // \${a}
+    foo: bar;
+  }
+\`;
+
+================================================================================
+`;
+
+exports[`css-in-declare.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// prop
+css\`
+         a {foo\${exp}bar: 1;}
+\`;
+css\`
+         a {\${exp}bar: 1;}
+\`;
+css\`
+         a {foo\${exp}: 1;}
+\`;
+
+// value
+css\`
+         a {a: foo\${exp}bar;}
+\`;
+css\`
+         a {a: \${exp}bar;}
+\`;
+css\`
+         a {a: foo\${exp};}
+\`;
+
+// should insert semi
+css\`
+         a {a: foo\${exp}}
+\`;
+// should remove extra semi
+css\`
+         a {a: foo\${exp};;}
+         a {a: foo\${exp};
+;}
+\`;
+
+=====================================output=====================================
+// prop
+css\`
+  a {
+    foo\${exp}bar: 1;
+  }
+\`;
+css\`
+  a {
+    \${exp}bar: 1;
+  }
+\`;
+css\`
+  a {
+    foo\${exp}: 1;
+  }
+\`;
+
+// value
+css\`
+  a {
+    a: foo\${exp}bar;
+  }
+\`;
+css\`
+  a {
+    a: \${exp}bar;
+  }
+\`;
+css\`
+  a {
+    a: foo\${exp};
+  }
+\`;
+
+// should insert semi
+css\`
+  a {
+    a: foo\${exp};
+  }
+\`;
+// should remove extra semi
+css\`
+  a {
+    a: foo\${exp};
+  }
+  a {
+    a: foo\${exp};
+  }
+\`;
+
+================================================================================
+`;
+
+exports[`css-in-selector.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// tag selector
+css\`
+         foo\${exp}bar {}
+\`;
+css\`
+         \${exp}bar {}
+\`;
+css\`
+         foo\${exp} {}
+\`;
+
+// id selector
+css\`
+         #foo\${exp}bar {}
+\`;
+css\`
+         #\${exp}bar {}
+\`;
+css\`
+         #\${exp}bar {}
+\`;
+
+// class selector
+css\`
+         .foo\${exp}bar {}
+\`;
+css\`
+         .\${exp}bar {}
+\`;
+css\`
+         .\${exp}bar {}
+\`;
+
+// attribute name
+css\`
+         [foo\${exp}bar] {}
+\`;
+css\`
+         [\${exp}bar] {}
+\`;
+css\`
+         [foo\${exp}] {}
+\`;
+
+// attribute value
+css\`
+         [a^=foo\${exp}bar] {}
+\`;
+css\`
+         [a^=\${exp}bar] {}
+\`;
+css\`
+         [a^=foo\${exp}] {}
+\`;
+
+=====================================output=====================================
+// tag selector
+css\`
+  foo\${exp}bar {
+  }
+\`;
+css\`
+  \${exp}bar {
+  }
+\`;
+css\`
+  foo\${exp} {
+  }
+\`;
+
+// id selector
+css\`
+  #foo\${exp}bar {
+  }
+\`;
+css\`
+  #\${exp}bar {
+  }
+\`;
+css\`
+  #\${exp}bar {
+  }
+\`;
+
+// class selector
+css\`
+  .foo\${exp}bar {
+  }
+\`;
+css\`
+  .\${exp}bar {
+  }
+\`;
+css\`
+  .\${exp}bar {
+  }
+\`;
+
+// attribute name
+css\`
+  [foo\${exp}bar] {
+  }
+\`;
+css\`
+  [\${exp}bar] {
+  }
+\`;
+css\`
+  [foo\${exp}] {
+  }
+\`;
+
+// attribute value
+css\`
+  [a^="foo\${exp}bar"] {
+  }
+\`;
+css\`
+  [a^="\${exp}bar"] {
+  }
+\`;
+css\`
+  [a^="foo\${exp}"] {
+  }
+\`;
+
+================================================================================
+`;
+
+exports[`css-orphan.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+
+// as part
+css\`
+         a {
+@foo\${exp}bar;
+--foo\${exp}bar;
+_foo\${exp}bar;
+FOO\${exp}bar;
+foo1\${exp}bar;
+     }
+\`;
+
+css\`a {foo\${exp}bar;}\`;
+css\`a {\${exp}bar;}\`;
+css\`a {foo\${exp};}\`;
+
+
+// keep semicolon as it is
+css\`a {\${exp};}\`;
+css\`a {\${exp}}\`;
+
+// many
+css\`a {
+\${exp}
+\${exp};
+      }
+\`;
+css\`a {
+\${exp}
+
+\${exp};
+      }
+\`;
+css\`a {\${exp}\${exp};
+     }
+\`;
+css\`a {\${exp} \${exp};
+     }
+\`;
+css\`a {\${exp} ;\${exp};
+     }
+\`;
+
+// comments
+
+// inline-comment
+css\`
+         a {
+// comment
+          \${exp}
+}
+\`;
+css\`
+         a {
+          \${exp}
+        // comment
+}
+\`;
+
+// block-comment
+css\`
+         a {
+/*comment*/
+          \${exp}
+}
+\`;
+css\`
+         a {
+          \${exp}
+        /*comment
+*/
+}
+\`;
+css\`
+         a {
+/*comment
+*/
+          \${exp}
+        /*comment
+*/
+}
+\`;
+
+// inside-comment(before)
+css\`
+         a {
+/*comment\${a}
+*/
+          \${exp}
+}
+\`;
+css\`
+         a {
+          \${exp}
+        /*comment\${b}
+*/
+}
+\`;
+css\`
+         a {
+// comment
+          \${exp}
+        // comment
+}
+\`;
+css\`
+         a {
+/*comment\${a}
+*/
+          \${exp}
+        /*comment\${b}
+*/
+}
+\`;
+
+// should not crush
+css\`\${a}\${b}\${c}\${d}\${e}\${f}
+// comment
+\${g}//comment
+\${h}/*comment*/;
+         \${i};\${j}\${k}\${l}\${m}\${n}\${o}\${p}\${q}\${r}\${s}\${t}\${u}\${v}\${w}\${x}\${y}
+// comment
+\${z}\`;
+=====================================output=====================================
+// as part
+css\`
+  a {
+    @foo\${exp}bar;
+    --foo\${exp}bar;
+    _foo\${exp}bar;
+    FOO\${exp}bar;
+    foo1\${exp}bar;
+  }
+\`;
+
+css\`
+  a {
+    foo\${exp}bar;
+  }
+\`;
+css\`
+  a {
+    \${exp}bar;
+  }
+\`;
+css\`
+  a {
+    foo\${exp};
+  }
+\`;
+
+// keep semicolon as it is
+css\`
+  a {
+    \${exp};
+  }
+\`;
+css\`
+  a {
+    \${exp}
+  }
+\`;
+
+// many
+css\`
+  a {
+    \${exp}
+    \${exp};
+  }
+\`;
+css\`
+  a {
+    \${exp}
+
+    \${exp};
+  }
+\`;
+css\`
+  a {
+    \${exp}
+    \${exp};
+  }
+\`;
+css\`
+  a {
+    \${exp}
+    \${exp};
+  }
+\`;
+css\`
+  a {
+    \${exp};
+    \${exp};
+  }
+\`;
+
+// comments
+
+// inline-comment
+css\`
+  a {
+    // comment
+    \${exp}
+  }
+\`;
+css\`
+  a {
+    \${exp}
+    // comment
+  }
+\`;
+
+// block-comment
+css\`
+  a {
+    /*comment*/
+    \${exp}
+  }
+\`;
+css\`
+  a {
+    \${exp}
+    /*comment
+*/
+  }
+\`;
+css\`
+  a {
+    /*comment
+*/
+    \${exp}
+    /*comment
+*/
+  }
+\`;
+
+// inside-comment(before)
+css\`
+  a {
+    /*comment\${a}
+*/
+    \${exp}
+  }
+\`;
+css\`
+  a {
+    \${exp}
+    /*comment\${b}
+*/
+  }
+\`;
+css\`
+  a {
+    // comment
+    \${exp}
+    // comment
+  }
+\`;
+css\`
+  a {
+    /*comment\${a}
+*/
+    \${exp}
+    /*comment\${b}
+*/
+  }
+\`;
+
+// should not crush
+css\`
+  \${a}
+  \${b}
+  \${c}
+  \${d}
+  \${e}
+  \${f}
+  // comment
+  \${g} //comment
+  \${h} /*comment*/;
+  \${i};
+  \${j}
+  \${k}
+  \${l}
+  \${m}
+  \${n}
+  \${o}
+  \${p}
+  \${q}
+  \${r}
+  \${s}
+  \${t}
+  \${u}
+  \${v}
+  \${w}
+  \${x}
+  \${y}
+  // comment
+  \${z}
+\`;
+
+================================================================================
+`;
+
 exports[`css-prop.js 1`] = `
 ====================================options=====================================
 parsers: ["babel", "flow", "typescript"]
@@ -241,6 +1137,59 @@ margin: 0;
 }
 \`;
 
+// #6259 #4520
+styled.div\`
+         \${expr}:not(:first-child) {
+    // should not add space after :not
+}
+         \${expr}[checked] {
+    // should not add space before [
+}
+  margin: 0;.input {}
+\`
+
+// #5465 #5614
+css\`
+         prop: var(--foo--\${expr});
+background-color: var(--\${props => props.color});
+\`
+
+// #5219
+css\`
+         src: "\${expr}";
+\`;
+
+// #6392
+styled(_A)\`
+         \${B}, \${C} {}
+\`
+
+// #5961
+styled.div\`
+         @media (min-width: 1px) {
+\${Step}:nth-child(odd) {
+// should not add space after :nth-child
+}
+}
+\`;
+
+// #4355
+styled.div\`
+         border: 1px solid \${({active}) => active ? themeColor.active : themeColor.inactive};
+\`
+
+// #2350
+styled.div\`
+         display: block;
+  \${props => props.rounded && 'border-radius: 5px;'}
+\`;
+
+// #2883
+css\`
+&.foo .\${bar}::before,&.foo[value="hello"] .\${bar}::before {
+  position: absolute;
+}
+\`;
 =====================================output=====================================
 const Button = styled.a\`
   /* Comment */
@@ -286,6 +1235,66 @@ const header = css\`
     position: absolute;
     left: 0;
     right: 0;
+  }
+\`;
+
+// #6259 #4520
+styled.div\`
+  \${expr}:not(:first-child) {
+    // should not add space after :not
+  }
+  \${expr}[checked] {
+    // should not add space before [
+  }
+  margin: 0;
+  .input {
+  }
+\`;
+
+// #5465 #5614
+css\`
+  prop: var(--foo--\${expr});
+  background-color: var(--\${props => props.color});
+\`;
+
+// #5219
+css\`
+  src: "\${expr}";
+\`;
+
+// #6392
+styled(_A)\`
+  \${B},
+  \${C} {
+  }
+\`;
+
+// #5961
+styled.div\`
+  @media (min-width: 1px) {
+    \${Step}:nth-child(odd) {
+      // should not add space after :nth-child
+    }
+  }
+\`;
+
+// #4355
+styled.div\`
+  border: 1px solid \${({ active }) =>
+      active ? themeColor.active : themeColor.inactive};
+\`;
+
+// #2350
+styled.div\`
+  display: block;
+  \${props => props.rounded && "border-radius: 5px;"}
+\`;
+
+// #2883
+css\`
+  &.foo .\${bar}::before,
+  &.foo[value="hello"] .\${bar}::before {
+    position: absolute;
   }
 \`;
 
@@ -513,9 +1522,9 @@ printWidth: 80
     color: red;
   }
   }
-  @font-face {
-    \${expr}
-  }
+         @font-face {
+\${expr}
+}
 \`}</style>;
 
 <style jsx>{\`
@@ -529,6 +1538,13 @@ printWidth: 80
   animation: 3s ease-in 1s \${foo => foo.getIterations()} reverse both paused slidein;
   }
 \`}</style>;
+
+// #5886
+<style jsx>{\`
+         .class{
+flex-direction: column\${long_cond && long_cond && long_cond ? "-reverse" : ""};
+}
+\`}</style>
 
 =====================================output=====================================
 <style jsx>{\`
@@ -571,6 +1587,15 @@ printWidth: 80
   div {
     animation: 3s ease-in 1s \${foo => foo.getIterations()} reverse both paused
       slidein;
+  }
+\`}</style>;
+
+// #5886
+<style jsx>{\`
+  .class {
+    flex-direction: column\${long_cond && long_cond && long_cond
+      ? "-reverse"
+      : ""};
   }
 \`}</style>;
 
