@@ -8,6 +8,8 @@ const path = require("path");
 const thirdParty = require("./third-party");
 const internalPlugins = require("./internal-plugins");
 
+const resolve = require("util").resolve;
+
 function loadPlugins(plugins, pluginSearchDirs) {
   if (!plugins) {
     plugins = [];
@@ -33,12 +35,12 @@ function loadPlugins(plugins, pluginSearchDirs) {
     let requirePath;
     try {
       // try local files
-      requirePath = eval("require").resolve(
+      requirePath = resolve(
         path.resolve(process.cwd(), pluginName)
       );
     } catch (_) {
       // try node modules
-      requirePath = eval("require").resolve(pluginName, {
+      requirePath = resolve(pluginName, {
         paths: [process.cwd()]
       });
     }
@@ -75,7 +77,7 @@ function loadPlugins(plugins, pluginSearchDirs) {
 
       return findPluginsInNodeModules(nodeModulesDir).map(pluginName => ({
         name: pluginName,
-        requirePath: eval("require").resolve(pluginName, {
+        requirePath: resolve(pluginName, {
           paths: [resolvedPluginSearchDir]
         })
       }));

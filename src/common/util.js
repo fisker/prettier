@@ -7,6 +7,8 @@ const getLast = require("../utils/get-last");
 // eslint-disable-next-line no-control-regex
 const notAsciiRegex = /[^\x20-\x7F]/;
 
+const resolve = eval("require").resolve;
+
 function getPenultimate(arr) {
   if (arr.length > 1) {
     return arr[arr.length - 2];
@@ -814,6 +816,7 @@ function replaceEndOfLineWith(text, replacement) {
 }
 
 module.exports = {
+  resolve,
   replaceEndOfLineWith,
   getStringWidth,
   getMaxContinuousCount,
