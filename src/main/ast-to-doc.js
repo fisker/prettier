@@ -32,11 +32,14 @@ const docUtils = doc.utils;
  * the path to the current node through the Abstract Syntax Tree.
  */
 function printAstToDoc(ast, options, alignmentSize = 0) {
-  const { printer } = options;
+  const { printer, onParsed } = options;
 
   if (printer.preprocess) {
     ast = printer.preprocess(ast, options);
   }
+    if (onParsed) {
+      onParsed(ast);
+    }
 
   const cache = new Map();
 

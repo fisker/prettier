@@ -16,10 +16,15 @@ function printSubtree(path, print, options, printAstToDoc) {
 }
 
 function textToDoc(text, partialNextOptions, parentOptions, printAstToDoc) {
-  const nextOptions = normalize(
+  let {
+    onParsed,
+    ...nextOptions
+  } = partialNextOptions || {};
+
+  nextOptions = normalize(
     {
       ...parentOptions,
-      ...partialNextOptions,
+      ...nextOptions,
       parentParser: parentOptions.parser,
       embeddedInHtml: !!(
         parentOptions.embeddedInHtml ||
@@ -40,7 +45,7 @@ function textToDoc(text, partialNextOptions, parentOptions, printAstToDoc) {
   const astComments = ast.comments;
   delete ast.comments;
   comments.attach(astComments, ast, text, nextOptions);
-  return printAstToDoc(ast, nextOptions);
+  return printAstToDoc(ast, {...nextOptions, onParsed});
 }
 
 module.exports = {

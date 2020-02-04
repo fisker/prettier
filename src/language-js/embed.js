@@ -580,7 +580,7 @@ function printHtmlTemplateLiteral(path, print, textToDoc, parser, options) {
     stripTrailingHardline(
       textToDoc(text, {
         parser,
-        __onHtmlRoot(root) {
+        onParsed(root) {
           topLevelCount = root.children.length;
         }
       })
