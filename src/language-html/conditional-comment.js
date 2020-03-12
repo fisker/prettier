@@ -24,7 +24,6 @@ function parseIeConditionalComment(node, parseHtml) {
       }
     }
   }
-  return null;
 }
 
 function parseIeConditionalStartEndComment(node, parseHtml, match) {

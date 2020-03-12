@@ -1132,8 +1132,6 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
       return group(concat(parts));
     }
   }
-
-  return null;
 }
 
 module.exports = {

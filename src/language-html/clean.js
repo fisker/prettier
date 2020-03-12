@@ -8,12 +8,12 @@ module.exports = function(ast, newNode) {
   delete newNode.valueSpan;
 
   if (ast.type === "text" || ast.type === "comment") {
-    return null;
+    return;
   }
 
   // may be formatted by multiparser
   if (ast.type === "yaml" || ast.type === "toml") {
-    return null;
+    return;
   }
 
   if (ast.type === "attribute") {
