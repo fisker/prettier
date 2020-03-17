@@ -2001,6 +2001,7 @@ $my-list: "foo",
   // Comment
     "bar"; // Comment
 
+
 $my-map: (
   "foo": 1,
   // Comment
@@ -4028,6 +4029,7 @@ mixin theme($css-property, $css-value, $theme-classes: t) {
 $my-list: "foo",
   // Comment
     "bar"; // Comment
+
 
 $my-map: (
   "foo": 1,
