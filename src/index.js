@@ -68,6 +68,7 @@ module.exports = {
 
   /* istanbul ignore next */
   __debug: {
+    core,
     parse: withPlugins(core.parse),
     formatAST: withPlugins(core.formatAST),
     formatDoc: withPlugins(core.formatDoc),

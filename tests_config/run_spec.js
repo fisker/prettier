@@ -16,6 +16,8 @@ const prettier = !TEST_STANDALONE
   ? require("prettier/local")
   : require("prettier/standalone");
 
+const { core } = prettier.__debug;
+
 global.run_spec = (dirname, parsers, options) => {
   // `IS_PARSER_INFERENCE_TESTS` mean to test `inferParser` on `standalone`
   const IS_PARSER_INFERENCE_TESTS = dirname.endsWith("parser-inference");
@@ -63,6 +65,7 @@ global.run_spec = (dirname, parsers, options) => {
     const baseOptions = {
       printWidth: 80,
       ...options,
+      plugins: [],
       rangeStart,
       rangeEnd,
       cursorOffset
@@ -147,11 +150,11 @@ global.run_spec = (dirname, parsers, options) => {
 };
 
 function parse(source, options) {
-  return prettier.__debug.parse(source, options, /* massage */ true).ast;
+  return core.parse(source, options, /* massage */ true).ast;
 }
 
 function format(source, filename, options) {
-  const result = prettier.formatWithCursor(source, {
+  const result = core.formatWithCursor(source, {
     filepath: filename,
     ...options
   });
