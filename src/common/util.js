@@ -7,30 +7,6 @@ const getLast = require("../utils/get-last");
 // eslint-disable-next-line no-control-regex
 const notAsciiRegex = /[^\x20-\x7F]/;
 
-function isExportDeclaration(node) {
-  if (node) {
-    switch (node.type) {
-      case "ExportDefaultDeclaration":
-      case "ExportDefaultSpecifier":
-      case "DeclareExportDeclaration":
-      case "ExportNamedDeclaration":
-      case "ExportAllDeclaration":
-        return true;
-    }
-  }
-
-  return false;
-}
-
-function getParentExportDeclaration(path) {
-  const parentNode = path.getParentNode();
-  if (path.getName() === "declaration" && isExportDeclaration(parentNode)) {
-    return parentNode;
-  }
-
-  return null;
-}
-
 function getPenultimate(arr) {
   if (arr.length > 1) {
     return arr[arr.length - 2];
@@ -56,7 +32,7 @@ function skip(chars) {
       return false;
     }
 
-    const length = text.length;
+    const { length } = text;
     let cursor = index;
     while (cursor >= 0 && cursor < length) {
       const c = text.charAt(cursor);
@@ -64,7 +40,7 @@ function skip(chars) {
         if (!chars.test(c)) {
           return cursor;
         }
-      } else if (chars.indexOf(c) === -1) {
+      } else if (!chars.includes(c)) {
         return cursor;
       }
 
@@ -356,9 +332,9 @@ const PRECEDENCE = {};
   [">>", "<<", ">>>"],
   ["+", "-"],
   ["*", "/", "%"],
-  ["**"]
+  ["**"],
 ].forEach((tier, i) => {
-  tier.forEach(op => {
+  tier.forEach((op) => {
     PRECEDENCE[op] = i;
   });
 });
@@ -371,17 +347,17 @@ const equalityOperators = {
   "==": true,
   "!=": true,
   "===": true,
-  "!==": true
+  "!==": true,
 };
 const multiplicativeOperators = {
   "*": true,
   "/": true,
-  "%": true
+  "%": true,
 };
 const bitshiftOperators = {
   ">>": true,
   ">>>": true,
-  "<<": true
+  "<<": true,
 };
 
 function shouldFlatten(parentOp, nodeOp) {
@@ -775,7 +751,7 @@ function hasNodeIgnoreComment(node) {
     node &&
     node.comments &&
     node.comments.length > 0 &&
-    node.comments.some(comment => comment.value.trim() === "prettier-ignore")
+    node.comments.some((comment) => comment.value.trim() === "prettier-ignore")
   );
 }
 
@@ -845,8 +821,6 @@ module.exports = {
   getPrecedence,
   shouldFlatten,
   isBitwiseOperator,
-  isExportDeclaration,
-  getParentExportDeclaration,
   getPenultimate,
   getLast,
   getNextNonSpaceNonCommentCharacterIndexWithStartIndex,
@@ -880,5 +854,5 @@ module.exports = {
   addLeadingComment,
   addDanglingComment,
   addTrailingComment,
-  isWithinParentArrayProperty
+  isWithinParentArrayProperty,
 };

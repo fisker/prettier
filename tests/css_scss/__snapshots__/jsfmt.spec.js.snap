@@ -1,9 +1,83 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`comments.scss 1`] = `
+====================================options=====================================
+parsers: ["scss"]
+printWidth: 80
+trailingComma: "none"
+                                                                                | printWidth
+=====================================input======================================
+// This comment won't be included in the CSS. 
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.     
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+=====================================output=====================================
+// This comment won't be included in the CSS.
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+================================================================================
+`;
+
+exports[`comments.scss 2`] = `
+====================================options=====================================
+parsers: ["scss"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// This comment won't be included in the CSS. 
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.     
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+=====================================output=====================================
+// This comment won't be included in the CSS.
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+================================================================================
+`;
+
 exports[`import_comma.scss 1`] = `
 ====================================options=====================================
 parsers: ["scss"]
 printWidth: 80
+trailingComma: "none"
                                                                                 | printWidth
 =====================================input======================================
 @import "rounded-corners", "text-shadow";
@@ -18,7 +92,6 @@ exports[`import_comma.scss 2`] = `
 ====================================options=====================================
 parsers: ["scss"]
 printWidth: 80
-trailingComma: "es5"
                                                                                 | printWidth
 =====================================input======================================
 @import "rounded-corners", "text-shadow";
@@ -33,6 +106,7 @@ exports[`scss.scss 1`] = `
 ====================================options=====================================
 parsers: ["scss"]
 printWidth: 80
+trailingComma: "none"
                                                                                 | printWidth
 =====================================input======================================
 @media #{$g-breakpoint-tiny} {}
@@ -2061,7 +2135,6 @@ exports[`scss.scss 2`] = `
 ====================================options=====================================
 parsers: ["scss"]
 printWidth: 80
-trailingComma: "es5"
                                                                                 | printWidth
 =====================================input======================================
 @media #{$g-breakpoint-tiny} {}
@@ -4090,6 +4163,7 @@ exports[`string-concatanation.scss 1`] = `
 ====================================options=====================================
 parsers: ["scss"]
 printWidth: 80
+trailingComma: "none"
                                                                                 | printWidth
 =====================================input======================================
 a {
@@ -4114,7 +4188,6 @@ exports[`string-concatanation.scss 2`] = `
 ====================================options=====================================
 parsers: ["scss"]
 printWidth: 80
-trailingComma: "es5"
                                                                                 | printWidth
 =====================================input======================================
 a {

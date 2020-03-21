@@ -9,14 +9,14 @@ const parser = require("./parser");
 const printAstToDoc = require("./ast-to-doc");
 const {
   guessEndOfLine,
-  convertEndOfLineToChars
+  convertEndOfLineToChars,
 } = require("../common/end-of-line");
 const rangeUtil = require("./range-util");
 const privateUtil = require("../common/util");
 const {
   utils: { mapDoc },
   printer: { printDocToString },
-  debug: { printDocToDebug }
+  debug: { printDocToDebug },
 } = require("../document");
 
 const BOM = "\uFEFF";
@@ -25,7 +25,7 @@ const CURSOR = Symbol("cursor");
 const PLACEHOLDERS = {
   cursorOffset: "<<<PRETTIER_CURSOR>>>",
   rangeStart: "<<<PRETTIER_RANGE_START>>>",
-  rangeEnd: "<<<PRETTIER_RANGE_END>>>"
+  rangeEnd: "<<<PRETTIER_RANGE_END>>>",
 };
 
 function ensureAllCommentsPrinted(astComments) {
@@ -41,7 +41,7 @@ function ensureAllCommentsPrinted(astComments) {
     }
   }
 
-  astComments.forEach(comment => {
+  astComments.forEach((comment) => {
     if (!comment.printed) {
       throw new Error(
         'Comment "' +
@@ -60,7 +60,7 @@ function attachComments(text, ast, opts) {
     comments.attach(astComments, ast, text, opts);
   }
   ast.tokens = [];
-  opts.originalText = opts.parser === "yaml" ? text : text.trimRight();
+  opts.originalText = opts.parser === "yaml" ? text : text.trimEnd();
   return astComments;
 }
 
@@ -72,7 +72,7 @@ function coreFormat(text, opts, addAlignmentSize) {
   addAlignmentSize = addAlignmentSize || 0;
 
   const parsed = parser.parse(text, opts);
-  const ast = parsed.ast;
+  const { ast } = parsed;
   text = parsed.text;
 
   if (opts.cursorOffset >= 0) {
@@ -89,8 +89,8 @@ function coreFormat(text, opts, addAlignmentSize) {
   const result = printDocToString(
     opts.endOfLine === "lf"
       ? doc
-      : mapDoc(doc, currentDoc =>
-          typeof currentDoc === "string" && currentDoc.indexOf("\n") !== -1
+      : mapDoc(doc, (currentDoc) =>
+          typeof currentDoc === "string" && currentDoc.includes("\n")
             ? currentDoc.replace(/\n/g, eol)
             : currentDoc
         ),
@@ -143,7 +143,7 @@ function coreFormat(text, opts, addAlignmentSize) {
     if (oldCursorNodeText === newCursorNodeText) {
       return {
         formatted: result.formatted,
-        cursorOffset: newCursorNodeStart + cursorOffsetRelativeToOldCursorNode
+        cursorOffset: newCursorNodeStart + cursorOffsetRelativeToOldCursorNode,
       };
     }
 
@@ -167,7 +167,7 @@ function coreFormat(text, opts, addAlignmentSize) {
     let cursorOffset = newCursorNodeStart;
     for (const entry of cursorNodeDiff) {
       if (entry.removed) {
-        if (entry.value.indexOf(CURSOR) > -1) {
+        if (entry.value.includes(CURSOR)) {
           break;
         }
       } else {
@@ -183,12 +183,11 @@ function coreFormat(text, opts, addAlignmentSize) {
 
 function formatRange(text, opts) {
   const parsed = parser.parse(text, opts);
-  const ast = parsed.ast;
+  const { ast } = parsed;
   text = parsed.text;
 
   const range = rangeUtil.calculateRange(text, opts, ast);
-  const rangeStart = range.rangeStart;
-  const rangeEnd = range.rangeEnd;
+  const { rangeStart, rangeEnd } = range;
   const rangeString = text.slice(rangeStart, rangeEnd);
 
   // Try to extend the range backwards to the beginning of the line.
@@ -207,25 +206,26 @@ function formatRange(text, opts) {
 
   const rangeResult = coreFormat(
     rangeString,
-    Object.assign({}, opts, {
+    {
+      ...opts,
       rangeStart: 0,
       rangeEnd: Infinity,
       // track the cursor offset only if it's within our range
       cursorOffset:
         opts.cursorOffset >= rangeStart && opts.cursorOffset < rangeEnd
           ? opts.cursorOffset - rangeStart
-          : -1
-    }),
+          : -1,
+    },
     alignmentSize
   );
 
   // Since the range contracts to avoid trailing whitespace,
   // we need to remove the newline that was inserted by the `format` call.
-  const rangeTrimmed = rangeResult.formatted.trimRight();
+  const rangeTrimmed = rangeResult.formatted.trimEnd();
   const rangeLeft = text.slice(0, rangeStart);
   const rangeRight = text.slice(rangeEnd);
 
-  let cursorOffset = opts.cursorOffset;
+  let { cursorOffset } = opts;
   if (opts.cursorOffset >= rangeEnd) {
     // handle the case where the cursor was past the end of the range
     cursorOffset =
@@ -293,11 +293,11 @@ function format(text, opts) {
   const hasRangeEnd = opts.rangeEnd < text.length;
 
   // get rid of CR/CRLF parsing
-  if (text.indexOf("\r") !== -1) {
+  if (text.includes("\r")) {
     const offsetKeys = [
       hasCursor && "cursorOffset",
       hasRangeStart && "rangeStart",
-      hasRangeEnd && "rangeEnd"
+      hasRangeEnd && "rangeEnd",
     ]
       .filter(Boolean)
       .sort((aKey, bKey) => opts[aKey] - opts[bKey]);
@@ -321,7 +321,7 @@ function format(text, opts) {
 
   const hasUnicodeBOM = text.charAt(0) === BOM;
   if (hasUnicodeBOM) {
-    text = text.substring(1);
+    text = text.slice(1);
     if (hasCursor) {
       opts.cursorOffset++;
     }
@@ -372,7 +372,7 @@ module.exports = {
 
   parse(text, opts, massage) {
     opts = normalizeOptions(opts);
-    if (text.indexOf("\r") !== -1) {
+    if (text.includes("\r")) {
       text = text.replace(/\r\n?/g, "\n");
     }
     const parsed = parser.parse(text, opts);
@@ -391,14 +391,14 @@ module.exports = {
   // Doesn't handle shebang for now
   formatDoc(doc, opts) {
     const debug = printDocToDebug(doc);
-    opts = normalizeOptions(Object.assign({}, opts, { parser: "babel" }));
+    opts = normalizeOptions({ ...opts, parser: "babel" });
     return format(debug, opts).formatted;
   },
 
   printToDoc(text, opts) {
     opts = normalizeOptions(opts);
     const parsed = parser.parse(text, opts);
-    const ast = parsed.ast;
+    const { ast } = parsed;
     text = parsed.text;
     attachComments(text, ast, opts);
     return printAstToDoc(ast, opts);
@@ -406,5 +406,5 @@ module.exports = {
 
   printDocToString(doc, opts) {
     return printDocToString(doc, normalizeOptions(opts));
-  }
+  },
 };

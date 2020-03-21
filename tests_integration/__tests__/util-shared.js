@@ -24,7 +24,6 @@ test("shared util has correct structure", () => {
   expect(typeof sharedUtil.getNextNonSpaceNonCommentCharacterIndex).toEqual(
     "function"
   );
-  expect(typeof sharedUtil.mapDoc).toEqual("function");
   expect(typeof sharedUtil.makeString).toEqual("function");
 });
 
@@ -38,7 +37,7 @@ test("sharedUtil.getMaxContinuousCount", () => {
     "([a-f])([a-f])",
     "[a-f][a-f][a-f]",
     "a-fa-fa-fa-f",
-    "bbbbbbbbbbbbbbbbbb" // neither `a-f` `[a-f]` `([a-f])` should matches `b`
+    "bbbbbbbbbbbbbbbbbb", // neither `a-f` `[a-f]` `([a-f])` should matches `b`
   ].join("");
   expect(getMaxContinuousCount(fixture, "([a-f])")).toEqual(2);
   expect(getMaxContinuousCount(fixture, "[a-f]")).toEqual(3);

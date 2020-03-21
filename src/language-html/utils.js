@@ -4,7 +4,7 @@ const {
   CSS_DISPLAY_TAGS,
   CSS_DISPLAY_DEFAULT,
   CSS_WHITE_SPACE_TAGS,
-  CSS_WHITE_SPACE_DEFAULT
+  CSS_WHITE_SPACE_DEFAULT,
 } = require("./constants.evaluate");
 
 const htmlTagNames = require("html-tag-names");
@@ -66,13 +66,13 @@ function shouldPreserveContent(node, options) {
     options.parser === "vue" &&
     node.type === "element" &&
     node.parent.type === "root" &&
-    [
+    ![
       "template",
       "style",
       "script",
       // vue parser can be used for vue dom template as well, so we should still format top-level <html>
-      "html"
-    ].indexOf(node.fullName) === -1
+      "html",
+    ].includes(node.fullName)
   ) {
     return true;
   }
@@ -81,7 +81,7 @@ function shouldPreserveContent(node, options) {
   if (
     isPreLikeNode(node) &&
     node.children.some(
-      child => child.type !== "text" && child.type !== "interpolation"
+      (child) => child.type !== "text" && child.type !== "interpolation"
     )
   ) {
     return true;
@@ -91,7 +91,7 @@ function shouldPreserveContent(node, options) {
 }
 
 function hasPrettierIgnore(node) {
-  if (node.type === "attribute" || isTextLikeNode(node)) {
+  if (node.type === "attribute") {
     return false;
   }
 
@@ -278,8 +278,8 @@ function forceBreakContent(node) {
     forceBreakChildren(node) ||
     (node.type === "element" &&
       node.children.length !== 0 &&
-      (["body", "script", "style"].indexOf(node.name) !== -1 ||
-        node.children.some(child => hasNonTextChild(child)))) ||
+      (["body", "script", "style"].includes(node.name) ||
+        node.children.some((child) => hasNonTextChild(child)))) ||
     (node.firstChild &&
       node.firstChild === node.lastChild &&
       hasLeadingLineBreak(node.firstChild) &&
@@ -293,7 +293,7 @@ function forceBreakChildren(node) {
   return (
     node.type === "element" &&
     node.children.length !== 0 &&
-    (["html", "head", "ul", "ol", "select"].indexOf(node.name) !== -1 ||
+    (["html", "head", "ul", "ol", "select"].includes(node.name) ||
       (node.cssDisplay.startsWith("table") && node.cssDisplay !== "table-cell"))
   );
 }
@@ -346,7 +346,7 @@ function preferHardlineAsSurroundingSpaces(node) {
     case "directive":
       return true;
     case "element":
-      return ["script", "select"].indexOf(node.name) !== -1;
+      return ["script", "select"].includes(node.name);
   }
   return false;
 }
@@ -356,7 +356,7 @@ function getLastDescendant(node) {
 }
 
 function hasNonTextChild(node) {
-  return node.children && node.children.some(child => child.type !== "text");
+  return node.children && node.children.some((child) => child.type !== "text");
 }
 
 function inferScriptParser(node) {
@@ -490,7 +490,7 @@ function getNodeCssStyleDisplay(node, options) {
 
   let isInSvgForeignObject = false;
   if (node.type === "element" && node.namespace === "svg") {
-    if (hasParent(node, parent => parent.fullName === "svg:foreignObject")) {
+    if (hasParent(node, (parent) => parent.fullName === "svg:foreignObject")) {
       isInSvgForeignObject = true;
     } else {
       return node.name === "svg" ? "inline-block" : "block";
@@ -562,7 +562,7 @@ function dedentString(text, minIndent = getMinIndentation(text)) {
     ? text
     : text
         .split("\n")
-        .map(lineText => lineText.slice(minIndent))
+        .map((lineText) => lineText.slice(minIndent))
         .join("\n");
 }
 
@@ -578,7 +578,7 @@ function normalizeParts(parts) {
     }
 
     if (part.type === "concat") {
-      Array.prototype.unshift.apply(restParts, part.parts);
+      restParts.unshift(...part.parts);
       continue;
     }
 
@@ -655,5 +655,5 @@ module.exports = {
   preferHardlineAsTrailingSpaces,
   shouldNotPrintClosingTag,
   shouldPreserveContent,
-  unescapeQuoteEntities
+  unescapeQuoteEntities,
 };
