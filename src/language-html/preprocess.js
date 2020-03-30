@@ -249,7 +249,7 @@ function extractInterpolation(ast, options) {
       const ParseSourceSpan = child.sourceSpan.constructor;
 
       let startSourceSpan = child.sourceSpan.start;
-      let endSourceSpan = null;
+      let endSourceSpan;
       const components = child.value.split(interpolationRegex);
       for (
         let i = 0;

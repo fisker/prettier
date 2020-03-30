@@ -32,7 +32,7 @@ class Node {
   }
 
   map(fn) {
-    let newNode = null;
+    let newNode;
 
     for (const NODES_KEY in NODES_KEYS) {
       const nodes = this[NODES_KEY];
@@ -71,15 +71,11 @@ class Node {
   }
 
   get firstChild() {
-    return this.children && this.children.length !== 0
-      ? this.children[0]
-      : null;
+    return this.children && this.children[0];
   }
 
   get lastChild() {
-    return this.children && this.children.length !== 0
-      ? this.children[this.children.length - 1]
-      : null;
+    return this.children && this.children[this.children.length - 1];
   }
 
   // for element and attribute
@@ -103,9 +99,9 @@ function cloneAndUpdateNodes(nodes, parent) {
     node instanceof Node ? node.clone() : new Node(node)
   );
 
-  let prev = null;
+  let prev;
   let current = siblings[0];
-  let next = siblings[1] || null;
+  let next = siblings[1];
 
   for (let index = 0; index < siblings.length; index++) {
     setNonEnumerableProperties(current, {
@@ -117,7 +113,7 @@ function cloneAndUpdateNodes(nodes, parent) {
     });
     prev = current;
     current = next;
-    next = siblings[index + 2] || null;
+    next = siblings[index + 2];
   }
 
   return siblings;

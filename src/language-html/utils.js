@@ -413,8 +413,6 @@ function inferScriptParser(node) {
       return "less";
     }
   }
-
-  return null;
 }
 
 function isBlockLikeCssDisplay(cssDisplay) {
