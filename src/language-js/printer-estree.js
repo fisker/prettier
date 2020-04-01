@@ -872,7 +872,6 @@ function printPathNoParens(path, options, print, args) {
           n.body.type === "ObjectExpression" ||
           n.body.type === "BlockStatement" ||
           isJSXNode(n.body) ||
-          isTemplateOnItsOwnLine(n.body, options.originalText, options) ||
           n.body.type === "ArrowFunctionExpression" ||
           n.body.type === "DoExpression")
       ) {
@@ -1172,13 +1171,6 @@ function printPathNoParens(path, options, print, args) {
         (!isNew &&
           n.callee.type === "Identifier" &&
           (n.callee.name === "require" || n.callee.name === "define")) ||
-        // Template literals as single arguments
-        (n.arguments.length === 1 &&
-          isTemplateOnItsOwnLine(
-            n.arguments[0],
-            options.originalText,
-            options
-          )) ||
         // Keep test declarations on a single line
         // e.g. `it('long name', () => {`
         (!isNew && isTestCall(n, path.getParentNode()))
