@@ -25,7 +25,7 @@ const colorAdjusterFunctions = [
   "hsl",
   "hsla",
   "hwb",
-  "hwba"
+  "hwba",
 ];
 
 function getAncestorCounter(path, typeOrTypes) {
@@ -379,6 +379,15 @@ function isColorAdjusterFuncNode(node) {
   return colorAdjusterFunctions.includes(node.value.toLowerCase());
 }
 
+// TODO: only check `less` when we don't use `less` to parse `css`
+function isLessParser(options) {
+  return options.parser === "css" || options.parser === "less";
+}
+
+function lastLineHasInlineComment(text) {
+  return /\/\//.test(text.split(/[\r\n]/).pop());
+}
+
 module.exports = {
   getAncestorCounter,
   getAncestorNode,
@@ -392,6 +401,7 @@ module.exports = {
   isWideKeywords,
   isSCSS,
   isLastNode,
+  isLessParser,
   isSCSSControlDirectiveNode,
   isDetachedRulesetDeclarationNode,
   isRelationalOperatorNode,
@@ -424,5 +434,6 @@ module.exports = {
   isWordNode,
   isColonNode,
   isMediaAndSupportsKeywords,
-  isColorAdjusterFuncNode
+  isColorAdjusterFuncNode,
+  lastLineHasInlineComment,
 };

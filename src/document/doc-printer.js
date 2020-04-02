@@ -287,7 +287,7 @@ function printDocToString(doc, options) {
                 cmds.push([
                   ind,
                   doc.break ? MODE_BREAK : MODE_FLAT,
-                  doc.contents
+                  doc.contents,
                 ]);
 
                 break;
@@ -418,7 +418,7 @@ function printDocToString(doc, options) {
           const firstAndSecondContentFlatCmd = [
             ind,
             MODE_FLAT,
-            concat([content, whitespace, secondContent])
+            concat([content, whitespace, secondContent]),
           ];
           const firstAndSecondContentFits = fits(
             firstAndSecondContentFlatCmd,
@@ -491,7 +491,7 @@ function printDocToString(doc, options) {
             case MODE_BREAK:
               if (lineSuffix.length) {
                 cmds.push([ind, mode, doc]);
-                [].push.apply(cmds, lineSuffix.reverse());
+                cmds.push(...lineSuffix.reverse());
                 lineSuffix = [];
                 break;
               }
@@ -532,7 +532,7 @@ function printDocToString(doc, options) {
     return {
       formatted: beforeCursor + aroundCursor + afterCursor,
       cursorNodeStart: beforeCursor.length,
-      cursorNodeText: aroundCursor
+      cursorNodeText: aroundCursor,
     };
   }
 

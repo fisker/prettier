@@ -4,7 +4,7 @@ const util = require("../common/util");
 const support = require("../main/support");
 const {
   builders: { hardline, literalline, concat, markAsRoot },
-  utils: { mapDoc }
+  utils: { mapDoc },
 } = require("../document");
 const { getFencedCodeBlockValue } = require("./utils");
 
@@ -32,7 +32,7 @@ function embed(path, print, textToDoc, options) {
           node.meta ? " " + node.meta : "",
           hardline,
           replaceNewlinesWithLiterallines(doc),
-          style
+          style,
         ])
       );
     }
@@ -48,7 +48,7 @@ function embed(path, print, textToDoc, options) {
               textToDoc(node.value, { parser: "yaml" })
             )
           : "",
-        "---"
+        "---",
       ])
     );
   }
@@ -60,22 +60,20 @@ function embed(path, print, textToDoc, options) {
     case "jsx":
       return textToDoc(`<$>${node.value}</$>`, {
         parser: "__js_expression",
-        rootMarker: "mdx"
+        rootMarker: "mdx",
       });
   }
 
   return null;
 
   function getParserName(lang) {
-    const supportInfo = support.getSupportInfo(null, {
-      plugins: options.plugins
-    });
+    const supportInfo = support.getSupportInfo({ plugins: options.plugins });
     const language = supportInfo.languages.find(
-      language =>
+      (language) =>
         language.name.toLowerCase() === lang ||
         (language.aliases && language.aliases.includes(lang)) ||
         (language.extensions &&
-          language.extensions.find(ext => ext === `.${lang}`))
+          language.extensions.find((ext) => ext === `.${lang}`))
     );
     if (language) {
       return language.parsers[0];
@@ -85,7 +83,7 @@ function embed(path, print, textToDoc, options) {
   }
 
   function replaceNewlinesWithLiterallines(doc) {
-    return mapDoc(doc, currentDoc =>
+    return mapDoc(doc, (currentDoc) =>
       typeof currentDoc === "string" && currentDoc.includes("\n")
         ? concat(
             currentDoc

@@ -1,5 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`comments.scss 1`] = `
+====================================options=====================================
+parsers: ["scss"]
+printWidth: 80
+trailingComma: "none"
+                                                                                | printWidth
+=====================================input======================================
+// This comment won't be included in the CSS. 
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.     
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+=====================================output=====================================
+// This comment won't be included in the CSS.
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+================================================================================
+`;
+
+exports[`comments.scss 2`] = `
+====================================options=====================================
+parsers: ["scss"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// This comment won't be included in the CSS. 
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.     
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+=====================================output=====================================
+// This comment won't be included in the CSS.
+//This comment won't be included in the CSS.
+//     This comment won't be included in the CSS.
+
+/* But this comment will, except in compressed mode. */
+/*     But this comment will, except in compressed mode.     */
+/*But this comment will, except in compressed mode.*/
+
+/*! This comment will be included even in compressed mode. */
+
+/// Computes an exponent.
+///// Computes an exponent.
+
+================================================================================
+`;
+
 exports[`import_comma.scss 1`] = `
 ====================================options=====================================
 parsers: ["scss"]
@@ -1041,6 +1114,8 @@ $my-list:
 $my-map: (
   'foo': 1, // Comment
   'bar': 2, // Comment
+  'buz': calc(1 + 2), // Buz
+  'baz': 4, // Baz
 );
 
 [href]:hover &, // Comment
@@ -2004,6 +2079,10 @@ $my-map: (
   // Comment
     "bar": 2,
   // Comment
+    "buz": calc(1 + 2),
+  // Buz
+    "baz": 4,
+  // Baz
 );
 
 [href]:hover &, // Comment
@@ -3063,6 +3142,8 @@ $my-list:
 $my-map: (
   'foo': 1, // Comment
   'bar': 2, // Comment
+  'buz': calc(1 + 2), // Buz
+  'baz': 4, // Baz
 );
 
 [href]:hover &, // Comment
@@ -4026,6 +4107,10 @@ $my-map: (
   // Comment
     "bar": 2,
   // Comment
+    "buz": calc(1 + 2),
+  // Buz
+    "baz": 4,
+  // Baz
 );
 
 [href]:hover &, // Comment
