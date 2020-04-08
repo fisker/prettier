@@ -63,9 +63,9 @@ function attachComments(text, ast, opts) {
 }
 
 function coreFormat(text, opts, addAlignmentSize) {
-  if (!text || !text.trim().length) {
-    return { formatted: "", cursorOffset: 0 };
-  }
+  // if (!text || !text.trim().length) {
+  //   return { formatted: "", cursorOffset: 0 };
+  // }
 
   addAlignmentSize = addAlignmentSize || 0;
 
