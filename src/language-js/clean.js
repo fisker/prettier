@@ -13,6 +13,7 @@ function clean(ast, newObj, parent) {
     "end",
     "flags",
     "errors",
+    "prettierIgnore",
   ].forEach((name) => {
     delete newObj[name];
   });

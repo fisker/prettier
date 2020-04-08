@@ -58,15 +58,14 @@ function attachComments(text, ast, opts) {
     delete ast.comments;
     comments.attach(astComments, ast, text, opts);
   }
-  ast.tokens = [];
   opts.originalText = opts.parser === "yaml" ? text : text.trimEnd();
   return astComments;
 }
 
 function coreFormat(text, opts, addAlignmentSize) {
-  if (!text || !text.trim().length) {
-    return { formatted: "", cursorOffset: 0 };
-  }
+  // if (!text || !text.trim().length) {
+  //   return { formatted: "", cursorOffset: 0 };
+  // }
 
   addAlignmentSize = addAlignmentSize || 0;
 
@@ -133,6 +132,7 @@ function coreFormat(text, opts, addAlignmentSize) {
       return {
         formatted: result.formatted,
         cursorOffset: newCursorNodeStart + cursorOffsetRelativeToOldCursorNode,
+        ast: massageAST(ast, opts),
       };
     }
 
@@ -164,10 +164,14 @@ function coreFormat(text, opts, addAlignmentSize) {
       }
     }
 
-    return { formatted: result.formatted, cursorOffset };
+    return {
+      formatted: result.formatted,
+      cursorOffset,
+      ast: massageAST(ast, opts),
+    };
   }
 
-  return { formatted: result.formatted };
+  return { formatted: result.formatted, ast: massageAST(ast, opts) };
 }
 
 function formatRange(text, opts) {
@@ -263,7 +267,7 @@ function formatRange(text, opts) {
     }
   }
 
-  return { formatted, cursorOffset };
+  return { formatted, cursorOffset, ast: massageAST(ast, opts) };
 }
 
 function format(text, opts) {
