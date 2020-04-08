@@ -25,7 +25,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Package
-        run: yarn build
+        run: yarn build --max-old-space-size=6144
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
