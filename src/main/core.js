@@ -164,10 +164,14 @@ function coreFormat(text, opts, addAlignmentSize) {
       }
     }
 
-    return { formatted: result.formatted, cursorOffset };
+    return {
+      formatted: result.formatted,
+      cursorOffset,
+      ast: massageAST(ast, opts),
+    };
   }
 
-  return { formatted: result.formatted };
+  return { formatted: result.formatted, ast: massageAST(ast, opts) };
 }
 
 function formatRange(text, opts) {
@@ -263,7 +267,7 @@ function formatRange(text, opts) {
     }
   }
 
-  return { formatted, cursorOffset };
+  return { formatted, cursorOffset, ast: massageAST(ast, opts) };
 }
 
 function format(text, opts) {

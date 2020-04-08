@@ -107,7 +107,7 @@ global.run_spec = (dirname, parsers, options) => {
 
     const hasEndOfLine = "endOfLine" in mainOptions;
 
-    const output = format(input, filename, mainOptions);
+    const { formatted: output, ast } = format(input, filename, mainOptions);
     const visualizedOutput = visualizeEndOfLine(output);
 
     test(basename, () => {
@@ -144,7 +144,11 @@ global.run_spec = (dirname, parsers, options) => {
       !TEST_CRLF
     ) {
       test(`${basename} second format`, () => {
-        const secondOutput = format(output, filename, mainOptions);
+        const { formatted: secondOutput } = format(
+          output,
+          filename,
+          mainOptions
+        );
         const isUnstable = unstableTests.get(filename);
         if (isUnstable && isUnstable(options || {})) {
           // To keep eye on failed tests, this assert never supposed to pass,
@@ -171,7 +175,11 @@ global.run_spec = (dirname, parsers, options) => {
             format(input, filename, verifyOptions);
           }).toThrow(TEST_STANDALONE ? undefined : SyntaxError);
         } else {
-          const verifyOutput = format(input, filename, verifyOptions);
+          const { formatted: verifyOutput } = format(
+            input,
+            filename,
+            verifyOptions
+          );
           expect(visualizeEndOfLine(verifyOutput)).toEqual(visualizedOutput);
         }
       });
@@ -183,9 +191,8 @@ global.run_spec = (dirname, parsers, options) => {
       if (formatted !== input) {
         test(`${basename} parse`, () => {
           const { cursorOffset, ...parseOptions } = mainOptions;
-          const originalAst = parse(input, parseOptions);
           const formattedAst = parse(formatted, parseOptions);
-          expect(originalAst).toEqual(formattedAst);
+          expect(ast).toEqual(formattedAst);
         });
       }
     }
@@ -202,11 +209,17 @@ function format(source, filename, options) {
     ...options,
   });
 
-  return options.cursorOffset >= 0
-    ? result.formatted.slice(0, result.cursorOffset) +
+  const formatted =
+    options.cursorOffset >= 0
+      ? result.formatted.slice(0, result.cursorOffset) +
         CURSOR_PLACEHOLDER +
         result.formatted.slice(result.cursorOffset)
-    : result.formatted;
+      : result.formatted;
+
+  return {
+    ...result,
+    formatted,
+  };
 }
 
 function consistentEndOfLine(text) {
