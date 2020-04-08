@@ -209,17 +209,14 @@ function format(source, filename, options) {
     ...options,
   });
 
-  const formatted =
+  result.formatted =
     options.cursorOffset >= 0
       ? result.formatted.slice(0, result.cursorOffset) +
         CURSOR_PLACEHOLDER +
         result.formatted.slice(result.cursorOffset)
       : result.formatted;
 
-  return {
-    ...result,
-    formatted,
-  };
+  return result;
 }
 
 function consistentEndOfLine(text) {
