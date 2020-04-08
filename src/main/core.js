@@ -132,6 +132,7 @@ function coreFormat(text, opts, addAlignmentSize) {
       return {
         formatted: result.formatted,
         cursorOffset: newCursorNodeStart + cursorOffsetRelativeToOldCursorNode,
+        ast: massageAST(ast, opts),
       };
     }
 
