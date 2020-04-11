@@ -129,5 +129,8 @@
     "lint:deps": "node ./scripts/check-deps.js",
     "build": "node --max-old-space-size=3072 ./scripts/build/build.js",
     "build-docs": "node ./scripts/build-docs.js"
+  },
+  "resolutions": {
+    "micromatch": "3"
   }
 }
