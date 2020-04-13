@@ -163,8 +163,7 @@ global.run_spec = (dirname, parsers, options) => {
         (formatted !== input || isUnstableTest) &&
         typeof rangeStart === "undefined" &&
         typeof rangeEnd === "undefined" &&
-        typeof cursorOffset === "undefined" &&
-        !TEST_CRLF
+        typeof cursorOffset === "undefined"
       ) {
         test("second format", () => {
           const secondOutput = format(formatted, filename, mainOptions);
