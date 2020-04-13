@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`example.vue format 1`] = `
+====================================options=====================================
+parsers: ["vue-sfc"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<!-- https://vue-loader.vuejs.org/spec.html#intro -->
+
+<template><div class="example">{{ msg
+}}</div></template>
+
+<script>
+export default {
+  data () {return {msg: 'Hello world!',
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.example {color: red}
+</style>
+
+<custom1>
+  This could be e.g. documentation for the component.
+</custom1>
+
+=====================================output=====================================
+<template>
+  <div class="example">{{ msg }}</div>
+</template>
+
+<script>
+export default {
+  data() {
+    return { msg: "Hello world!" };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.example {
+  color: red;
+}
+</style>
+
+<custom1>
+  This could be e.g. documentation for the component.
+</custom1>
+================================================================================
+`;

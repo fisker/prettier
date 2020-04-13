@@ -18,6 +18,7 @@
     "@glimmer/syntax": "0.50.1",
     "@iarna/toml": "2.2.3",
     "@typescript-eslint/typescript-estree": "2.27.0",
+    "@vue/component-compiler-utils": "3.1.2",
     "angular-estree-parser": "1.3.0",
     "angular-html-parser": "1.4.0",
     "camelcase": "6.0.0",
@@ -69,6 +70,9 @@
     "unicode-regex": "3.0.0",
     "unified": "9.0.0",
     "vnopts": "1.0.2",
+    "vue": "2.6.11",
+    "vue-eslint-parser": "7.0.0",
+    "vue-template-compiler": "2.6.11",
     "yaml-unist-parser": "1.1.1"
   },
   "devDependencies": {

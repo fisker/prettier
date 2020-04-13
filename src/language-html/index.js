@@ -1,6 +1,7 @@
 "use strict";
 
 const printer = require("./printer-html");
+const vuePrinter = require("./printer-vue");
 const createLanguage = require("../utils/create-language");
 const options = require("./options");
 
@@ -38,6 +39,7 @@ const languages = [
 
 const printers = {
   html: printer,
+  "vue-sfc": vuePrinter,
 };
 
 module.exports = {

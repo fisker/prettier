@@ -148,6 +148,10 @@ module.exports = [
       get vue() {
         return eval("require")("../language-html/parser-html").parsers.vue;
       },
+      // Vue SFC
+      get "vue-sfc"() {
+        return eval("require")("../language-html/parser-vue").parsers.vue;
+      },
       // Angular
       get angular() {
         return eval("require")("../language-html/parser-html").parsers.angular;
