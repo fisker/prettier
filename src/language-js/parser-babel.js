@@ -5,7 +5,161 @@ const { hasPragma } = require("./pragma");
 const locFns = require("./loc");
 const postprocess = require("./postprocess");
 
-function babelOptions(extraPlugins = []) {
+// https://babeljs.io/docs/en/babel-parser#plugins
+const babelPlugins = [
+  {
+    name: "asyncGenerators",
+    test(text) {
+      return (
+        text.includes("async") || text.includes("*") || text.includes("await")
+      );
+    },
+  },
+  {
+    name: "bigInt",
+    test(text) {
+      return /[\dA-Fa-f]n/.test(text);
+    },
+  },
+  {
+    name: "classProperties",
+    test(text) {
+      return text.includes("class");
+    },
+  },
+  {
+    name: "classPrivateProperties",
+    test(text) {
+      return text.includes("class") && text.includes("#");
+    },
+  },
+  {
+    name: "classPrivateMethods",
+    test(text) {
+      return text.includes("class") && text.includes("#");
+    },
+  },
+  {
+    name: "decorators",
+    options: { decoratorsBeforeExport: false },
+    test(text) {
+      return text.includes("@");
+    },
+  },
+  {
+    name: "doExpressions",
+    test(text) {
+      return text.includes("do");
+    },
+  },
+  {
+    name: "dynamicImport",
+    test(text) {
+      return text.includes("import(");
+    },
+  },
+  {
+    name: "exportDefaultFrom",
+    test(text) {
+      return text.includes("export") && text.includes("from");
+    },
+  },
+  // TODO: this is not enabled
+  // {
+  //   name: "exportNamespaceFrom",
+  //   test(text) {
+  //     return text.includes("export") && text.includes("as") && text.includes("from");
+  //   },
+  // },
+  {
+    name: "functionBind",
+    test(text) {
+      return text.includes("::");
+    },
+  },
+  // TBD: do we need this?
+  {
+    name: "functionSent",
+    test(text) {
+      // Actually it's `.sent`, but it could be `["sent"]` or something else
+      return text.includes("sent");
+    },
+  },
+  {
+    name: "importMeta",
+    test(text) {
+      return text.includes("import") && text.includes("meta");
+    },
+  },
+  {
+    name: "logicalAssignment",
+    test(text) {
+      return text.includes("||=") || text.includes("&&=");
+    },
+  },
+  {
+    name: "nullishCoalescingOperator",
+    test(text) {
+      return text.includes("??");
+    },
+  },
+  {
+    name: "numericSeparator",
+    test(text) {
+      return /[\dA-Fa-f]_[\dA-Fa-f]/.test(text);
+    },
+  },
+  {
+    name: "objectRestSpread",
+    test(text) {
+      return text.includes("...");
+    },
+  },
+  {
+    name: "optionalCatchBinding",
+    test(text) {
+      // TBD: `/try\s*<!=(>/` ?
+      return text.includes("try");
+    },
+  },
+  {
+    name: "optionalChaining",
+    test(text) {
+      return text.includes("?.");
+    },
+  },
+  {
+    name: "partialApplication",
+    test(text) {
+      return text.includes("?");
+    },
+  },
+  {
+    name: "throwExpressions",
+    test(text) {
+      return text.includes("throw");
+    },
+  },
+
+  // TODO: enable this
+  // {
+  //   name: "jsx",
+  //   test(text) {
+  //     return /<\/|\/>/.test(text);
+  //   },
+  // },
+  {
+    name: "v8intrinsic",
+    test(text) {
+      return text.includes("%");
+    },
+  },
+].map((plugin) => ({
+  test: () => true,
+  ...plugin,
+}));
+
+function babelOptions({ plugins = [], extraPlugins = [] }) {
   return {
     sourceType: "module",
     allowAwaitOutsideFunction: true,
@@ -15,31 +169,7 @@ function babelOptions(extraPlugins = []) {
     allowUndeclaredExports: true,
     errorRecovery: true,
     createParenthesizedExpressions: true,
-    plugins: [
-      "doExpressions",
-      "objectRestSpread",
-      "classProperties",
-      "exportDefaultFrom",
-      "exportNamespaceFrom",
-      "asyncGenerators",
-      "functionBind",
-      "functionSent",
-      "dynamicImport",
-      "numericSeparator",
-      "importMeta",
-      "optionalCatchBinding",
-      "optionalChaining",
-      "classPrivateProperties",
-      "nullishCoalescingOperator",
-      "bigInt",
-      "throwExpressions",
-      "logicalAssignment",
-      "classPrivateMethods",
-      "v8intrinsic",
-      "partialApplication",
-      ["decorators", { decoratorsBeforeExport: false }],
-      ...extraPlugins,
-    ],
+    plugins: [...plugins, ...extraPlugins],
   };
 }
 
@@ -64,6 +194,22 @@ function createParse(parseMethod, ...pluginCombinations) {
   return (text, parsers, opts) => {
     // Inline the require to avoid loading all the JS if we don't use it
     const babel = require("@babel/parser");
+    const plugins = babelPlugins
+      .filter(({ test }) => test(text))
+      .map(({ name, options }) => [name, options]);
+
+    pluginCombinations = pluginCombinations.map((combinations) =>
+      combinations
+        .map((plugin) => {
+          plugin = typeof plugin === "string" ? { name: plugin } : plugin;
+          return {
+            test: () => true,
+            ...plugin,
+          };
+        })
+        .filter(({ test }) => test(text))
+        .map(({ name, options }) => [name, options])
+    );
 
     let ast;
     try {
@@ -78,7 +224,9 @@ function createParse(parseMethod, ...pluginCombinations) {
       );
       ast = tryCombinations(
         (options) => babel[parseMethod](text, options),
-        combinations.map(babelOptions)
+        combinations.map((extraPlugins) =>
+          babelOptions({ plugins, extraPlugins })
+        )
       );
     } catch (error) {
       throw createError(
@@ -98,7 +246,20 @@ function createParse(parseMethod, ...pluginCombinations) {
   };
 }
 
-const parse = createParse("parse", ["jsx", "flow"]);
+const parse = createParse("parse", [
+  {
+    name: "jsx",
+    test(text) {
+      return /<\/|\/>/.test(text);
+    },
+  },
+  {
+    name: "flow",
+    test(text) {
+      return text.includes("@flow");
+    },
+  },
+]);
 const parseFlow = createParse("parse", [
   "jsx",
   ["flow", { all: true, enums: true }],
