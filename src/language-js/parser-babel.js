@@ -198,7 +198,7 @@ function createParse(parseMethod, ...pluginCombinations) {
       .filter(({ test }) => test(text))
       .map(({ name, options }) => [name, options]);
 
-    pluginCombinations = pluginCombinations.map((combinations) =>
+    const pluginCombinations2 = pluginCombinations.map((combinations) =>
       combinations
         .map((plugin) => {
           plugin = typeof plugin === "string" ? { name: plugin } : plugin;
@@ -215,7 +215,7 @@ function createParse(parseMethod, ...pluginCombinations) {
     try {
       const combinations = resolvePluginsConflict(
         text.includes("|>"),
-        pluginCombinations,
+        pluginCombinations2,
         [
           ["pipelineOperator", { proposal: "smart" }],
           ["pipelineOperator", { proposal: "minimal" }],
@@ -261,15 +261,44 @@ const parse = createParse("parse", [
   },
 ]);
 const parseFlow = createParse("parse", [
-  "jsx",
-  ["flow", { all: true, enums: true }],
+  {
+    name: "jsx",
+    test(text) {
+      return /<\/|\/>/.test(text);
+    },
+  },
+  {
+    name: "flow",
+    options: { all: true, enums: true },
+  },
 ]);
 const parseTypeScript = createParse(
   "parse",
-  ["jsx", "typescript"],
-  ["typescript"]
+  [
+    {
+      name: "jsx",
+      test(text) {
+        return /<\/|\/>/.test(text);
+      },
+    },
+    {
+      name: "typescript",
+    },
+  ],
+  [
+    {
+      name: "typescript",
+    },
+  ]
 );
-const parseExpression = createParse("parseExpression", ["jsx"]);
+const parseExpression = createParse("parseExpression", [
+  {
+    name: "jsx",
+    test(text) {
+      return /<\/|\/>/.test(text);
+    },
+  },
+]);
 
 function tryCombinations(fn, combinations) {
   let error;
