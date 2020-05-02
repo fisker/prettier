@@ -7,6 +7,8 @@ printWidth: 80
 trailingComma: "all"
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare class C {
   f(
     superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,
@@ -28,6 +30,8 @@ var {veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLon
 
 
 =====================================output=====================================
+// @flow
+
 declare class C {
   f(
     superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,

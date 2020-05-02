@@ -1,3 +1,5 @@
+// @flow
+
 type T = { method: () => void };
 type T2 = { method(): void };
 declare class X { method(): void }

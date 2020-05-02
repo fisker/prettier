@@ -1,3 +1,5 @@
+// @flow
+
 declare class C {
   f(
     superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,

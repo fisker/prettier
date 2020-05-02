@@ -6,11 +6,15 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 class X {
 	a: B<> = SuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong;
 }
 
 =====================================output=====================================
+// @flow
+
 class X {
   a: B<> = SuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong;
 }

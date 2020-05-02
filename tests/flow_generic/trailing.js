@@ -1,3 +1,5 @@
+// @flow
+
 type State = {
   errors: Immutable.Map<
     Ahohohhohohohohohohohohohohooh,

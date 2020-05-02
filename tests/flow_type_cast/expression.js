@@ -1,3 +1,5 @@
+// @flow
+
 let x: string = (foo: string);
 
 // https://github.com/prettier/prettier/issues/3936

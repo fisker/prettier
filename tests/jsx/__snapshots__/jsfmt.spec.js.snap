@@ -1820,6 +1820,8 @@ printWidth: 80
 singleQuote: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 <View
   style={
     {
@@ -1953,6 +1955,8 @@ singleQuote: false
 </SuspendyTree>;
 
 =====================================output=====================================
+// @flow
+
 <View
   style={{
     someVeryLongStyle1: "true",
@@ -2108,6 +2112,8 @@ printWidth: 80
 singleQuote: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 <View
   style={
     {
@@ -2241,6 +2247,8 @@ singleQuote: false
 </SuspendyTree>;
 
 =====================================output=====================================
+// @flow
+
 <View
   style={{
     someVeryLongStyle1: "true",
@@ -2396,6 +2404,8 @@ printWidth: 80
 singleQuote: true
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 <View
   style={
     {
@@ -2529,6 +2539,8 @@ singleQuote: true
 </SuspendyTree>;
 
 =====================================output=====================================
+// @flow
+
 <View
   style={{
     someVeryLongStyle1: 'true',
@@ -2684,6 +2696,8 @@ printWidth: 80
 singleQuote: true
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 <View
   style={
     {
@@ -2817,6 +2831,8 @@ singleQuote: true
 </SuspendyTree>;
 
 =====================================output=====================================
+// @flow
+
 <View
   style={{
     someVeryLongStyle1: 'true',

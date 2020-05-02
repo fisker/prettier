@@ -1,3 +1,5 @@
+// @flow
+
 // Adding a comment stops the pretty printing process and everything is
 // squished in a single line afterward
 export type BuckWebSocketMessage = {

@@ -7,6 +7,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const selectorByPath:
   Path
  => SomethingSelector<
@@ -16,6 +18,8 @@ const selectorByPath:
 > = memoizeWithArgs(/* ... */)
 
 =====================================output=====================================
+// @flow
+
 const selectorByPath: Path => SomethingSelector<
   SomethingUEditorContextType,
   SomethingUEditorContextType,
@@ -32,6 +36,8 @@ printWidth: 80
 trailingComma: "all"
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const selectorByPath:
   Path
  => SomethingSelector<
@@ -41,6 +47,8 @@ const selectorByPath:
 > = memoizeWithArgs(/* ... */)
 
 =====================================output=====================================
+// @flow
+
 const selectorByPath: (Path) => SomethingSelector<
   SomethingUEditorContextType,
   SomethingUEditorContextType,
@@ -56,6 +64,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const selectorByPath:
   Path
  => SomethingSelector<
@@ -65,6 +75,8 @@ const selectorByPath:
 > = memoizeWithArgs(/* ... */)
 
 =====================================output=====================================
+// @flow
+
 const selectorByPath: (Path) => SomethingSelector<
   SomethingUEditorContextType,
   SomethingUEditorContextType,
@@ -81,6 +93,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type Banana = {
   eat: string => boolean,
 };
@@ -143,6 +157,8 @@ type T7 = ?(?(() => A));
 type T8 = ?(?() => A) | B;
 
 =====================================output=====================================
+// @flow
+
 type Banana = {
   eat: string => boolean,
 };
@@ -218,6 +234,8 @@ printWidth: 80
 trailingComma: "all"
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type Banana = {
   eat: string => boolean,
 };
@@ -280,6 +298,8 @@ type T7 = ?(?(() => A));
 type T8 = ?(?() => A) | B;
 
 =====================================output=====================================
+// @flow
+
 type Banana = {
   eat: (string) => boolean,
 };
@@ -354,6 +374,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type Banana = {
   eat: string => boolean,
 };
@@ -416,6 +438,8 @@ type T7 = ?(?(() => A));
 type T8 = ?(?() => A) | B;
 
 =====================================output=====================================
+// @flow
+
 type Banana = {
   eat: (string) => boolean,
 };

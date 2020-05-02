@@ -1,3 +1,5 @@
+// @flow
+
 export const Group = styled.div`
   margin: 0;
 

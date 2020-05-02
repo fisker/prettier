@@ -1,3 +1,5 @@
+// @flow
+
 export type AdamPlacementValidationSingleErrorKey =
   'SOME_FANCY_TARGETS.GLOBAL_TARGET';
 

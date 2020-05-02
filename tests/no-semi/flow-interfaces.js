@@ -1,3 +1,5 @@
+// @flow
+
 declare class A {
     one: boolean;
     two: { three: string }

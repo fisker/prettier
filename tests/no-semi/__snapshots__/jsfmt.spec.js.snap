@@ -7,6 +7,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 let error = new Error(response.statusText);
 // comment
 (error: any).response = response
@@ -20,6 +22,8 @@ x;
 (error: any).response = response; /* comment */
 
 =====================================output=====================================
+// @flow
+
 let error = new Error(response.statusText)
 // comment
 ;(error: any).response = response
@@ -41,6 +45,8 @@ parsers: ["flow"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 let error = new Error(response.statusText);
 // comment
 (error: any).response = response
@@ -54,6 +60,8 @@ x;
 (error: any).response = response; /* comment */
 
 =====================================output=====================================
+// @flow
+
 let error = new Error(response.statusText);
 // comment
 (error: any).response = response;
@@ -76,6 +84,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare class A {
     one: boolean;
     two: { three: string }
@@ -116,6 +126,8 @@ interface E {
 // }
 
 =====================================output=====================================
+// @flow
+
 declare class A {
   one: boolean;
   two: { three: string } | number;
@@ -161,6 +173,8 @@ parsers: ["flow"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare class A {
     one: boolean;
     two: { three: string }
@@ -201,6 +215,8 @@ interface E {
 // }
 
 =====================================output=====================================
+// @flow
+
 declare class A {
   one: boolean;
   two: { three: string } | number;
@@ -304,6 +320,7 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
 
 // with preexisting semi
 
@@ -469,6 +486,8 @@ aReallyLongLine012345678901234567890123456789012345678901234567890123456789 *
   (b + c)
 
 =====================================output=====================================
+// @flow
+
 // with preexisting semi
 
 x
@@ -654,6 +673,7 @@ parsers: ["flow"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
 
 // with preexisting semi
 
@@ -819,6 +839,8 @@ aReallyLongLine012345678901234567890123456789012345678901234567890123456789 *
   (b + c)
 
 =====================================output=====================================
+// @flow
+
 // with preexisting semi
 
 x;

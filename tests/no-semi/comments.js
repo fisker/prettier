@@ -1,3 +1,5 @@
+// @flow
+
 let error = new Error(response.statusText);
 // comment
 (error: any).response = response

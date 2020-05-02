@@ -1,3 +1,5 @@
+// @flow
+
 // Does not need to break as it fits in 80 columns
 this.call(a, /* comment */ b);
 

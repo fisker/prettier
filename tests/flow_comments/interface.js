@@ -1,3 +1,5 @@
+// @flow
+
 interface Foo {
   bar(
     currentRequest: {a: number},

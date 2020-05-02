@@ -6,10 +6,14 @@ parsers: ["babel", "flow"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare class A<T> extends B<T> mixins C<T> {}
 declare class D<T> mixins C<T> {}
 
 =====================================output=====================================
+// @flow
+
 declare class A<T> extends B<T> mixins C<T> {}
 declare class D<T> mixins C<T> {}
 

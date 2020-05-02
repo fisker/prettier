@@ -58,9 +58,13 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 function foo<T>(bar  /*: T[] */, baz  /*: T */) /*: S */ {}
 
 =====================================output=====================================
+// @flow
+
 function foo<T>(bar /*: T[] */, baz /*: T */) /*: S */ {}
 
 ================================================================================
@@ -106,6 +110,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 interface Foo {
   bar(
     currentRequest: {a: number},
@@ -114,6 +120,8 @@ interface Foo {
 }
 
 =====================================output=====================================
+// @flow
+
 interface Foo {
   bar(
     currentRequest: { a: number }
@@ -130,6 +138,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 // Adding a comment stops the pretty printing process and everything is
 // squished in a single line afterward
 export type BuckWebSocketMessage = {
@@ -161,6 +171,8 @@ export type AsyncExecuteOptions = child_process$execFileOpts & {
 };
 
 =====================================output=====================================
+// @flow
+
 // Adding a comment stops the pretty printing process and everything is
 // squished in a single line afterward
 export type BuckWebSocketMessage =
@@ -224,6 +236,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type Props1 = // (DispatchProps & StateProps); WHY DON'T YOU WORK FLOW!!!!!!!!!
 {
   isPlaying: boolean,
@@ -239,6 +253,8 @@ type Props3 = {
 };
 
 =====================================output=====================================
+// @flow
+
 // (DispatchProps & StateProps); WHY DON'T YOU WORK FLOW!!!!!!!!!
 type Props1 = {
   isPlaying: boolean,
@@ -299,6 +315,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type UploadState<E, EM, D>
   // The upload hasnt begun yet
   = {type: "Not_begun"}
@@ -320,6 +338,8 @@ type UploadState2<E, EM, D>
   | D;
 
 =====================================output=====================================
+// @flow
+
 type UploadState<E, EM, D> =
   // The upload hasnt begun yet
   | { type: "Not_begun" }

@@ -7,10 +7,14 @@ printWidth: 80
 trailingComma: "all"
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const f = ({}: MyVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongType) => {};
 function g({}: Foo) {}
 
 =====================================output=====================================
+// @flow
+
 const f = ({}: MyVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongType) => {};
 function g({}: Foo) {}
 
@@ -23,10 +27,14 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const f = ({}: MyVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongType) => {};
 function g({}: Foo) {}
 
 =====================================output=====================================
+// @flow
+
 const f = ({}: MyVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongType) => {};
 function g({}: Foo) {}
 

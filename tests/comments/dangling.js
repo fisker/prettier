@@ -1,3 +1,5 @@
+// @flow
+
 var a = {/* dangling */};
 var b = {
   // dangling

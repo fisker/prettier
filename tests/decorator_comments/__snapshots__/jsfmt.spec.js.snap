@@ -6,6 +6,8 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 class Something {
     @Annotateme()
     // comment
@@ -13,6 +15,8 @@ class Something {
 }
 
 =====================================output=====================================
+// @flow
+
 class Something {
   @Annotateme()
   // comment

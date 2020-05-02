@@ -1,3 +1,5 @@
+// @flow
+
 const selectorByPath:
   Path
  => SomethingSelector<

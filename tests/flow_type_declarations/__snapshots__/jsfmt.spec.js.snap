@@ -7,9 +7,13 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare export default 5;
 
 =====================================output=====================================
+// @flow
+
 declare export default 5
 
 ================================================================================
@@ -21,9 +25,13 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare export default 5;
 
 =====================================output=====================================
+// @flow
+
 declare export default 5;
 
 ================================================================================
@@ -36,9 +44,13 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare type A = string;
 
 =====================================output=====================================
+// @flow
+
 declare type A = string
 
 ================================================================================
@@ -50,9 +62,13 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare type A = string;
 
 =====================================output=====================================
+// @flow
+
 declare type A = string;
 
 ================================================================================
@@ -65,9 +81,13 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare var bool: React$PropType$Primitive<boolean>;
 
 =====================================output=====================================
+// @flow
+
 declare var bool: React$PropType$Primitive<boolean>
 
 ================================================================================
@@ -79,9 +99,13 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare var bool: React$PropType$Primitive<boolean>;
 
 =====================================output=====================================
+// @flow
+
 declare var bool: React$PropType$Primitive<boolean>;
 
 ================================================================================
@@ -94,6 +118,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 export type AdamPlacementValidationSingleErrorKey =
   'SOME_FANCY_TARGETS.GLOBAL_TARGET';
 
@@ -104,6 +130,8 @@ export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey
 type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = SomeReallyLongLongLongLongLongLongIdentifier;
 
 =====================================output=====================================
+// @flow
+
 export type AdamPlacementValidationSingleErrorKey =
   "SOME_FANCY_TARGETS.GLOBAL_TARGET"
 
@@ -122,6 +150,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 export type AdamPlacementValidationSingleErrorKey =
   'SOME_FANCY_TARGETS.GLOBAL_TARGET';
 
@@ -132,6 +162,8 @@ export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey
 type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = SomeReallyLongLongLongLongLongLongIdentifier;
 
 =====================================output=====================================
+// @flow
+
 export type AdamPlacementValidationSingleErrorKey =
   "SOME_FANCY_TARGETS.GLOBAL_TARGET";
 
@@ -151,6 +183,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare export opaque type Foo;
 declare export opaque type Bar<T>;
 declare export opaque type Baz: Foo;
@@ -169,6 +203,8 @@ opaque type overloads =
   & ((x: number) => string);
 
 =====================================output=====================================
+// @flow
+
 declare export opaque type Foo
 declare export opaque type Bar<T>
 declare export opaque type Baz: Foo
@@ -191,6 +227,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 declare export opaque type Foo;
 declare export opaque type Bar<T>;
 declare export opaque type Baz: Foo;
@@ -209,6 +247,8 @@ opaque type overloads =
   & ((x: number) => string);
 
 =====================================output=====================================
+// @flow
+
 declare export opaque type Foo;
 declare export opaque type Bar<T>;
 declare export opaque type Baz: Foo;

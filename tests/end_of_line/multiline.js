@@ -1,3 +1,5 @@
+// @flow
+
 type IAmIncredibleLongParameterType = {};
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(

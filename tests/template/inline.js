@@ -1,3 +1,5 @@
+// @flow
+
 this._pipe.write(`\n\n Pattern matches ${total} ${pluralizeTest}`);
 this._pipe.write(
   `\n\n Pattern matches ${total} ${pluralizeTest}`
