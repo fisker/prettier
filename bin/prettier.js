@@ -2,4 +2,9 @@
 
 "use strict";
 
-require("../src/cli").run(process.argv.slice(2));
+const importLocal = require("import-local");
+
+// Prefer the local installation of Prettier
+if (!importLocal(__filename)) {
+  require("./cli").run(process.argv.slice(2));
+}
