@@ -6,11 +6,15 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 class Route {
   static +param: T;
 }
 
 =====================================output=====================================
+// @flow
+
 class Route {
   static +param: T;
 }

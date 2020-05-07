@@ -1,3 +1,5 @@
+// @flow
+
 type UploadState<E, EM, D>
   // The upload hasnt begun yet
   = {type: "Not_begun"}

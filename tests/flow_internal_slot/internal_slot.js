@@ -1,3 +1,5 @@
+// @flow
+
 declare class C1 { static [[foo]]: T }
 declare class C2 { [[foo]]: T }
 interface T1 { [[foo]]: X }

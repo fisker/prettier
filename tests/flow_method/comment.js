@@ -1,3 +1,5 @@
+// @flow
+
 type Foo = {
   method(
     arg: number, // I belong with baz

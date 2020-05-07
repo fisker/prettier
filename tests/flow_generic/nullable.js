@@ -1,3 +1,5 @@
+// @flow
+
 function formatEntireFile(
   fileVersion: FileVersion,
   range: atom$Range,

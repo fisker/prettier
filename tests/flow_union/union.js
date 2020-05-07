@@ -1,3 +1,5 @@
+// @flow
+
 interface RelayProps {
   articles: Array<{
     __id: string,

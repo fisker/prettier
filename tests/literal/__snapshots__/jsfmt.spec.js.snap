@@ -6,6 +6,8 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 // parentheses around numeric literal should be preserved
 function test5(): string {
   return (100).toString();
@@ -96,6 +98,8 @@ function test5(): string {
 10e100
 
 =====================================output=====================================
+// @flow
+
 // parentheses around numeric literal should be preserved
 function test5(): string {
   return (100).toString();

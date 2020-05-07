@@ -6,6 +6,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type State = {
   sharedProperty: any;
 } & (
@@ -15,6 +17,8 @@ type State = {
 );
 
 =====================================output=====================================
+// @flow
+
 type State = {
   sharedProperty: any,
 } & (

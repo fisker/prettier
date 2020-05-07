@@ -1,3 +1,5 @@
+// @flow
+
 const initializeSnapshotState = (
   testFile: Path,
   update: boolean,

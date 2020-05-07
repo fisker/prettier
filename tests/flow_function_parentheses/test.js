@@ -1,3 +1,5 @@
+// @flow
+
 type Banana = {
   eat: string => boolean,
 };

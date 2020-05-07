@@ -1,3 +1,5 @@
+// @flow
+
 var X = {
   perform: function<    
      A, B, C, D, E, F, G,     

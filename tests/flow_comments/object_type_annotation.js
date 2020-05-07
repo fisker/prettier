@@ -1,3 +1,5 @@
+// @flow
+
 type Props1 = // (DispatchProps & StateProps); WHY DON'T YOU WORK FLOW!!!!!!!!!
 {
   isPlaying: boolean,

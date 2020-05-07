@@ -182,6 +182,8 @@ parsers: ["babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 import {observable} from "mobx";
 
 @observer class OrderLine {
@@ -220,6 +222,8 @@ import {observable} from "mobx";
 }
 
 =====================================output=====================================
+// @flow
+
 import { observable } from "mobx";
 
 @observer

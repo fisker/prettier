@@ -246,6 +246,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 this._pipe.write(\`\\n\\n Pattern matches \${total} \${pluralizeTest}\`);
 this._pipe.write(
   \`\\n\\n Pattern matches \${total} \${pluralizeTest}\`
@@ -309,6 +311,8 @@ this._pipe.write(\`
 editTitle += \`\${iconHTML({ class: "reply-to-glyph" })}\`;
 
 =====================================output=====================================
+// @flow
+
 this._pipe.write(\`\\n\\n Pattern matches \${total} \${pluralizeTest}\`);
 this._pipe.write(\`\\n\\n Pattern matches \${total} \${pluralizeTest}\`);
 this._pipe.write(\`\\n\\n Pattern matches \${total} \${pluralizeTest}\`);

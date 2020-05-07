@@ -1,3 +1,5 @@
+// @flow
+
 import {observable} from "mobx";
 
 @observer class OrderLine {

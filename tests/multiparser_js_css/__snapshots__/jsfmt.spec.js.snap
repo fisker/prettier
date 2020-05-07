@@ -109,6 +109,8 @@ parsers: ["babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 export const Group = styled.div\`
   margin: 0;
 
@@ -134,6 +136,8 @@ const yesFrame = (
 \`
 
 =====================================output=====================================
+// @flow
+
 export const Group = styled.div\`
   margin: 0;
 

@@ -26,6 +26,8 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 class MyContractSelectionWidget extends React.Component<void,  MyContractSelectionWidgetPropsType, void> implements SomethingLarge {
   method() {}
 }
@@ -63,6 +65,8 @@ export class VisTimelineComponent2
 }
 
 =====================================output=====================================
+// @flow
+
 class MyContractSelectionWidget
   extends React.Component<void, MyContractSelectionWidgetPropsType, void>
   implements SomethingLarge {

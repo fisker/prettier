@@ -1,3 +1,5 @@
+// @flow
+
 type State = {
   sharedProperty: any;
 } & (

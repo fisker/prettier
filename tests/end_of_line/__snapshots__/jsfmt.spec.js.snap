@@ -64,6 +64,8 @@ parsers: ["babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow<LF>
+<LF>
 type IAmIncredibleLongParameterType = {};<LF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<LF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
@@ -89,6 +91,8 @@ export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
 );<LF>
 
 =====================================output=====================================
+// @flow<CR>
+<CR>
 type IAmIncredibleLongParameterType = {};<CR>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<CR>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<CR>
@@ -123,6 +127,8 @@ parsers: ["babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow<LF>
+<LF>
 type IAmIncredibleLongParameterType = {};<LF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<LF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
@@ -148,6 +154,8 @@ export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
 );<LF>
 
 =====================================output=====================================
+// @flow<CRLF>
+<CRLF>
 type IAmIncredibleLongParameterType = {};<CRLF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<CRLF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<CRLF>
@@ -182,6 +190,8 @@ parsers: ["babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow<LF>
+<LF>
 type IAmIncredibleLongParameterType = {};<LF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<LF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
@@ -207,6 +217,8 @@ export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>
 );<LF>
 
 =====================================output=====================================
+// @flow<LF>
+<LF>
 type IAmIncredibleLongParameterType = {};<LF>
 const IAmAnotherFunctionName = (_0: IAmIncredibleLongParameterType) => {};<LF>
 export const IAmIncredibleLongFunctionName = IAmAnotherFunctionName(<LF>

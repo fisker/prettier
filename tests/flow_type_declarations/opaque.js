@@ -1,3 +1,5 @@
+// @flow
+
 declare export opaque type Foo;
 declare export opaque type Bar<T>;
 declare export opaque type Baz: Foo;

@@ -718,6 +718,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 var a = {/* dangling */};
 var b = {
   // dangling
@@ -733,6 +735,8 @@ declare class Foo extends Qux<string> {/* dangling */}
 export /* dangling */{};
 
 =====================================output=====================================
+// @flow
+
 var a = {
   /* dangling */
 }
@@ -762,6 +766,8 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 var a = {/* dangling */};
 var b = {
   // dangling
@@ -777,6 +783,8 @@ declare class Foo extends Qux<string> {/* dangling */}
 export /* dangling */{};
 
 =====================================output=====================================
+// @flow
+
 var a = {
   /* dangling */
 };
@@ -1741,6 +1749,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 // Does not need to break as it fits in 80 columns
 this.call(a, /* comment */ b);
 
@@ -1820,6 +1830,8 @@ foo({}
 );
 
 =====================================output=====================================
+// @flow
+
 // Does not need to break as it fits in 80 columns
 this.call(a, /* comment */ b)
 
@@ -1904,6 +1916,8 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 // Does not need to break as it fits in 80 columns
 this.call(a, /* comment */ b);
 
@@ -1983,6 +1997,8 @@ foo({}
 );
 
 =====================================output=====================================
+// @flow
+
 // Does not need to break as it fits in 80 columns
 this.call(a, /* comment */ b);
 
@@ -2678,6 +2694,8 @@ printWidth: 80
 semi: false
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type f1 = (
   currentRequest: {a: number},
   // TODO this is a very very very very long comment that makes it go > 80 columns
@@ -2774,6 +2792,8 @@ class Foo {
 }
 
 =====================================output=====================================
+// @flow
+
 type f1 = (
   currentRequest: { a: number }
   // TODO this is a very very very very long comment that makes it go > 80 columns
@@ -2870,6 +2890,8 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type f1 = (
   currentRequest: {a: number},
   // TODO this is a very very very very long comment that makes it go > 80 columns
@@ -2966,6 +2988,8 @@ class Foo {
 }
 
 =====================================output=====================================
+// @flow
+
 type f1 = (
   currentRequest: { a: number }
   // TODO this is a very very very very long comment that makes it go > 80 columns

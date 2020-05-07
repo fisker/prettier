@@ -6,6 +6,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type Foo = {
   method(
     arg: number, // I belong with baz
@@ -14,6 +16,8 @@ type Foo = {
 }
 
 =====================================output=====================================
+// @flow
+
 type Foo = {
   method(
     arg: number, // I belong with baz
@@ -30,6 +34,8 @@ parsers: ["flow", "babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 type T = { method: () => void };
 type T2 = { method(): void };
 declare class X { method(): void }
@@ -46,6 +52,8 @@ interface I {
 }
 
 =====================================output=====================================
+// @flow
+
 type T = { method: () => void };
 type T2 = { method(): void };
 declare class X {

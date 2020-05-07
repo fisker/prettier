@@ -6,12 +6,16 @@ parsers: ["babel"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 // https://github.com/prettier/prettier/issues/1481
 class Foo {
   constructor: () => this;
 }
 
 =====================================output=====================================
+// @flow
+
 // https://github.com/prettier/prettier/issues/1481
 class Foo {
   constructor: () => this;

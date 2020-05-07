@@ -7,6 +7,8 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 (a => {}).length
 typeof (() => {});
 export default (() => {})();
@@ -44,6 +46,8 @@ a = b => {
 };
 
 =====================================output=====================================
+// @flow
+
 ((a) => {}).length;
 typeof (() => {});
 export default (() => {})();
@@ -91,6 +95,8 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 (a => {}).length
 typeof (() => {});
 export default (() => {})();
@@ -128,6 +134,8 @@ a = b => {
 };
 
 =====================================output=====================================
+// @flow
+
 (a => {}).length;
 typeof (() => {});
 export default (() => {})();
@@ -2225,6 +2233,8 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const initializeSnapshotState = (
   testFile: Path,
   update: boolean,
@@ -2233,6 +2243,8 @@ const initializeSnapshotState = (
 ) => new SnapshotState(testFile, update, testPath, expand);
 
 =====================================output=====================================
+// @flow
+
 const initializeSnapshotState = (
   testFile: Path,
   update: boolean,
@@ -2250,6 +2262,8 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 const initializeSnapshotState = (
   testFile: Path,
   update: boolean,
@@ -2258,6 +2272,8 @@ const initializeSnapshotState = (
 ) => new SnapshotState(testFile, update, testPath, expand);
 
 =====================================output=====================================
+// @flow
+
 const initializeSnapshotState = (
   testFile: Path,
   update: boolean,
@@ -2275,9 +2291,13 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 <T>(a) => { }
 
 =====================================output=====================================
+// @flow
+
 <T>(a) => {};
 
 ================================================================================
@@ -2290,9 +2310,13 @@ parsers: ["babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
+// @flow
+
 <T>(a) => { }
 
 =====================================output=====================================
+// @flow
+
 <T>(a) => {};
 
 ================================================================================
