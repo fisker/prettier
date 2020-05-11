@@ -9,6 +9,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: "14"
+
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+
     - name: Cache Build Results
       # Prevent error on re-run
       # https://github.com/actions/cache/issues/107#issuecomment-556037278
@@ -37,3 +45,10 @@ jobs:
         build_command: yarn build
         dist_path: 'dist'
         token: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: chrysanthos/simple-asset-size-reporter@1.0.0
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        files: '["dist/**/*"]'
+        with-same: 'false'
+        build-assets: 'yarn build'
