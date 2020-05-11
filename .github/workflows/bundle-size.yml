@@ -35,9 +35,9 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
-    - uses: andresz1/size-limit-action@v1.3.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+    # - uses: andresz1/size-limit-action@v1.3.0
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: sarthak-saxena/JSBundleSize@master
       with:
