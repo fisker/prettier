@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`unclosed_tag.vue error test 1`] = `
+"Unexpected character \\"EOF\\" (2:1)
+  1 | <div
+> 2 | 
+    | ^"
+`;
+
+exports[`unclosed_tag_in_template.vue error test 1`] = `
+"Unexpected character \\"/\\" (4:2)
+  2 |   <p>Templates are formatted as well...
+  3 |     </
+> 4 | </template>
+    |  ^
+  5 | "
+`;
