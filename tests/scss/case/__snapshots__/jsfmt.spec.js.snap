@@ -215,7 +215,7 @@ svg[viewBox] linearGradient,
 $KeepTopLevelVar: val;
 @KeepLessVar: val;
 
-@mixin KeepMixinName($Keep: 15in, $Keep: $Keep15IN, $Keep: Keep-1E-2Em) {
+@mixin KeepMixinName($Keep: 15IN, $Keep: $Keep15IN, $Keep: Keep-1E-2Em) {
   $KeepVar: KeepFuncName();
   #{$KeepInterpolationVar}: val;
   #{$Keep + 15PX}: val;

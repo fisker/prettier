@@ -777,7 +777,7 @@ $icons: wifi "\600", wifi-hotspot "\601", weather "\602";
   prop26:  +  (  $grid-gutter-width  /  2  )  ;
   prop27: +$grid-gutter-width;
   prop28: --($grid-gutter-width / 2);
-  prop28: ++($grid-gutter-width / 2);
+  // prop28: ++($grid-gutter-width / 2);
   prop29:  rotate(  -  2deg  )  ;
 }
 
@@ -881,6 +881,7 @@ light: #eaf0c6
 
 $widths-breakpoint-separator: \@small;
 
+/*
 a {
   transition-timing-function: func1(
       func2(
@@ -904,6 +905,7 @@ a {
       )
   );
 }
+*/
 
 $empty-map: ();
 $empty-nested-map: (

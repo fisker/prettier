@@ -1,3 +1,4 @@
+/*
 @function _normalize-include($section) {
 // Check if $section is in the $include list.
   @if index($_normalize-include, $section) {
@@ -9,3 +10,4 @@
   }
   @return false;
 }
+*/

@@ -384,6 +384,11 @@ function isLessParser(options) {
   return options.parser === "css" || options.parser === "less";
 }
 
+// TODO: only check `scss`
+function isScssParser(options) {
+  return options.parser === "css" || options.parser === "scss";
+}
+
 function lastLineHasInlineComment(text) {
   return /\/\//.test(text.split(/[\n\r]/).pop());
 }
@@ -402,6 +407,7 @@ module.exports = {
   isSCSS,
   isLastNode,
   isLessParser,
+  isScssParser,
   isSCSSControlDirectiveNode,
   isDetachedRulesetDeclarationNode,
   isRelationalOperatorNode,

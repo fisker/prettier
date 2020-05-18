@@ -110,10 +110,6 @@ function genericPrint(path, options, print) {
       // });
       throw e;
     }
-    // console.log({
-    //   ...node,
-    //   $$$$result
-    // });
     return $$$$result;
   }
 
@@ -136,9 +132,9 @@ function genericPrintREAL(path, options, print) {
   //   node
   // });
 
-  if (node.value && node.value.includes && node.value.includes("hsl")) {
-    console.log({ node, v: node.value });
-  }
+  // if (node.value && node.value.includes && node.value.includes("hsl")) {
+  //   console.log({ node, v: node.value });
+  // }
 
   switch (node.type) {
     case "yaml":
@@ -572,7 +568,6 @@ function genericPrintREAL(path, options, print) {
           continue;
         }
 
-        const iPrevNode = node.groups[i - 1];
         const iNode = node.groups[i];
         const iPrevNode = node.groups[i - 1];
         const iNextNode = node.groups[i + 1];
@@ -650,7 +645,7 @@ function genericPrintREAL(path, options, print) {
 
         if (
           iNextNode.type === "value-operator" &&
-          ["*", "+"].indexOf(iNextNode.value) !== -1
+          ["*", "+"].includes(iNextNode.value)
         ) {
           parts.push(" ");
           continue;
@@ -658,9 +653,10 @@ function genericPrintREAL(path, options, print) {
 
         if (
           iNode.type === "value-operator" &&
-          ["*", "+"].indexOf(iNode.value) !== -1
+          ["*", "+"].includes(iNode.value)
         ) {
           parts.push(" ");
+          continue;
         }
 
         // styled.div` background: var(--${one}); `
@@ -988,7 +984,7 @@ function genericPrintREAL(path, options, print) {
           ? " "
           : "",
         path.call(print, "group"),
-        ")"
+        ")",
       ]);
     }
     case "value-numeric": {
@@ -1005,8 +1001,9 @@ function genericPrintREAL(path, options, print) {
       return node.value;
     }
     case "value-punctuation": {
-      const value = node.value;
+      const { value } = node;
       return value;
+    }
     case "value-colon": {
       return concat([
         node.value,
@@ -1023,6 +1020,7 @@ function genericPrintREAL(path, options, print) {
     case "value-atword": {
       return concat(["@", node.name, node.params ? " " + node.params : ""]);
     }
+    case "value-unicodeRange":
     case "value-unicode-range": {
       return node.value;
     }
