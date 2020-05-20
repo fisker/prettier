@@ -1,3 +1,4 @@
+/*
 a {
 @include section-type-1(
 $header:
@@ -22,6 +23,7 @@ line-height: $line-height-h3,
 )
 );
 }
+*/
 
 a {
 @include item-spotlight-properties-transition(

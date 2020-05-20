@@ -1,5 +1,5 @@
 a {
-    @mixin $(theme)-colors;
+    /*@mixin $(theme)-colors;*/
 }
 
 @define-mixin icon $network, $color: blue {

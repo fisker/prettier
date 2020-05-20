@@ -3,7 +3,12 @@
 const createError = require("../common/parser-create-error");
 const parseFrontMatter = require("../utils/front-matter");
 const { hasPragma } = require("./pragma");
-const { isLessParser, isSCSS, isSCSSNestedPropertyNode } = require("./utils");
+const {
+  isLessParser,
+  isScssParser,
+  isSCSS,
+  isSCSSNestedPropertyNode,
+} = require("./utils");
 const { calculateLoc, replaceQuotesInInlineComments } = require("./loc");
 
 function parseValueNodes(nodes) {
@@ -181,7 +186,7 @@ function parseValue(value) {
   let result = null;
 
   try {
-    result = valueParser(value, { loose: true }).parse();
+    result = valueParser.parse(value);
   } catch (e) {
     return {
       type: "value-unknown",
@@ -258,7 +263,9 @@ function parseNestedCSS(node, options) {
     delete node.parent;
 
     for (const key in node) {
-      parseNestedCSS(node[key], options);
+      if (key !== "raws" && key !== "source") {
+        parseNestedCSS(node[key], options);
+      }
     }
 
     if (!node.type) {

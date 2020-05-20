@@ -86,6 +86,38 @@ function shouldPrintComma(options) {
 
 function genericPrint(path, options, print) {
   const node = path.getValue();
+  // console.log({
+  //   node
+  // });
+  /* istanbul ignore if */
+  if (!node) {
+    return "";
+  }
+  // console.log({ node });
+  if (typeof node === "string") {
+    return node;
+  }
+
+  if (node.type.startsWith("value-")) {
+    let $$$$result;
+
+    try {
+      $$$$result = genericPrintREAL(path, options, print);
+    } catch (e) {
+      // console.log({
+      //   ...node,
+      //   v$: node.value
+      // });
+      throw e;
+    }
+    return $$$$result;
+  }
+
+  return genericPrintREAL(path, options, print);
+}
+
+function genericPrintREAL(path, options, print) {
+  const node = path.getValue();
 
   /* istanbul ignore if */
   if (!node) {
@@ -95,6 +127,14 @@ function genericPrint(path, options, print) {
   if (typeof node === "string") {
     return node;
   }
+
+  // console.log({
+  //   node
+  // });
+
+  // if (node.value && node.value.includes && node.value.includes("hsl")) {
+  //   console.log({ node, v: node.value });
+  // }
 
   switch (node.type) {
     case "yaml":
@@ -422,10 +462,7 @@ function genericPrint(path, options, print) {
         node.attribute.trim(),
         node.operator ? node.operator : "",
         node.value
-          ? quoteAttributeValue(
-              adjustStrings(node.value.trim(), options),
-              options
-            )
+          ? quoteValue(adjustStrings(node.value.trim(), options), options)
           : "",
         node.insensitive ? " i" : "",
         "]",
@@ -526,8 +563,13 @@ function genericPrint(path, options, print) {
       for (let i = 0; i < node.groups.length; ++i) {
         parts.push(printed[i]);
 
-        const iPrevNode = node.groups[i - 1];
+        // Ignore value inside `url()`
+        if (insideURLFunction) {
+          continue;
+        }
+
         const iNode = node.groups[i];
+        const iPrevNode = node.groups[i - 1];
         const iNextNode = node.groups[i + 1];
         const iNextNextNode = node.groups[i + 2];
 
@@ -543,6 +585,77 @@ function genericPrint(path, options, print) {
 
         // Ignore after latest node (i.e. before semicolon)
         if (!iNextNode) {
+          continue;
+        }
+
+        // workaround func name leads with ,
+        // stylefmt/font-face.css
+        // TODO: fix ast
+        if (iNextNode.type === "value-func" && iNextNode.name[0] === ",") {
+          parts.push(",");
+          parts.push(line);
+          iNextNode.name = iNextNode.name.slice(1).trim();
+          printed[i + 1].parts[0] = printed[i + 1].parts[0].slice(1).trim();
+          continue;
+        }
+
+        // opening (
+        if (iNode.type === "value-punctuation" && ["("].includes(iNode.value)) {
+          continue;
+        }
+
+        // last node
+        if (
+          iNextNode.type === "value-punctuation" &&
+          [")"].includes(iNextNode.value)
+        ) {
+          continue;
+        }
+
+        // next node is ie hack
+        if (
+          iNextNode.type === "value-word" &&
+          iNextNode.value.startsWith("\\")
+        ) {
+          continue;
+        }
+
+        // last node
+        if (
+          iNextNode.type === "value-punctuation" &&
+          [")"].includes(iNextNode.value)
+        ) {
+          continue;
+        }
+
+        if (
+          iNode.type === "value-punctuation" &&
+          [",", ":"].includes(iNode.value)
+        ) {
+          parts.push(" ");
+          continue;
+        }
+
+        if (iNextNode.type === "value-punctuation" && iNextNode.value === ",") {
+          continue;
+        }
+        if (iNextNode.type === "value-punctuation" && iNextNode.value === ":") {
+          continue;
+        }
+
+        if (
+          iNextNode.type === "value-operator" &&
+          ["*", "+"].includes(iNextNode.value)
+        ) {
+          parts.push(" ");
+          continue;
+        }
+
+        if (
+          iNode.type === "value-operator" &&
+          ["*", "+"].includes(iNode.value)
+        ) {
+          parts.push(" ");
           continue;
         }
 
@@ -583,7 +696,7 @@ function genericPrint(path, options, print) {
         }
 
         // Ignore `@` in Less (i.e. `@@var;`)
-        if (iNode.type === "value-atword" && iNode.value === "") {
+        if (iNode.type === "value-atword" && iNode.name === "") {
           continue;
         }
 
@@ -673,7 +786,7 @@ function genericPrint(path, options, print) {
         const isColorAdjusterNode =
           (isAdditionNode(iNode) || isSubtractionNode(iNode)) &&
           i === 0 &&
-          (iNextNode.type === "value-number" || iNextNode.isHex) &&
+          (iNextNode.type === "value-numeric" || iNextNode.isHex) &&
           parentParentNode &&
           isColorAdjusterFuncNode(parentParentNode) &&
           !hasEmptyRawBefore(iNextNode);
@@ -750,15 +863,6 @@ function genericPrint(path, options, print) {
           } else {
             parts.push(" ");
           }
-
-          continue;
-        }
-
-        // Add `space` before next math operation
-        // Note: `grip` property have `/` delimiter and it is not math operation, so
-        // `grid` property handles above
-        if (isNextMathOperator) {
-          parts.push(" ");
 
           continue;
         }
@@ -874,17 +978,16 @@ function genericPrint(path, options, print) {
     }
     case "value-func": {
       return concat([
-        node.value,
+        node.name,
+        "(",
         insideAtRuleNode(path, "supports") && isMediaAndSupportsKeywords(node)
           ? " "
           : "",
         path.call(print, "group"),
+        ")",
       ]);
     }
-    case "value-paren": {
-      return node.value;
-    }
-    case "value-number": {
+    case "value-numeric": {
       return concat([printCssNumber(node.value), maybeToLowerCase(node.unit)]);
     }
     case "value-operator": {
@@ -897,6 +1000,10 @@ function genericPrint(path, options, print) {
 
       return node.value;
     }
+    case "value-punctuation": {
+      const { value } = node;
+      return value;
+    }
     case "value-colon": {
       return concat([
         node.value,
@@ -907,15 +1014,13 @@ function genericPrint(path, options, print) {
     case "value-comma": {
       return concat([node.value, " "]);
     }
-    case "value-string": {
-      return printString(
-        node.raws.quote + node.value + node.raws.quote,
-        options
-      );
+    case "value-quoted": {
+      return quoteValue(adjustStrings(node.value, options), options);
     }
     case "value-atword": {
-      return concat(["@", node.value]);
+      return concat(["@", node.name, node.params ? " " + node.params : ""]);
     }
+    case "value-unicodeRange":
     case "value-unicode-range": {
       return node.value;
     }
@@ -1003,7 +1108,7 @@ function adjustStrings(value, options) {
   return value.replace(STRING_REGEX, (match) => printString(match, options));
 }
 
-function quoteAttributeValue(value, options) {
+function quoteValue(value, options) {
   const quote = options.singleQuote ? "'" : '"';
   return value.includes('"') || value.includes("'")
     ? value

@@ -13,6 +13,14 @@ function clean(ast, newObj, parent) {
     delete newObj[name];
   });
 
+  if (ast.type === "value-func") {
+    delete newObj.params;
+  }
+
+  if (ast.type === "value-numeric") {
+    newObj.value = Number(ast.value);
+  }
+
   if (ast.type === "yaml") {
     delete newObj.value;
   }
@@ -120,6 +128,11 @@ function clean(ast, newObj, parent) {
       newObj.value = newObj.value.trim().replace(/^["']|["']$/g, "");
       delete newObj.quoted;
     }
+  }
+
+  if (ast.type === "value-quoted") {
+    newObj.value = newObj.value.trim().replace(/^['"]|['"]$/g, "");
+    delete newObj.quote;
   }
 
   if (
