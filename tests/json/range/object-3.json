@@ -1,0 +1,10 @@
+{a:{
+      deep: {<<<PRETTIER_RANGE_START>>>shouldBePretty:
+true,
+},another: {shouldBePretty:
+2,
+<<<PRETTIER_RANGE_END>>>
+}
+},
+"b":
+2}
