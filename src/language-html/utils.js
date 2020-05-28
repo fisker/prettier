@@ -6,13 +6,36 @@ const {
   CSS_WHITE_SPACE_TAGS,
   CSS_WHITE_SPACE_DEFAULT,
 } = require("./constants.evaluate");
-const { getParserName } = require("../common/util");
+const { getParserName, isFrontMatterNode } = require("../common/util");
 
 const htmlTagNames = require("html-tag-names");
 const htmlElementAttributes = require("html-element-attributes");
 
 const HTML_TAGS = arrayToMap(htmlTagNames);
 const HTML_ELEMENT_ATTRIBUTES = mapObject(htmlElementAttributes, arrayToMap);
+
+// https://infra.spec.whatwg.org/#ascii-whitespace
+const HTML_WHITESPACE = new Set(["\t", "\n", "\f", "\r", " "]);
+const htmlTrimStart = (string) => string.replace(/^[\t\n\f\r ]+/, "");
+const htmlTrimEnd = (string) => string.replace(/[\t\n\f\r ]+$/, "");
+const htmlTrim = (string) => htmlTrimStart(htmlTrimEnd(string));
+const htmlTrimLeadingBlankLines = (string) =>
+  string.replace(/^[\t\f\r ]*?\n/g, "");
+const htmlTrimPreserveIndentation = (string) =>
+  htmlTrimLeadingBlankLines(htmlTrimEnd(string));
+const splitByHtmlWhitespace = (string) => string.split(/[\t\n\f\r ]+/);
+const getLeadingHtmlWhitespace = (string) => string.match(/^[\t\n\f\r ]*/)[0];
+const getLeadingAndTrailingHtmlWhitespace = (string) => {
+  const [, leadingWhitespace, text, trailingWhitespace] = string.match(
+    /^([\t\n\f\r ]*)([\S\s]*?)([\t\n\f\r ]*)$/
+  );
+  return {
+    leadingWhitespace,
+    trailingWhitespace,
+    text,
+  };
+};
+const hasHtmlWhitespace = (string) => /[\t\n\f\r ]/.test(string);
 
 function arrayToMap(array) {
   const map = Object.create(null);
@@ -131,10 +154,6 @@ function isScriptLikeTag(node) {
       (isUnknownNamespace(node) &&
         (node.name === "script" || node.name === "style")))
   );
-}
-
-function isFrontMatterNode(node) {
-  return node.type === "yaml" || node.type === "toml";
 }
 
 function canHaveInterpolation(node) {
@@ -375,6 +394,10 @@ function _inferScriptParser(node) {
     return "markdown";
   }
 
+  if (type === "text/html") {
+    return "html";
+  }
+
   if (type && (type.endsWith("json") || type.endsWith("importmap"))) {
     return "json";
   }
@@ -507,7 +530,15 @@ function getNodeCssStyleDisplay(node, options) {
       return "inline";
     case "ignore":
       return "block";
-    default:
+    default: {
+      // See https://github.com/prettier/prettier/issues/8151
+      if (
+        options.parser === "vue" &&
+        node.parent &&
+        node.parent.type === "root"
+      ) {
+        return "block";
+      }
       return (
         (node.type === "element" &&
           (!node.namespace ||
@@ -516,6 +547,7 @@ function getNodeCssStyleDisplay(node, options) {
           CSS_DISPLAY_TAGS[node.name]) ||
         CSS_DISPLAY_DEFAULT
       );
+    }
   }
 }
 
@@ -544,11 +576,11 @@ function getMinIndentation(text) {
       continue;
     }
 
-    if (/\S/.test(lineText[0])) {
+    if (!HTML_WHITESPACE.has(lineText[0])) {
       return 0;
     }
 
-    const indentation = lineText.match(/^\s*/)[0].length;
+    const indentation = getLeadingHtmlWhitespace(lineText).length;
 
     if (lineText.length === indentation) {
       continue;
@@ -629,19 +661,26 @@ function unescapeQuoteEntities(text) {
 }
 
 // top-level elements (excluding <template>, <style> and <script>) in Vue SFC are considered custom block
-const rootElementsSet = new Set(["template", "style", "script", "html"]);
+// See https://vue-loader.vuejs.org/spec.html for detail
+const vueRootElementsSet = new Set(["template", "style", "script"]);
 function isVueCustomBlock(node, options) {
   return (
     options.parser === "vue" &&
     node.type === "element" &&
     node.parent.type === "root" &&
-    !rootElementsSet.has(node.fullName)
+    !vueRootElementsSet.has(node.fullName) &&
+    node.fullName.toLowerCase() !== "html"
   );
 }
 
 module.exports = {
   HTML_ELEMENT_ATTRIBUTES,
   HTML_TAGS,
+  htmlTrim,
+  htmlTrimPreserveIndentation,
+  splitByHtmlWhitespace,
+  hasHtmlWhitespace,
+  getLeadingAndTrailingHtmlWhitespace,
   canHaveInterpolation,
   countChars,
   countParents,
@@ -658,7 +697,6 @@ module.exports = {
   inferScriptParser,
   isVueCustomBlock,
   isDanglingSpaceSensitiveNode,
-  isFrontMatterNode,
   isIndentationSensitiveNode,
   isLeadingSpaceSensitiveNode,
   isPreLikeNode,
