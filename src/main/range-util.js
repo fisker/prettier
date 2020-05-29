@@ -43,6 +43,51 @@ function findSiblingAncestors(startNodeAndParents, endNodeAndParents, opts) {
   };
 }
 
+function jsonFindSiblingAncestors(
+  startNodeAndParents,
+  endNodeAndParents,
+  opts
+) {
+  let resultStartNode = startNodeAndParents.node;
+  let resultEndNode = endNodeAndParents.node;
+
+  if (resultStartNode === resultEndNode) {
+    return {
+      startNode: resultStartNode,
+      endNode: resultEndNode,
+    };
+  }
+
+  for (const endParent of endNodeAndParents.parentNodes) {
+    console.log({ endParent });
+    if (
+      isSourceElement(opts, endParent) &&
+      opts.locStart(endParent) > opts.locStart(startNodeAndParents.node)
+    ) {
+      resultEndNode = endParent;
+    } else {
+      break;
+    }
+  }
+
+  for (const startParent of startNodeAndParents.parentNodes) {
+    if (
+      isSourceElement(opts, startParent) &&
+      startParent !== endNodeAndParents.node &&
+      opts.locEnd(startParent) < opts.locEnd(endNodeAndParents.node)
+    ) {
+      resultStartNode = startParent;
+    } else {
+      break;
+    }
+  }
+
+  return {
+    startNode: resultStartNode,
+    endNode: resultEndNode,
+  };
+}
+
 function findNodeAtOffset(node, offset, options, predicate, parentNodes = []) {
   if (offset < options.locStart(node) || offset > options.locEnd(node)) {
     return;
@@ -103,7 +148,14 @@ const jsSourceElements = new Set([
   "ExportAssignment", // TypeScript
   "ExportDeclaration", // TypeScript
 ]);
-const jsonSourceElements = new Set(["ObjectExpression", "ArrayExpression"]);
+const jsonSourceElements = new Set([
+  "ObjectExpression",
+  "ArrayExpression",
+  "StringLiteral",
+  "NumericLiteral",
+  "BooleanLiteral",
+  "NullLiteral",
+]);
 const graphqlSourceElements = new Set([
   "OperationDefinition",
   "FragmentDefinition",
@@ -182,11 +234,9 @@ function calculateRange(text, opts, ast) {
     };
   }
 
-  const { startNode, endNode } = findSiblingAncestors(
-    startNodeAndParents,
-    endNodeAndParents,
-    opts
-  );
+  const { startNode, endNode } = (opts.parser === "json"
+    ? jsonFindSiblingAncestors
+    : findSiblingAncestors)(startNodeAndParents, endNodeAndParents, opts);
 
   return {
     rangeStart: Math.min(opts.locStart(startNode), opts.locStart(endNode)),
