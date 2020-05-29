@@ -45,17 +45,20 @@ function identity(x) {
 
 function htmlToJsx() {
   return (ast) =>
-    mapAst(ast, (node, _index, [parent]) => {
-      if (
-        node.type !== "html" ||
-        node.value.match(mdx.COMMENT_REGEX) ||
-        INLINE_NODE_WRAPPER_TYPES.includes(parent.type)
-      ) {
-        return node;
-      }
+    mapAst(
+      ast,
+      (node, _index, [parent]) => {
+        if (
+          node.type !== "html" ||
+          node.value.match(mdx.COMMENT_REGEX) ||
+          INLINE_NODE_WRAPPER_TYPES.includes(parent.type)
+        ) {
+          return node;
+        }
 
-      return { ...node, type: "jsx" };
-    });
+        return { ...node, type: "jsx" };
+      }
+    );
 }
 
 function frontMatter() {

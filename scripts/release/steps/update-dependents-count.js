@@ -40,16 +40,18 @@ async function update() {
     );
   }
 
-  processFile("website/pages/en/index.js", (content) =>
-    content
-      .replace(
-        /(<strong data-placeholder="dependent-npm">)(.*?)(<\/strong>)/,
-        `$1${formatNumber(dependentsCountNpm)}$3`
-      )
-      .replace(
-        /(<strong data-placeholder="dependent-github">)(.*?)(<\/strong>)/,
-        `$1${formatNumber(dependentsCountGithub)}$3`
-      )
+  processFile(
+    "website/pages/en/index.js",
+    (content) =>
+      content
+        .replace(
+          /(<strong data-placeholder="dependent-npm">)(.*?)(<\/strong>)/,
+          `$1${formatNumber(dependentsCountNpm)}$3`
+        )
+        .replace(
+          /(<strong data-placeholder="dependent-github">)(.*?)(<\/strong>)/,
+          `$1${formatNumber(dependentsCountGithub)}$3`
+        )
   );
 }
 

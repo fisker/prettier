@@ -208,23 +208,26 @@ function uncook(cookedValue) {
 }
 
 function escapeTemplateCharacters(doc, raw) {
-  return mapDoc(doc, (currentDoc) => {
-    if (!currentDoc.parts) {
-      return currentDoc;
-    }
-
-    const parts = [];
-
-    currentDoc.parts.forEach((part) => {
-      if (typeof part === "string") {
-        parts.push(raw ? part.replace(/(\\*)`/g, "$1$1\\`") : uncook(part));
-      } else {
-        parts.push(part);
+  return mapDoc(
+    doc,
+    (currentDoc) => {
+      if (!currentDoc.parts) {
+        return currentDoc;
       }
-    });
 
-    return { ...currentDoc, parts };
-  });
+      const parts = [];
+
+      currentDoc.parts.forEach((part) => {
+        if (typeof part === "string") {
+          parts.push(raw ? part.replace(/(\\*)`/g, "$1$1\\`") : uncook(part));
+        } else {
+          parts.push(part);
+        }
+      });
+
+      return { ...currentDoc, parts };
+    }
+  );
 }
 
 function transformCssDoc(quasisDoc, path, print) {
@@ -262,52 +265,60 @@ function replacePlaceholders(quasisDoc, expressionDocs) {
   }
 
   let replaceCounter = 0;
-  const newDoc = mapDoc(quasisDoc, (doc) => {
-    if (!doc || !doc.parts || !doc.parts.length) {
-      return doc;
-    }
-
-    let { parts } = doc;
-    const atIndex = parts.indexOf("@");
-    const placeholderIndex = atIndex + 1;
-    if (
-      atIndex > -1 &&
-      typeof parts[placeholderIndex] === "string" &&
-      parts[placeholderIndex].startsWith("prettier-placeholder")
-    ) {
-      // If placeholder is split, join it
-      const at = parts[atIndex];
-      const placeholder = parts[placeholderIndex];
-      const rest = parts.slice(placeholderIndex + 1);
-      parts = parts
-        .slice(0, atIndex)
-        .concat([at + placeholder])
-        .concat(rest);
-    }
-
-    const replacedParts = [];
-    parts.forEach((part) => {
-      if (typeof part !== "string" || !part.includes("@prettier-placeholder")) {
-        replacedParts.push(part);
-        return;
+  const newDoc = mapDoc(
+    quasisDoc,
+    (doc) => {
+      if (!doc || !doc.parts || !doc.parts.length) {
+        return doc;
       }
 
-      // When we have multiple placeholders in one line, like:
-      // ${Child}${Child2}:not(:first-child)
-      part.split(/@prettier-placeholder-(\d+)-id/).forEach((component, idx) => {
-        // The placeholder is always at odd indices
-        if (idx % 2 === 0) {
-          replacedParts.push(component);
+      let { parts } = doc;
+      const atIndex = parts.indexOf("@");
+      const placeholderIndex = atIndex + 1;
+      if (
+        atIndex > -1 &&
+        typeof parts[placeholderIndex] === "string" &&
+        parts[placeholderIndex].startsWith("prettier-placeholder")
+      ) {
+        // If placeholder is split, join it
+        const at = parts[atIndex];
+        const placeholder = parts[placeholderIndex];
+        const rest = parts.slice(placeholderIndex + 1);
+        parts = parts
+          .slice(0, atIndex)
+          .concat([at + placeholder])
+          .concat(rest);
+      }
+
+      const replacedParts = [];
+      parts.forEach((part) => {
+        if (
+          typeof part !== "string" ||
+          !part.includes("@prettier-placeholder")
+        ) {
+          replacedParts.push(part);
           return;
         }
 
-        // The component will always be a number at odd index
-        replacedParts.push("${", expressionDocs[component], "}");
-        replaceCounter++;
+        // When we have multiple placeholders in one line, like:
+        // ${Child}${Child2}:not(:first-child)
+        part
+          .split(/@prettier-placeholder-(\d+)-id/)
+          .forEach((component, idx) => {
+            // The placeholder is always at odd indices
+            if (idx % 2 === 0) {
+              replacedParts.push(component);
+              return;
+            }
+
+            // The component will always be a number at odd index
+            replacedParts.push("${", expressionDocs[component], "}");
+            replaceCounter++;
+          });
       });
-    });
-    return { ...doc, parts: replacedParts };
-  });
+      return { ...doc, parts: replacedParts };
+    }
+  );
   return expressionDocs.length === replaceCounter ? newDoc : null;
 }
 

@@ -19,45 +19,54 @@ function preprocess(ast, options) {
 }
 
 function transformImportExport(ast) {
-  return mapAst(ast, (node) => {
-    if (node.type !== "import" && node.type !== "export") {
-      return node;
-    }
+  return mapAst(
+    ast,
+    (node) => {
+      if (node.type !== "import" && node.type !== "export") {
+        return node;
+      }
 
-    return { ...node, type: "importExport" };
-  });
+      return { ...node, type: "importExport" };
+    }
+  );
 }
 
 function transformInlineCode(ast) {
-  return mapAst(ast, (node) => {
-    if (node.type !== "inlineCode") {
-      return node;
-    }
+  return mapAst(
+    ast,
+    (node) => {
+      if (node.type !== "inlineCode") {
+        return node;
+      }
 
-    return { ...node, value: node.value.replace(/\s+/g, " ") };
-  });
+      return { ...node, value: node.value.replace(/\s+/g, " ") };
+    }
+  );
 }
 
 function restoreUnescapedCharacter(ast, options) {
-  return mapAst(ast, (node) => {
-    return node.type !== "text"
-      ? node
-      : {
-          ...node,
-          value:
-            node.value !== "*" &&
-            node.value !== "_" &&
-            node.value !== "$" && // handle these cases in printer
-            isSingleCharRegex.test(node.value) &&
-            node.position.end.offset - node.position.start.offset !==
-              node.value.length
-              ? options.originalText.slice(
-                  node.position.start.offset,
-                  node.position.end.offset
-                )
-              : node.value,
-        };
-  });
+  return mapAst(
+    ast,
+    (node) => {
+      return node.type !== "text"
+        ? node
+        : {
+            ...node,
+            value:
+              node.value !== "*" &&
+              node.value !== "_" &&
+              node.value !== "$" && // handle these cases in printer
+              isSingleCharRegex.test(node.value) &&
+              node.position.end.offset - node.position.start.offset !==
+                node.value.length
+                ? options.originalText.slice(
+                    node.position.start.offset,
+                    node.position.end.offset
+                  )
+                : node.value,
+          };
+    }
+  );
 }
 
 function mergeContinuousImportExport(ast) {
@@ -77,21 +86,24 @@ function mergeContinuousImportExport(ast) {
 }
 
 function mergeChildren(ast, shouldMerge, mergeNode) {
-  return mapAst(ast, (node) => {
-    if (!node.children) {
-      return node;
-    }
-    const children = node.children.reduce((current, child) => {
-      const lastChild = current[current.length - 1];
-      if (lastChild && shouldMerge(lastChild, child)) {
-        current.splice(-1, 1, mergeNode(lastChild, child));
-      } else {
-        current.push(child);
+  return mapAst(
+    ast,
+    (node) => {
+      if (!node.children) {
+        return node;
       }
-      return current;
-    }, []);
-    return { ...node, children };
-  });
+      const children = node.children.reduce((current, child) => {
+        const lastChild = current[current.length - 1];
+        if (lastChild && shouldMerge(lastChild, child)) {
+          current.splice(-1, 1, mergeNode(lastChild, child));
+        } else {
+          current.push(child);
+        }
+        return current;
+      }, []);
+      return { ...node, children };
+    }
+  );
 }
 
 function mergeContinuousTexts(ast) {
@@ -110,79 +122,88 @@ function mergeContinuousTexts(ast) {
 }
 
 function splitTextIntoSentences(ast, options) {
-  return mapAst(ast, (node, index, [parentNode]) => {
-    if (node.type !== "text") {
-      return node;
-    }
-
-    let { value } = node;
-
-    if (parentNode.type === "paragraph") {
-      if (index === 0) {
-        value = value.trimStart();
+  return mapAst(
+    ast,
+    (node, index, [parentNode]) => {
+      if (node.type !== "text") {
+        return node;
       }
-      if (index === parentNode.children.length - 1) {
-        value = value.trimEnd();
-      }
-    }
 
-    return {
-      type: "sentence",
-      position: node.position,
-      children: splitText(value, options),
-    };
-  });
+      let { value } = node;
+
+      if (parentNode.type === "paragraph") {
+        if (index === 0) {
+          value = value.trimStart();
+        }
+        if (index === parentNode.children.length - 1) {
+          value = value.trimEnd();
+        }
+      }
+
+      return {
+        type: "sentence",
+        position: node.position,
+        children: splitText(value, options),
+      };
+    }
+  );
 }
 
 function transformIndentedCodeblockAndMarkItsParentList(ast, options) {
-  return mapAst(ast, (node, index, parentStack) => {
-    if (node.type === "code") {
-      // the first char may point to `\n`, e.g. `\n\t\tbar`, just ignore it
-      const isIndented = /^\n?( {4,}|\t)/.test(
-        options.originalText.slice(
-          node.position.start.offset,
-          node.position.end.offset
-        )
-      );
+  return mapAst(
+    ast,
+    (node, index, parentStack) => {
+      if (node.type === "code") {
+        // the first char may point to `\n`, e.g. `\n\t\tbar`, just ignore it
+        const isIndented = /^\n?( {4,}|\t)/.test(
+          options.originalText.slice(
+            node.position.start.offset,
+            node.position.end.offset
+          )
+        );
 
-      node.isIndented = isIndented;
+        node.isIndented = isIndented;
 
-      if (isIndented) {
-        for (let i = 0; i < parentStack.length; i++) {
-          const parent = parentStack[i];
+        if (isIndented) {
+          for (let i = 0; i < parentStack.length; i++) {
+            const parent = parentStack[i];
 
-          // no need to check checked items
-          if (parent.hasIndentedCodeblock) {
-            break;
-          }
+            // no need to check checked items
+            if (parent.hasIndentedCodeblock) {
+              break;
+            }
 
-          if (parent.type === "list") {
-            parent.hasIndentedCodeblock = true;
+            if (parent.type === "list") {
+              parent.hasIndentedCodeblock = true;
+            }
           }
         }
       }
+      return node;
     }
-    return node;
-  });
+  );
 }
 
 function markAlignedList(ast, options) {
-  return mapAst(ast, (node, index, parentStack) => {
-    if (node.type === "list" && node.children.length !== 0) {
-      // if one of its parents is not aligned, it's not possible to be aligned in sub-lists
-      for (let i = 0; i < parentStack.length; i++) {
-        const parent = parentStack[i];
-        if (parent.type === "list" && !parent.isAligned) {
-          node.isAligned = false;
-          return node;
+  return mapAst(
+    ast,
+    (node, index, parentStack) => {
+      if (node.type === "list" && node.children.length !== 0) {
+        // if one of its parents is not aligned, it's not possible to be aligned in sub-lists
+        for (let i = 0; i < parentStack.length; i++) {
+          const parent = parentStack[i];
+          if (parent.type === "list" && !parent.isAligned) {
+            node.isAligned = false;
+            return node;
+          }
         }
+
+        node.isAligned = isAligned(node);
       }
 
-      node.isAligned = isAligned(node);
+      return node;
     }
-
-    return node;
-  });
+  );
 
   function getListItemStart(listItem) {
     return listItem.children.length === 0

@@ -423,16 +423,19 @@ function hasDanglingComments(node) {
 
 /** identify if an angular expression seems to have side effects */
 function hasNgSideEffect(path) {
-  return hasNode(path.getValue(), (node) => {
-    switch (node.type) {
-      case undefined:
-        return false;
-      case "CallExpression":
-      case "OptionalCallExpression":
-      case "AssignmentExpression":
-        return true;
+  return hasNode(
+    path.getValue(),
+    (node) => {
+      switch (node.type) {
+        case undefined:
+          return false;
+        case "CallExpression":
+        case "OptionalCallExpression":
+        case "AssignmentExpression":
+          return true;
+      }
     }
-  });
+  );
 }
 
 function isNgForOf(node, index, parentNode) {
