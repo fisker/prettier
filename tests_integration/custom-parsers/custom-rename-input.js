@@ -1,2 +1,2 @@
 /* eslint-disable */
-foo ( )
+foo();

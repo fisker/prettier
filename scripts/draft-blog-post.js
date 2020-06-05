@@ -13,7 +13,9 @@ const version = require("../package.json").version.replace(/-.+/, "");
 const postGlob = path.join(blogDir, `????-??-??-${version}.md`);
 const postFile = path.join(
   blogDir,
-  `${new Date().toISOString().replace(/T.+/, "")}-${version}.md`
+  `${new Date()
+    .toISOString()
+    .replace(/T.+/, "")}-${version}.md`
 );
 
 const categories = [

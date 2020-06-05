@@ -329,8 +329,9 @@ function _print(node, parentNode, path, options, print) {
     }
     case "blockFolded":
     case "blockLiteral": {
-      const parentIndent = getAncestorCount(path, (ancestorNode) =>
-        isNode(ancestorNode, ["sequence", "mapping"])
+      const parentIndent = getAncestorCount(
+        path,
+        (ancestorNode) => isNode(ancestorNode, ["sequence", "mapping"])
       );
       const isLastDescendant = isLastDescendantNode(path);
       return concat([

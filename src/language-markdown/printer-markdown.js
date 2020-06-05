@@ -852,29 +852,32 @@ function shouldRemainTheSameContent(path) {
 }
 
 function normalizeDoc(doc) {
-  return mapDoc(doc, (currentDoc) => {
-    if (!currentDoc.parts) {
-      return currentDoc;
-    }
-
-    if (currentDoc.type === "concat" && currentDoc.parts.length === 1) {
-      return currentDoc.parts[0];
-    }
-
-    const parts = currentDoc.parts.reduce((parts, part) => {
-      if (part.type === "concat") {
-        parts.push(...part.parts);
-      } else if (part !== "") {
-        parts.push(part);
+  return mapDoc(
+    doc,
+    (currentDoc) => {
+      if (!currentDoc.parts) {
+        return currentDoc;
       }
-      return parts;
-    }, []);
 
-    return {
-      ...currentDoc,
-      parts: normalizeParts(parts),
-    };
-  });
+      if (currentDoc.type === "concat" && currentDoc.parts.length === 1) {
+        return currentDoc.parts[0];
+      }
+
+      const parts = currentDoc.parts.reduce((parts, part) => {
+        if (part.type === "concat") {
+          parts.push(...part.parts);
+        } else if (part !== "") {
+          parts.push(part);
+        }
+        return parts;
+      }, []);
+
+      return {
+        ...currentDoc,
+        parts: normalizeParts(parts),
+      };
+    }
+  );
 }
 
 function printUrl(url, dangerousCharOrChars) {

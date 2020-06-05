@@ -180,8 +180,10 @@ function embed(path, print, textToDoc, options) {
           node.rawName,
           '="',
           group(
-            mapDoc(embeddedAttributeValueDoc, (doc) =>
-              typeof doc === "string" ? doc.replace(/"/g, "&quot;") : doc
+            mapDoc(
+              embeddedAttributeValueDoc,
+              (doc) =>
+                typeof doc === "string" ? doc.replace(/"/g, "&quot;") : doc
             )
           ),
           '"',
