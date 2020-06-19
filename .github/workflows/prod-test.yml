@@ -45,11 +45,6 @@ jobs:
           name: dist
           path: dist
 
-      - name: Debug
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       # This step calls `git reset`
       # It should be the last step
       # The cache step might saving the result of master branch, need investigate
@@ -57,7 +52,7 @@ jobs:
         if: >-
           github.event_name == 'pull_request' &&
           (
-            startsWith(github.event.pull_request.head.ref, 'dependabot/npm_and_yarn/') ||
+            startsWith(github.head_ref, 'dependabot/npm_and_yarn/') ||
             contains(github.event.comment.body, '/size')
           )
         uses: preactjs/compressed-size-action@v2.0.1
