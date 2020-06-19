@@ -45,6 +45,11 @@ jobs:
           name: dist
           path: dist
 
+      - name: Debug
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       # This step calls `git reset`
       # It should be the last step
       # The cache step might saving the result of master branch, need investigate
