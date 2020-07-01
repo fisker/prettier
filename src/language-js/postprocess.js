@@ -147,9 +147,10 @@ function visitNode(node, fn, parent, property) {
     visitNode(node[key], fn, node, key);
   }
 
+
   const replacement = fn(node);
 
-  if (replacement) {
+  if (parent && replacement) {
     parent[property] = replacement;
   }
 }
