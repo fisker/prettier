@@ -29,7 +29,7 @@ module.exports = [
         return require("../language-js/parser-babel").parsers.__js_expression;
       },
       get __vue_expression() {
-        return require("../language-js/parser-babel").parsers.__vue_expression;
+        return require("../language-js/parser-vue").parsers.__vue_expression;
       },
       get __vue_event_binding() {
         return require("../language-js/parser-babel").parsers

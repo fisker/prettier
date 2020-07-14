@@ -941,7 +941,12 @@ function printPathNoParens(path, options, print, args) {
     case "NewExpression":
     case "ImportExpression":
     case "OptionalCallExpression":
-    case "CallExpression": {
+    case "CallExpression":
+    case "VFilter": {
+      if (n.type === "VFilter" && !n.arguments.length) {
+        return path.call(print, "callee");
+      }
+
       const isNew = n.type === "NewExpression";
       const isDynamicImport = n.type === "ImportExpression";
 
@@ -3474,7 +3479,12 @@ function printPathNoParens(path, options, print, args) {
         "): ",
         path.call(print, "typeAnnotation"),
       ]);
-
+    case "VFilterSequenceExpression":
+      const operator = concat([line, "| "]);
+      return concat([
+        path.call(print, "expression"),
+        indent(concat([operator, join(operator, path.map(print, "filters"))])),
+      ]);
     default:
       /* istanbul ignore next */
       throw new Error("unknown type: " + JSON.stringify(n.type));

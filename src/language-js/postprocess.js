@@ -13,6 +13,14 @@ function postprocess(ast, options) {
     includeShebang(ast, options);
   }
 
+  if (options.parser === "__vue_expression") {
+    ast = visitNode(ast, (node) => {
+      if (node && node.type) {
+        delete node.parent;
+      }
+    });
+  }
+
   // Keep Babel's non-standard ParenthesizedExpression nodes only if they have Closure-style type cast comments.
   if (options.parser !== "typescript" && options.parser !== "flow") {
     const startOffsetsOfTypeCastedNodes = new Set();
@@ -21,7 +29,7 @@ function postprocess(ast, options) {
     // E.g.: /** @type {Foo} */ (foo).bar();
     // Let's use the fact that those ancestors and ParenthesizedExpression have the same start offset.
 
-    visitNode(ast, (node) => {
+    ast = visitNode(ast, (node) => {
       if (
         node.leadingComments &&
         node.leadingComments.some(isTypeCastComment)
@@ -30,7 +38,7 @@ function postprocess(ast, options) {
       }
     });
 
-    visitNode(ast, (node) => {
+    ast = visitNode(ast, (node) => {
       if (node.type === "ParenthesizedExpression") {
         const start = locStart(node);
         if (!startOffsetsOfTypeCastedNodes.has(start)) {
@@ -46,7 +54,7 @@ function postprocess(ast, options) {
     });
   }
 
-  visitNode(ast, (node) => {
+  ast = visitNode(ast, (node) => {
     switch (node.type) {
       case "LogicalExpression": {
         // We remove unneeded parens around same-operator LogicalExpressions
@@ -133,31 +141,28 @@ function postprocess(ast, options) {
   }
 }
 
-function visitNode(node, fn, parent, property) {
-  if (!node || typeof node !== "object") {
-    return;
-  }
+function visitNode(node, fn) {
+  let entries;
 
   if (Array.isArray(node)) {
-    for (let i = 0; i < node.length; i++) {
-      visitNode(node[i], fn, node, i);
+    entries = node.entries();
+  } else if (
+    node &&
+    typeof node === "object" &&
+    typeof node.type === "string"
+  ) {
+    entries = Object.entries(node);
+  } else {
+    return node;
+  }
+
+  for (const [key, child] of entries) {
+    if (key !== "parent") {
+      node[key] = visitNode(child, fn);
     }
-    return;
   }
 
-  if (typeof node.type !== "string") {
-    return;
-  }
-
-  for (const key of Object.keys(node)) {
-    visitNode(node[key], fn, node, key);
-  }
-
-  const replacement = fn(node);
-
-  if (replacement) {
-    parent[property] = replacement;
-  }
+  return fn(node) || node;
 }
 
 function isUnbalancedLogicalTree(node) {
