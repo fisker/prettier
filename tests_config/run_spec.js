@@ -162,7 +162,12 @@ global.run_spec = (fixtures, parsers, options) => {
         return;
       }
 
-      const formattedWithCursor = format(input, filename, mainOptions);
+      const { formatted: formattedWithCursor, ast: originalAst } = format(
+        input,
+        filename,
+        mainOptions,
+        /* return ast */ Boolean(AST_COMPARE)
+      );
       const formatted = formattedWithCursor.replace(CURSOR_PLACEHOLDER, "");
       const visualizedOutput = visualizeEndOfLine(formattedWithCursor);
 
@@ -223,7 +228,8 @@ global.run_spec = (fixtures, parsers, options) => {
               format(input, filename, verifyOptions);
             }).toThrow(TEST_STANDALONE ? undefined : SyntaxError);
           } else {
-            const verifyOutput = format(input, filename, verifyOptions);
+            const verifyOutput = format(input, filename, verifyOptions)
+              .formatted;
             expect(visualizeEndOfLine(verifyOutput)).toEqual(visualizedOutput);
           }
         });
@@ -240,7 +246,8 @@ global.run_spec = (fixtures, parsers, options) => {
         !TEST_CRLF
       ) {
         test("second format", () => {
-          const secondOutput = format(formatted, filename, mainOptions);
+          const secondOutput = format(formatted, filename, mainOptions)
+            .formatted;
           if (isUnstableTest) {
             // To keep eye on failed tests, this assert never supposed to pass,
             // if it fails, just remove the file from `unstableTests`
@@ -251,10 +258,9 @@ global.run_spec = (fixtures, parsers, options) => {
         });
       }
 
-      if (AST_COMPARE && formatted !== input) {
+      if (AST_COMPARE && formatted.trim() && formatted !== input) {
         test("compare AST", () => {
           const { cursorOffset, ...parseOptions } = mainOptions;
-          const originalAst = parse(input, parseOptions);
           const formattedAst = parse(formatted, parseOptions);
           expect(formattedAst).toEqual(originalAst);
         });
@@ -267,15 +273,26 @@ function parse(source, options) {
   return prettier.__debug.parse(source, options, /* massage */ true).ast;
 }
 
-function format(source, filename, options) {
-  const result = prettier.formatWithCursor(source, {
+function format(source, filename, options, returnAst) {
+  let { ast, formatted, cursorOffset } = prettier.formatWithCursor(source, {
     filepath: filename,
+    __ast: returnAst,
     ...options,
   });
 
-  return options.cursorOffset >= 0
-    ? result.formatted.slice(0, result.cursorOffset) +
-        CURSOR_PLACEHOLDER +
-        result.formatted.slice(result.cursorOffset)
-    : result.formatted;
+  if (options.cursorOffset >= 0) {
+    formatted =
+      formatted.slice(0, cursorOffset) +
+      CURSOR_PLACEHOLDER +
+      formatted.slice(cursorOffset);
+  }
+
+  if (returnAst && !ast) {
+    throw new Error("Unexpected AST.");
+  }
+
+  return {
+    ast,
+    formatted,
+  };
 }

@@ -58,14 +58,17 @@ function attachComments(text, ast, opts) {
     delete ast.comments;
     comments.attach(astComments, ast, text, opts);
   }
-  ast.tokens = [];
   opts.originalText = opts.parser === "yaml" ? text : text.trimEnd();
   return astComments;
 }
 
 function coreFormat(text, opts, addAlignmentSize) {
   if (!text || !text.trim().length) {
-    return { formatted: "", cursorOffset: 0 };
+    return {
+      formatted: "",
+      cursorOffset: 0,
+      ast: opts.__ast ? massageAST(parser.parse(text, opts), opts) : undefined,
+    };
   }
 
   addAlignmentSize = addAlignmentSize || 0;
@@ -85,6 +88,9 @@ function coreFormat(text, opts, addAlignmentSize) {
   const doc = printAstToDoc(ast, opts, addAlignmentSize);
 
   const result = printDocToString(doc, opts);
+  if (opts.__ast) {
+    result.ast = massageAST(ast, opts);
+  }
 
   ensureAllCommentsPrinted(astComments);
   // Remove extra leading indentation as well as the added indentation after last newline
@@ -131,6 +137,7 @@ function coreFormat(text, opts, addAlignmentSize) {
 
     if (oldCursorNodeText === newCursorNodeText) {
       return {
+        ast: result.ast,
         formatted: result.formatted,
         cursorOffset: newCursorNodeStart + cursorOffsetRelativeToOldCursorNode,
       };
@@ -164,10 +171,17 @@ function coreFormat(text, opts, addAlignmentSize) {
       }
     }
 
-    return { formatted: result.formatted, cursorOffset };
+    return {
+      ast: result.ast,
+      formatted: result.formatted,
+      cursorOffset,
+    };
   }
 
-  return { formatted: result.formatted };
+  return {
+    ast: result.ast,
+    formatted: result.formatted,
+  };
 }
 
 function formatRange(text, opts) {
@@ -259,14 +273,23 @@ function formatRange(text, opts) {
     }
   }
 
-  return { formatted, cursorOffset };
+  const result = { formatted, cursorOffset };
+
+  if (opts.__ast) {
+    result.ast = massageAST(ast, opts);
+  }
+
+  return result;
 }
 
 function format(text, opts) {
   const selectedParser = parser.resolveParser(opts);
   const hasPragma = !selectedParser.hasPragma || selectedParser.hasPragma(text);
   if (opts.requirePragma && !hasPragma) {
-    return { formatted: text };
+    return {
+      formatted: text,
+      ast: opts.__ast ? massageAST(parser.parse(text, opts), opts) : undefined,
+    };
   }
 
   if (opts.endOfLine === "auto") {
@@ -351,8 +374,10 @@ function format(text, opts) {
 
 module.exports = {
   formatWithCursor(text, opts) {
-    opts = normalizeOptions(opts);
-    return format(text, opts);
+    return format(text, {
+      __ast: opts.__ast,
+      ...normalizeOptions(opts),
+    });
   },
 
   parse(text, opts, massage) {

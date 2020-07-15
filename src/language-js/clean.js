@@ -14,6 +14,7 @@ function clean(ast, newObj, parent) {
     "loc",
     "flags",
     "errors",
+    "prettierIgnore",
   ].forEach((name) => {
     delete newObj[name];
   });
