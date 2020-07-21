@@ -100,7 +100,6 @@ export type InferredType =
   | "number"
   | "string"
   | "error";
-
 export type Pos = {
   firstLine: number,
   firstColumn: number,
@@ -1016,7 +1015,6 @@ export type BinaryOperator =
   | "in"
   | "instanceof"
   | "..";
-
 export type UnaryOperator =
   | "-"
   | "+"
@@ -1025,7 +1023,6 @@ export type UnaryOperator =
   | "typeof"
   | "void"
   | "delete";
-
 export type AssignmentOperator =
   | "="
   | "+="
@@ -1039,11 +1036,8 @@ export type AssignmentOperator =
   | "|="
   | "^="
   | "&=";
-
 export type UpdateOperator = "++" | "--";
-
 export type LogicalOperator = "&&" | "||";
-
 export type Node =
   | EmptyStatement
   | BlockStatement
@@ -1077,7 +1071,6 @@ export type Node =
   | VariableDeclaration
   | FunctionDeclaration
   | VariableDeclarator;
-
 export type Statement =
   | BlockStatement
   | EmptyStatement
@@ -1092,7 +1085,6 @@ export type Statement =
   | ForInStatement
   | TryStatement
   | Declaration;
-
 export type EmptyStatement = {
   source: ?string,
   start: SourcePosition,
@@ -1238,7 +1230,6 @@ export type Expression =
   | MemberExpression
   | ArrayExpression
   | ObjectExpreession;
-
 export type Identifier = {
   source: ?string,
   start: SourcePosition,
@@ -1405,9 +1396,7 @@ export type MemberExpression = {
 // ast-types exports all expressions as patterns.
 // That seems not like it was intended.
 export type Pattern = Identifier;
-
 export type Declaration = VariableDeclaration | FunctionDeclaration;
-
 export type VariableDeclaration = {
   source: ?string,
   start: SourcePosition,
