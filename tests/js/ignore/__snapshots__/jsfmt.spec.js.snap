@@ -85,14 +85,14 @@ function a() {
     'var fn=' + this.generateFunction('fn', 's,l,a,i') +
     extra +
     this.watchFns() +
-    'return fn;';
+    'return fn;'
 
   // prettier-ignore
   const identity = Matrix.create(
     1, 0, 0,
     0, 1, 0,
     0, 0, 0
-  );
+  )
 
   // Let's make sure that this comment doesn't interfere
 
@@ -100,10 +100,10 @@ function a() {
   const commentsWithPrettierIgnore =   {
     "ewww":
             "gross-formatting",
-  };
+  }
 
   function giveMeSome() {
-    a(  a  ); // prettier-ignore
+    a(  a  ) // prettier-ignore
     // shouldn't I return something?  :shrug:
   }
 
@@ -127,7 +127,7 @@ function a() {
     '\\n' +
     'Once this is done, commit anything to the repository to restart ' +
       'Travis and it should work :)'
-  );
+  )
 
   // Incorrectly indented on purpose
   function f</* prettier-ignore */ T    :    B>(

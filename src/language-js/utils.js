@@ -1154,6 +1154,18 @@ function isBitwiseOperator(operator) {
   );
 }
 
+function isSemicolonToken(token) {
+  return (
+    token &&
+    // babel
+    ((token.type && token.type.label === ";") ||
+      // typescript
+      (token.type === "Punctuator" && token.value === ";") ||
+      // flow
+      (token.type === "T_SEMICOLON" && token.value === ";"))
+  );
+}
+
 module.exports = {
   classChildNeedsASIProtection,
   classPropMayCauseASIProblems,
@@ -1208,6 +1220,7 @@ module.exports = {
   isTheOnlyJSXElementInMarkdown,
   isTSXFile,
   isTypeAnnotationAFunction,
+  isSemicolonToken,
   matchJsxWhitespaceRegex,
   needsHardlineAfterDanglingComment,
   rawText,

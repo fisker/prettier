@@ -236,7 +236,7 @@ interface Interface {
   // prettier-ignore
   prop: type
   // prettier-ignore
-  prop: type;
+  prop: type
   prop: type
 }
 
@@ -249,15 +249,15 @@ interface Interface {
 
 interface foo extends bar {
   // prettier-ignore
-  f(): void;
+  f(): void
   // prettier-ignore
-  g(): void;
+  g(): void
   h(): void
 }
 
 interface T<T> {
   // prettier-ignore
-  new<T>(): T<T>;
+  new<T>(): T<T>
   new <T>(): T<T>
 }
 
@@ -304,7 +304,7 @@ interface Interface {
   // prettier-ignore
   prop: type
   // prettier-ignore
-  prop: type;
+  prop: type
   prop: type;
 }
 
@@ -317,15 +317,15 @@ interface Interface {
 
 interface foo extends bar {
   // prettier-ignore
-  f(): void;
+  f(): void
   // prettier-ignore
-  g(): void;
+  g(): void
   h(): void;
 }
 
 interface T<T> {
   // prettier-ignore
-  new<T>(): T<T>;
+  new<T>(): T<T>
   new <T>(): T<T>;
 }
 

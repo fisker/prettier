@@ -2,11 +2,13 @@
 
 const {
   getLast,
+  getPenultimate,
   getNextNonSpaceNonCommentCharacter,
   getShebang,
 } = require("../common/util");
 const { composeLoc, locStart, locEnd } = require("./loc");
 const { isTypeCastComment } = require("./comments");
+const { isSemicolonToken } = require("./utils");
 
 function postprocess(ast, options) {
   if (options.parser === "typescript" || options.parser === "flow") {
@@ -112,6 +114,30 @@ function postprocess(ast, options) {
     }
   });
 
+  // Remove `;` from range
+  const { tokens } = ast;
+  if (Array.isArray(tokens) && tokens.length) {
+    ast = visitNode(ast, (node) => {
+      if (node && node.type) {
+        const start = locStart(node);
+        const end = locEnd(node);
+
+        const tokensInside = tokens.filter(
+          (token) => locStart(token) >= start && locEnd(token) <= end
+        );
+
+        const lastToken = getLast(tokensInside);
+
+        if (isSemicolonToken(lastToken)) {
+          const penultimateToken = getPenultimate(tokensInside);
+          if (penultimateToken && locEnd(penultimateToken) !== end) {
+            node.range = [start, locEnd(penultimateToken)];
+          }
+        }
+      }
+    });
+  }
+
   return ast;
 
   /**
@@ -122,14 +148,10 @@ function postprocess(ast, options) {
     if (options.originalText[locEnd(toOverrideNode)] === ";") {
       return;
     }
-    if (Array.isArray(toBeOverriddenNode.range)) {
-      toBeOverriddenNode.range = [
-        toBeOverriddenNode.range[0],
-        toOverrideNode.range[1],
-      ];
-    } else {
-      toBeOverriddenNode.end = toOverrideNode.end;
-    }
+    toBeOverriddenNode.range = [
+      locStart(toBeOverriddenNode),
+      locEnd(toOverrideNode),
+    ];
   }
 }
 
