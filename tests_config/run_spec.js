@@ -245,34 +245,6 @@ global.run_spec = (fixtures, parsers, options) => {
         ).toMatchSnapshot();
       });
 
-      for (const parser of verifyParsers) {
-        const verifyOptions = { ...firstFormat.options, parser };
-        const runVerifyFormat = () => format(firstFormat.input, verifyOptions);
-
-        if (shouldThrowOnVerify(name, verifyOptions)) {
-          test(`verify (${parser})`, () => {
-            expect(runVerifyFormat).toThrow(
-              TEST_STANDALONE ? undefined : SyntaxError
-            );
-          });
-        } else {
-          const verifyFormat = runVerifyFormat();
-          test(`verify (${parser})`, () => {
-            expect(verifyFormat.eolVisualizedOutput).toEqual(
-              firstFormat.eolVisualizedOutput
-            );
-          });
-
-          if (AST_COMPARE && verifyFormat.changed && code.trim()) {
-            test(`verify AST (${parser})`, () => {
-              const originalAst = parse(verifyFormat.input, verifyOptions);
-              const formattedAst = parse(verifyFormat.output, verifyOptions);
-              expect(originalAst).toEqual(formattedAst);
-            });
-          }
-        }
-      }
-
       const isUnstableTest = isUnstable(filename, formatOptions);
       if (
         DEEP_COMPARE &&
@@ -303,6 +275,57 @@ global.run_spec = (fixtures, parsers, options) => {
           const formattedAst = parse(output, formatOptions);
           expect(formattedAst).toEqual(originalAst);
         });
+      }
+
+      for (const parser of verifyParsers) {
+        const verifyOptions = { ...firstFormat.options, parser };
+        const runVerifyFormat = () => format(firstFormat.input, verifyOptions);
+
+        if (shouldThrowOnVerify(name, verifyOptions)) {
+          test(`verify (${parser})`, () => {
+            expect(runVerifyFormat).toThrow(
+              TEST_STANDALONE ? undefined : SyntaxError
+            );
+          });
+          continue;
+        }
+
+        const verifyFormat = runVerifyFormat();
+        test(`verify (${parser})`, () => {
+          expect(verifyFormat.eolVisualizedOutput).toEqual(
+            firstFormat.eolVisualizedOutput
+          );
+        });
+
+        if (AST_COMPARE && verifyFormat.changed && code.trim()) {
+          test(`verify AST (${parser})`, () => {
+            const originalAst = parse(verifyFormat.input, verifyOptions);
+            const formattedAst = parse(verifyFormat.output, verifyOptions);
+            expect(originalAst).toEqual(formattedAst);
+          });
+        }
+
+        if (
+          DEEP_COMPARE &&
+          (verifyFormat.changed || isUnstableTest) &&
+          // No range and cursor
+          firstFormat.input === eolReplacedCode
+        ) {
+          test("second format", () => {
+            const { eolVisualizedOutput: firstOutput, output } = verifyFormat;
+            const { eolVisualizedOutput: secondOutput } = format(
+              output,
+              verifyOptions
+            );
+            if (isUnstableTest) {
+              // To keep eye on failed tests, this assert never supposed to pass,
+              // if it fails, just remove the file from `unstableTests`
+              expect(secondOutput).not.toEqual(firstOutput);
+            } else {
+              expect(secondOutput).toEqual(firstOutput);
+            }
+          });
+        }
       }
     });
   }
