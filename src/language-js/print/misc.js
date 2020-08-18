@@ -18,7 +18,9 @@ function printOptionalToken(path) {
   }
   if (
     node.type === "OptionalCallExpression" ||
-    (node.type === "OptionalMemberExpression" && node.computed)
+    (node.type === "OptionalMemberExpression" && node.computed) ||
+    // Espree
+    (node.type === "CallExpression" && node.optional)
   ) {
     return "?.";
   }

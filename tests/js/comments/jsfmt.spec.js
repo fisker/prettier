@@ -6,5 +6,6 @@ const fixtures = {
   ],
 };
 
-run_spec(fixtures, ["babel", "flow", "typescript"]);
-run_spec(fixtures, ["babel", "flow", "typescript"], { semi: false });
+const errors = { espree: ["dangling.js", "issues.js", "last-arg.js"] };
+run_spec(fixtures, ["babel", "flow", "typescript"], { errors });
+run_spec(fixtures, ["babel", "flow", "typescript"], { semi: false, errors });

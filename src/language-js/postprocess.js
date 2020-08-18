@@ -9,7 +9,11 @@ const { composeLoc, locStart, locEnd } = require("./loc");
 const { isTypeCastComment } = require("./comments");
 
 function postprocess(ast, options) {
-  if (options.parser === "typescript" || options.parser === "flow") {
+  if (
+    options.parser === "typescript" ||
+    options.parser === "flow" ||
+    options.parser === "espree"
+  ) {
     includeShebang(ast, options);
   }
 
@@ -48,6 +52,10 @@ function postprocess(ast, options) {
 
   ast = visitNode(ast, (node) => {
     switch (node.type) {
+      // Espree
+      case "ChainExpression": {
+        return node.expression;
+      }
       case "LogicalExpression": {
         // We remove unneeded parens around same-operator LogicalExpressions
         if (isUnbalancedLogicalTree(node)) {
