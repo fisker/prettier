@@ -148,6 +148,19 @@ function runSpec(fixtures, parsers, options) {
     verifyParsers.push("babel-ts");
   }
 
+  if (parsers.includes("flow") && !parsers.includes("babel-flow")) {
+    verifyParsers.push("babel-flow");
+  }
+
+  if (parsers.includes("babel")) {
+    if (!parsers.includes("babel-flow")) {
+      verifyParsers.push("babel-flow");
+    }
+    if (!parsers.includes("babel-ts")) {
+      verifyParsers.push("babel-ts");
+    }
+  }
+
   for (const { name, filename, code, output } of [...files, ...snippets]) {
     describe(`${name}${
       stringifiedOptions ? ` - ${stringifiedOptions}` : ""
