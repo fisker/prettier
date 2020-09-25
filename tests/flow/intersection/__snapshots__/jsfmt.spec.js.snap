@@ -55,8 +55,7 @@ type DuplexStreamOptions = ReadableStreamOptions &
   };
 
 =====================================output=====================================
-export type ReallyBigSocketServer = ReallyBigSocketServerInterface &
-  ReallyBigSocketServerStatics;
+export type ReallyBigSocketServer = ReallyBigSocketServerInterface & ReallyBigSocketServerStatics;
 
 type Props = {
   propA: X,
@@ -89,20 +88,18 @@ type DuplexStreamOptions = {
   readableObjectMode?: boolean,
 };
 
-type DuplexStreamOptions = ReadableStreamOptions &
-  WritableStreamOptions & {
-    allowHalfOpen?: boolean,
-    readableObjectMode?: boolean,
-  };
+type DuplexStreamOptions = ReadableStreamOptions & WritableStreamOptions & {
+  allowHalfOpen?: boolean,
+  readableObjectMode?: boolean,
+};
 
-type DuplexStreamOptions = ReadableStreamOptions &
-  WritableStreamOptions & {
-    allowHalfOpen?: boolean,
-    readableObjectMode?: boolean,
-  } & {
-    allowHalfOpen?: boolean,
-    readableObjectMode?: boolean,
-  };
+type DuplexStreamOptions = ReadableStreamOptions & WritableStreamOptions & {
+  allowHalfOpen?: boolean,
+  readableObjectMode?: boolean,
+} & {
+  allowHalfOpen?: boolean,
+  readableObjectMode?: boolean,
+};
 
 ================================================================================
 `;

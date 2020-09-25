@@ -251,8 +251,7 @@ const annotate = (angular.injector as any).$$annotate as (
   fn: Function
 ) => string[];
 
-const originalPrototype = originalConstructor.prototype as TComponent &
-    InjectionTarget,
+const originalPrototype = originalConstructor.prototype as TComponent & InjectionTarget,
   propertyToServiceName = originalPrototype._inject;
 
 ================================================================================
