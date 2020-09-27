@@ -3488,10 +3488,9 @@ eslint-plugin-react@7.21.2:
     resolve "^1.17.0"
     string.prototype.matchall "^4.0.2"
 
-eslint-plugin-unicorn@22.0.0:
+eslint-plugin-unicorn@jmoore914/eslint-plugin-unicorn#prefer-ternary:
   version "22.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-22.0.0.tgz#46a93d8de393b865e04c2057a4ed3510864dd3be"
-  integrity sha512-jXPOauNiVFYLr+AeU3l21Ao+iDl/G08vUWui21RCI2L1TJIIoJvAMjMR6I+QPKr8FgIumzuR6gzDKCtEx2IkzA==
+  resolved "https://codeload.github.com/jmoore914/eslint-plugin-unicorn/tar.gz/b37b4a976a52c25fc43df541e9af30bd93e418ae"
   dependencies:
     ci-info "^2.0.0"
     clean-regexp "^1.0.0"

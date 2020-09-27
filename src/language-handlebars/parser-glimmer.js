@@ -25,13 +25,10 @@ function parse(text) {
   } catch (error) {
     const matches = error.message.match(/on line (\d+)/);
     /* istanbul ignore else */
-    if (matches) {
-      throw createError(error.message, {
+    const error_ = matches ? createError(error.message, {
         start: { line: Number(matches[1]), column: 0 },
-      });
-    } else {
-      throw error;
-    }
+      }) : error;
+    throw error_;
   }
 
   return ast;

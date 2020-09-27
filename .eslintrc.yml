@@ -67,6 +67,7 @@ rules:
   unicorn/no-useless-undefined: error
   unicorn/prefer-includes: error
   unicorn/prefer-string-slice: error
+  unicorn/prefer-ternary: error
 overrides:
   - files:
       - scripts/**/*.js

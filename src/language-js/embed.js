@@ -107,15 +107,11 @@ function embed(path, print, textToDoc, options) {
 
           let doc = null;
 
-          if (commentsAndWhitespaceOnly) {
-            doc = printGraphqlComments(lines);
-          } else {
-            doc = textToDoc(
+          doc = commentsAndWhitespaceOnly ? printGraphqlComments(lines) : textToDoc(
               text,
               { parser: "graphql" },
               { stripTrailingHardline: true }
             );
-          }
 
           if (doc) {
             doc = escapeTemplateCharacters(doc, false);
