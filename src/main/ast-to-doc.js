@@ -51,13 +51,16 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
     // We let JSXElement print its comments itself because it adds () around
     // UnionTypeAnnotation has to align the child without the comments
     let res;
-    res = printer.willPrintOwnComments &&
-      printer.willPrintOwnComments(path, options) ? callPluginPrintFunction(path, options, printGenerically, args) : comments.printComments(
-        path,
-        (p) => callPluginPrintFunction(p, options, printGenerically, args),
-        options,
-        args && args.needsSemi
-      );
+    res =
+      printer.willPrintOwnComments &&
+      printer.willPrintOwnComments(path, options)
+        ? callPluginPrintFunction(path, options, printGenerically, args)
+        : comments.printComments(
+            path,
+            (p) => callPluginPrintFunction(p, options, printGenerically, args),
+            options,
+            args && args.needsSemi
+          );
 
     if (shouldCache) {
       cache.set(node, res);

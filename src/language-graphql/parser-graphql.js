@@ -58,12 +58,15 @@ function parse(text /*, parsers, opts*/) {
     return ast;
   } catch (error) {
     const { GraphQLError } = require("graphql/error");
-    const error_ = error instanceof GraphQLError ? createError(error.message, {
-        start: {
-          line: error.locations[0].line,
-          column: error.locations[0].column,
-        },
-      }) : error;
+    const error_ =
+      error instanceof GraphQLError
+        ? createError(error.message, {
+            start: {
+              line: error.locations[0].line,
+              column: error.locations[0].column,
+            },
+          })
+        : error;
     throw error_;
   }
 }

@@ -168,7 +168,9 @@ function genericPrint(path, options, printPath, args) {
 
     path.each((decoratorPath) => {
       let decorator = decoratorPath.getValue();
-      decorator = decorator.expression ? decorator.expression : decorator.callee;
+      decorator = decorator.expression
+        ? decorator.expression
+        : decorator.callee;
 
       decorators.push(printPath(decoratorPath), separator);
     }, "decorators");
