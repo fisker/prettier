@@ -25,7 +25,6 @@ const handleComments = require("./comments");
  * @typedef {import("./types/estree").JSXElement} JSXElement
  * @typedef {import("./types/estree").TaggedTemplateExpression} TaggedTemplateExpression
  * @typedef {import("./types/estree").Literal} Literal
- *
  * @typedef {import("../common/fast-path")} FastPath
  */
 
@@ -265,8 +264,8 @@ function isTemplateLiteral(node) {
 }
 
 /**
- * Note: `inject` is used in AngularJS 1.x, `async` in Angular 2+
- * example: https://docs.angularjs.org/guide/unit-testing#using-beforeall-
+ * Note: `inject` is used in AngularJS 1.x, `async` in Angular 2+ example:
+ * https://docs.angularjs.org/guide/unit-testing#using-beforeall-
  *
  * @param {Node} node
  * @returns {boolean}
@@ -549,7 +548,7 @@ function hasDanglingComments(node) {
   );
 }
 
-/** identify if an angular expression seems to have side effects */
+/** Identify if an angular expression seems to have side effects */
 /**
  * @param {FastPath} path
  * @returns {boolean}
@@ -578,7 +577,6 @@ function isNgForOf(node, index, parentNode) {
 }
 
 /**
- *
  * @param {any} node
  * @returns {boolean}
  */
@@ -633,9 +631,7 @@ function isSimpleTemplateLiteral(node) {
   });
 }
 
-/**
- * @param {ObjectTypeProperty} node
- */
+/** @param {ObjectTypeProperty} node */
 function getFlowVariance(node) {
   if (!node.variance) {
     return null;
@@ -961,12 +957,9 @@ function isSimpleNumber(numberString) {
  */
 function isJestEachTemplateLiteral(node, parentNode) {
   /**
-   * describe.each`table`(name, fn)
-   * describe.only.each`table`(name, fn)
-   * describe.skip.each`table`(name, fn)
-   * test.each`table`(name, fn)
-   * test.only.each`table`(name, fn)
-   * test.skip.each`table`(name, fn)
+   * Describe.each`table`(name, fn) describe.only.each`table`(name, fn)
+   * describe.skip.each`table`(name, fn) test.each`table`(name, fn)
+   * test.only.each`table`(name, fn) test.skip.each`table`(name, fn)
    *
    * Ref: https://github.com/facebook/jest/pull/6102
    */
@@ -1179,7 +1172,7 @@ function isTSXFile(options) {
 
 /**
  * @param {any} options
- * @param {("es5" | "all")} [level]
+ * @param {"es5" | "all"} [level]
  * @returns {boolean}
  */
 function shouldPrintComma(options, level = "es5") {

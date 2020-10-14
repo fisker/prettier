@@ -58,7 +58,7 @@ const getExplorerMemoized = mem(
   { cacheKey: JSON.stringify }
 );
 
-/** @param {{ cache: boolean, sync: boolean }} opts */
+/** @param {{ cache: boolean; sync: boolean }} opts */
 function getExplorer(opts) {
   // Normalize opts before passing to a memoized function
   opts = { sync: false, cache: false, ...opts };

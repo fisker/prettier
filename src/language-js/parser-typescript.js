@@ -48,9 +48,7 @@ function tryParseTypeScript(text, jsx) {
   });
 }
 
-/**
- * Use a naive regular expression to detect JSX
- */
+/** Use a naive regular expression to detect JSX */
 function isProbablyJsx(text) {
   return new RegExp(
     [

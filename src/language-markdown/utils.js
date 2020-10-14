@@ -37,9 +37,11 @@ const kRegex = new RegExp(kPattern);
 const punctuationRegex = new RegExp(punctuationPattern);
 
 /**
- * split text into whitespaces and words
+ * Split text into whitespaces and words
+ *
  * @param {string} text
- * @return {Array<{ type: "whitespace", value: " " | "\n" | "" } | { type: "word", value: string }>}
+ * @returns {  | { type: "whitespace"; value: " " | "\n" | "" }
+ *   | { type: "word"; value: string }[]}
  */
 function splitText(text, options) {
   const KIND_NON_CJK = "non-cjk";

@@ -12,8 +12,7 @@ const categoryOrder = [
 ];
 
 /**
- * {
- *   [optionName]: {
+ * { [optionName]: {
  *     // The type of the option. For 'choice', see also `choices` below.
  *     // When passing a type other than the ones listed below, the option is
  *     // treated as taking any string as argument, and `--option <${type}>` will
@@ -51,8 +50,9 @@ const categoryOrder = [
  *     // be treated as `redirect` instead, or if you'd like to add description for
  *     // the choice.
  *     choices?: Array<
- *       | string
- *       | { value: string, description?: string, deprecated?: boolean, redirect?: string }
+ *     | string
+ *     | { value: string, description?: string, deprecated?: boolean, redirect?:
+ * string }
  *     >;
  *
  *     // If the option has a value that is an exception to the regular value
@@ -63,9 +63,7 @@ const categoryOrder = [
  *     // Indicate that the option is deprecated. Use a string to add an extra
  *     // message to --help for the option, for example to suggest a replacement
  *     // option.
- *     deprecated?: true | string;
- *   }
- * }
+ *     deprecated?: true | string; } }
  *
  * Note: The options below are sorted alphabetically.
  */

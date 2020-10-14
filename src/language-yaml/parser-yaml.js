@@ -8,10 +8,10 @@ function parse(text) {
     const root = require("yaml-unist-parser").parse(text);
 
     /**
-     * suppress `comment not printed` error
+     * Suppress `comment not printed` error
      *
-     * comments are handled in printer-yaml.js without using `printComment`
-     * so that it'll always throw errors even if we printed it correctly
+     * Comments are handled in printer-yaml.js without using `printComment` so
+     * that it'll always throw errors even if we printed it correctly
      */
     delete root.comments;
 

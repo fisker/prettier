@@ -9,13 +9,15 @@ const notAsciiRegex = /[^\x20-\x7F]/;
 
 const getPenultimate = (arr) => arr[arr.length - 2];
 
-/**
- * @typedef {{backwards?: boolean}} SkipOptions
- */
+/** @typedef {{ backwards?: boolean }} SkipOptions */
 
 /**
  * @param {string | RegExp} chars
- * @returns {(text: string, index: number | false, opts?: SkipOptions) => number | false}
+ * @returns {(
+ *   text: string,
+ *   index: number | false,
+ *   opts?: SkipOptions
+ * ) => number | false}
  */
 function skip(chars) {
   return (text, index, opts) => {
@@ -55,19 +57,35 @@ function skip(chars) {
 }
 
 /**
- * @type {(text: string, index: number | false, opts?: SkipOptions) => number | false}
+ * @type {(
+ *   text: string,
+ *   index: number | false,
+ *   opts?: SkipOptions
+ * ) => number | false}
  */
 const skipWhitespace = skip(/\s/);
 /**
- * @type {(text: string, index: number | false, opts?: SkipOptions) => number | false}
+ * @type {(
+ *   text: string,
+ *   index: number | false,
+ *   opts?: SkipOptions
+ * ) => number | false}
  */
 const skipSpaces = skip(" \t");
 /**
- * @type {(text: string, index: number | false, opts?: SkipOptions) => number | false}
+ * @type {(
+ *   text: string,
+ *   index: number | false,
+ *   opts?: SkipOptions
+ * ) => number | false}
  */
 const skipToLineEnd = skip(",; \t");
 /**
- * @type {(text: string, index: number | false, opts?: SkipOptions) => number | false}
+ * @type {(
+ *   text: string,
+ *   index: number | false,
+ *   opts?: SkipOptions
+ * ) => number | false}
  */
 const skipEverythingButNewLine = skip(/[^\n\r]/);
 
@@ -341,12 +359,9 @@ function getIndentSize(value, tabWidth) {
   );
 }
 
-/**
- * @typedef {'"' | "'"} Quote
- */
+/** @typedef {'"' | "'"} Quote */
 
 /**
- *
  * @param {string} raw
  * @param {Quote} preferredQuote
  * @returns {Quote}
@@ -356,9 +371,9 @@ function getPreferredQuote(raw, preferredQuote) {
   // code, without its enclosing quotes.
   const rawContent = raw.slice(1, -1);
 
-  /** @type {{ quote: '"', regex: RegExp }} */
+  /** @type {{ quote: '"'; regex: RegExp }} */
   const double = { quote: '"', regex: /"/g };
-  /** @type {{ quote: "'", regex: RegExp }} */
+  /** @type {{ quote: "'"; regex: RegExp }} */
   const single = { quote: "'", regex: /'/g };
 
   const preferred = preferredQuote === "'" ? single : double;

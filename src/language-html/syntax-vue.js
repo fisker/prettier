@@ -5,7 +5,7 @@ const {
 } = require("../document");
 
 /**
- *     v-for="... in ..."
+ * V-for="... in ..."
  *     v-for="... of ..."
  *     v-for="(..., ...) in ..."
  *     v-for="(..., ...) of ..."

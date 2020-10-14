@@ -166,10 +166,7 @@ function embed(path, print, textToDoc, options) {
     }
 
     case "TemplateElement": {
-      /**
-       * md`...`
-       * markdown`...`
-       */
+      /** Md`...` markdown`...` */
       if (
         parentParent &&
         parentParent.type === "TaggedTemplateExpression" &&
@@ -351,11 +348,8 @@ function printGraphqlComments(lines) {
 }
 
 /**
- * Template literal in these contexts:
- * <style jsx>{`div{color:red}`}</style>
- * css``
- * css.global``
- * css.resolve``
+ * Template literal in these contexts: <style jsx>{`div{color:red}`}</style>
+ * css`` css.global`` css.resolve``
  */
 function isStyledJsx(path) {
   const node = path.getValue();
@@ -384,17 +378,18 @@ function isStyledJsx(path) {
 }
 
 /**
- * Angular Components can have:
- * - Inline HTML template
- * - Inline CSS styles
+ * Angular Components can have: - Inline HTML template - Inline CSS styles
  *
- * ...which are both within template literals somewhere
- * inside of the Component decorator factory.
+ * ...which are both within template literals somewhere inside of the Component
+ * decorator factory.
  *
  * E.g.
- * @Component({
+ *
+ * @component({
  *  template: `<div>...</div>`,
- *  styles: [`h1 { color: blue; }`]
+ *  styles: [`h1 { color: blue;
+ *
+ *     }`]
  * })
  */
 function isAngularComponentStyles(path) {
@@ -430,9 +425,7 @@ const angularComponentObjectExpressionPredicates = [
   (node, name) => node.type === "Decorator" && name === "expression",
 ];
 
-/**
- * styled-components template literals
- */
+/** Styled-components template literals */
 function isStyledComponents(path) {
   const parent = path.getParentNode();
 
@@ -475,9 +468,7 @@ function isStyledComponents(path) {
   }
 }
 
-/**
- * JSX element with CSS prop
- */
+/** JSX element with CSS prop */
 function isCssProp(path) {
   const parent = path.getParentNode();
   const parentParent = path.getParentNode(1);
@@ -541,7 +532,7 @@ function hasLanguageComment(node, languageName) {
 }
 
 /**
- *     - html`...`
+ * - html`...`
  *     - HTML comment block
  */
 function isHtml(path) {

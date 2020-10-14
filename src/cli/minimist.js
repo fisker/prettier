@@ -6,7 +6,8 @@ const fromPairs = require("lodash/fromPairs");
 const PLACEHOLDER = null;
 
 /**
- * unspecified boolean flag without default value is parsed as `undefined` instead of `false`
+ * Unspecified boolean flag without default value is parsed as `undefined`
+ * instead of `false`
  */
 module.exports = function (args, options) {
   const boolean = options.boolean || [];

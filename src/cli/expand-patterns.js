@@ -5,11 +5,9 @@ const fs = require("fs");
 const fastGlob = require("fast-glob");
 const flat = require("lodash/flatten");
 
-/** @typedef {import('./util').Context} Context */
+/** @typedef {import("./util").Context} Context */
 
-/**
- * @param {Context} context
- */
+/** @param {Context} context */
 function* expandPatterns(context) {
   const cwd = process.cwd();
   const seen = new Set();
@@ -41,9 +39,7 @@ function* expandPatterns(context) {
   }
 }
 
-/**
- * @param {Context} context
- */
+/** @param {Context} context */
 function* expandPatternsInternal(context) {
   // Ignores files in version control systems directories and `node_modules`
   const silentlyIgnoredDirs = {
@@ -63,7 +59,7 @@ function* expandPatternsInternal(context) {
   let supportedFilesGlob;
   const cwd = process.cwd();
 
-  /** @type {Array<{ type: 'file' | 'dir' | 'glob'; glob: string; input: string; }>} */
+  /** @type {{ type: "file" | "dir" | "glob"; glob: string; input: string }[]} */
   const entries = [];
 
   for (const pattern of context.filePatterns) {
@@ -163,15 +159,14 @@ function containsIgnoredPathSegment(absolutePath, cwd, ignoredDirectories) {
     .some((dir) => ignoredDirectories[dir]);
 }
 
-/**
- * @param {string[]} paths
- */
+/** @param {string[]} paths */
 function sortPaths(paths) {
   return paths.sort((a, b) => a.localeCompare(b));
 }
 
 /**
  * Get stats of a given path.
+ *
  * @param {string} filePath The path to target file.
  * @returns {fs.Stats | undefined} The stats.
  */
@@ -187,9 +182,10 @@ function statSafeSync(filePath) {
 }
 
 /**
- * This function should be replaced with `fastGlob.escapePath` when these issues are fixed:
- * - https://github.com/mrmlnc/fast-glob/issues/261
- * - https://github.com/mrmlnc/fast-glob/issues/262
+ * This function should be replaced with `fastGlob.escapePath` when these issues
+ * are fixed: - https://github.com/mrmlnc/fast-glob/issues/261 -
+ * https://github.com/mrmlnc/fast-glob/issues/262
+ *
  * @param {string} path
  */
 function escapePathForGlob(path) {
@@ -208,6 +204,7 @@ const isWindows = path.sep === "\\";
  * backslashes as path separators on Windows is even more not okay.
  * https://github.com/prettier/prettier/pull/6776#discussion_r380723717
  * https://github.com/mrmlnc/fast-glob#how-to-write-patterns-on-windows
+ *
  * @param {string} pattern
  */
 function fixWindowsSlashes(pattern) {

@@ -32,7 +32,7 @@ function clean(ast, newObj, parent) {
       (isFrontMatterNode(parent.nodes[0]) && parent.nodes[1] === ast)
     ) {
       /**
-       * something
+       * Something
        *
        * @format
        */

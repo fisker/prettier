@@ -192,10 +192,7 @@ function markAlignedList(ast, options) {
 
   function isAligned(list) {
     if (!list.ordered) {
-      /**
-       * - 123
-       * - 123
-       */
+      /** - 123 - 123 */
       return true;
     }
 
@@ -205,10 +202,9 @@ function markAlignedList(ast, options) {
 
     if (firstInfo.leadingSpaces.length > 1) {
       /**
-       * 1.   123
-       *
-       * 1.   123
        * 1. 123
+       *
+       * 1. 123 1. 123
        */
       return true;
     }
@@ -219,19 +215,18 @@ function markAlignedList(ast, options) {
       /**
        * 1.
        *
-       * 1.
-       * 1.
+       * 1. 1.
        */
       return false;
     }
 
     if (list.children.length === 1) {
       /**
-       * aligned:
+       * Aligned:
        *
        * 11. 123
        *
-       * not aligned:
+       * Not aligned:
        *
        * 1. 123
        */
@@ -242,33 +237,26 @@ function markAlignedList(ast, options) {
 
     if (firstStart !== secondStart) {
       /**
-       * 11. 123
-       * 1. 123
+       * 11. 123 1. 123
        *
-       * 1. 123
-       * 11. 123
+       * 1. 123 11. 123
        */
       return false;
     }
 
     if (firstStart % options.tabWidth === 0) {
-      /**
-       * 11. 123
-       * 12. 123
-       */
+      /** 11. 123 12. 123 */
       return true;
     }
 
     /**
-     * aligned:
+     * Aligned:
      *
-     * 11. 123
-     * 1.  123
+     * 11. 123 1. 123
      *
-     * not aligned:
+     * Not aligned:
      *
-     * 1. 123
-     * 2. 123
+     * 1. 123 2. 123
      */
     const secondInfo = getOrderedListItemInfo(secondItem, options.originalText);
     return secondInfo.leadingSpaces.length > 1;

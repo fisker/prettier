@@ -253,23 +253,23 @@ function genericPrint(path, options, print) {
         );
       }
       /**
-       * do not break:
+       * Do not break:
        *
        *     <div>{{
-       *         ~
-       *       interpolation
+       *     ~
+       *     interpolation
        *     }}</div>
-       *            ~
+       *     ~
        *
-       * exception: break if the opening tag breaks
+       * Exception: break if the opening tag breaks
        *
        *     <div
-       *       long
-       *           ~
-       *       >{{
-       *         interpolation
-       *       }}</div
-       *              ~
+       *     long
+       *     ~
+       *     >{{
+       *     interpolation
+       *     }}</div
+       *     ~
        *     >
        */
       const shouldHugContent =
@@ -344,11 +344,11 @@ function genericPrint(path, options, print) {
                         }}$`
                       ).test(node.lastChild.value)
                     ? /**
-                       *     <div>
-                       *       <pre>
-                       *         something
-                       *       </pre>
-                       *            ~
+                       * <div>
+                       *     <pre>
+                       *     something
+                       *     </pre>
+                       *     ~
                        *     </div>
                        */
                       ""
@@ -597,27 +597,27 @@ function printChildren(path, options, print) {
       : (needsToBorrowNextOpeningTagStartMarker(prevNode) &&
           (hasPrettierIgnore(nextNode) ||
             /**
-             *     123<a
-             *          ~
-             *       ><b>
+             * 123<a
+             *     ~
+             *     ><b>
              */
             nextNode.firstChild ||
             /**
-             *     123<!--
-             *            ~
+             * 123<!--
+             *     ~
              *     -->
              */
             nextNode.isSelfClosing ||
             /**
-             *     123<span
-             *             ~
-             *       attr
+             * 123<span
+             *     ~
+             *     attr
              */
             (nextNode.type === "element" && nextNode.attrs.length !== 0))) ||
         /**
-         *     <img
-         *       src="long"
-         *                 ~
+         * <img
+         *     src="long"
+         *     ~
          *     />123
          */
         (prevNode.type === "element" &&
@@ -627,10 +627,10 @@ function printChildren(path, options, print) {
       : !nextNode.isLeadingSpaceSensitive ||
         preferHardlineAsLeadingSpaces(nextNode) ||
         /**
-         *       Want to write us a letter? Use our<a
-         *         ><b><a>mailing address</a></b></a
-         *                                          ~
-         *       >.
+         * Want to write us a letter? Use our<a
+         *     ><b><a>mailing address</a></b></a
+         *     ~
+         *     >.
          */
         (needsToBorrowPrevClosingTagEndMarker(nextNode) &&
           prevNode.lastChild &&
@@ -674,8 +674,8 @@ function printAttributes(path, options, print) {
   if (!node.attrs || node.attrs.length === 0) {
     return node.isSelfClosing
       ? /**
-         *     <br />
-         *        ^
+         * <br />
+         *     ^
          */
         " "
       : "";
@@ -726,17 +726,17 @@ function printAttributes(path, options, print) {
 
   if (
     /**
-     *     123<a
-     *       attr
-     *           ~
-     *       >456
+     * 123<a
+     *     attr
+     *     ~
+     *     >456
      */
     (node.firstChild &&
       needsToBorrowParentOpeningTagEndMarker(node.firstChild)) ||
     /**
-     *     <span
-     *       >123<meta
-     *                ~
+     * <span
+     *     >123<meta
+     *     ~
      *     /></span>
      */
     (node.isSelfClosing &&
@@ -809,8 +809,8 @@ function printClosingTagEnd(node, options) {
 
 function needsToBorrowNextOpeningTagStartMarker(node) {
   /**
-   *     123<p
-   *        ^^
+   * 123<p
+   *     ^^
    *     >
    */
   return (
@@ -824,20 +824,20 @@ function needsToBorrowNextOpeningTagStartMarker(node) {
 
 function needsToBorrowParentOpeningTagEndMarker(node) {
   /**
-   *     <p
-   *       >123
-   *       ^
+   * <p
+   *     >123
+   *     ^
    *
    *     <p
-   *       ><a
-   *       ^
+   *     ><a
+   *     ^
    */
   return !node.prev && node.isLeadingSpaceSensitive && !node.hasLeadingSpaces;
 }
 
 function needsToBorrowPrevClosingTagEndMarker(node) {
   /**
-   *     <p></p
+   * <p></p
    *     >123
    *     ^
    *
@@ -856,10 +856,10 @@ function needsToBorrowPrevClosingTagEndMarker(node) {
 
 function needsToBorrowLastChildClosingTagEndMarker(node) {
   /**
-   *     <p
-   *       ><a></a
-   *       ></p
-   *       ^
+   * <p
+   *     ><a></a
+   *     ></p
+   *     ^
    *     >
    */
   return (
@@ -873,14 +873,14 @@ function needsToBorrowLastChildClosingTagEndMarker(node) {
 
 function needsToBorrowParentClosingTagStartMarker(node) {
   /**
-   *     <p>
-   *       123</p
-   *          ^^^
+   * <p>
+   *     123</p
+   *     ^^^
    *     >
    *
-   *         123</b
-   *       ></a
-   *        ^^^
+   *     123</b
+   *     ></a
+   *     ^^^
    *     >
    */
   return (
@@ -1088,20 +1088,20 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
     }
 
     /**
-     *     @click="jsStatement"
-     *     @click="jsExpression"
-     *     v-on:click="jsStatement"
+     * @click="jsstatement"
+     * @click="jsexpression"
+     *  v-on:click="jsStatement"
+     *
+     *
      *     v-on:click="jsExpression"
      */
     const vueEventBindingPatterns = ["^@", "^v-on:"];
     /**
-     *     :class="vueExpression"
+     * :class="vueExpression"
      *     v-bind:id="vueExpression"
      */
     const vueExpressionBindingPatterns = ["^:", "^v-bind:"];
-    /**
-     *     v-if="jsExpression"
-     */
+    /** V-if="jsExpression" */
     const jsExpressionBindingPatterns = ["^v-", "^#"];
 
     if (isKeyMatched(vueEventBindingPatterns)) {
@@ -1149,17 +1149,15 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
         { stripTrailingHardline: true }
       );
 
-    /**
-     *     *directive="angularDirective"
-     */
+    /** *directive="angularDirective" */
     const ngDirectiveBindingPatterns = ["^\\*"];
     /**
-     *     (click)="angularStatement"
+     * (click)="angularStatement"
      *     on-click="angularStatement"
      */
     const ngStatementBindingPatterns = ["^\\(.+\\)$", "^on-"];
     /**
-     *     [target]="angularExpression"
+     * [target]="angularExpression"
      *     bind-target="angularExpression"
      *     [(target)]="angularExpression"
      *     bindon-target="angularExpression"
@@ -1171,7 +1169,7 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
       "^ng-(if|show|hide|class|style)$",
     ];
     /**
-     *     i18n="longDescription"
+     * I18n="longDescription"
      *     i18n-attr="longDescription"
      */
     const ngI18nPatterns = ["^i18n(-.+)?$"];

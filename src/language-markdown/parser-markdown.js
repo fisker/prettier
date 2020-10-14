@@ -10,18 +10,17 @@ const { mapAst, INLINE_NODE_WRAPPER_TYPES } = require("./utils");
 const mdx = require("./mdx");
 
 /**
- * based on [MDAST](https://github.com/syntax-tree/mdast) with following modifications:
+ * Based on [MDAST](https://github.com/syntax-tree/mdast) with following
+ * modifications:
  *
- * 1. restore unescaped character (Text)
- * 2. merge continuous Texts
- * 3. replace whitespaces in InlineCode#value with one whitespace
- *    reference: http://spec.commonmark.org/0.25/#example-605
- * 4. split Text into Sentence
+ * 1. restore unescaped character (Text) 2. merge continuous Texts 3. replace
+ * whitespaces in InlineCode#value with one whitespace
+ *     reference: http://spec.commonmark.org/0.25/#example-605 4. split Text into
+ * Sentence
  *
- * interface Word { value: string }
- * interface Whitespace { value: string }
- * interface Sentence { children: Array<Word | Whitespace> }
- * interface InlineCode { children: Array<Sentence> }
+ * Interface Word { value: string } interface Whitespace { value: string }
+ * interface Sentence { children: Array<Word | Whitespace> } interface
+ * InlineCode { children: Array<Sentence> }
  */
 function createParse({ isMDX }) {
   return (text) => {

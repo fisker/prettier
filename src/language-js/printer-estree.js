@@ -259,7 +259,7 @@ function printPathNoParens(path, options, print, args) {
     return htmlBinding;
   }
 
-  /** @type{Doc[]} */
+  /** @type{doc[]} */
   let parts = [];
 
   switch (n.type) {
@@ -3731,12 +3731,7 @@ function printMethodInternal(path, options, print) {
 }
 
 function printJestEachTemplateLiteral(path, options, print) {
-  /**
-   * a    | b    | expected
-   * ${1} | ${1} | ${2}
-   * ${1} | ${2} | ${3}
-   * ${2} | ${1} | ${3}
-   */
+  /** A | b | expected ${1} | ${1} | ${2} ${1} | ${2} | ${3} ${2} | ${1} | ${3} */
   const node = path.getNode();
   const headerNames = node.quasis[0].value.raw.trim().split(/\s*\|\s*/);
   if (
@@ -4091,7 +4086,7 @@ function printExportDeclaration(path, options, print) {
 
   const semi = options.semi ? ";" : "";
 
-  /** @type{Doc[]} */
+  /** @type{doc[]} */
   const parts = ["export "];
 
   const isDefault = decl.default || decl.type === "ExportDefaultDeclaration";
@@ -4861,7 +4856,7 @@ function printBinaryishExpressions(
   isNested,
   isInsideParenthesis
 ) {
-  /** @type{Doc[]} */
+  /** @type{doc[]} */
   let parts = [];
 
   const node = path.getValue();

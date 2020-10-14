@@ -279,9 +279,9 @@ module.exports = {
     },
     /** @internal */
     __js_expression: babelExpression,
-    /** for vue filter */
+    /** For vue filter */
     __vue_expression: babelExpression,
-    /** for vue event binding to handle semicolon */
+    /** For vue event binding to handle semicolon */
     __vue_event_binding: babel,
   },
 };

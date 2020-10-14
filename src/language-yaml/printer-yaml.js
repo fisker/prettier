@@ -593,22 +593,12 @@ function shouldPrintDocumentBody(document) {
 
 function shouldPrintDocumentEndMarker(document, nextDocument) {
   return (
-    /**
-     *... # trailingComment
-     */
+    /** ... # trailingComment */
     hasTrailingComment(document) ||
     (nextDocument &&
-      /**
-       * ...
-       * %DIRECTIVE
-       * ---
-       */
+      /** ... %DIRECTIVE --- */
       (nextDocument.head.children.length !== 0 ||
-        /**
-         * ...
-         * # endComment
-         * ---
-         */
+        /** ... # endComment --- */
         hasEndComments(nextDocument.head)))
   );
 }
@@ -620,10 +610,7 @@ function shouldPrintDocumentHeadEndMarker(
   options
 ) {
   if (
-    /**
-     * ---
-     * preserve the first document head end marker
-     */
+    /** --- preserve the first document head end marker */
     (root.children[0] === document &&
       /---(\s|$)/.test(
         options.originalText.slice(
@@ -631,19 +618,11 @@ function shouldPrintDocumentHeadEndMarker(
           options.locStart(document) + 4
         )
       )) ||
-    /**
-     * %DIRECTIVE
-     * ---
-     */
+    /** %DIRECTIVE --- */
     document.head.children.length !== 0 ||
-    /**
-     * # end comment
-     * ---
-     */
+    /** # end comment --- */
     hasEndComments(document.head) ||
-    /**
-     * --- # trailing comment
-     */
+    /** --- # trailing comment */
     hasTrailingComment(document.head)
   ) {
     return "head";

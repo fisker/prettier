@@ -996,9 +996,7 @@ function pushContextPlugins(context, plugins, pluginSearchDirs) {
   updateContextOptions(context, plugins, pluginSearchDirs);
 }
 
-/**
- * @param {Context} context
- */
+/** @param {Context} context */
 function popContextPlugins(context) {
   Object.assign(context, context.stack.pop());
 }

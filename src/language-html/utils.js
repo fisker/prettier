@@ -128,7 +128,7 @@ function getPrettierIgnoreAttributeCommentData(value) {
   return match[1].split(/\s+/);
 }
 
-/** there's no opening/closing tag or it's considered not breakable */
+/** There's no opening/closing tag or it's considered not breakable */
 function isTextLikeNode(node) {
   return node.type === "text" || node.type === "comment";
 }
@@ -276,7 +276,7 @@ function forceNextEmptyLine(node) {
   );
 }
 
-/** firstChild leadingSpaces and lastChild trailingSpaces */
+/** FirstChild leadingSpaces and lastChild trailingSpaces */
 function forceBreakContent(node) {
   return (
     forceBreakChildren(node) ||
@@ -293,7 +293,7 @@ function forceBreakContent(node) {
   );
 }
 
-/** spaces between children */
+/** Spaces between children */
 function forceBreakChildren(node) {
   return (
     node.type === "element" &&

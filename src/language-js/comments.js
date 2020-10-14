@@ -941,7 +941,7 @@ function isBlockComment(comment) {
 /**
  * @param {any} node
  * @param {(comment: any) => boolean} fn
- * @returns boolean
+ * @returns Boolean
  */
 function hasLeadingComment(node, fn = () => true) {
   if (node.leadingComments) {

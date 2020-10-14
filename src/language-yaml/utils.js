@@ -157,9 +157,7 @@ function hasEndComments(node) {
   return node && node.endComments && node.endComments.length !== 0;
 }
 
-/**
- * " a   b c   d e   f " -> [" a   b", "c   d", "e   f "]
- */
+/** " a b c d e f " -> [" a b", "c d", "e f "] */
 function splitWithSingleSpace(text) {
   const parts = [];
 

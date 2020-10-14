@@ -1,8 +1,6 @@
 "use strict";
 
-/**
- * @typedef {import("./doc-builders").Doc} Doc
- */
+/** @typedef {import("./doc-builders").Doc} Doc */
 
 module.exports = {
   builders: require("./doc-builders"),

@@ -12,8 +12,10 @@ const coreOptions = require("./core-options").options;
 /**
  * Strings in `plugins` and `pluginSearchDirs` are handled by a wrapped version
  * of this function created by `withPlugins`. Don't pass them here directly.
+ *
  * @param {object} param0
- * @param {(string | object)[]=} param0.plugins Strings are resolved by `withPlugins`.
+ * @param {(string | object)[]=} param0.plugins Strings are resolved by
+ *     `withPlugins`.
  * @param {string[]=} param0.pluginSearchDirs Added by `withPlugins`.
  * @param {boolean=} param0.showUnreleased
  * @param {boolean=} param0.showDeprecated
