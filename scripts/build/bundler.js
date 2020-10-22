@@ -1,20 +1,22 @@
 "use strict";
 
-const execa = require("execa");
 const path = require("path");
+const execa = require("execa");
 const { rollup } = require("rollup");
 const webpack = require("webpack");
-const resolve = require("@rollup/plugin-node-resolve");
-const alias = require("@rollup/plugin-alias");
+const { nodeResolve } = require("@rollup/plugin-node-resolve");
+const rollupPluginAlias = require("@rollup/plugin-alias");
 const commonjs = require("@rollup/plugin-commonjs");
 const nodePolyfills = require("rollup-plugin-node-polyfills");
 const json = require("@rollup/plugin-json");
 const replace = require("@rollup/plugin-replace");
 const { terser } = require("rollup-plugin-terser");
-const babel = require("rollup-plugin-babel");
+const { babel } = require("@rollup/plugin-babel");
 const executable = require("./rollup-plugins/executable");
 const evaluate = require("./rollup-plugins/evaluate");
 const externals = require("./rollup-plugins/externals");
+
+const PROJECT_ROOT = path.resolve(__dirname, "../..");
 
 const EXTERNALS = [
   "assert",
@@ -31,9 +33,25 @@ const EXTERNALS = [
   "util",
   "readline",
   "tty",
+];
 
-  // See comment in jest.config.js
-  "graceful-fs",
+const entries = [
+  // Force using the CJS file, instead of ESM; i.e. get the file
+  // from `"main"` instead of `"module"` (rollup default) of package.json
+  {
+    find: "outdent",
+    replacement: require.resolve("outdent"),
+  },
+  {
+    find: "lines-and-columns",
+    replacement: require.resolve("lines-and-columns"),
+  },
+  {
+    find: "@angular/compiler/src",
+    replacement: path.resolve(
+      `${PROJECT_ROOT}/node_modules/@angular/compiler/esm2015/src`
+    ),
+  },
 ];
 
 function getBabelConfig(bundle) {
@@ -112,10 +130,22 @@ function getRollupConfig(bundle) {
     // We can't reference `process` in UMD bundles and this is
     // an undocumented "feature"
     replaceStrings["process.env.PRETTIER_DEBUG"] = "global.PRETTIER_DEBUG";
+    // `rollup-plugin-node-globals` replace `__dirname` with the real dirname
+    // `parser-typescript.js` will contain a path of working directory
+    // See #8268
+    replaceStrings.__filename = JSON.stringify(
+      "/prettier-security-filename-placeholder.js"
+    );
+    replaceStrings.__dirname = JSON.stringify(
+      "/prettier-security-dirname-placeholder"
+    );
   }
   Object.assign(replaceStrings, bundle.replace);
 
-  const babelConfig = getBabelConfig(bundle);
+  const babelConfig = { babelHelpers: "bundled", ...getBabelConfig(bundle) };
+
+  const alias = { ...bundle.alias };
+  alias.entries = [...entries, ...(alias.entries || [])];
 
   config.plugins = [
     replace({
@@ -125,21 +155,32 @@ function getRollupConfig(bundle) {
     executable(),
     evaluate(),
     json(),
-    bundle.alias && alias(bundle.alias),
-    resolve({
+    rollupPluginAlias(alias),
+    nodeResolve({
       extensions: [".js", ".json"],
       preferBuiltins: bundle.target === "node",
     }),
     commonjs({
       ignoreGlobal: bundle.target === "node",
       ...bundle.commonjs,
+      ignore:
+        bundle.type === "plugin"
+          ? undefined
+          : (id) => /\.\/parser-.*?/.test(id),
+      requireReturnsDefault: "preferred",
     }),
     externals(bundle.externals),
     bundle.target === "universal" && nodePolyfills({
-exclude: ["inspector"]
-}),
-    babelConfig && babel(babelConfig),
-    bundle.type === "plugin" && terser(),
+      exclude: ["inspector"]
+    }),
+    babel(babelConfig),
+    bundle.minify !== false &&
+      bundle.target === "universal" &&
+      terser({
+        output: {
+          ascii_only: true,
+        },
+      }),
   ].filter(Boolean);
 
   if (bundle.target === "node") {
@@ -151,19 +192,33 @@ exclude: ["inspector"]
 
 function getRollupOutputOptions(bundle) {
   const options = {
+    // Avoid warning form #8797
+    exports: "auto",
     file: `dist/${bundle.output}`,
-    strict: typeof bundle.strict === "undefined" ? true : bundle.strict,
-    paths: [{ "graceful-fs": "fs" }],
   };
 
   if (bundle.target === "node") {
     options.format = "cjs";
   } else if (bundle.target === "universal") {
-    options.format = "umd";
     options.name =
       bundle.type === "plugin" ? `prettierPlugins.${bundle.name}` : bundle.name;
+
+    if (!bundle.format && bundle.bundler !== "webpack") {
+      return [
+        {
+          ...options,
+          format: "umd",
+        },
+        {
+          ...options,
+          format: "esm",
+          file: `dist/esm/${bundle.output.replace(".js", ".mjs")}`,
+        },
+      ];
+    }
+    options.format = bundle.format;
   }
-  return options;
+  return [options];
 }
 
 function getWebpackConfig(bundle) {
@@ -218,32 +273,47 @@ function runWebpack(config) {
   });
 }
 
+async function checkCache(cache, inputOptions, outputOption) {
+  const useCache = await cache.checkBundle(
+    outputOption.file,
+    inputOptions,
+    outputOption
+  );
+
+  if (useCache) {
+    try {
+      await execa("cp", [
+        path.join(cache.cacheDir, outputOption.file.replace("dist", "files")),
+        outputOption.file,
+      ]);
+      return true;
+    } catch (err) {
+      console.log(err);
+      // Proceed to build
+    }
+  }
+
+  return false;
+}
+
 module.exports = async function createBundle(bundle, cache) {
   const inputOptions = getRollupConfig(bundle);
   const outputOptions = getRollupOutputOptions(bundle);
 
-  const useCache = await cache.checkBundle(
-    bundle.output,
-    inputOptions,
-    outputOptions
+  const checkCacheResults = await Promise.all(
+    outputOptions.map((outputOption) =>
+      checkCache(cache, inputOptions, outputOption)
+    )
   );
-  if (useCache) {
-    try {
-      await execa("cp", [
-        path.join(cache.cacheDir, "files", bundle.output),
-        "dist",
-      ]);
-      return { cached: true };
-    } catch (err) {
-      // Proceed to build
-    }
+  if (checkCacheResults.every((r) => r === true)) {
+    return { cached: true };
   }
 
   if (bundle.bundler === "webpack") {
     await runWebpack(getWebpackConfig(bundle));
   } else {
     const result = await rollup(inputOptions);
-    await result.write(outputOptions);
+    await Promise.all(outputOptions.map((option) => result.write(option)));
   }
 
   return { bundled: true };
