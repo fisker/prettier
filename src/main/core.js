@@ -44,7 +44,7 @@ function coreFormat(text, opts, addAlignmentSize) {
   addAlignmentSize = addAlignmentSize || 0;
 
   const parsed = parser.parse(text, opts);
-  const { ast } = parsed;
+  let { ast } = parsed;
   text = parsed.text;
 
   if (opts.cursorOffset >= 0) {
@@ -55,6 +55,7 @@ function coreFormat(text, opts, addAlignmentSize) {
   }
 
   const astComments = attachComments(text, ast, opts);
+  ast = Object.freeze(ast);
   const doc = printAstToDoc(ast, opts, addAlignmentSize);
 
   const result = printDocToString(doc, opts);
