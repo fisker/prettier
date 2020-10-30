@@ -51,7 +51,7 @@ function handleOwnLineComment(comment, text, options, ast, isLastComment) {
     handleClassComments(enclosingNode, precedingNode, followingNode, comment) ||
     handleImportSpecifierComments(enclosingNode, comment) ||
     handleForComments(enclosingNode, precedingNode, comment) ||
-    handleUnionTypeComments(
+    handleUnionAndIntersectionTypeComments(
       precedingNode,
       enclosingNode,
       followingNode,
@@ -737,7 +737,7 @@ function handleCallExpressionComments(precedingNode, enclosingNode, comment) {
   return false;
 }
 
-function handleUnionTypeComments(
+function handleUnionAndIntersectionTypeComments(
   precedingNode,
   enclosingNode,
   followingNode,
@@ -745,8 +745,10 @@ function handleUnionTypeComments(
 ) {
   if (
     enclosingNode &&
-    (enclosingNode.type === "UnionTypeAnnotation" ||
-      enclosingNode.type === "TSUnionType")
+    (enclosingNode.type === "TSUnionType" ||
+      enclosingNode.type === "UnionTypeAnnotation" ||
+      enclosingNode.type === "TSIntersectionType" ||
+      enclosingNode.type === "IntersectionTypeAnnotation")
   ) {
     if (isNodeIgnoreComment(comment)) {
       followingNode.prettierIgnore = true;
@@ -761,8 +763,10 @@ function handleUnionTypeComments(
 
   if (
     followingNode &&
-    (followingNode.type === "UnionTypeAnnotation" ||
-      followingNode.type === "TSUnionType") &&
+    (followingNode.type === "TSUnionType" ||
+      followingNode.type === "UnionTypeAnnotation" ||
+      followingNode.type === "TSIntersectionType" ||
+      followingNode.type === "IntersectionTypeAnnotation") &&
     isNodeIgnoreComment(comment)
   ) {
     followingNode.types[0].prettierIgnore = true;

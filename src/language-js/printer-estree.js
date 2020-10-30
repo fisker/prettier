@@ -2722,34 +2722,10 @@ function printPathNoParens(path, options, print, args) {
         path.call(print, "expression"),
         path.call(print, "typeParameters"),
       ]);
+    case "TSUnionType":
+    case "UnionTypeAnnotation":
     case "TSIntersectionType":
     case "IntersectionTypeAnnotation": {
-      const types = path.map(print, "types");
-      const result = [];
-      let wasIndented = false;
-      for (let i = 0; i < types.length; ++i) {
-        if (i === 0) {
-          result.push(types[i]);
-        } else if (isObjectType(n.types[i - 1]) && isObjectType(n.types[i])) {
-          // If both are objects, don't indent
-          result.push(
-            concat([" & ", wasIndented ? indent(types[i]) : types[i]])
-          );
-        } else if (!isObjectType(n.types[i - 1]) && !isObjectType(n.types[i])) {
-          // If no object is involved, go to the next line if it breaks
-          result.push(indent(concat([" &", line, types[i]])));
-        } else {
-          // If you go from object to non-object or vis-versa, then inline it
-          if (i > 1) {
-            wasIndented = true;
-          }
-          result.push(" & ", i > 1 ? indent(types[i]) : types[i]);
-        }
-      }
-      return group(concat(result));
-    }
-    case "TSUnionType":
-    case "UnionTypeAnnotation": {
       // single-line variation
       // A | B | C
 
@@ -2758,6 +2734,10 @@ function printPathNoParens(path, options, print, args) {
       // | B
       // | C
 
+      const operator =
+        n.type === "TSUnionType" || n.type === "UnionTypeAnnotation"
+          ? "|"
+          : "&";
       const parent = path.getParentNode();
 
       // If there's a leading comment, the parent is doing the indentation
@@ -2800,7 +2780,7 @@ function printPathNoParens(path, options, print, args) {
       }, "types");
 
       if (shouldHug) {
-        return join(" | ", printed);
+        return join(` ${operator} `, printed);
       }
 
       const shouldAddStartLine =
@@ -2808,8 +2788,8 @@ function printPathNoParens(path, options, print, args) {
         !hasLeadingOwnLineComment(options.originalText, n, options);
 
       const code = concat([
-        ifBreak(concat([shouldAddStartLine ? line : "", "| "])),
-        join(concat([line, "| "]), printed),
+        ifBreak(concat([shouldAddStartLine ? line : "", `${operator} `])),
+        join(concat([line, `${operator} `]), printed),
       ]);
 
       if (pathNeedsParens(path, options)) {
@@ -4001,8 +3981,9 @@ function printFunctionParameters(
     (isObjectTypePropertyAFunction(parent, options) ||
       isTypeAnnotationAFunction(parent, options) ||
       parent.type === "TypeAlias" ||
-      parent.type === "UnionTypeAnnotation" ||
       parent.type === "TSUnionType" ||
+      parent.type === "UnionTypeAnnotation" ||
+      parent.type === "TSIntersectionType" ||
       parent.type === "IntersectionTypeAnnotation" ||
       (parent.type === "FunctionTypeAnnotation" &&
         parent.returnType === functionNode)) &&
@@ -4226,7 +4207,7 @@ function printTypeParameters(path, options, print, paramsKey) {
     isParameterInTestCall ||
     n[paramsKey].length === 0 ||
     (n[paramsKey].length === 1 &&
-      (shouldHugType(n[paramsKey][0]) ||
+      (shouldHugType(n[paramsKey][0], /* isTypeParamter */ true) ||
         (n[paramsKey][0].type === "GenericTypeAnnotation" &&
           shouldHugType(n[paramsKey][0].id)) ||
         (n[paramsKey][0].type === "TSTypeReference" &&
@@ -5129,12 +5110,25 @@ function stmtNeedsASIProtection(path, options) {
   );
 }
 
-function shouldHugType(node) {
+function shouldHugType(node, isTypeParamter) {
   if (isSimpleFlowType(node) || isObjectType(node)) {
     return true;
   }
 
-  if (node.type === "UnionTypeAnnotation" || node.type === "TSUnionType") {
+  if (
+    !isTypeParamter &&
+    (node.type === "TSIntersectionType" ||
+      node.type === "IntersectionTypeAnnotation")
+  ) {
+    return true;
+  }
+
+  if (
+    node.type === "TSUnionType" ||
+    node.type === "UnionTypeAnnotation" ||
+    node.type === "TSIntersectionType" ||
+    node.type === "IntersectionTypeAnnotation"
+  ) {
     const voidCount = node.types.filter(
       (n) =>
         n.type === "VoidTypeAnnotation" ||
@@ -5289,14 +5283,18 @@ function willPrintOwnComments(path /*, options */) {
       (parent &&
         (parent.type === "JSXSpreadAttribute" ||
           parent.type === "JSXSpreadChild" ||
-          parent.type === "UnionTypeAnnotation" ||
           parent.type === "TSUnionType" ||
+          parent.type === "UnionTypeAnnotation" ||
+          parent.type === "TSIntersectionType" ||
+          parent.type === "IntersectionTypeAnnotation" ||
           ((parent.type === "ClassDeclaration" ||
             parent.type === "ClassExpression") &&
             parent.superClass === node)))) &&
     (!hasIgnoreComment(path) ||
+      parent.type === "TSUnionType" ||
       parent.type === "UnionTypeAnnotation" ||
-      parent.type === "TSUnionType")
+      parent.type === "TSIntersectionType" ||
+      parent.type === "IntersectionTypeAnnotation")
   );
 }
 
