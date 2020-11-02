@@ -15,7 +15,7 @@ const {
 } = require("../common/end-of-line");
 const normalizeOptions = require("./options").normalize;
 const massageAST = require("./massage-ast");
-const comments = require("./comments");
+const { attach, ensureAllCommentsPrinted } = require("./comments");
 const parser = require("./parser");
 const printAstToDoc = require("./ast-to-doc");
 const rangeUtil = require("./range-util");
@@ -24,16 +24,16 @@ const BOM = "\uFEFF";
 
 const CURSOR = Symbol("cursor");
 
-function attachComments(text, ast, opts) {
-  const astComments = ast.comments;
-  if (astComments) {
-    delete ast.comments;
-    comments.attach(astComments, ast, text, opts);
-  }
-  opts[Symbol.for("comments")] = astComments || [];
-  opts[Symbol.for("tokens")] = ast.tokens || [];
-  opts.originalText = text;
-  return astComments;
+function attachComments(text, ast, options) {
+  const { comments = [], tokens = [] } = ast;
+  options.originalText = text;
+  options[Symbol.for("comments")] = comments;
+  options[Symbol.for("tokens")] = tokens;
+  options[Symbol.for("attachedComments")] = new Map();
+  delete ast.comments;
+  delete ast.tokens;
+  attach(comments, ast, text, options);
+  return comments;
 }
 
 function coreFormat(originalText, opts, addAlignmentSize) {
@@ -57,7 +57,7 @@ function coreFormat(originalText, opts, addAlignmentSize) {
 
   const result = printDocToString(doc, opts);
 
-  comments.ensureAllCommentsPrinted(astComments);
+  ensureAllCommentsPrinted(astComments);
   // Remove extra leading indentation as well as the added indentation after last newline
   if (addAlignmentSize > 0) {
     const trimmed = result.formatted.trim();
