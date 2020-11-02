@@ -34,12 +34,10 @@ function concat(parts) {
     parts.forEach(assertDoc);
   }
 
-  // We cannot do this until we change `printJSXElement` to not
-  // access the internals of a document directly.
-  // if(parts.length === 1) {
-  //   // If it's a single document, no need to concat it.
-  //   return parts[0];
-  // }
+  if (parts.length === 1) {
+    // If it's a single document, no need to concat it.
+    return parts[0];
+  }
   return { type: "concat", parts };
 }
 
