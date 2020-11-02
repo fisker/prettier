@@ -3,7 +3,6 @@
 const ignoredProperties = new Set([
   "range",
   "raw",
-  "comments",
   "leadingComments",
   "trailingComments",
   "innerComments",
@@ -19,6 +18,13 @@ const ignoredProperties = new Set([
 function clean(ast, newObj, parent) {
   if (ast.type === "Program") {
     delete newObj.sourceType;
+  }
+
+  if (ast.type === "Line" || ast.type === "CommentLine") {
+    newObj.value = newObj.value.trimEnd();
+  }
+  if ( ast.type === "Block" || ast.type === "CommentBlock") {
+    newObj.value = newObj.value.split("\n").map(line => line.trim()).join("\n");
   }
 
   if (
