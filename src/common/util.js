@@ -578,8 +578,13 @@ function isNodeIgnoreComment(comment) {
   return comment.value.trim() === "prettier-ignore";
 }
 
-function addCommentHelper(node, comment) {
+function addCommentHelper(node, comment, options) {
+  const { [Symbol.for("attachedComments")]: attachedComments } = options;
   const comments = node.comments || (node.comments = []);
+  if (!attachedComments.has(node)) {
+    attachedComments.set(node, comments);
+  }
+
   comments.push(comment);
   comment.printed = false;
 
@@ -592,25 +597,25 @@ function addCommentHelper(node, comment) {
   }
 }
 
-function addLeadingComment(node, comment) {
+function addLeadingComment(node, comment, options) {
   comment.leading = true;
   comment.trailing = false;
-  addCommentHelper(node, comment);
+  addCommentHelper(node, comment, options);
 }
 
-function addDanglingComment(node, comment, marker) {
+function addDanglingComment(node, comment, options, marker) {
   comment.leading = false;
   comment.trailing = false;
   if (marker) {
     comment.marker = marker;
   }
-  addCommentHelper(node, comment);
+  addCommentHelper(node, comment, options);
 }
 
-function addTrailingComment(node, comment) {
+function addTrailingComment(node, comment, options) {
   comment.leading = false;
   comment.trailing = true;
-  addCommentHelper(node, comment);
+  addCommentHelper(node, comment, options);
 }
 
 function replaceEndOfLineWith(text, replacement) {

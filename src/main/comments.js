@@ -187,11 +187,11 @@ function attach(comments, ast, text, options) {
       options.parser === "__vue_expression"
     ) {
       if (locStart(comment) - locStart(ast) <= 0) {
-        addLeadingComment(ast, comment);
+        addLeadingComment(ast, comment, options);
         return;
       }
       if (locEnd(comment) - locEnd(ast) >= 0) {
-        addTrailingComment(ast, comment);
+        addTrailingComment(ast, comment, options);
         return;
       }
     }
@@ -223,11 +223,11 @@ function attach(comments, ast, text, options) {
         // We're good
       } else if (followingNode) {
         // Always a leading comment.
-        addLeadingComment(followingNode, comment);
+        addLeadingComment(followingNode, comment, options);
       } else if (precedingNode) {
-        addTrailingComment(precedingNode, comment);
+        addTrailingComment(precedingNode, comment, options);
       } else if (enclosingNode) {
-        addDanglingComment(enclosingNode, comment);
+        addDanglingComment(enclosingNode, comment, options);
       } else {
         // There are no nodes, let's attach it to the root of the ast
         /* istanbul ignore next */
@@ -241,11 +241,11 @@ function attach(comments, ast, text, options) {
       } else if (precedingNode) {
         // There is content before this comment on the same line, but
         // none after it, so prefer a trailing comment of the previous node.
-        addTrailingComment(precedingNode, comment);
+        addTrailingComment(precedingNode, comment, options);
       } else if (followingNode) {
-        addLeadingComment(followingNode, comment);
+        addLeadingComment(followingNode, comment, options);
       } else if (enclosingNode) {
-        addDanglingComment(enclosingNode, comment);
+        addDanglingComment(enclosingNode, comment, options);
       } else {
         // There are no nodes, let's attach it to the root of the ast
         /* istanbul ignore next */
@@ -271,15 +271,15 @@ function attach(comments, ast, text, options) {
         }
         tiesToBreak.push(comment);
       } else if (precedingNode) {
-        addTrailingComment(precedingNode, comment);
+        addTrailingComment(precedingNode, comment, options);
       } else if (followingNode) {
-        addLeadingComment(followingNode, comment);
+        addLeadingComment(followingNode, comment, options);
       } else if (enclosingNode) {
-        addDanglingComment(enclosingNode, comment);
+        addDanglingComment(enclosingNode, comment, options);
       } else {
         // There are no nodes, let's attach it to the root of the ast
         /* istanbul ignore next */
-        addDanglingComment(ast, comment);
+        addDanglingComment(ast, comment, options);
       }
     }
   }

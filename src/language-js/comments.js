@@ -48,16 +48,23 @@ function handleOwnLineComment(comment, text, options, ast, isLastComment) {
       followingNode,
       comment
     ) ||
-    handleClassComments(enclosingNode, precedingNode, followingNode, comment) ||
-    handleImportSpecifierComments(enclosingNode, comment) ||
-    handleForComments(enclosingNode, precedingNode, comment) ||
+    handleClassComments(
+      enclosingNode,
+      precedingNode,
+      followingNode,
+      comment,
+      options
+    ) ||
+    handleImportSpecifierComments(enclosingNode, comment, options) ||
+    handleForComments(enclosingNode, precedingNode, comment, options) ||
     handleUnionTypeComments(
       precedingNode,
       enclosingNode,
       followingNode,
-      comment
+      comment,
+      options
     ) ||
-    handleOnlyComments(enclosingNode, ast, comment, isLastComment) ||
+    handleOnlyComments(enclosingNode, ast, comment, isLastComment, options) ||
     handleImportDeclarationComments(
       text,
       enclosingNode,
@@ -65,7 +72,7 @@ function handleOwnLineComment(comment, text, options, ast, isLastComment) {
       comment,
       options
     ) ||
-    handleAssignmentPatternComments(enclosingNode, comment) ||
+    handleAssignmentPatternComments(enclosingNode, comment, options) ||
     handleMethodNameComments(
       text,
       enclosingNode,
@@ -73,7 +80,7 @@ function handleOwnLineComment(comment, text, options, ast, isLastComment) {
       comment,
       options
     ) ||
-    handleLabeledStatementComments(enclosingNode, comment)
+    handleLabeledStatementComments(enclosingNode, comment, options)
   );
 }
 
@@ -121,12 +128,22 @@ function handleEndOfLineComment(comment, text, options, ast, isLastComment) {
       comment
     ) ||
     handleClassComments(enclosingNode, precedingNode, followingNode, comment) ||
-    handleLabeledStatementComments(enclosingNode, comment) ||
-    handleCallExpressionComments(precedingNode, enclosingNode, comment) ||
-    handlePropertyComments(enclosingNode, comment) ||
+    handleLabeledStatementComments(enclosingNode, comment, options) ||
+    handleCallExpressionComments(
+      precedingNode,
+      enclosingNode,
+      comment,
+      options
+    ) ||
+    handlePropertyComments(enclosingNode, comment, options) ||
     handleOnlyComments(enclosingNode, ast, comment, isLastComment) ||
-    handleTypeAliasComments(enclosingNode, followingNode, comment) ||
-    handleVariableDeclaratorComments(enclosingNode, followingNode, comment)
+    handleTypeAliasComments(enclosingNode, followingNode, comment, options) ||
+    handleVariableDeclaratorComments(
+      enclosingNode,
+      followingNode,
+      comment,
+      options
+    )
   );
 }
 
@@ -173,9 +190,10 @@ function handleRemainingComment(comment, text, options, ast, isLastComment) {
       enclosingNode,
       precedingNode,
       followingNode,
-      comment
+      comment,
+      options
     ) ||
-    handleBreakAndContinueStatementComments(enclosingNode, comment) ||
+    handleBreakAndContinueStatementComments(enclosingNode, comment, options) ||
     handleTSFunctionTrailingComments(
       text,
       enclosingNode,
@@ -447,7 +465,8 @@ function handleClassComments(
   enclosingNode,
   precedingNode,
   followingNode,
-  comment
+  comment,
+  options
 ) {
   if (
     enclosingNode &&
@@ -486,9 +505,9 @@ function handleClassComments(
               precedingNode === enclosingNode.typeParameters ||
               precedingNode === enclosingNode.superClass)
           ) {
-            addTrailingComment(precedingNode, comment);
+            addTrailingComment(precedingNode, comment, options);
           } else {
-            addDanglingComment(enclosingNode, comment, prop);
+            addDanglingComment(enclosingNode, comment, options, prop);
           }
           return true;
         }
@@ -610,7 +629,7 @@ function handleCommentInEmptyParens(text, enclosingNode, comment, options) {
         enclosingNode.type === "NewExpression") &&
         enclosingNode.arguments.length === 0))
   ) {
-    addDanglingComment(enclosingNode, comment);
+    addDanglingComment(enclosingNode, comment, options);
     return true;
   }
   if (
@@ -618,7 +637,7 @@ function handleCommentInEmptyParens(text, enclosingNode, comment, options) {
     enclosingNode.type === "MethodDefinition" &&
     getFunctionParameters(enclosingNode.value).length === 0
   ) {
-    addDanglingComment(enclosingNode.value, comment);
+    addDanglingComment(enclosingNode.value, comment, options);
     return true;
   }
   return false;
@@ -641,7 +660,7 @@ function handleLastFunctionArgComments(
     followingNode &&
     followingNode.type !== "FunctionTypeParam"
   ) {
-    addTrailingComment(precedingNode, comment);
+    addTrailingComment(precedingNode, comment, options);
     return true;
   }
 
@@ -654,7 +673,7 @@ function handleLastFunctionArgComments(
     isRealFunctionLikeNode(enclosingNode) &&
     getNextNonSpaceNonCommentCharacter(text, comment, options.locEnd) === ")"
   ) {
-    addTrailingComment(precedingNode, comment);
+    addTrailingComment(precedingNode, comment, options);
     return true;
   }
 
@@ -685,7 +704,7 @@ function handleLastFunctionArgComments(
       );
     })();
     if (options.locStart(comment) > functionParamRightParenIndex) {
-      addBlockStatementFirstComment(followingNode, comment);
+      addBlockStatementFirstComment(followingNode, comment, options);
       return true;
     }
   }
@@ -693,36 +712,45 @@ function handleLastFunctionArgComments(
   return false;
 }
 
-function handleImportSpecifierComments(enclosingNode, comment) {
+function handleImportSpecifierComments(enclosingNode, comment, options) {
   if (enclosingNode && enclosingNode.type === "ImportSpecifier") {
-    addLeadingComment(enclosingNode, comment);
+    addLeadingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
 }
 
-function handleLabeledStatementComments(enclosingNode, comment) {
+function handleLabeledStatementComments(enclosingNode, comment, options) {
   if (enclosingNode && enclosingNode.type === "LabeledStatement") {
-    addLeadingComment(enclosingNode, comment);
+    addLeadingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
 }
 
-function handleBreakAndContinueStatementComments(enclosingNode, comment) {
+function handleBreakAndContinueStatementComments(
+  enclosingNode,
+  comment,
+  options
+) {
   if (
     enclosingNode &&
     (enclosingNode.type === "ContinueStatement" ||
       enclosingNode.type === "BreakStatement") &&
     !enclosingNode.label
   ) {
-    addTrailingComment(enclosingNode, comment);
+    addTrailingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
 }
 
-function handleCallExpressionComments(precedingNode, enclosingNode, comment) {
+function handleCallExpressionComments(
+  precedingNode,
+  enclosingNode,
+  comment,
+  options
+) {
   if (
     enclosingNode &&
     (enclosingNode.type === "CallExpression" ||
@@ -731,7 +759,7 @@ function handleCallExpressionComments(precedingNode, enclosingNode, comment) {
     enclosingNode.callee === precedingNode &&
     enclosingNode.arguments.length > 0
   ) {
-    addLeadingComment(enclosingNode.arguments[0], comment);
+    addLeadingComment(enclosingNode.arguments[0], comment, options);
     return true;
   }
   return false;
@@ -741,7 +769,8 @@ function handleUnionTypeComments(
   precedingNode,
   enclosingNode,
   followingNode,
-  comment
+  comment,
+  options
 ) {
   if (
     enclosingNode &&
@@ -753,7 +782,7 @@ function handleUnionTypeComments(
       comment.unignore = true;
     }
     if (precedingNode) {
-      addTrailingComment(precedingNode, comment);
+      addTrailingComment(precedingNode, comment, options);
       return true;
     }
     return false;
@@ -772,25 +801,31 @@ function handleUnionTypeComments(
   return false;
 }
 
-function handlePropertyComments(enclosingNode, comment) {
+function handlePropertyComments(enclosingNode, comment, options) {
   if (
     enclosingNode &&
     (enclosingNode.type === "Property" ||
       enclosingNode.type === "ObjectProperty")
   ) {
-    addLeadingComment(enclosingNode, comment);
+    addLeadingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
 }
 
-function handleOnlyComments(enclosingNode, ast, comment, isLastComment) {
+function handleOnlyComments(
+  enclosingNode,
+  ast,
+  comment,
+  isLastComment,
+  options
+) {
   // With Flow the enclosingNode is undefined so use the AST instead.
   if (ast && ast.body && ast.body.length === 0) {
     if (isLastComment) {
-      addDanglingComment(ast, comment);
+      addDanglingComment(ast, comment, options);
     } else {
-      addLeadingComment(ast, comment);
+      addLeadingComment(ast, comment, options);
     }
     return true;
   } else if (
@@ -801,22 +836,22 @@ function handleOnlyComments(enclosingNode, ast, comment, isLastComment) {
     enclosingNode.directives.length === 0
   ) {
     if (isLastComment) {
-      addDanglingComment(enclosingNode, comment);
+      addDanglingComment(enclosingNode, comment, options);
     } else {
-      addLeadingComment(enclosingNode, comment);
+      addLeadingComment(enclosingNode, comment, options);
     }
     return true;
   }
   return false;
 }
 
-function handleForComments(enclosingNode, precedingNode, comment) {
+function handleForComments(enclosingNode, precedingNode, comment, options) {
   if (
     enclosingNode &&
     (enclosingNode.type === "ForInStatement" ||
       enclosingNode.type === "ForOfStatement")
   ) {
-    addLeadingComment(enclosingNode, comment);
+    addLeadingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
@@ -836,23 +871,28 @@ function handleImportDeclarationComments(
     enclosingNode.type === "ImportDeclaration" &&
     hasNewline(text, options.locEnd(comment))
   ) {
-    addTrailingComment(precedingNode, comment);
+    addTrailingComment(precedingNode, comment, options);
     return true;
   }
   return false;
 }
 
-function handleAssignmentPatternComments(enclosingNode, comment) {
+function handleAssignmentPatternComments(enclosingNode, comment, options) {
   if (enclosingNode && enclosingNode.type === "AssignmentPattern") {
-    addLeadingComment(enclosingNode, comment);
+    addLeadingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
 }
 
-function handleTypeAliasComments(enclosingNode, followingNode, comment) {
+function handleTypeAliasComments(
+  enclosingNode,
+  followingNode,
+  comment,
+  options
+) {
   if (enclosingNode && enclosingNode.type === "TypeAlias") {
-    addLeadingComment(enclosingNode, comment);
+    addLeadingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
@@ -861,7 +901,8 @@ function handleTypeAliasComments(enclosingNode, followingNode, comment) {
 function handleVariableDeclaratorComments(
   enclosingNode,
   followingNode,
-  comment
+  comment,
+  options
 ) {
   if (
     enclosingNode &&
@@ -874,7 +915,7 @@ function handleVariableDeclaratorComments(
       followingNode.type === "TaggedTemplateExpression" ||
       isBlockComment(comment))
   ) {
-    addLeadingComment(followingNode, comment);
+    addLeadingComment(followingNode, comment, options);
     return true;
   }
   return false;
@@ -895,7 +936,7 @@ function handleTSFunctionTrailingComments(
       enclosingNode.type === "TSAbstractMethodDefinition") &&
     getNextNonSpaceNonCommentCharacter(text, comment, options.locEnd) === ";"
   ) {
-    addTrailingComment(enclosingNode, comment);
+    addTrailingComment(enclosingNode, comment, options);
     return true;
   }
   return false;
@@ -906,7 +947,8 @@ function handleTSMappedTypeComments(
   enclosingNode,
   precedingNode,
   followingNode,
-  comment
+  comment,
+  options
 ) {
   if (!enclosingNode || enclosingNode.type !== "TSMappedType") {
     return false;
@@ -917,7 +959,7 @@ function handleTSMappedTypeComments(
     followingNode.type === "TSTypeParameter" &&
     followingNode.name
   ) {
-    addLeadingComment(followingNode.name, comment);
+    addLeadingComment(followingNode.name, comment, options);
     return true;
   }
 
@@ -926,7 +968,7 @@ function handleTSMappedTypeComments(
     precedingNode.type === "TSTypeParameter" &&
     precedingNode.constraint
   ) {
-    addTrailingComment(precedingNode.constraint, comment);
+    addTrailingComment(precedingNode.constraint, comment, options);
     return true;
   }
 
