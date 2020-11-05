@@ -52,6 +52,9 @@ const parsers = [
     input: "src/language-js/parser-angular.js",
   },
   {
+    input: "src/language-js/parser-vue.js",
+  },
+  {
     input: "src/language-css/parser-postcss.js",
     // postcss has dependency cycles that don't work with rollup
     bundler: "webpack",
