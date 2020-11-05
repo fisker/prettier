@@ -1,7 +1,7 @@
 "use strict";
 
 const createError = require("../common/parser-create-error");
-const parseFrontMatter = require("../utils/front-matter");
+const { parse: parseFrontMatter } = require("../utils/front-matter");
 const { hasPragma } = require("./pragma");
 const {
   hasSCSSInterpolation,
@@ -109,6 +109,7 @@ function parseValueNode(valueNode, options) {
       }
       parenGroup.close = node;
 
+      /* istanbul ignore next */
       if (commaGroupStack.length === 1) {
         throw new Error("Unbalanced parenthesis");
       }
@@ -270,6 +271,7 @@ function parseMediaQuery(params) {
     result = mediaParser(params);
   } catch (e) {
     // Ignore bad media queries
+    /* istanbul ignore next */
     return {
       type: "selector-unknown",
       value: params,
@@ -294,6 +296,7 @@ function parseNestedCSS(node, options) {
       return node;
     }
 
+    /* istanbul ignore next */
     if (!node.raws) {
       node.raws = {};
     }
@@ -352,10 +355,14 @@ function parseNestedCSS(node, options) {
 
     // Ignore LESS mixin declaration
     if (selector.trim().length > 0) {
+      // TODO: confirm this code is dead
+      /* istanbul ignore next */
       if (selector.startsWith("@") && selector.endsWith(":")) {
         return node;
       }
 
+      // TODO: confirm this code is dead
+      /* istanbul ignore next */
       // Ignore LESS mixins
       if (node.mixin) {
         node.selector = parseValue(selector, options);
@@ -455,7 +462,10 @@ function parseNestedCSS(node, options) {
       }
 
       if (isLessParser(options)) {
-        // Whitespace between variable and colon
+        // postcss-less doesn't recognize variables in some cases.
+        // `@color: blue;` is recognized fine, but the cases below aren't:
+
+        // `@color:blue;`
         if (node.name.includes(":") && !node.params) {
           node.variable = true;
           const parts = node.name.split(":");
@@ -463,7 +473,7 @@ function parseNestedCSS(node, options) {
           node.value = parseValue(parts.slice(1).join(":"), options);
         }
 
-        // Missing whitespace between variable and colon
+        // `@color :blue;`
         if (
           !["page", "nest"].includes(node.name) &&
           node.params &&
@@ -471,6 +481,7 @@ function parseNestedCSS(node, options) {
         ) {
           node.variable = true;
           node.value = parseValue(node.params.slice(1), options);
+          node.raws.afterName += ":";
         }
 
         // Less variable
@@ -580,11 +591,13 @@ function parseWithParser(parse, text, options) {
 
   try {
     result = parse(text);
-  } catch (e) {
-    if (typeof e.line !== "number") {
-      throw e;
+  } catch (error) {
+    const { name, reason, line, column } = error;
+    /* istanbul ignore next */
+    if (typeof line !== "number") {
+      throw error;
     }
-    throw createError("(postcss) " + e.name + " " + e.reason, { start: e });
+    throw createError(`${name}: ${reason}`, { start: { line, column } });
   }
 
   result = parseNestedCSS(addTypePrefix(result, "css-"), options);

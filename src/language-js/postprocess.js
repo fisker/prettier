@@ -9,7 +9,11 @@ const { composeLoc, locStart, locEnd } = require("./loc");
 const { isTypeCastComment } = require("./comments");
 
 function postprocess(ast, options) {
-  if (options.parser === "typescript" || options.parser === "flow") {
+  if (
+    options.parser === "typescript" ||
+    options.parser === "flow" ||
+    options.parser === "espree"
+  ) {
     includeShebang(ast, options);
   }
 
@@ -22,7 +26,12 @@ function postprocess(ast, options) {
   }
 
   // Keep Babel's non-standard ParenthesizedExpression nodes only if they have Closure-style type cast comments.
-  if (options.parser !== "typescript" && options.parser !== "flow") {
+  if (
+    options.parser !== "typescript" &&
+    options.parser !== "flow" &&
+    options.parser !== "espree" &&
+    options.parser !== "meriyah"
+  ) {
     const startOffsetsOfTypeCastedNodes = new Set();
 
     // Comments might be attached not directly to ParenthesizedExpression but to its ancestor.
@@ -40,9 +49,16 @@ function postprocess(ast, options) {
 
     ast = visitNode(ast, (node) => {
       if (node.type === "ParenthesizedExpression") {
+        const { expression } = node;
+
+        // Align range with `flow`
+        if (expression.type === "TypeCastExpression") {
+          expression.range = node.range;
+          return expression;
+        }
+
         const start = locStart(node);
         if (!startOffsetsOfTypeCastedNodes.has(start)) {
-          const { expression } = node;
           if (!expression.extra) {
             expression.extra = {};
           }
@@ -56,6 +72,10 @@ function postprocess(ast, options) {
 
   ast = visitNode(ast, (node) => {
     switch (node.type) {
+      // Espree
+      case "ChainExpression": {
+        return transformChainExpression(node.expression);
+      }
       case "LogicalExpression": {
         // We remove unneeded parens around same-operator LogicalExpressions
         if (isUnbalancedLogicalTree(node)) {
@@ -73,13 +93,16 @@ function postprocess(ast, options) {
       }
       // remove redundant TypeScript nodes
       case "TSParenthesizedType": {
-        return { ...node.typeAnnotation, ...composeLoc(node) };
+        node.typeAnnotation.range = composeLoc(node);
+        return node.typeAnnotation;
       }
       case "TSUnionType":
       case "TSIntersectionType":
         if (node.types.length === 1) {
+          const [firstType] = node.types;
           // override loc, so that comments are attached properly
-          return { ...node.types[0], ...composeLoc(node) };
+          firstType.range = composeLoc(node);
+          return firstType;
         }
         break;
       case "TSTypeParameter":
@@ -88,7 +111,7 @@ function postprocess(ast, options) {
           node.name = {
             type: "Identifier",
             name: node.name,
-            ...composeLoc(node, node.name.length),
+            range: composeLoc(node, node.name.length),
           };
         }
         break;
@@ -96,10 +119,7 @@ function postprocess(ast, options) {
         // Babel (unlike other parsers) includes spaces and comments in the range. Let's unify this.
         const lastExpression = getLast(node.expressions);
         if (locEnd(node) > locEnd(lastExpression)) {
-          return {
-            ...node,
-            ...composeLoc(node, lastExpression),
-          };
+          node.range = composeLoc(node, lastExpression);
         }
         break;
       }
@@ -130,20 +150,34 @@ function postprocess(ast, options) {
     if (options.originalText[locEnd(toOverrideNode)] === ";") {
       return;
     }
-    if (Array.isArray(toBeOverriddenNode.range)) {
-      toBeOverriddenNode.range = [
-        toBeOverriddenNode.range[0],
-        toOverrideNode.range[1],
-      ];
-    } else {
-      toBeOverriddenNode.end = toOverrideNode.end;
-    }
+    toBeOverriddenNode.range = composeLoc(toBeOverriddenNode, toOverrideNode);
   }
+}
+
+<<<<<<< HEAD
+function visitNode(node, fn) {
+  let entries;
+
+=======
+// This is a workaround to transform `ChainExpression` from `espree` into
+// `babel` shape AST, we should do the opposite, since `ChainExpression` is the
+// standard `estree` AST for `optional chaining`
+// https://github.com/estree/estree/blob/master/es2020.md
+function transformChainExpression(node) {
+  if (node.type === "CallExpression") {
+    node.type = "OptionalCallExpression";
+    node.callee = transformChainExpression(node.callee);
+  } else if (node.type === "MemberExpression") {
+    node.type = "OptionalMemberExpression";
+    node.object = transformChainExpression(node.object);
+  }
+  return node;
 }
 
 function visitNode(node, fn) {
   let entries;
 
+>>>>>>> master
   if (Array.isArray(node)) {
     entries = node.entries();
   } else if (
@@ -186,10 +220,10 @@ function rebalanceLogicalTree(node) {
       operator: node.operator,
       left: node.left,
       right: node.right.left,
-      ...composeLoc(node.left, node.right.left),
+      range: composeLoc(node.left, node.right.left),
     }),
     right: node.right.right,
-    ...composeLoc(node),
+    range: composeLoc(node),
   });
 }
 

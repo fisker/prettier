@@ -356,6 +356,103 @@ console.log(Bork.staticFunction()); // > "babelIsCool"
 ================================================================================
 `;
 
+exports[`class-static-block.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "babel-ts", "babel-flow"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+class C {
+  static #x = 42;
+  static y;
+  static {
+    try {
+      this.y = doSomethingWith(this.#x);
+    } catch {
+      this.y = "unknown";
+    }
+  }
+}
+
+=====================================output=====================================
+class C {
+  static #x = 42;
+  static y;
+  static {
+    try {
+      this.y = doSomethingWith(this.#x);
+    } catch {
+      this.y = "unknown";
+    }
+  }
+}
+
+================================================================================
+`;
+
+exports[`decimal.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "babel-ts", "babel-flow"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// https://github.com/babel/babel/pull/11640
+
+100m;
+9223372036854775807m;
+0.m;
+3.1415926535897932m;
+100.000m;
+.1m;
+({ 0m: 0, .1m() {}, get 0.2m(){}, set 3m(_){}, async 4m() {}, *.5m() {} });
+1.m;
+100m;
+9223372036854775807m;
+100.m;
+
+// Invalid decimal
+2e9m;
+016432m;
+089m;
+
+// https://github.com/tc39/proposal-decimal
+.1m + .2m === .3m;
+2.00m;
+-0m;
+typeof 1m === "bigdecimal";
+typeof 1m === "decimal128";
+
+
+=====================================output=====================================
+// https://github.com/babel/babel/pull/11640
+
+100m;
+9223372036854775807m;
+0m;
+3.1415926535897932m;
+100.0m;
+0.1m;
+({ 0m: 0, 0.1m() {}, get 0.2m() {}, set 3m(_) {}, async 4m() {}, *0.5m() {} });
+1m;
+100m;
+9223372036854775807m;
+100m;
+
+// Invalid decimal
+2e9m;
+016432m;
+089m;
+
+// https://github.com/tc39/proposal-decimal
+0.1m + 0.2m === 0.3m;
+2.0m;
+-0m;
+typeof 1m === "bigdecimal";
+typeof 1m === "decimal128";
+
+================================================================================
+`;
+
 exports[`decorators.js format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "babel-ts", "babel-flow"]
@@ -620,6 +717,34 @@ iterator.next(2); // Logs "Yield 2"
 ================================================================================
 `;
 
+exports[`import-assertions-dynamic.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "babel-ts", "babel-flow"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+import("./foo.json", { assert: { type: "json" } });
+
+=====================================output=====================================
+import("./foo.json", { assert: { type: "json" } });
+
+================================================================================
+`;
+
+exports[`import-assertions-static.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "babel-ts", "babel-flow"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+import json from "./foo.json" assert { type: "json" };
+
+=====================================output=====================================
+import json from "./foo.json" assert { type: "json" };
+
+================================================================================
+`;
+
 exports[`import-meta.js format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "babel-ts", "babel-flow"]
@@ -720,30 +845,16 @@ obj.a.b &&= c;
 ================================================================================
 `;
 
-exports[`module-attributes-dynamic.js format 1`] = `
+exports[`module-string-names.js format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "babel-ts", "babel-flow"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-import("foo.json", { with: { type: "json" } })
+export { smile as "😄" } from "./emojis.js";
 
 =====================================output=====================================
-import("foo.json", { with: { type: "json" } });
-
-================================================================================
-`;
-
-exports[`module-attributes-static.js format 1`] = `
-====================================options=====================================
-parsers: ["babel", "babel-ts", "babel-flow"]
-printWidth: 80
-                                                                                | printWidth
-=====================================input======================================
-import foo from "foo.json" with type: "json";
-
-=====================================output=====================================
-import foo from "foo.json" with type: "json";
+export { smile as "😄" } from "./emojis.js";
 
 ================================================================================
 `;
@@ -949,7 +1060,7 @@ obj?.foo.bar?.baz; // Only access \`foo\` if \`obj\` exists, and \`baz\` if
 // Example usage with bracket notation:
 obj?.['foo']?.bar?.baz // 42
 
-const obj = {
+const obj2 = {
   foo: {
     bar: {
       baz() {
@@ -959,10 +1070,10 @@ const obj = {
   },
 };
 
-const baz = obj?.foo?.bar?.baz(); // 42
+const baz2 = obj?.foo?.bar?.baz(); // 42
 
-const safe = obj?.qux?.baz(); // undefined
-const safe2 = obj?.foo.bar.qux?.(); // undefined
+const safe3 = obj?.qux?.baz(); // undefined
+const safe4 = obj?.foo.bar.qux?.(); // undefined
 
 const willThrow = obj?.foo.bar.qux(); // Error: not a function
 
@@ -974,7 +1085,7 @@ test?.(); // 42
 
 exists?.(); // undefined
 
-const obj = {
+const obj3 = {
   foo: {
     bar: {
       baz: class {
@@ -983,10 +1094,10 @@ const obj = {
   },
 };
 
-const baz = new obj?.foo?.bar?.baz(); // baz instance
+const baz3 = new obj?.foo?.bar?.baz(); // baz instance
 
-const safe = new obj?.qux?.baz(); // undefined
-const safe2 = new obj?.foo.bar.qux?.(); // undefined
+const safe5 = new obj?.qux?.baz(); // undefined
+const safe6 = new obj?.foo.bar.qux?.(); // undefined
 
 const willThrow = new obj?.foo.bar.qux(); // Error: not a constructor
 
@@ -1027,7 +1138,7 @@ obj?.foo.bar?.baz; // Only access \`foo\` if \`obj\` exists, and \`baz\` if
 // Example usage with bracket notation:
 obj?.["foo"]?.bar?.baz; // 42
 
-const obj = {
+const obj2 = {
   foo: {
     bar: {
       baz() {
@@ -1037,10 +1148,10 @@ const obj = {
   },
 };
 
-const baz = obj?.foo?.bar?.baz(); // 42
+const baz2 = obj?.foo?.bar?.baz(); // 42
 
-const safe = obj?.qux?.baz(); // undefined
-const safe2 = obj?.foo.bar.qux?.(); // undefined
+const safe3 = obj?.qux?.baz(); // undefined
+const safe4 = obj?.foo.bar.qux?.(); // undefined
 
 const willThrow = obj?.foo.bar.qux(); // Error: not a function
 
@@ -1052,7 +1163,7 @@ test?.(); // 42
 
 exists?.(); // undefined
 
-const obj = {
+const obj3 = {
   foo: {
     bar: {
       baz: class {},
@@ -1060,10 +1171,10 @@ const obj = {
   },
 };
 
-const baz = new (obj?.foo?.bar?.baz)(); // baz instance
+const baz3 = new (obj?.foo?.bar?.baz)(); // baz instance
 
-const safe = new (obj?.qux?.baz)(); // undefined
-const safe2 = new (obj?.foo.bar.qux)()?.(); // undefined
+const safe5 = new (obj?.qux?.baz)(); // undefined
+const safe6 = new (obj?.foo.bar.qux)()?.(); // undefined
 
 const willThrow = new (obj?.foo.bar.qux)(); // Error: not a constructor
 

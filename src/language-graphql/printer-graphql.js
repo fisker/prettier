@@ -26,7 +26,7 @@ function genericPrint(path, options, print) {
   switch (n.kind) {
     case "Document": {
       const parts = [];
-      path.map((pathChild, index) => {
+      path.each((pathChild, index) => {
         parts.push(concat([pathChild.call(print)]));
         if (index !== n.definitions.length - 1) {
           parts.push(hardline);
@@ -273,10 +273,6 @@ function genericPrint(path, options, print) {
         n.defaultValue ? concat([" = ", path.call(print, "defaultValue")]) : "",
         printDirectives(path, print, n),
       ]);
-    }
-
-    case "TypeExtensionDefinition": {
-      return concat(["extend ", path.call(print, "definition")]);
     }
 
     case "ObjectTypeExtension":
@@ -615,7 +611,13 @@ function printDirectives(path, print, n) {
     return "";
   }
 
-  return group(concat([line, join(line, path.map(print, "directives"))]));
+  const printed = join(line, path.map(print, "directives"));
+
+  if (n.kind === "FragmentDefinition" || n.kind === "OperationDefinition") {
+    return group(concat([line, printed]));
+  }
+
+  return concat([" ", group(indent(concat([softline, printed])))]);
 }
 
 function printSequence(sequencePath, options, print) {
@@ -645,6 +647,7 @@ function printComment(commentPath) {
     return "#" + comment.value.trimEnd();
   }
 
+  /* istanbul ignore next */
   throw new Error("Not a comment: " + JSON.stringify(comment));
 }
 
@@ -674,10 +677,8 @@ function printInterfaces(path, options, print) {
   return parts;
 }
 
-function clean(node, newNode /*, parent*/) {
-  delete newNode.loc;
-  delete newNode.comments;
-}
+function clean(/*node, newNode , parent*/) {}
+clean.ignoredProperties = new Set(["loc", "comments"]);
 
 module.exports = {
   print: genericPrint,

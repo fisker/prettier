@@ -3,17 +3,11 @@
 const stringWidth = require("string-width");
 const escapeStringRegexp = require("escape-string-regexp");
 const getLast = require("../utils/get-last");
-const support = require("../main/support");
+const { getSupportInfo } = require("../main/support");
 
-// eslint-disable-next-line no-control-regex
 const notAsciiRegex = /[^\x20-\x7F]/;
 
-function getPenultimate(arr) {
-  if (arr.length > 1) {
-    return arr[arr.length - 2];
-  }
-  return null;
-}
+const getPenultimate = (arr) => arr[arr.length - 2];
 
 /**
  * @typedef {{backwards?: boolean}} SkipOptions
@@ -29,6 +23,7 @@ function skip(chars) {
 
     // Allow `skip` functions to be threaded together without having
     // to check for failures (did someone say monads?).
+    /* istanbul ignore next */
     if (index === false) {
       return false;
     }
@@ -82,6 +77,7 @@ const skipEverythingButNewLine = skip(/[^\n\r]/);
  * @returns {number | false}
  */
 function skipInlineComment(text, index) {
+  /* istanbul ignore next */
   if (index === false) {
     return false;
   }
@@ -102,6 +98,7 @@ function skipInlineComment(text, index) {
  * @returns {number | false}
  */
 function skipTrailingComment(text, index) {
+  /* istanbul ignore next */
   if (index === false) {
     return false;
   }
@@ -129,6 +126,8 @@ function skipNewline(text, index, opts) {
 
   const atIndex = text.charAt(index);
   if (backwards) {
+    // We already replace `\r\n` with `\n` before parsing
+    /* istanbul ignore next */
     if (text.charAt(index - 1) === "\r" && atIndex === "\n") {
       return index - 2;
     }
@@ -141,6 +140,8 @@ function skipNewline(text, index, opts) {
       return index - 1;
     }
   } else {
+    // We already replace `\r\n` with `\n` before parsing
+    /* istanbul ignore next */
     if (atIndex === "\r" && text.charAt(index + 1) === "\n") {
       return index + 2;
     }
@@ -283,6 +284,8 @@ function getNextNonSpaceNonCommentCharacter(text, node, locEnd) {
   );
 }
 
+// Not using, but it's public utils
+/* istanbul ignore next */
 /**
  * @param {string} text
  * @param {number} index
@@ -583,6 +586,7 @@ function addCommentHelper(node, comment) {
   // For some reason, TypeScript parses `// x` inside of JSXText as a comment
   // We already "print" it via the raw text, we don't need to re-print it as a
   // comment
+  /* istanbul ignore next */
   if (node.type === "JSXText") {
     comment.printed = true;
   }
@@ -609,22 +613,6 @@ function addTrailingComment(node, comment) {
   addCommentHelper(node, comment);
 }
 
-function isWithinParentArrayProperty(path, propertyName) {
-  const node = path.getValue();
-  const parent = path.getParentNode();
-
-  if (parent == null) {
-    return false;
-  }
-
-  if (!Array.isArray(parent[propertyName])) {
-    return false;
-  }
-
-  const key = path.getName();
-  return parent[propertyName][key] === node;
-}
-
 function replaceEndOfLineWith(text, replacement) {
   const parts = [];
   for (const part of text.split("\n")) {
@@ -636,20 +624,18 @@ function replaceEndOfLineWith(text, replacement) {
   return parts;
 }
 
-function getParserName(lang, options) {
-  const supportInfo = support.getSupportInfo({ plugins: options.plugins });
-  const language = supportInfo.languages.find(
-    (language) =>
-      language.name.toLowerCase() === lang ||
-      (language.aliases && language.aliases.includes(lang)) ||
-      (language.extensions &&
-        language.extensions.find((ext) => ext === `.${lang}`))
-  );
-  if (language) {
-    return language.parsers[0];
-  }
-
-  return null;
+function inferParserByLanguage(language, options) {
+  const { languages } = getSupportInfo({ plugins: options.plugins });
+  const matched =
+    languages.find(({ name }) => name.toLowerCase() === language) ||
+    languages.find(
+      ({ aliases }) => Array.isArray(aliases) && aliases.includes(language)
+    ) ||
+    languages.find(
+      ({ extensions }) =>
+        Array.isArray(extensions) && extensions.includes(`.${language}`)
+    );
+  return matched && matched.parsers[0];
 }
 
 function isFrontMatterNode(node) {
@@ -668,11 +654,11 @@ function getShebang(text) {
 }
 
 module.exports = {
+  inferParserByLanguage,
   replaceEndOfLineWith,
   getStringWidth,
   getMaxContinuousCount,
   getMinNotPresentContinuousCount,
-  getParserName,
   getPenultimate,
   getLast,
   getNextNonSpaceNonCommentCharacterIndexWithStartIndex,
@@ -704,7 +690,6 @@ module.exports = {
   addLeadingComment,
   addDanglingComment,
   addTrailingComment,
-  isWithinParentArrayProperty,
   isFrontMatterNode,
   getShebang,
 };
