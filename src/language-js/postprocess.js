@@ -154,11 +154,6 @@ function postprocess(ast, options) {
   }
 }
 
-<<<<<<< HEAD
-function visitNode(node, fn) {
-  let entries;
-
-=======
 // This is a workaround to transform `ChainExpression` from `espree` into
 // `babel` shape AST, we should do the opposite, since `ChainExpression` is the
 // standard `estree` AST for `optional chaining`
@@ -177,7 +172,6 @@ function transformChainExpression(node) {
 function visitNode(node, fn) {
   let entries;
 
->>>>>>> master
   if (Array.isArray(node)) {
     entries = node.entries();
   } else if (
