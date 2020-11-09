@@ -11,7 +11,7 @@ function getTokenBefore(node, options, filter) {
   const start = locStart(node);
   for (let index = tokens.length - 1; index >= 0; index--) {
     const token = tokens[index];
-    if ((!filter || filter(token)) && locEnd(token) < start) {
+    if ((!filter || filter(token)) && locEnd(token) <= start) {
       return token;
     }
   }
@@ -20,7 +20,7 @@ function getTokenAfter(node, options, filter) {
   const tokens = getTokens(options);
   const end = locEnd(node);
   for (const token of tokens) {
-    if ((!filter || filter(token)) && locStart(token) > end) {
+    if ((!filter || filter(token)) && locStart(token) >= end) {
       return token;
     }
   }
