@@ -371,11 +371,11 @@ function printPathNoParens(path, options, print, args) {
     }
     case "AssignmentExpression":
       return printAssignment(
-        n.left,
-        path.call(print, "left"),
-        concat([" ", n.operator]),
-        n.right,
-        path.call(print, "right"),
+        path,
+        print,
+        "left",
+        "right",
+        ` ${n.operator}`,
         options
       );
     case "BinaryExpression":
@@ -1278,21 +1278,12 @@ function printPathNoParens(path, options, print, args) {
       }
 
       if (n.shorthand) {
-        parts.push(path.call(print, "value"));
-      } else {
-        parts.push(
-          printAssignment(
-            n.key,
-            printPropertyKey(path, options, print),
-            ":",
-            n.value,
-            path.call(print, "value"),
-            options
-          )
-        );
+        return path.call(print, "value");
       }
 
-      return concat(parts); // Babel 6
+      return printAssignment(path, print, "key", "value", ":", options);
+
+    // Babel 6
     case "ClassMethod":
     case "ClassPrivateMethod":
     case "MethodDefinition":
@@ -1573,9 +1564,10 @@ function printPathNoParens(path, options, print, args) {
       }
 
       const printed = printAssignmentRight(
-        n.id,
-        n.typeAnnotation,
-        n.typeAnnotation && path.call(print, "typeAnnotation"),
+        path,
+        print,
+        "id",
+        "typeAnnotation",
         options
       );
 
@@ -1591,14 +1583,7 @@ function printPathNoParens(path, options, print, args) {
       return group(concat(parts));
     }
     case "VariableDeclarator":
-      return printAssignment(
-        n.id,
-        path.call(print, "id"),
-        " =",
-        n.init,
-        n.init && path.call(print, "init"),
-        options
-      );
+      return printAssignment(path, print, "id", "init", " =", options);
     case "WithStatement":
       return group(
         concat([
@@ -2201,12 +2186,7 @@ function printPathNoParens(path, options, print, args) {
       if (n.value) {
         parts.push(
           " =",
-          printAssignmentRight(
-            n.key,
-            n.value,
-            path.call(print, "value"),
-            options
-          )
+          printAssignmentRight(path, print, "key", "value", options)
         );
       }
 
@@ -2874,12 +2854,7 @@ function printPathNoParens(path, options, print, args) {
         parts.push("declare ");
       }
 
-      const printed = printAssignmentRight(
-        n.id,
-        n.right,
-        path.call(print, "right"),
-        options
-      );
+      const printed = printAssignmentRight(path, print, "id", "right", options);
 
       parts.push(
         "type ",
@@ -4825,10 +4800,21 @@ function printBinaryishExpressions(
   return parts;
 }
 
-function printAssignmentRight(leftNode, rightNode, printedRight, options) {
+function printAssignmentRight(
+  path,
+  print,
+  leftProperty,
+  rightProperty,
+  options
+) {
+  const node = path.getNode();
+  const rightNode = node[rightProperty];
+  const printedRight = path.call(print, rightProperty);
   if (hasLeadingOwnLineComment(options.originalText, rightNode)) {
     return indent(concat([line, printedRight]));
   }
+
+  const leftNode = node[leftProperty];
 
   const canBreak =
     (isBinaryish(rightNode) && !shouldInlineLogicalExpression(rightNode)) ||
@@ -4856,25 +4842,29 @@ function printAssignmentRight(leftNode, rightNode, printedRight, options) {
 }
 
 function printAssignment(
-  leftNode,
-  printedLeft,
+  path,
+  print,
+  leftProperty,
+  rightProperty,
   operator,
-  rightNode,
-  printedRight,
   options
 ) {
-  if (!rightNode) {
+  const node = path.getNode();
+  const printedLeft =
+    leftProperty === "key"
+      ? printPropertyKey(path, options, print)
+      : path.call(print, leftProperty);
+  if (!node[rightProperty]) {
     return printedLeft;
   }
 
-  const printed = printAssignmentRight(
-    leftNode,
-    rightNode,
-    printedRight,
-    options
+  return group(
+    concat([
+      printedLeft,
+      operator,
+      printAssignmentRight(path, print, leftProperty, rightProperty, options),
+    ])
   );
-
-  return group(concat([printedLeft, operator, printed]));
 }
 
 function adjustClause(node, clause, forceSpace) {
