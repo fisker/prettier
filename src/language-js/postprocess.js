@@ -20,7 +20,7 @@ function postprocess(ast, options) {
 
   // Invalid decorators are removed since `@typescript-eslint/typescript-estree` v4
   // https://github.com/typescript-eslint/typescript-eslint/pull/2375
-  if (options.parser === "typescript" && options.originalText.includes("@")) {
+  if (options.parser === "typescript" && options.maybeDecorators) {
     const {
       esTreeNodeToTSNodeMap,
       tsNodeToESTreeNodeMap,

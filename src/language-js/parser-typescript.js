@@ -7,14 +7,15 @@ const postprocess = require("./postprocess");
 
 function parse(text, parsers, opts) {
   const jsx = isProbablyJsx(text);
+  const maybeDecorators = text.includes("@");
   let result;
   try {
     // Try passing with our best guess first.
-    result = tryParseTypeScript(text, jsx);
+    result = tryParseTypeScript(text, { jsx, maybeDecorators });
   } catch (firstError) {
     try {
       // But if we get it wrong, try the opposite.
-      result = tryParseTypeScript(text, !jsx);
+      result = tryParseTypeScript(text, { jsx: !jsx, maybeDecorators });
     } catch (secondError) {
       // Suppose our guess is correct, throw the first error
       const { message, lineNumber, column } = firstError;
@@ -33,13 +34,14 @@ function parse(text, parsers, opts) {
   return postprocess(result.ast, {
     ...opts,
     originalText: text,
+    maybeDecorators,
     tsParseResult: result,
   });
 }
 
-function tryParseTypeScript(text, jsx) {
+function tryParseTypeScript(text, { jsx, maybeDecorators }) {
   const parser = require("@typescript-eslint/typescript-estree");
-  return parser.parseAndGenerateServices(text, {
+  const parseOptions = {
     // `jest@<=26.4.2` rely on `loc`
     // https://github.com/facebook/jest/issues/10444
     loc: true,
@@ -50,7 +52,11 @@ function tryParseTypeScript(text, jsx) {
     tokens: true,
     loggerFn: false,
     project: [],
-  });
+  };
+  if (maybeDecorators) {
+    return parser.parseAndGenerateServices(text, parseOptions);
+  }
+  return { ast: parser.parse(text, parseOptions) };
 }
 
 /**
