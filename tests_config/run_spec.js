@@ -50,14 +50,6 @@ const unstableTests = new Map(
   })
 );
 
-const espreeDisabledTests = new Set(
-  [
-    // These tests only work for `babel`
-    "comments-closure-typecast",
-  ].map((directory) => path.join(__dirname, "../tests/js", directory))
-);
-const meriyahDisabledTests = espreeDisabledTests;
-
 const isUnstable = (filename, options) => {
   const testFunction = unstableTests.get(filename);
 
@@ -151,10 +143,10 @@ function runSpec(fixtures, parsers, options) {
   }
 
   if (parsers.includes("babel") && isTestDirectory(dirname, "js")) {
-    if (!parsers.includes("espree") && !espreeDisabledTests.has(dirname)) {
+    if (!parsers.includes("espree")) {
       allParsers.push("espree");
     }
-    if (!parsers.includes("meriyah") && !meriyahDisabledTests.has(dirname)) {
+    if (!parsers.includes("meriyah")) {
       allParsers.push("meriyah");
     }
   }

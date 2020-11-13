@@ -11,6 +11,8 @@ const {
   shouldFlatten,
   getPrecedence,
 } = require("./utils");
+const { isTypeCastComment } = require("./comments");
+const isParenthesized = require("./is-parenthesized");
 
 function needsParens(path, options) {
   const parent = path.getParentNode();
@@ -44,6 +46,22 @@ function needsParens(path, options) {
     hasFlowShorthandAnnotationComment(path.getValue())
   ) {
     return true;
+  }
+
+  // Babel parser use `ParenthesizedExpression`
+  if (
+    options.parser === "typescript" ||
+    options.parser === "flow" ||
+    options.parser === "espree" ||
+    options.parser === "meriyah"
+  ) {
+    if (
+      Array.isArray(node.comments) &&
+      node.comments.some((comment) => isTypeCastComment(comment)) &&
+      isParenthesized(path, options)
+    ) {
+      return true;
+    }
   }
 
   // Identifiers never need parentheses.
