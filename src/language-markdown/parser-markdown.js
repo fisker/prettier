@@ -5,9 +5,10 @@ const unified = require("unified");
 const remarkMath = require("remark-math");
 const footnotes = require("remark-footnotes");
 const { parse: parseFrontMatter } = require("../utils/front-matter");
+const traverse = require("../utils/traverse");
 const pragma = require("./pragma");
 const { locStart, locEnd } = require("./loc");
-const { mapAst, INLINE_NODE_WRAPPER_TYPES } = require("./utils");
+const { INLINE_NODE_WRAPPER_TYPES } = require("./utils");
 const mdx = require("./mdx");
 
 /**
@@ -49,16 +50,17 @@ function identity(x) {
 
 function htmlToJsx() {
   return (ast) =>
-    mapAst(ast, (node, _index, [parent]) => {
+    traverse(ast, (node) => {
       if (
-        node.type !== "html" ||
-        node.value.match(mdx.COMMENT_REGEX) ||
-        INLINE_NODE_WRAPPER_TYPES.includes(parent.type)
+        !INLINE_NODE_WRAPPER_TYPES.includes(node.type) &&
+        Array.isArray(node.children)
       ) {
-        return node;
+        for (const child of node.children) {
+          if (child.type === "html" && !child.value.match(mdx.COMMENT_REGEX)) {
+            child.type = "jsx";
+          }
+        }
       }
-
-      return { ...node, type: "jsx" };
     });
 }
 
