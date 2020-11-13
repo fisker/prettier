@@ -17,6 +17,14 @@ function postprocess(ast, options) {
     includeShebang(ast, options);
   }
 
+  if (options.parser === "__vue_expression") {
+    ast = visitNode(ast, (node) => {
+      if (node && node.type) {
+        delete node.parent;
+      }
+    });
+  }
+
   // Keep Babel's non-standard ParenthesizedExpression nodes only if they have Closure-style type cast comments.
   if (
     options.parser !== "typescript" &&
@@ -177,7 +185,9 @@ function visitNode(node, fn) {
   }
 
   for (const [key, child] of entries) {
-    node[key] = visitNode(child, fn);
+    if (key !== "parent") {
+      node[key] = visitNode(child, fn);
+    }
   }
 
   return fn(node) || node;
