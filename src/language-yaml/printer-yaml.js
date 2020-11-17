@@ -499,6 +499,8 @@ function _print(node, parentNode, path, options, print) {
           lastItem.type === "flowMappingItem" &&
           isEmptyNode(lastItem.key) &&
           isEmptyNode(lastItem.value))(getLast(node.children));
+      const nodeHasEndComments = hasEndComments(node);
+
       return concat([
         openMarker,
         indent(
@@ -529,6 +531,11 @@ function _print(node, parentNode, path, options, print) {
             ifBreak(",", ""),
           ])
         ),
+        nodeHasEndComments
+          ? indent(
+              concat([hardline, join(hardline, path.map(print, "endComments"))])
+            )
+          : "",
         isLastItemEmptyMappingItem ? "" : bracketSpacing,
         closeMarker,
       ]);
@@ -562,9 +569,11 @@ function isInlineNode(node) {
     case "quoteDouble":
     case "quoteSingle":
     case "alias":
+      return true;
     case "flowMapping":
     case "flowSequence":
-      return true;
+      console.log({ node });
+      return !node.endComments;
     default:
       return false;
   }

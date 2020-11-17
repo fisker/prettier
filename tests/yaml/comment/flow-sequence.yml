@@ -1,0 +1,40 @@
+    a:
+      [
+        a,
+      ]
+
+    b:
+      [
+        a,
+        b,
+      ]
+
+    c:
+      [
+        a,
+        // comment,
+      ]
+
+    d:
+      [
+        a,
+        // comment,
+        // comment,
+      ]
+
+    e:
+      [
+        // comment,
+        a,
+        // comment,
+        // comment,
+      ]
+
+    e:
+      [
+        // comment,
+        a,
+        // comment,
+        b,
+        // comment,
+      ]
