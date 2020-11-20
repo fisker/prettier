@@ -33,6 +33,8 @@ const docUtils = doc.utils;
  */
 function printAstToDoc(ast, options, alignmentSize = 0) {
   const { printer } = options;
+  const noMutateComments =
+    printer.handleComments && printer.handleComments.noMutate;
 
   if (printer.preprocess) {
     ast = printer.preprocess(ast, options);
@@ -56,6 +58,15 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
       printer.willPrintOwnComments(path, options)
     ) {
       res = callPluginPrintFunction(path, options, printGenerically, args);
+    } else if (noMutateComments) {
+      // printComments will call the plugin print function and check for
+      // comments to print
+      res = comments.printCommentsFromStore(
+        path,
+        (p) => callPluginPrintFunction(p, options, printGenerically, args),
+        options,
+        args && args.needsSemi
+      );
     } else {
       // printComments will call the plugin print function and check for
       // comments to print

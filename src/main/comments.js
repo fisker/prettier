@@ -360,6 +360,11 @@ function breakTies(tiesToBreak, text, options) {
   tiesToBreak.length = 0;
 }
 
+function printCommentFromStore(comment, options) {
+  comment.printed = true;
+  return options.printer.printCommentNode(comment, options);
+}
+
 function printComment(commentPath, options) {
   const comment = commentPath.getValue();
   comment.printed = true;
@@ -408,9 +413,78 @@ function printLeadingComment(commentPath, options) {
   return concat([contents, hardline]);
 }
 
+function printLeadingCommentFromStore(comment, options) {
+  const contents = printCommentFromStore(comment, options);
+  /* istanbul ignore next */
+  if (!contents) {
+    return "";
+  }
+  const isBlock =
+    options.printer.isBlockComment && options.printer.isBlockComment(comment);
+
+  // Leading block comments should see if they need to stay on the
+  // same line or not.
+  if (isBlock) {
+    const lineBreak = hasNewline(options.originalText, options.locEnd(comment))
+      ? hasNewline(options.originalText, options.locStart(comment), {
+          backwards: true,
+        })
+        ? hardline
+        : line
+      : " ";
+
+    return concat([contents, lineBreak]);
+  }
+
+  return concat([contents, hardline]);
+}
+
 function printTrailingComment(commentPath, options) {
   const comment = commentPath.getValue();
   const contents = printComment(commentPath, options);
+  /* istanbul ignore next */
+  if (!contents) {
+    return "";
+  }
+  const { printer, originalText, locStart } = options;
+  const isBlock = printer.isBlockComment && printer.isBlockComment(comment);
+
+  if (hasNewline(originalText, locStart(comment), { backwards: true })) {
+    // This allows comments at the end of nested structures:
+    // {
+    //   x: 1,
+    //   y: 2
+    //   // A comment
+    // }
+    // Those kinds of comments are almost always leading comments, but
+    // here it doesn't go "outside" the block and turns it into a
+    // trailing comment for `2`. We can simulate the above by checking
+    // if this a comment on its own line; normal trailing comments are
+    // always at the end of another expression.
+
+    const isLineBeforeEmpty = isPreviousLineEmpty(
+      originalText,
+      comment,
+      locStart
+    );
+
+    return lineSuffix(
+      concat([hardline, isLineBeforeEmpty ? hardline : "", contents])
+    );
+  }
+
+  let printed = concat([" ", contents]);
+
+  // Trailing block comments never need a newline
+  if (!isBlock) {
+    printed = concat([lineSuffix(printed), breakParent]);
+  }
+
+  return printed;
+}
+
+function printTrailingCommentFromStore(comment, options) {
+  const contents = printCommentFromStore(comment, options);
   /* istanbul ignore next */
   if (!contents) {
     return "";
@@ -482,11 +556,86 @@ function printDanglingComments(path, options, sameIndent, filter) {
   return indent(concat([hardline, join(hardline, parts)]));
 }
 
+function printDanglingCommentsFromStore(path, options, sameIndent, filter) {
+  const parts = [];
+  const node = path.getValue();
+  const store = options[Symbol.for("attachedComments")];
+  const comments = store.get(node);
+
+  if (!comments) {
+    return "";
+  }
+
+  const danglingComments = comments.filter(
+    (comment) =>
+      comment &&
+      !comment.leading &&
+      !comment.trailing &&
+      (!filter || filter(comment))
+  );
+
+  for (const comment of danglingComments) {
+    parts.push(printCommentFromStore(comment, options));
+  }
+
+  if (parts.length === 0) {
+    return "";
+  }
+
+  if (sameIndent) {
+    return join(hardline, parts);
+  }
+  return indent(concat([hardline, join(hardline, parts)]));
+}
+
 function prependCursorPlaceholder(path, options, printed) {
   if (path.getNode() === options.cursorNode && path.getValue()) {
     return concat([cursor, printed, cursor]);
   }
   return printed;
+}
+
+function printCommentsFromStore(path, print, options, needsSemi) {
+  const value = path.getValue();
+  const printed = print(path);
+  const store = options[Symbol.for("attachedComments")];
+  const comments = store.get(value);
+
+  if (!comments || comments.length === 0) {
+    return prependCursorPlaceholder(path, options, printed);
+  }
+
+  const leadingParts = [];
+  const trailingParts = [needsSemi ? ";" : "", printed];
+
+  for (const comment of comments) {
+    const { leading, trailing } = comment;
+    if (leading) {
+      const contents = printLeadingCommentFromStore(comment, options);
+      /* istanbul ignore next */
+      if (!contents) {
+        return;
+      }
+      leadingParts.push(contents);
+
+      const text = options.originalText;
+      const index = skipNewline(
+        text,
+        skipSpaces(text, options.locEnd(comment))
+      );
+      if (index !== false && hasNewline(text, index)) {
+        leadingParts.push(hardline);
+      }
+    } else if (trailing) {
+      trailingParts.push(printTrailingCommentFromStore(comment, options));
+    }
+  }
+
+  return prependCursorPlaceholder(
+    path,
+    options,
+    concat(leadingParts.concat(trailingParts))
+  );
 }
 
 function printComments(path, print, options, needsSemi) {
@@ -553,7 +702,9 @@ function ensureAllCommentsPrinted(astComments) {
 module.exports = {
   attach,
   printComments,
+  printCommentsFromStore,
   printDanglingComments,
+  printDanglingCommentsFromStore,
   getSortedChildNodes,
   ensureAllCommentsPrinted,
 };
