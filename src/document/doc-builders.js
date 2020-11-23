@@ -175,6 +175,7 @@ function lineSuffix(contents) {
 const lineSuffixBoundary = { type: "line-suffix-boundary" };
 const breakParent = { type: "break-parent" };
 const trim = { type: "trim" };
+const trimEmptyLines = { type: "trim-empty-lines" };
 const line = { type: "line" };
 const softline = { type: "line", soft: true };
 const hardline = concat([{ type: "line", hard: true }, breakParent]);
@@ -240,6 +241,7 @@ module.exports = {
   breakParent,
   ifBreak,
   trim,
+  trimEmptyLines,
   indent,
   align,
   addAlignmentToDoc,

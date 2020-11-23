@@ -143,6 +143,60 @@ function trim(out) {
   return trimCount;
 }
 
+function replaceTrailingNewLine(string, ind) {
+  let replaced = string;
+  const hasIndention = ind.value.length !== 0 && string.endsWith(ind.value);
+  if (hasIndention) {
+    replaced = replaced.slice(0, -ind.value.length);
+  }
+
+  replaced = replaced.replace(/(?:\r\n?|\n)*$/, "");
+  if (hasIndention) {
+    replaced += ind.value;
+  }
+  if (string !== replaced) {
+    const replacedLength = replaced.length;
+    // We don't want replace `\r\n\n` to `\r`
+    if (
+      string.charAt(replacedLength - 1) === "\r" &&
+      string.charAt(replacedLength) === "\n"
+    ) {
+      replaced += "\n";
+    }
+  }
+  return replaced;
+}
+
+// Trim empty lines at the end
+function trimEmptyLines(out, ind) {
+  let hasEmptyLines = false;
+  while (out.length > 1 && typeof out[out.length - 1] === "string") {
+    const last = out[out.length - 1];
+    const penultimate = out[out.length - 2];
+    // Only one or penultimate is `cursor`
+    const isPenultimateString = typeof penultimate === "string";
+    const string = isPenultimateString ? penultimate + last : last;
+    const replaced = replaceTrailingNewLine(string, ind);
+
+    if (replaced !== string) {
+      hasEmptyLines = true;
+
+      if (replaced === "") {
+        out.pop();
+        continue;
+      }
+
+      if (isPenultimateString) {
+        out.pop();
+      }
+
+      out[out.length - 1] = replaced;
+    }
+    break;
+  }
+  return hasEmptyLines;
+}
+
 function fits(next, restCommands, width, options, mustBeFlat) {
   let restIdx = restCommands.length;
   const cmds = [next];
@@ -186,6 +240,9 @@ function fits(next, restCommands, width, options, mustBeFlat) {
         case "trim":
           width += trim(out);
 
+          break;
+        case "trim-empty-lines":
+          trimEmptyLines(out, ind);
           break;
         case "group":
           if (mustBeFlat && doc.break) {
@@ -289,6 +346,14 @@ function printDocToString(doc, options) {
           break;
         case "trim":
           pos -= trim(out);
+
+          break;
+        case "trim-empty-lines":
+          console.log(out);
+
+          if (trimEmptyLines(out, ind)) {
+          }
+          console.log(out);
 
           break;
         case "group":

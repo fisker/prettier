@@ -1,7 +1,7 @@
 "use strict";
 
 const {
-  utils: { stripTrailingHardline },
+  builders: { concat, trimEmptyLines },
 } = require("../document");
 const { normalize } = require("./options");
 const comments = require("./comments");
@@ -63,12 +63,7 @@ function textToDoc(
   comments.ensureAllCommentsPrinted(astComments);
 
   if (shouldStripTrailingHardline) {
-    // TODO: move this to `stripTrailingHardline` function in `/src/document/doc-utils.js`
-    if (typeof doc === "string") {
-      return doc.replace(/(?:\r?\n)*$/, "");
-    }
-
-    return stripTrailingHardline(doc, true);
+    return concat([doc, trimEmptyLines]);
   }
 
   /* istanbul ignore next */

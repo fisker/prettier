@@ -65,6 +65,10 @@ function printDoc(doc) {
     return "trim";
   }
 
+  if (doc.type === "trimEmptyLines") {
+    return "trimEmptyLines";
+  }
+
   if (doc.type === "concat") {
     return "[" + doc.parts.map(printDoc).join(", ") + "]";
   }
