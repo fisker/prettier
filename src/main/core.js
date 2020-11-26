@@ -145,7 +145,6 @@ function formatRange(originalText, opts) {
   const { ast, text } = parser.parse(originalText, opts);
   const { rangeStart, rangeEnd } = rangeUtil.calculateRange(text, opts, ast);
   const rangeString = text.slice(rangeStart, rangeEnd);
-
   // Try to extend the range backwards to the beginning of the line.
   // This is so we can detect indentation correctly and restore it.
   // Use `Math.min` since `lastIndexOf` returns 0 when `rangeStart` is 0

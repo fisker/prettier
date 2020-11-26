@@ -1,0 +1,9 @@
+{a:[
+[
+<<<PRETTIER_RANGE_START>>>1,2,
+3],
+[4,<<<PRETTIER_RANGE_END>>>5,
+6]
+],
+"b":
+2}
