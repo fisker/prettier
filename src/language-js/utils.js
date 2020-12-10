@@ -250,6 +250,17 @@ function isNumericLiteral(node) {
  * @param {Node} node
  * @returns {boolean}
  */
+function isBigIntLiteral(node) {
+  return (
+    node.type === "BigIntLiteral" ||
+    (node.type === "Literal" && node.bigint)
+  );
+}
+
+/**
+ * @param {Node} node
+ * @returns {boolean}
+ */
 function isStringLiteral(node) {
   return (
     node.type === "StringLiteral" ||
@@ -1559,6 +1570,7 @@ module.exports = {
   isTheOnlyJSXElementInMarkdown,
   isTSXFile,
   isTypeAnnotationAFunction,
+  isBigIntLiteral,
   matchJsxWhitespaceRegex,
   needsHardlineAfterDanglingComment,
   rawText,

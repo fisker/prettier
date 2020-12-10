@@ -2,10 +2,18 @@
 
 const { printDanglingComments } = require("../../main/comments");
 const {
-  builders: { concat, line, softline, group, indent, ifBreak },
+  builders: { concat, line, softline, group, indent, ifBreak, fill, hardline },
 } = require("../../document");
 const { getLast, isNextLineEmpty } = require("../../common/util");
-const { shouldPrintComma, hasComment, CommentCheckFlags } = require("../utils");
+const {
+  shouldPrintComma,
+  hasComment,
+  CommentCheckFlags,
+  isNumericLiteral,
+  isStringLiteral,
+  isBigIntLiteral,
+  rawText,
+} = require("../utils");
 const { locEnd } = require("../loc");
 
 const { printOptionalToken, printTypeAnnotation } = require("./misc");
@@ -73,31 +81,66 @@ function printArray(path, options, print) {
         return element[itemsKey] && element[itemsKey].length > 1;
       });
 
-    parts.push(
-      group(
-        concat([
-          openBracket,
-          indent(
-            concat([
-              softline,
-              printArrayItems(path, options, "elements", print),
-            ])
-          ),
-          needsForcedTrailingComma ? "," : "",
-          ifBreak(
-            canHaveTrailingComma &&
-              !needsForcedTrailingComma &&
-              shouldPrintComma(options)
-              ? ","
-              : ""
-          ),
-          printDanglingComments(path, options, /* sameIndent */ true),
-          softline,
-          closeBracket,
-        ]),
-        { shouldBreak }
-      )
-    );
+    if (shouldFill(n)) {
+      parts.push(
+        group(
+          concat([
+            openBracket,
+            //indent(
+            ifBreak(
+              indent(
+                fill([
+                  hardline,
+                  ...printArrayItems(path, options, "elements", print).parts,
+                ])
+              ),
+              fill([
+                softline,
+                ...printArrayItems(path, options, "elements", print).parts,
+              ])
+            ),
+            // ),
+            needsForcedTrailingComma ? "," : "",
+            ifBreak(
+              canHaveTrailingComma &&
+                !needsForcedTrailingComma &&
+                shouldPrintComma(options)
+                ? ","
+                : ""
+            ),
+            printDanglingComments(path, options, /* sameIndent */ true),
+            softline,
+            closeBracket,
+          ])
+        )
+      );
+    } else {
+      parts.push(
+        group(
+          concat([
+            openBracket,
+            indent(
+              concat([
+                softline,
+                printArrayItems(path, options, "elements", print),
+              ])
+            ),
+            needsForcedTrailingComma ? "," : "",
+            ifBreak(
+              canHaveTrailingComma &&
+                !needsForcedTrailingComma &&
+                shouldPrintComma(options)
+                ? ","
+                : ""
+            ),
+            printDanglingComments(path, options, /* sameIndent */ true),
+            softline,
+            closeBracket,
+          ]),
+          { shouldBreak }
+        )
+      );
+    }
   }
 
   parts.push(
@@ -108,7 +151,7 @@ function printArray(path, options, print) {
   return concat(parts);
 }
 
-function printArrayItems(path, options, printPath, print) {
+function printArrayItems(path, options, printPath, print, fillMode) {
   const printedElements = [];
   let separatorParts = [];
 
@@ -125,7 +168,17 @@ function printArrayItems(path, options, printPath, print) {
     }
   }, printPath);
 
-  return concat(printedElements);
+  return fillMode ? fill(printedElements) : concat(printedElements);
+}
+
+function shouldFill(node) {
+  return node.elements.every(
+    (element) =>
+      !element ||
+      isNumericLiteral(element) ||
+      isBigIntLiteral(element) ||
+      (isStringLiteral(element) && rawText(element).length < 8)
+  );
 }
 
 module.exports = { printArray, printArrayItems };
