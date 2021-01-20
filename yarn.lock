@@ -3085,6 +3085,7 @@ eslint-plugin-jest@24.1.3:
 
 "eslint-plugin-prettier-internal-rules@link:scripts/tools/eslint-plugin-prettier-internal-rules":
   version "0.0.0"
+  uid ""
 
 eslint-plugin-react@7.22.0:
   version "7.22.0"
@@ -3103,10 +3104,9 @@ eslint-plugin-react@7.22.0:
     resolve "^1.18.1"
     string.prototype.matchall "^4.0.2"
 
-eslint-plugin-unicorn@26.0.1:
+eslint-plugin-unicorn@fisker/eslint-plugin-unicorn#more-concat-fix:
   version "26.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-unicorn/-/eslint-plugin-unicorn-26.0.1.tgz#65f476bb7624beb417066259dc14c7ebb21eb6fc"
-  integrity sha512-SWgF9sIVY74zqkkSN2dclSCqRfocWSUGD0haC0NX2oRfmdp9p8dQvJYkYSQePaCyssPUE/pqpsIEEZNTh8crUA==
+  resolved "https://codeload.github.com/fisker/eslint-plugin-unicorn/tar.gz/93b42e8aa101079946179aa43306fcce49cc24c6"
   dependencies:
     ci-info "^2.0.0"
     clean-regexp "^1.0.0"
@@ -3117,7 +3117,7 @@ eslint-plugin-unicorn@26.0.1:
     lodash "^4.17.20"
     pluralize "^8.0.0"
     read-pkg-up "^7.0.1"
-    regexp-tree "^0.1.21"
+    regexp-tree "^0.1.22"
     reserved-words "^0.1.2"
     safe-regex "^2.1.1"
     semver "^7.3.4"
@@ -6055,7 +6055,12 @@ regex-not@^1.0.0, regex-not@^1.0.2:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
 
-regexp-tree@^0.1.21, regexp-tree@~0.1.1:
+regexp-tree@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.npm.taobao.org/regexp-tree/download/regexp-tree-0.1.22.tgz?cache=0&sync_timestamp=1610970258072&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregexp-tree%2Fdownload%2Fregexp-tree-0.1.22.tgz#495bb485bc25422f1967b85d71fac0e9d731aa1b"
+  integrity sha1-SVu0hbwlQi8ZZ7hdcfrA6dcxqhs=
+
+regexp-tree@~0.1.1:
   version "0.1.21"
   resolved "https://registry.yarnpkg.com/regexp-tree/-/regexp-tree-0.1.21.tgz#55e2246b7f7d36f1b461490942fa780299c400d7"
   integrity sha512-kUUXjX4AnqnR8KRTCrayAo9PzYMRKmVoGgaz2tBuz0MF3g1ZbGebmtW0yFHfFK9CmBjQKeYIgoL22pFLBJY7sw==

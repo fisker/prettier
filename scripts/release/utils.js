@@ -37,7 +37,7 @@ function runYarn(script) {
   if (typeof script === "string") {
     script = [script];
   }
-  return execa("yarn", ["--silent"].concat(script)).catch((error) => {
+  return execa("yarn", ["--silent", ...script]).catch((error) => {
     throw new Error(`\`yarn ${script}\` failed\n${error.stdout}`);
   });
 }

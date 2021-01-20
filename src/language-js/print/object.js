@@ -113,7 +113,7 @@ function printObject(path, options, print) {
   const props = propsAndLoc
     .sort((a, b) => a.loc - b.loc)
     .map((prop) => {
-      const result = separatorParts.concat(group(prop.printed));
+      const result = [...separatorParts, group(prop.printed)];
       separatorParts = [separator, line];
       if (
         (prop.node.type === "TSPropertySignature" ||
@@ -149,7 +149,7 @@ function printObject(path, options, print) {
     } else {
       printed = "...";
     }
-    props.push(separatorParts.concat(printed));
+    props.push([...separatorParts, printed]);
   }
 
   const lastElem = getLast(n[propertiesField]);

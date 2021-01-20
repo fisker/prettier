@@ -85,19 +85,20 @@ function load(plugins, pluginSearchDirs) {
         requirePath: resolve(pluginName, { paths: [resolvedPluginSearchDir] }),
       }));
     })
-    .reduce((a, b) => a.concat(b), []);
+    .reduce((a, b) => [...a, ...b], []);
 
-  const externalPlugins = uniqBy(
-    externalManualLoadPluginInfos.concat(externalAutoLoadPluginInfos),
-    "requirePath"
-  )
-    .map((externalPluginInfo) => ({
+  const externalPlugins = [
+    ...uniqBy(
+      [...externalManualLoadPluginInfos, ...externalAutoLoadPluginInfos],
+      "requirePath"
+    ).map((externalPluginInfo) => ({
       name: externalPluginInfo.name,
       ...eval("require")(externalPluginInfo.requirePath),
-    }))
-    .concat(externalPluginInstances);
+    })),
+    ...externalPluginInstances,
+  ];
 
-  return internalPlugins.concat(externalPlugins);
+  return [...internalPlugins, ...externalPlugins];
 }
 
 function findPluginsInNodeModules(nodeModulesDir) {
