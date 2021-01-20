@@ -30,7 +30,7 @@ const colorAdjusterFunctions = new Set([
 ]);
 
 function getAncestorCounter(path, typeOrTypes) {
-  const types = [].concat(typeOrTypes);
+  const types = [...typeOrTypes];
 
   let counter = -1;
   let ancestorNode;
@@ -149,7 +149,7 @@ function insideICSSRuleNode(path) {
 }
 
 function insideAtRuleNode(path, atRuleNameOrAtRuleNames) {
-  const atRuleNames = [].concat(atRuleNameOrAtRuleNames);
+  const atRuleNames = [...atRuleNameOrAtRuleNames];
   const atRuleAncestorNode = getAncestorNode(path, "css-atrule");
 
   return (
