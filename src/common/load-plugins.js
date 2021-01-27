@@ -18,6 +18,10 @@ const clearCache = () => {
 };
 
 function load(plugins, pluginSearchDirs) {
+  if (process.PRETTIER_NO_PLUGINS) {
+    return internalPlugins;
+  }
+
   if (!plugins) {
     plugins = [];
   }

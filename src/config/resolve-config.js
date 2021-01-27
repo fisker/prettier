@@ -66,6 +66,10 @@ function getExplorer(opts) {
 }
 
 function _resolveConfig(filePath, opts, sync) {
+  if (process.PRETTIER_NO_CONFIG) {
+    return sync ? {} : Promise.resolve({});
+  }
+
   opts = { useCache: true, ...opts };
   const loadOpts = {
     cache: !!opts.useCache,

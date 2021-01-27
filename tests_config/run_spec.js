@@ -1,12 +1,27 @@
 "use strict";
 
-const { TEST_STANDALONE } = process.env;
+const {
+  TEST_STANDALONE,
+  PRETTIER_NO_PLUGINS,
+  PRETTIER_NO_CONFIG,
+} = process.env;
+
+const setEnv = () => {
+  process.env.PRETTIER_NO_PLUGINS = true;
+  process.env.PRETTIER_NO_CONFIG = true;
+};
+const restoreEnv = () => {
+  process.env.PRETTIER_NO_PLUGINS = PRETTIER_NO_PLUGINS;
+  process.env.PRETTIER_NO_CONFIG = PRETTIER_NO_CONFIG;
+};
 
 const fs = require("fs");
 const path = require("path");
+setEnv();
 const prettier = !TEST_STANDALONE
   ? require("prettier-local")
   : require("prettier-standalone");
+restoreEnv();
 const checkParsers = require("./utils/check-parsers");
 const visualizeRange = require("./utils/visualize-range");
 const createSnapshot = require("./utils/create-snapshot");
@@ -21,6 +36,10 @@ const BOM = "\uFEFF";
 const CURSOR_PLACEHOLDER = "<|>";
 const RANGE_START_PLACEHOLDER = "<<<PRETTIER_RANGE_START>>>";
 const RANGE_END_PLACEHOLDER = "<<<PRETTIER_RANGE_END>>>";
+
+beforeEach(setEnv);
+
+afterEach(restoreEnv);
 
 // TODO: these test files need fix
 const unstableTests = new Map(
