@@ -115,7 +115,7 @@ function getOptionsWithOpposites(options) {
   return flat(optionsWithOpposites).filter(Boolean);
 }
 
-function createUsage(context) {
+async function createUsage(context) {
   const options = getOptionsWithOpposites(context.detailedOptions).filter(
     // remove unnecessary option (e.g. `semi`, `color`, etc.), which is only used for --help <flag>
     (option) =>

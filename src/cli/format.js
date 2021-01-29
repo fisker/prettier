@@ -104,7 +104,7 @@ function listDifferent(context, input, options, filename) {
   return true;
 }
 
-function format(context, input, opt) {
+async function format(context, input, opt) {
   if (!opt.parser && !opt.filepath) {
     throw new errors.UndefinedParserError(
       "No parser and no file path given, couldn't infer a parser."
@@ -232,7 +232,7 @@ function createIgnorerFromContextOrDie(context) {
   }
 }
 
-function formatStdin(context) {
+async function formatStdin(context) {
   const filepath = context.argv["stdin-filepath"]
     ? path.resolve(process.cwd(), context.argv["stdin-filepath"])
     : process.cwd();
@@ -244,30 +244,30 @@ function formatStdin(context) {
     ? path.relative(path.dirname(context.argv["ignore-path"]), filepath)
     : path.relative(process.cwd(), filepath);
 
-  getStdin()
-    .then((input) => {
-      if (
-        relativeFilepath &&
-        ignorer.ignores(fixWindowsSlashes(relativeFilepath))
-      ) {
-        writeOutput(context, { formatted: input });
-        return;
-      }
+  try {
+    const input = await getStdin();
 
-      const options = getOptionsForFile(context, filepath);
+    if (
+      relativeFilepath &&
+      ignorer.ignores(fixWindowsSlashes(relativeFilepath))
+    ) {
+      writeOutput(context, { formatted: input });
+      return;
+    }
 
-      if (listDifferent(context, input, options, "(stdin)")) {
-        return;
-      }
+    const options = getOptionsForFile(context, filepath);
 
-      writeOutput(context, format(context, input, options), options);
-    })
-    .catch((error) => {
-      handleError(context, relativeFilepath || "stdin", error);
-    });
+    if (listDifferent(context, input, options, "(stdin)")) {
+      return;
+    }
+
+    writeOutput(context, await format(context, input, options), options);
+  } catch (error) {
+    handleError(context, relativeFilepath || "stdin", error);
+  }
 }
 
-function formatFiles(context) {
+async function formatFiles(context) {
   // The ignorer will be used to filter file paths after the glob is checked,
   // before any files are actually written
   const ignorer = createIgnorerFromContextOrDie(context);
@@ -345,7 +345,7 @@ function formatFiles(context) {
     let output;
 
     try {
-      result = format(context, input, options);
+      result = await format(context, input, options);
       output = result.formatted;
     } catch (error) {
       handleError(context, filename, error);

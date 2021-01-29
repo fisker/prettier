@@ -8,7 +8,7 @@ const stringify = require("fast-json-stable-stringify");
 const prettier = require("../index");
 const core = require("./core");
 
-function run(args) {
+async function main(args) {
   const context = new core.Context(args);
 
   try {
@@ -65,21 +65,28 @@ function run(args) {
       (!process.stdin.isTTY || context.args["stdin-filepath"]);
 
     if (context.argv["find-config-path"]) {
-      core.logResolvedConfigPathOrDie(context);
+      await core.logResolvedConfigPathOrDie(context);
     } else if (context.argv["file-info"]) {
-      core.logFileInfoOrDie(context);
+      await core.logFileInfoOrDie(context);
     } else if (useStdin) {
-      core.formatStdin(context);
+      await core.formatStdin(context);
     } else if (hasFilePatterns) {
-      core.formatFiles(context);
+      await core.formatFiles(context);
     } else {
-      context.logger.log(core.createUsage(context));
+      context.logger.log(await core.createUsage(context));
       process.exit(1);
     }
   } catch (error) {
     context.logger.error(error.message);
     process.exit(1);
   }
+}
+
+function run(args) {
+  main(args).catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
 }
 
 module.exports = {

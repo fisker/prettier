@@ -15,8 +15,8 @@ const {
 } = require("./option-map");
 const { createDetailedUsage, createUsage } = require("./usage");
 
-function logResolvedConfigPathOrDie(context) {
-  const configFile = prettier.resolveConfigFile.sync(
+async function logResolvedConfigPathOrDie(context) {
+  const configFile = await prettier.resolveConfigFile(
     context.argv["find-config-path"]
   );
   if (configFile) {
@@ -26,7 +26,7 @@ function logResolvedConfigPathOrDie(context) {
   }
 }
 
-function logFileInfoOrDie(context) {
+async function logFileInfoOrDie(context) {
   const options = {
     ignorePath: context.argv["ignore-path"],
     withNodeModules: context.argv["with-node-modules"],
@@ -37,7 +37,7 @@ function logFileInfoOrDie(context) {
 
   context.logger.log(
     prettier.format(
-      stringify(prettier.getFileInfo.sync(context.argv["file-info"], options)),
+      stringify(await prettier.getFileInfo(context.argv["file-info"], options)),
       { parser: "json" }
     )
   );
