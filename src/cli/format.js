@@ -269,7 +269,7 @@ async function formatStdin(context) {
 async function formatFiles(context) {
   // The ignorer will be used to filter file paths after the glob is checked,
   // before any files are actually written
-  const ignorer = createIgnorerFromContextOrDie(context);
+  const ignorer = await createIgnorerFromContextOrDie(context);
 
   let numberOfUnformattedFilesFound = 0;
 
