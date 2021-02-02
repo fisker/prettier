@@ -219,9 +219,9 @@ async function format(context, input, opt) {
   return prettier.formatWithCursor(input, opt);
 }
 
-function createIgnorerFromContextOrDie(context) {
+async function createIgnorerFromContextOrDie(context) {
   try {
-    return createIgnorer.sync(
+    return await createIgnorer(
       context.argv["ignore-path"],
       context.argv["with-node-modules"]
     );
@@ -236,7 +236,7 @@ async function formatStdin(context) {
     ? path.resolve(process.cwd(), context.argv["stdin-filepath"])
     : process.cwd();
 
-  const ignorer = createIgnorerFromContextOrDie(context);
+  const ignorer = await createIgnorerFromContextOrDie(context);
   // If there's an ignore-path set, the filename must be relative to the
   // ignore path, not the current working directory.
   const relativeFilepath = context.argv["ignore-path"]
@@ -254,7 +254,7 @@ async function formatStdin(context) {
       return;
     }
 
-    const options = getOptionsForFile(context, filepath);
+    const options = await getOptionsForFile(context, filepath);
 
     if (listDifferent(context, input, options, "(stdin)")) {
       return;
@@ -277,7 +277,7 @@ async function formatFiles(context) {
     context.logger.log("Checking formatting...");
   }
 
-  for (const pathOrError of expandPatterns(context)) {
+  for await (const pathOrError of expandPatterns(context)) {
     if (typeof pathOrError === "object") {
       context.logger.error(pathOrError.error);
       // Don't exit, but set the exit code to 2
