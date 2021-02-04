@@ -566,8 +566,7 @@ function isTestCall(n, parent) {
  * @returns {boolean}
  */
 function isCallExpression(node) {
-  const { type } = getChainElement(node) || node;
-
+  const { type } = stripChainExpression(node);
   return type === "CallExpression" || type === "OptionalCallExpression";
 }
 
@@ -576,35 +575,19 @@ function isCallExpression(node) {
  * @returns {boolean}
  */
 function isMemberExpression(node) {
-  const { type } = getChainElement(node) || node;
-
+  const { type } = stripChainExpression(node);
   return type === "MemberExpression" || type === "OptionalMemberExpression";
 }
 
 /**
  * @param {Node} node
- * @returns {boolean}
+ * @returns {Node}
  */
-function isChainElement(node) {
-  return isMemberExpression(node) || isCallExpression(node);
-}
-
-/**
- * @param {Node} node
- * @returns {boolean}
- */
-function isChainExpression(node) {
-  return node.type === "ChainExpression";
-}
-
-/**
- * @param {Node} node
- * @returns {boolean}
- */
-function getChainElement(node) {
-  if (isChainExpression(node)) {
-    return node.expression;
+function stripChainExpression(node) {
+  while (node.type === "ChainExpression") {
+    node = node.expression;
   }
+  return node;
 }
 
 /**
@@ -973,7 +956,7 @@ function isSimpleCallArgument(node, depth) {
   }
 
   if (isCallExpression(node) || node.type === "NewExpression") {
-    const callOrNewExpression = getChainElement(node) || node;
+    const callOrNewExpression = stripChainExpression(node);
     return (
       isSimpleCallArgument(callOrNewExpression.callee, depth) &&
       callOrNewExpression.arguments.every(isChildSimple)
@@ -981,7 +964,7 @@ function isSimpleCallArgument(node, depth) {
   }
 
   if (isMemberExpression(node)) {
-    const chainElement = getChainElement(node);
+    const chainElement = stripChainExpression(node);
     return (
       isSimpleCallArgument(chainElement.object, depth) &&
       isSimpleCallArgument(chainElement.property, depth)
@@ -1384,7 +1367,7 @@ module.exports = {
   isBlockComment,
   isLineComment,
   isPrettierIgnoreComment,
-  getChainElement,
+  stripChainExpression,
   isCallExpression,
   isExportDeclaration,
   isFlowAnnotationComment,

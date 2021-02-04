@@ -22,7 +22,7 @@ const {
   hasIgnoreComment,
   isCallExpression,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("./utils");
 const { locStart, locEnd } = require("./loc");
 
@@ -524,7 +524,7 @@ function handleCommentInEmptyParens({ comment, enclosingNode, text }) {
     ((isRealFunctionLikeNode(enclosingNode) &&
       getFunctionParameters(enclosingNode).length === 0) ||
       (isCallExpression(enclosingNode) &&
-        getChainElement(enclosingNode).arguments.length === 0) ||
+        stripChainExpression(enclosingNode).arguments.length === 0) ||
       (enclosingNode.type === "NewExpression" &&
         enclosingNode.arguments.length === 0))
   ) {
@@ -646,8 +646,7 @@ function handleCallExpressionComments({
   enclosingNode,
 }) {
   if (enclosingNode && isCallExpression(enclosingNode) && precedingNode) {
-    const callExpression = getChainElement(enclosingNode);
-
+    const callExpression = stripChainExpression(enclosingNode);
     if (
       callExpression.callee === precedingNode &&
       callExpression.arguments.length > 0

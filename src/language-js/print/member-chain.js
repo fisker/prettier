@@ -20,7 +20,7 @@ const {
   CommentCheckFlags,
   isNextLineEmpty,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("../utils");
 const { locEnd } = require("../loc");
 
@@ -182,8 +182,8 @@ function printMemberChain(path, options, print) {
       printedNodes[i].node.type === "TSNonNullExpression" ||
       isCallExpression(printedNodes[i].node) ||
       (isMemberExpression(printedNodes[i].node) &&
-        getChainElement(printedNodes[i].node).computed &&
-        isNumericLiteral(getChainElement(printedNodes[i].node).property))
+        stripChainExpression(printedNodes[i].node).computed &&
+        isNumericLiteral(stripChainExpression(printedNodes[i].node).property))
     ) {
       currentGroup.push(printedNodes[i]);
     } else {
@@ -289,8 +289,8 @@ function printMemberChain(path, options, print) {
     const lastNode = getLast(groups[0]).node;
     return (
       isMemberExpression(lastNode) &&
-      getChainElement(lastNode).property.type === "Identifier" &&
-      (isFactory(getChainElement(lastNode).property.name) || hasComputed)
+      stripChainExpression(lastNode).property.type === "Identifier" &&
+      (isFactory(stripChainExpression(lastNode).property.name) || hasComputed)
     );
   }
 

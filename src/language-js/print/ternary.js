@@ -7,7 +7,7 @@ const {
   isBlockComment,
   getComments,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("../utils");
 const { locStart, locEnd } = require("../loc");
 const {
@@ -310,7 +310,7 @@ function printTernary(path, options, print) {
   // ).call()
   const breakClosingParen =
     !jsxMode &&
-    ((isMemberExpression(parent) && !getChainElement(parent).computed) ||
+    ((isMemberExpression(parent) && !stripChainExpression(parent).computed) ||
       (parent.type === "NGPipeExpression" && parent.left === node));
 
   const result = maybeGroup([

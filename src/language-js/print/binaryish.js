@@ -15,7 +15,7 @@ const {
   CommentCheckFlags,
   isCallExpression,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("../utils");
 
 /** @typedef {import("../../document").Doc} Doc */
@@ -63,9 +63,9 @@ function printBinaryishExpression(path, options, print) {
   //     c
   //   ).call()
   if (
-    (isCallExpression(parent) && getChainElement(parent).callee === n) ||
+    (isCallExpression(parent) && stripChainExpression(parent).callee === n) ||
     parent.type === "UnaryExpression" ||
-    (isMemberExpression(parent) && !getChainElement(parent).computed)
+    (isMemberExpression(parent) && !stripChainExpression(parent).computed)
   ) {
     return group([indent([softline, ...parts]), softline]);
   }

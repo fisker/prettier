@@ -43,7 +43,7 @@ const {
   hasIgnoreComment,
   isCallExpression,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("./utils");
 const { locStart, locEnd } = require("./loc");
 
@@ -371,8 +371,10 @@ function printPathNoParens(path, options, print, args) {
       }
       const parent = path.getParentNode();
       if (
-        (isCallExpression(parent) && getChainElement(parent).callee === n) ||
-        (isMemberExpression(parent) && getChainElement(parent).object === n)
+        (isCallExpression(parent) &&
+          stripChainExpression(parent).callee === n) ||
+        (isMemberExpression(parent) &&
+          stripChainExpression(parent).object === n)
       ) {
         return group([indent([softline, ...parts]), softline]);
       }

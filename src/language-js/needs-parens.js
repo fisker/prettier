@@ -12,7 +12,7 @@ const {
   getPrecedence,
   isCallExpression,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("./utils");
 
 function needsParens(path, options) {
@@ -689,7 +689,7 @@ function needsParens(path, options) {
           !(node.extra && node.extra.parenthesized)) ||
         parent.type === "ArrayExpression" ||
         (isCallExpression(parent) &&
-          getChainElement(parent).arguments[name] === node) ||
+          stripChainExpression(parent).arguments[name] === node) ||
         (name === "right" && parent.type === "NGPipeExpression") ||
         (name === "property" && parent.type === "MemberExpression") ||
         parent.type === "AssignmentExpression"

@@ -21,7 +21,7 @@ const {
   isSimpleTemplateLiteral,
   hasComment,
   isMemberExpression,
-  getChainElement,
+  stripChainExpression,
 } = require("../utils");
 
 function printTemplateLiteral(path, print, options) {
@@ -91,7 +91,7 @@ function printTemplateLiteral(path, print, options) {
           expression.type === "ConditionalExpression" ||
           expression.type === "SequenceExpression" ||
           expression.type === "TSAsExpression" ||
-          isBinaryish(getChainElement(expression) || expression)
+          isBinaryish(stripChainExpression(expression) || expression)
         ) {
           printed = [indent([softline, printed]), softline];
         }
