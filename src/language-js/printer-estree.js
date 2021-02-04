@@ -1136,6 +1136,7 @@ function canAttachComment(node) {
     node.type &&
     !isBlockComment(node) &&
     !isLineComment(node) &&
+    node.type !== "ChainExpression" &&
     node.type !== "EmptyStatement" &&
     node.type !== "TemplateElement" &&
     node.type !== "Import" &&
