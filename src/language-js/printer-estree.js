@@ -303,9 +303,10 @@ function printPathNoParens(path, options, print, args) {
     case "AssignmentPattern":
       return [path.call(print, "left"), " = ", path.call(print, "right")];
     case "OptionalMemberExpression":
-    case "MemberExpression": {
+    case "MemberExpression":
       return printMemberExpression(path, options, print);
-    }
+    case "ChainExpression":
+      return path.call(print, "expression");
     case "MetaProperty":
       return [path.call(print, "meta"), ".", path.call(print, "property")];
     case "BindExpression":
