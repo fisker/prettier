@@ -13,6 +13,8 @@ const {
   shouldFlatten,
   hasComment,
   CommentCheckFlags,
+  isCallExpression,
+  getChainElement,
 } = require("../utils");
 
 /** @typedef {import("../../document").Doc} Doc */
@@ -60,9 +62,7 @@ function printBinaryishExpression(path, options, print) {
   //     c
   //   ).call()
   if (
-    ((parent.type === "CallExpression" ||
-      parent.type === "OptionalCallExpression") &&
-      parent.callee === n) ||
+    (isCallExpression(parent) && getChainElement(parent).callee === n) ||
     parent.type === "UnaryExpression" ||
     ((parent.type === "MemberExpression" ||
       parent.type === "OptionalMemberExpression") &&
@@ -89,8 +89,7 @@ function printBinaryishExpression(path, options, print) {
     (parent.type === "ConditionalExpression" &&
       parentParent.type !== "ReturnStatement" &&
       parentParent.type !== "ThrowStatement" &&
-      parentParent.type !== "CallExpression" &&
-      parentParent.type !== "OptionalCallExpression") ||
+      !isCallExpression(parentParent)) ||
     parent.type === "TemplateLiteral";
 
   const shouldIndentIfInlining =

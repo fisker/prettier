@@ -568,7 +568,7 @@ function isTestCall(n, parent) {
  * @returns {boolean}
  */
 function isCallExpression(node) {
-  const { type } = node.type === "ChainExpression" ? node.expression : node;
+  const { type } = getChainElement(node) || node;
 
   return type === "CallExpression" || type === "OptionalCallExpression";
 }
@@ -578,7 +578,7 @@ function isCallExpression(node) {
  * @returns {boolean}
  */
 function isMemberExpression(node) {
-  const { type } = node.type === "ChainExpression" ? node.expression : node;
+  const { type } = getChainElement(node) || node;
 
   return type === "MemberExpression" || type === "OptionalMemberExpression";
 }
@@ -589,6 +589,24 @@ function isMemberExpression(node) {
  */
 function isChainElement(node) {
   return isMemberExpression(node) || isCallExpression(node);
+}
+
+/**
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function isChainExpression(node) {
+  return node.type === "ChainExpression";
+}
+
+/**
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function getChainElement(node) {
+  if (isChainExpression(node)) {
+    return node.expression;
+  }
 }
 
 /**
@@ -1373,6 +1391,7 @@ module.exports = {
   isBlockComment,
   isLineComment,
   isPrettierIgnoreComment,
+  getChainElement,
   isCallExpression,
   isExportDeclaration,
   isFlowAnnotationComment,

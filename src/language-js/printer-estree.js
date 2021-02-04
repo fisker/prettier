@@ -41,6 +41,8 @@ const {
   rawText,
   shouldPrintComma,
   hasIgnoreComment,
+  isCallExpression,
+getChainElement
 } = require("./utils");
 const { locStart, locEnd } = require("./loc");
 
@@ -367,9 +369,7 @@ function printPathNoParens(path, options, print, args) {
       }
       const parent = path.getParentNode();
       if (
-        ((parent.type === "CallExpression" ||
-          parent.type === "OptionalCallExpression") &&
-          parent.callee === n) ||
+        (isCallExpression(parent) && getChainElement(parent).callee === n) ||
         ((parent.type === "MemberExpression" ||
           parent.type === "OptionalMemberExpression") &&
           parent.object === n)

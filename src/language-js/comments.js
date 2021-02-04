@@ -20,6 +20,8 @@ const {
   hasFlowShorthandAnnotationComment,
   hasFlowAnnotationComment,
   hasIgnoreComment,
+  isCallExpression,
+  getChainElement,
 } = require("./utils");
 const { locStart, locEnd } = require("./loc");
 
@@ -521,9 +523,9 @@ function handleCommentInEmptyParens({ comment, enclosingNode, text }) {
     enclosingNode &&
     ((isRealFunctionLikeNode(enclosingNode) &&
       getFunctionParameters(enclosingNode).length === 0) ||
-      ((enclosingNode.type === "CallExpression" ||
-        enclosingNode.type === "OptionalCallExpression" ||
-        enclosingNode.type === "NewExpression") &&
+      (isCallExpression(enclosingNode) &&
+        getChainElement(enclosingNode).arguments.length === 0) ||
+      (enclosingNode.type === "NewExpression" &&
         enclosingNode.arguments.length === 0))
   ) {
     addDanglingComment(enclosingNode, comment);
@@ -643,16 +645,16 @@ function handleCallExpressionComments({
   precedingNode,
   enclosingNode,
 }) {
-  if (
-    enclosingNode &&
-    (enclosingNode.type === "CallExpression" ||
-      enclosingNode.type === "OptionalCallExpression") &&
-    precedingNode &&
-    enclosingNode.callee === precedingNode &&
-    enclosingNode.arguments.length > 0
-  ) {
-    addLeadingComment(enclosingNode.arguments[0], comment);
-    return true;
+  if (enclosingNode && isCallExpression(enclosingNode) && precedingNode) {
+    const callExpression = getChainElement(enclosingNode);
+
+    if (
+      callExpression.callee === precedingNode &&
+      callExpression.arguments.length > 0
+    ) {
+      addLeadingComment(callExpression.arguments[0], comment);
+      return true;
+    }
   }
   return false;
 }
@@ -959,8 +961,7 @@ function willPrintOwnComments(path /*, options */) {
       (isJsxNode(node) ||
         hasFlowShorthandAnnotationComment(node) ||
         (parent &&
-          (parent.type === "CallExpression" ||
-            parent.type === "OptionalCallExpression") &&
+          isCallExpression(parent) &&
           (hasFlowAnnotationComment(node.leadingComments) ||
             hasFlowAnnotationComment(node.trailingComments))))) ||
       (parent &&
