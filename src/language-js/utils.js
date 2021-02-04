@@ -101,10 +101,8 @@ function hasNakedLeftSide(node) {
     node.type === "LogicalExpression" ||
     node.type === "NGPipeExpression" ||
     node.type === "ConditionalExpression" ||
-    node.type === "CallExpression" ||
-    node.type === "OptionalCallExpression" ||
-    node.type === "MemberExpression" ||
-    node.type === "OptionalMemberExpression" ||
+    isCallExpression(node) ||
+    isMemberExpression(node) ||
     node.type === "SequenceExpression" ||
     node.type === "TaggedTemplateExpression" ||
     node.type === "BindExpression" ||
@@ -974,24 +972,19 @@ function isSimpleCallArgument(node, depth) {
     return isChildSimple(node.source);
   }
 
-  if (
-    node.type === "CallExpression" ||
-    node.type === "OptionalCallExpression" ||
-    node.type === "NewExpression"
-  ) {
+  if (isCallExpression(node) || node.type === "NewExpression") {
+    const callOrNewExpression = getChainElement(node) || node;
     return (
-      isSimpleCallArgument(node.callee, depth) &&
-      node.arguments.every(isChildSimple)
+      isSimpleCallArgument(callOrNewExpression.callee, depth) &&
+      callOrNewExpression.arguments.every(isChildSimple)
     );
   }
 
-  if (
-    node.type === "MemberExpression" ||
-    node.type === "OptionalMemberExpression"
-  ) {
+  if (isMemberExpression(node)) {
+    const chainElement = getChainElement(node);
     return (
-      isSimpleCallArgument(node.object, depth) &&
-      isSimpleCallArgument(node.property, depth)
+      isSimpleCallArgument(chainElement.object, depth) &&
+      isSimpleCallArgument(chainElement.property, depth)
     );
   }
 

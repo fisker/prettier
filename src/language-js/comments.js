@@ -21,6 +21,7 @@ const {
   hasFlowAnnotationComment,
   hasIgnoreComment,
   isCallExpression,
+  isMemberExpression,
   getChainElement,
 } = require("./utils");
 const { locStart, locEnd } = require("./loc");
@@ -318,8 +319,7 @@ function handleMemberExpressionComments({
 }) {
   if (
     enclosingNode &&
-    (enclosingNode.type === "MemberExpression" ||
-      enclosingNode.type === "OptionalMemberExpression") &&
+    isMemberExpression(enclosingNode) &&
     followingNode &&
     followingNode.type === "Identifier"
   ) {

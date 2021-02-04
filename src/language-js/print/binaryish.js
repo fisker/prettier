@@ -14,6 +14,7 @@ const {
   hasComment,
   CommentCheckFlags,
   isCallExpression,
+  isMemberExpression,
   getChainElement,
 } = require("../utils");
 
@@ -64,9 +65,7 @@ function printBinaryishExpression(path, options, print) {
   if (
     (isCallExpression(parent) && getChainElement(parent).callee === n) ||
     parent.type === "UnaryExpression" ||
-    ((parent.type === "MemberExpression" ||
-      parent.type === "OptionalMemberExpression") &&
-      !parent.computed)
+    (isMemberExpression(parent) && !getChainElement(parent).computed)
   ) {
     return group([indent([softline, ...parts]), softline]);
   }

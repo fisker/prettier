@@ -19,6 +19,8 @@ const {
   hasComment,
   CommentCheckFlags,
   isNextLineEmpty,
+  isMemberExpression,
+  getChainElement,
 } = require("../utils");
 const { locEnd } = require("../loc");
 
@@ -111,8 +113,7 @@ function printMemberChain(path, options, print) {
         printed: printComments(
           path,
           () =>
-            node.type === "OptionalMemberExpression" ||
-            node.type === "MemberExpression"
+            isMemberExpression(node)
               ? printMemberLookup(path, options, print)
               : printBindExpressionCallee(path, options, print),
           options
@@ -180,10 +181,9 @@ function printMemberChain(path, options, print) {
     if (
       printedNodes[i].node.type === "TSNonNullExpression" ||
       isCallExpression(printedNodes[i].node) ||
-      ((printedNodes[i].node.type === "MemberExpression" ||
-        printedNodes[i].node.type === "OptionalMemberExpression") &&
-        printedNodes[i].node.computed &&
-        isNumericLiteral(printedNodes[i].node.property))
+      (isMemberExpression(printedNodes[i].node) &&
+        getChainElement(printedNodes[i].node).computed &&
+        isNumericLiteral(getChainElement(printedNodes[i].node).property))
     ) {
       currentGroup.push(printedNodes[i]);
     } else {
@@ -288,10 +288,9 @@ function printMemberChain(path, options, print) {
 
     const lastNode = getLast(groups[0]).node;
     return (
-      (lastNode.type === "MemberExpression" ||
-        lastNode.type === "OptionalMemberExpression") &&
-      lastNode.property.type === "Identifier" &&
-      (isFactory(lastNode.property.name) || hasComputed)
+      isMemberExpression(lastNode) &&
+      getChainElement(lastNode).property.type === "Identifier" &&
+      (isFactory(getChainElement(lastNode).property.name) || hasComputed)
     );
   }
 
