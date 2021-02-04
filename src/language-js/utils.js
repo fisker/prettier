@@ -564,13 +564,31 @@ function isTestCall(n, parent) {
 }
 
 /**
- * @param {CallExpression | OptionalCallExpression} node
+ * @param {Node} node
  * @returns {boolean}
  */
 function isCallOrOptionalCallExpression(node) {
-  return (
-    node.type === "CallExpression" || node.type === "OptionalCallExpression"
-  );
+  const { type } = node.type === "ChainExpression" ? node.expression : node;
+
+  return type === "CallExpression" || type === "OptionalCallExpression";
+}
+
+/**
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function isMemberExpression(node) {
+  const { type } = node.type === "ChainExpression" ? node.expression : node;
+
+  return type === "MemberExpression" || type === "OptionalMemberExpression";
+}
+
+/**
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function isChainElement(node) {
+  return isMemberExpression(node) || isCallOrOptionalCallExpression(node);
 }
 
 /**
