@@ -41,6 +41,9 @@ const {
   rawText,
   shouldPrintComma,
   hasIgnoreComment,
+  isCallExpression,
+  isMemberExpression,
+  stripChainExpression,
 } = require("./utils");
 const { locStart, locEnd } = require("./loc");
 
@@ -300,9 +303,10 @@ function printPathNoParens(path, options, print, args) {
     case "AssignmentPattern":
       return [path.call(print, "left"), " = ", path.call(print, "right")];
     case "OptionalMemberExpression":
-    case "MemberExpression": {
+    case "MemberExpression":
       return printMemberExpression(path, options, print);
-    }
+    case "ChainExpression":
+      return path.call(print, "expression");
     case "MetaProperty":
       return [path.call(print, "meta"), ".", path.call(print, "property")];
     case "BindExpression":
@@ -367,12 +371,10 @@ function printPathNoParens(path, options, print, args) {
       }
       const parent = path.getParentNode();
       if (
-        ((parent.type === "CallExpression" ||
-          parent.type === "OptionalCallExpression") &&
-          parent.callee === n) ||
-        ((parent.type === "MemberExpression" ||
-          parent.type === "OptionalMemberExpression") &&
-          parent.object === n)
+        (isCallExpression(parent) &&
+          stripChainExpression(parent).callee === n) ||
+        (isMemberExpression(parent) &&
+          stripChainExpression(parent).object === n)
       ) {
         return group([indent([softline, ...parts]), softline]);
       }
@@ -1136,6 +1138,7 @@ function canAttachComment(node) {
     node.type &&
     !isBlockComment(node) &&
     !isLineComment(node) &&
+    node.type !== "ChainExpression" &&
     node.type !== "EmptyStatement" &&
     node.type !== "TemplateElement" &&
     node.type !== "Import" &&

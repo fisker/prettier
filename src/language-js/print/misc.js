@@ -4,7 +4,11 @@ const { isNonEmptyArray } = require("../../common/util");
 const {
   builders: { indent, join, line },
 } = require("../../document");
-const { isFlowAnnotationComment } = require("../utils");
+const {
+  isFlowAnnotationComment,
+  isCallExpression,
+  isMemberExpression,
+} = require("../utils");
 
 function printOptionalToken(path) {
   const node = path.getValue();
@@ -16,10 +20,8 @@ function printOptionalToken(path) {
   ) {
     return "";
   }
-  if (
-    node.type === "OptionalCallExpression" ||
-    (node.type === "OptionalMemberExpression" && node.computed)
-  ) {
+
+  if ((isCallExpression(node) || isMemberExpression(node)) && node.optional) {
     return "?.";
   }
   return "?";

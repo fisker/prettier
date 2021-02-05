@@ -101,10 +101,8 @@ function hasNakedLeftSide(node) {
     node.type === "LogicalExpression" ||
     node.type === "NGPipeExpression" ||
     node.type === "ConditionalExpression" ||
-    node.type === "CallExpression" ||
-    node.type === "OptionalCallExpression" ||
-    node.type === "MemberExpression" ||
-    node.type === "OptionalMemberExpression" ||
+    isCallExpression(node) ||
+    isMemberExpression(node) ||
     node.type === "SequenceExpression" ||
     node.type === "TaggedTemplateExpression" ||
     node.type === "BindExpression" ||
@@ -564,13 +562,32 @@ function isTestCall(n, parent) {
 }
 
 /**
- * @param {CallExpression | OptionalCallExpression} node
+ * @param {Node} node
  * @returns {boolean}
  */
-function isCallOrOptionalCallExpression(node) {
-  return (
-    node.type === "CallExpression" || node.type === "OptionalCallExpression"
-  );
+function isCallExpression(node) {
+  const { type } = stripChainExpression(node);
+  return type === "CallExpression" || type === "OptionalCallExpression";
+}
+
+/**
+ * @param {Node} node
+ * @returns {boolean}
+ */
+function isMemberExpression(node) {
+  const { type } = stripChainExpression(node);
+  return type === "MemberExpression" || type === "OptionalMemberExpression";
+}
+
+/**
+ * @param {Node} node
+ * @returns {Node}
+ */
+function stripChainExpression(node) {
+  while (node.type === "ChainExpression") {
+    node = node.expression;
+  }
+  return node;
 }
 
 /**
@@ -847,7 +864,7 @@ function isFunctionCompositionArgs(args) {
       if (count > 1) {
         return true;
       }
-    } else if (isCallOrOptionalCallExpression(arg)) {
+    } else if (isCallExpression(arg)) {
       for (const childArg of arg.arguments) {
         if (isFunctionOrArrowExpression(childArg)) {
           return true;
@@ -872,8 +889,8 @@ function isLongCurriedCallExpression(path) {
   const node = path.getValue();
   const parent = path.getParentNode();
   return (
-    isCallOrOptionalCallExpression(node) &&
-    isCallOrOptionalCallExpression(parent) &&
+    isCallExpression(node) &&
+    isCallExpression(parent) &&
     parent.callee === node &&
     node.arguments.length > parent.arguments.length &&
     parent.arguments.length > 0
@@ -938,24 +955,19 @@ function isSimpleCallArgument(node, depth) {
     return isChildSimple(node.source);
   }
 
-  if (
-    node.type === "CallExpression" ||
-    node.type === "OptionalCallExpression" ||
-    node.type === "NewExpression"
-  ) {
+  if (isCallExpression(node) || node.type === "NewExpression") {
+    const callOrNewExpression = stripChainExpression(node);
     return (
-      isSimpleCallArgument(node.callee, depth) &&
-      node.arguments.every(isChildSimple)
+      isSimpleCallArgument(callOrNewExpression.callee, depth) &&
+      callOrNewExpression.arguments.every(isChildSimple)
     );
   }
 
-  if (
-    node.type === "MemberExpression" ||
-    node.type === "OptionalMemberExpression"
-  ) {
+  if (isMemberExpression(node)) {
+    const chainElement = stripChainExpression(node);
     return (
-      isSimpleCallArgument(node.object, depth) &&
-      isSimpleCallArgument(node.property, depth)
+      isSimpleCallArgument(chainElement.object, depth) &&
+      isSimpleCallArgument(chainElement.property, depth)
     );
   }
 
@@ -1355,7 +1367,9 @@ module.exports = {
   isBlockComment,
   isLineComment,
   isPrettierIgnoreComment,
-  isCallOrOptionalCallExpression,
+  isCallExpression,
+  isMemberExpression,
+  stripChainExpression,
   isExportDeclaration,
   isFlowAnnotationComment,
   isFunctionCompositionArgs,

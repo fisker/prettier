@@ -20,6 +20,8 @@ const {
   isJestEachTemplateLiteral,
   isSimpleTemplateLiteral,
   hasComment,
+  isMemberExpression,
+  stripChainExpression,
 } = require("../utils");
 
 function printTemplateLiteral(path, print, options) {
@@ -85,12 +87,11 @@ function printTemplateLiteral(path, print, options) {
         // in the middle of a MemberExpression
         if (
           hasComment(expression) ||
-          expression.type === "MemberExpression" ||
-          expression.type === "OptionalMemberExpression" ||
+          isMemberExpression(expression) ||
           expression.type === "ConditionalExpression" ||
           expression.type === "SequenceExpression" ||
           expression.type === "TSAsExpression" ||
-          isBinaryish(expression)
+          isBinaryish(stripChainExpression(expression) || expression)
         ) {
           printed = [indent([softline, printed]), softline];
         }
