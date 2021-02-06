@@ -4,8 +4,8 @@ const runPrettier = require("../runPrettier");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
-describe("multiple patterns", () => {
-  runPrettier("cli/patterns", [
+test("multiple patterns", async () => {
+  await runPrettier("cli/patterns", [
     "directory/**/*.js",
     "other-directory/**/*.js",
     "-l",
@@ -14,8 +14,8 @@ describe("multiple patterns", () => {
   });
 });
 
-describe("multiple patterns with non exists pattern", () => {
-  runPrettier("cli/patterns", [
+test("multiple patterns with non exists pattern", async () => {
+  await runPrettier("cli/patterns", [
     "directory/**/*.js",
     "non-existent.js",
     "-l",
@@ -24,8 +24,8 @@ describe("multiple patterns with non exists pattern", () => {
   });
 });
 
-describe("multiple patterns with ignore nested directories pattern", () => {
-  runPrettier("cli/patterns", [
+test("multiple patterns with ignore nested directories pattern", async () => {
+  await runPrettier("cli/patterns", [
     "**/*.js",
     "!**/nested-directory/**",
     "-l",
@@ -34,20 +34,20 @@ describe("multiple patterns with ignore nested directories pattern", () => {
   });
 });
 
-describe("multiple patterns by with ignore pattern, ignores node_modules by default", () => {
-  runPrettier("cli/patterns", ["**/*.js", "!directory/**", "-l"]).test({
+test("multiple patterns by with ignore pattern, ignores node_modules by default", async () => {
+  await runPrettier("cli/patterns", ["**/*.js", "!directory/**", "-l"]).test({
     status: 1,
   });
 });
 
-describe("multiple patterns by with ignore pattern, ignores node_modules by with ./**/*.js", () => {
-  runPrettier("cli/patterns", ["./**/*.js", "!./directory/**", "-l"]).test({
+test("multiple patterns by with ignore pattern, ignores node_modules by with ./**/*.js", async () => {
+  await runPrettier("cli/patterns", ["./**/*.js", "!./directory/**", "-l"]).test({
     status: 1,
   });
 });
 
-describe("multiple patterns by with ignore pattern, doesn't ignore node_modules with --with-node-modules flag", () => {
-  runPrettier("cli/patterns", [
+test("multiple patterns by with ignore pattern, doesn't ignore node_modules with --with-node-modules flag", async () => {
+  await runPrettier("cli/patterns", [
     "**/*.js",
     "!directory/**",
     "-l",
@@ -57,15 +57,15 @@ describe("multiple patterns by with ignore pattern, doesn't ignore node_modules 
   });
 });
 
-describe("no errors on empty patterns", () => {
+test("no errors on empty patterns", async () => {
   // --parser is mandatory if no filepath is passed
-  runPrettier("cli/patterns", ["--parser", "babel"]).test({
+  await runPrettier("cli/patterns", ["--parser", "babel"]).test({
     status: 0,
   });
 });
 
-describe("multiple patterns, throw error and exit with non zero code on non existing files", () => {
-  runPrettier("cli/patterns", [
+test("multiple patterns, throw error and exit with non zero code on non existing files", async () => {
+  await runPrettier("cli/patterns", [
     "non-existent.js",
     "other-non-existent.js",
     "-l",

@@ -4,14 +4,14 @@ const runPrettier = require("../runPrettier");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
-describe("ignores file name contains emoji", () => {
-  runPrettier("cli/ignore-emoji", ["**/*.js", "-l"]).test({
+test("ignores file name contains emoji", async () => {
+  await runPrettier("cli/ignore-emoji", ["**/*.js", "-l"]).test({
     status: 1,
   });
 });
 
-describe("stdin", () => {
-  runPrettier(
+test("stdin", async () => {
+  await runPrettier(
     "cli/ignore-emoji",
     ["--stdin-filepath", "ignored/我的样式.css"],
     { input: ".name {                         display: none; }" }

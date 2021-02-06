@@ -7,8 +7,8 @@ test("API getSupportInfo()", () => {
   expect(getCoreInfo()).toMatchSnapshot();
 });
 
-describe("CLI --support-info", () => {
-  runPrettier("cli", "--support-info").test({ status: 0 });
+test("CLI --support-info", async () => {
+  await runPrettier("cli", "--support-info").test({ status: 0 });
 });
 
 function getCoreInfo() {

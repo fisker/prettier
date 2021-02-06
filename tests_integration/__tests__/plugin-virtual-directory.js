@@ -2,8 +2,8 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("plugin search should not crash when prettier isn't inside a directory", () => {
-  runPrettier(
+test("plugin search should not crash when prettier isn't inside a directory", async () => {
+  await runPrettier(
     "plugins/virtualDirectory",
     ["--stdin-filepath", "example.js", "--plugin-search-dir=."],
     { input: "" }

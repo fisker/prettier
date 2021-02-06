@@ -2,8 +2,8 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("ignore-unknown dir", () => {
-  runPrettier("cli/ignore-unknown", [
+test("ignore-unknown dir", async () => {
+  await runPrettier("cli/ignore-unknown", [
     ".",
     "--ignore-unknown",
     "--list-different",
@@ -14,16 +14,16 @@ describe("ignore-unknown dir", () => {
   });
 });
 
-describe("ignore-unknown alias", () => {
-  runPrettier("cli/ignore-unknown", [".", "-u", "--list-different"]).test({
+test("ignore-unknown alias", async () => {
+  await runPrettier("cli/ignore-unknown", [".", "-u", "--list-different"]).test({
     status: "non-zero",
     stderr: "",
     write: [],
   });
 });
 
-describe("ignore-unknown pattern", () => {
-  runPrettier("cli/ignore-unknown", [
+test("ignore-unknown pattern", async () => {
+  await runPrettier("cli/ignore-unknown", [
     "*",
     "--ignore-unknown",
     "--list-different",
@@ -34,8 +34,8 @@ describe("ignore-unknown pattern", () => {
   });
 });
 
-describe("ignore-unknown write", () => {
-  runPrettier("cli/ignore-unknown", [
+test("ignore-unknown write", async () => {
+  await runPrettier("cli/ignore-unknown", [
     ".",
     "--ignore-unknown",
     "--write",
@@ -46,14 +46,14 @@ describe("ignore-unknown write", () => {
   });
 });
 
-describe("ignore-unknown check", () => {
-  runPrettier("cli/ignore-unknown", [".", "--ignore-unknown", "--check"]).test({
+test("ignore-unknown check", async () => {
+  await runPrettier("cli/ignore-unknown", [".", "--ignore-unknown", "--check"]).test({
     status: 1,
   });
 });
 
-describe("None exist file", () => {
-  runPrettier("cli/ignore-unknown", [
+test("None exist file", async () => {
+  await runPrettier("cli/ignore-unknown", [
     "non-exist-file",
     "--ignore-unknown",
   ]).test({
@@ -61,8 +61,8 @@ describe("None exist file", () => {
   });
 });
 
-describe("Not matching pattern", () => {
-  runPrettier("cli/ignore-unknown", [
+test("Not matching pattern", async () => {
+  await runPrettier("cli/ignore-unknown", [
     "*.non-exist-pattern",
     "--ignore-unknown",
   ]).test({
@@ -70,8 +70,8 @@ describe("Not matching pattern", () => {
   });
 });
 
-describe("Ignored file", () => {
-  runPrettier("cli/ignore-unknown", ["ignored.js", "--ignore-unknown"]).test({
+test("Ignored file", async () => {
+  await runPrettier("cli/ignore-unknown", ["ignored.js", "--ignore-unknown"]).test({
     status: 0,
   });
 });

@@ -2,8 +2,8 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("output with --check + unformatted differs when piped", () => {
-  const result0 = runPrettier(
+test("output with --check + unformatted differs when piped", async () => {
+  const result0 = await runPrettier(
     "cli/write",
     ["--write", "--check", "--no-color", "unformatted.js"],
     { stdoutIsTTY: true }
@@ -11,7 +11,7 @@ describe("output with --check + unformatted differs when piped", () => {
     status: 0,
   });
 
-  const result1 = runPrettier(
+  const result1 = await runPrettier(
     "cli/write",
     ["--write", "--check", "--no-color", "unformatted.js"],
     { stdoutIsTTY: false }
@@ -23,8 +23,8 @@ describe("output with --check + unformatted differs when piped", () => {
   expect(result0.write).toEqual(result1.write);
 });
 
-describe("no file diffs with --check + formatted file", () => {
-  const result0 = runPrettier(
+test("no file diffs with --check + formatted file", async () => {
+  const result0 = await runPrettier(
     "cli/write",
     ["--write", "--check", "--no-color", "formatted.js"],
     { stdoutIsTTY: true }
@@ -32,7 +32,7 @@ describe("no file diffs with --check + formatted file", () => {
     status: 0,
   });
 
-  const result1 = runPrettier(
+  const result1 = await runPrettier(
     "cli/write",
     ["--write", "--check", "--no-color", "formatted.js"],
     { stdoutIsTTY: false }
@@ -45,8 +45,8 @@ describe("no file diffs with --check + formatted file", () => {
   expect(result0.write).toEqual(result1.write);
 });
 
-describe("output with --list-different + unformatted differs when piped", () => {
-  const result0 = runPrettier(
+test("output with --list-different + unformatted differs when piped", async () => {
+  const result0 = await runPrettier(
     "cli/write",
     ["--write", "--list-different", "--no-color", "unformatted.js"],
     { stdoutIsTTY: true }
@@ -54,7 +54,7 @@ describe("output with --list-different + unformatted differs when piped", () => 
     status: 0,
   });
 
-  const result1 = runPrettier(
+  const result1 = await runPrettier(
     "cli/write",
     ["--write", "--list-different", "--no-color", "unformatted.js"],
     { stdoutIsTTY: false }
@@ -66,8 +66,8 @@ describe("output with --list-different + unformatted differs when piped", () => 
   expect(result0.write).toEqual(result1.write);
 });
 
-describe("no file diffs with --list-different + formatted file", () => {
-  const result0 = runPrettier(
+test("no file diffs with --list-different + formatted file", async () => {
+  const result0 = await runPrettier(
     "cli/write",
     ["--write", "--list-different", "--no-color", "formatted.js"],
     { stdoutIsTTY: true }
@@ -75,7 +75,7 @@ describe("no file diffs with --list-different + formatted file", () => {
     status: 0,
   });
 
-  const result1 = runPrettier(
+  const result1 = await runPrettier(
     "cli/write",
     ["--write", "--list-different", "--no-color", "formatted.js"],
     { stdoutIsTTY: false }

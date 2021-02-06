@@ -2,8 +2,8 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("plugin default options should work", () => {
-  runPrettier(
+test("plugin default options should work", async () => {
+  await runPrettier(
     "plugins/defaultOptions",
     [
       "--stdin-filepath",
@@ -23,8 +23,8 @@ describe("plugin default options should work", () => {
   });
 });
 
-describe("overriding plugin default options should work", () => {
-  runPrettier(
+test("overriding plugin default options should work", async () => {
+  await runPrettier(
     "plugins/defaultOptions",
     ["--stdin-filepath", "example.foo", "--plugin=./plugin", "--tab-width=4"],
     { input: "hello-world" }

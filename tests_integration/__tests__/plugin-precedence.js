@@ -2,8 +2,8 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("json-stringify takes precedence over json for package.json", () => {
-  runPrettier("plugins", ["--stdin-filepath=package.json"], {
+test("json-stringify takes precedence over json for package.json", async () => {
+  await runPrettier("plugins", ["--stdin-filepath=package.json"], {
     input:
       '{ "a": "longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong" }',
   }).test({

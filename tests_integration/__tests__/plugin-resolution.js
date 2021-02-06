@@ -3,8 +3,8 @@
 const runPrettier = require("../runPrettier");
 const EOL = "\n";
 
-describe("automatically loads 'prettier-plugin-*'", () => {
-  runPrettier("plugins/automatic", ["file.txt", "--parser=bar"]).test({
+test("automatically loads 'prettier-plugin-*'", async () => {
+  await runPrettier("plugins/automatic", ["file.txt", "--parser=bar"]).test({
     stdout: "content from `prettier-plugin-bar` package + contents" + EOL,
     stderr: "",
     status: 0,
@@ -12,8 +12,8 @@ describe("automatically loads 'prettier-plugin-*'", () => {
   });
 });
 
-describe("automatically loads '@prettier/plugin-*'", () => {
-  runPrettier("plugins/automatic", ["file.txt", "--parser=foo"]).test({
+test("automatically loads '@prettier/plugin-*'", async () => {
+  await runPrettier("plugins/automatic", ["file.txt", "--parser=foo"]).test({
     stdout: "foo+contents" + EOL,
     stderr: "",
     status: 0,
@@ -21,8 +21,8 @@ describe("automatically loads '@prettier/plugin-*'", () => {
   });
 });
 
-describe("automatically loads '@<name>/prettier-plugin-*'", () => {
-  runPrettier("plugins/automatic", ["file.txt", "--parser=foobar"]).test({
+test("automatically loads '@<name>/prettier-plugin-*'", async () => {
+  await runPrettier("plugins/automatic", ["file.txt", "--parser=foobar"]).test({
     stdout: "foobar+contents" + EOL,
     stderr: "",
     status: 0,
@@ -30,8 +30,8 @@ describe("automatically loads '@<name>/prettier-plugin-*'", () => {
   });
 });
 
-describe("automatically loads 'prettier-plugin-*' from --plugin-search-dir (same as autoload dir)", () => {
-  runPrettier("plugins/automatic", [
+test("automatically loads 'prettier-plugin-*' from --plugin-search-dir (same as autoload dir)", async () => {
+  await runPrettier("plugins/automatic", [
     "file.txt",
     "--parser=foo",
     "--plugin-search-dir=.",
@@ -43,8 +43,8 @@ describe("automatically loads 'prettier-plugin-*' from --plugin-search-dir (same
   });
 });
 
-describe("automatically loads '@prettier/plugin-*' from --plugin-search-dir (same as autoload dir)", () => {
-  runPrettier("plugins/automatic", [
+test("automatically loads '@prettier/plugin-*' from --plugin-search-dir (same as autoload dir)", async () => {
+  await runPrettier("plugins/automatic", [
     "file.txt",
     "--parser=bar",
     "--plugin-search-dir=.",
@@ -56,8 +56,8 @@ describe("automatically loads '@prettier/plugin-*' from --plugin-search-dir (sam
   });
 });
 
-describe("automatically loads '@<name>/prettier-plugin-*' from --plugin-search-dir (same as autoload dir)", () => {
-  runPrettier("plugins/automatic", [
+test("automatically loads '@<name>/prettier-plugin-*' from --plugin-search-dir (same as autoload dir)", async () => {
+  await runPrettier("plugins/automatic", [
     "file.txt",
     "--parser=foobar",
     "--plugin-search-dir=.",
@@ -69,8 +69,8 @@ describe("automatically loads '@<name>/prettier-plugin-*' from --plugin-search-d
   });
 });
 
-describe("automatically loads 'prettier-plugin-*' from --plugin-search-dir (different to autoload dir)", () => {
-  runPrettier("plugins", [
+test("automatically loads 'prettier-plugin-*' from --plugin-search-dir (different to autoload dir)", async () => {
+  await runPrettier("plugins", [
     "automatic/file.txt",
     "--parser=foo",
     "--plugin-search-dir=automatic",
@@ -82,8 +82,8 @@ describe("automatically loads 'prettier-plugin-*' from --plugin-search-dir (diff
   });
 });
 
-describe("automatically loads '@prettier/plugin-*' from --plugin-search-dir (different to autoload dir)", () => {
-  runPrettier("plugins", [
+test("automatically loads '@prettier/plugin-*' from --plugin-search-dir (different to autoload dir)", async () => {
+  await runPrettier("plugins", [
     "automatic/file.txt",
     "--parser=bar",
     "--plugin-search-dir=automatic",
@@ -95,8 +95,8 @@ describe("automatically loads '@prettier/plugin-*' from --plugin-search-dir (dif
   });
 });
 
-describe("does not crash when --plugin-search-dir does not contain node_modules", () => {
-  runPrettier(
+test("does not crash when --plugin-search-dir does not contain node_modules", async () => {
+  await runPrettier(
     "plugins/extensions",
     [
       "file.foo",
@@ -114,8 +114,8 @@ describe("does not crash when --plugin-search-dir does not contain node_modules"
   });
 });
 
-describe("crashes when one of --plugin-search-dir does not exist", () => {
-  runPrettier("plugins/automatic", [
+test("crashes when one of --plugin-search-dir does not exist", async () => {
+  await runPrettier("plugins/automatic", [
     "file.txt",
     "--parser=foo",
     "--plugin-search-dir=non-existing-dir",
@@ -128,8 +128,8 @@ describe("crashes when one of --plugin-search-dir does not exist", () => {
   });
 });
 
-describe("loads --plugin by its relative path", () => {
-  runPrettier("plugins", [
+test("loads --plugin by its relative path", async () => {
+  await runPrettier("plugins", [
     "automatic/file.txt",
     "--parser=bar",
     "--plugin=./automatic/node_modules/prettier-plugin-bar/index.js",
@@ -141,8 +141,8 @@ describe("loads --plugin by its relative path", () => {
   });
 });
 
-describe("loads --plugin by its relative path without leading ./", () => {
-  runPrettier("plugins", [
+test("loads --plugin by its relative path without leading ./", async () => {
+  await runPrettier("plugins", [
     "automatic/file.txt",
     "--parser=bar",
     "--plugin=automatic/node_modules/prettier-plugin-bar/index.js",
@@ -154,8 +154,8 @@ describe("loads --plugin by its relative path without leading ./", () => {
   });
 });
 
-describe("loads --plugin by relative path to its directory (assuming index.js)", () => {
-  runPrettier("plugins", [
+test("loads --plugin by relative path to its directory (assuming index.js)", async () => {
+  await runPrettier("plugins", [
     "automatic/file.txt",
     "--parser=bar",
     "--plugin=./automatic/node_modules/prettier-plugin-bar",
@@ -167,8 +167,8 @@ describe("loads --plugin by relative path to its directory (assuming index.js)",
   });
 });
 
-describe("loads --plugin by relative path to its directory without leading ./ (assuming index.js)", () => {
-  runPrettier("plugins", [
+test("loads --plugin by relative path to its directory without leading ./ (assuming index.js)", async () => {
+  await runPrettier("plugins", [
     "automatic/file.txt",
     "--parser=bar",
     "--plugin=automatic/node_modules/prettier-plugin-bar",
@@ -180,8 +180,8 @@ describe("loads --plugin by relative path to its directory without leading ./ (a
   });
 });
 
-describe("loads --plugin by filename without leading ./ and ext, should resolve to file, not package", () => {
-  runPrettier("plugins/automatic", [
+test("loads --plugin by filename without leading ./ and ext, should resolve to file, not package", async () => {
+  await runPrettier("plugins/automatic", [
     "file.txt",
     "--parser=bar",
     "--plugin=prettier-plugin-bar",
@@ -193,8 +193,8 @@ describe("loads --plugin by filename without leading ./ and ext, should resolve 
   });
 });
 
-describe("loads --plugin by bespoke plugin name (assuming it is installed in cwd)", () => {
-  runPrettier("plugins/bespoke", [
+test("loads --plugin by bespoke plugin name (assuming it is installed in cwd)", async () => {
+  await runPrettier("plugins/bespoke", [
     "../automatic/file.txt",
     "--parser=bespoke",
     "--plugin=@company/prettier-plugin-bespoke",

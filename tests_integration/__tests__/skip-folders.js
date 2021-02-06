@@ -4,15 +4,15 @@ const runPrettier = require("../runPrettier");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
-describe("skips folders in glob", () => {
-  runPrettier("cli/skip-folders", ["**/*", "-l"]).test({
+test("skips folders in glob", async () => {
+  await runPrettier("cli/skip-folders", ["**/*", "-l"]).test({
     status: 1,
     stderr: "",
   });
 });
 
-describe("skip folders passed specifically", () => {
-  runPrettier("cli/skip-folders", [
+test("skip folders passed specifically", async () => {
+  await runPrettier("cli/skip-folders", [
     "a",
     "a/file.js",
     "b",

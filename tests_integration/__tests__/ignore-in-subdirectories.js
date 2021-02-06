@@ -4,8 +4,8 @@ const runPrettier = require("../runPrettier");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
-describe("ignores files when executing in a subdirectory", () => {
-  runPrettier("cli/ignore-in-subdirectories/web1", [
+test("ignores files when executing in a subdirectory", async () => {
+  await runPrettier("cli/ignore-in-subdirectories/web1", [
     "ignore-me/should-ignore.js",
     "--ignore-path",
     "../.prettierignore",
@@ -14,7 +14,7 @@ describe("ignores files when executing in a subdirectory", () => {
     status: 0,
   });
 
-  runPrettier("cli/ignore-in-subdirectories/web1", [
+  await runPrettier("cli/ignore-in-subdirectories/web1", [
     "ignore-me/subdirectory/should-ignore.js",
     "--ignore-path",
     "../.prettierignore",
@@ -24,8 +24,8 @@ describe("ignores files when executing in a subdirectory", () => {
   });
 });
 
-describe("formats files when executing in a subdirectory", () => {
-  runPrettier("cli/ignore-in-subdirectories/web1", [
+test("formats files when executing in a subdirectory", async () => {
+  await runPrettier("cli/ignore-in-subdirectories/web1", [
     "should-not-ignore.js",
     "--ignore-path",
     "../.prettierignore",
@@ -34,7 +34,7 @@ describe("formats files when executing in a subdirectory", () => {
     status: 1,
   });
 
-  runPrettier("cli/ignore-in-subdirectories/web2", [
+  await runPrettier("cli/ignore-in-subdirectories/web2", [
     "should-not-ignore.js",
     "--ignore-path",
     "../.prettierignore",
@@ -44,8 +44,8 @@ describe("formats files when executing in a subdirectory", () => {
   });
 });
 
-describe("ignore files when executing in a subdirectory and using stdin", () => {
-  runPrettier(
+test("ignore files when executing in a subdirectory and using stdin", async () => {
+  await runPrettier(
     "cli/ignore-in-subdirectories/web1",
     [
       "--ignore-path",
@@ -62,8 +62,8 @@ describe("ignore files when executing in a subdirectory and using stdin", () => 
   });
 });
 
-describe("formats files when executing in a subdirectory and using stdin", () => {
-  runPrettier(
+test("formats files when executing in a subdirectory and using stdin", async () => {
+  await runPrettier(
     "cli/ignore-in-subdirectories/web1",
     ["--ignore-path", "../.prettierignore", "--stdin-filepath", "example.js"],
     {

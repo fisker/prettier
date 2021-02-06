@@ -29,8 +29,8 @@ test("allows usage of prettier's supported parsers", () => {
   expect(output).toEqual("bar();\n");
 });
 
-describe("allows passing a string to resolve a parser", () => {
-  runPrettier("./custom-parsers/", [
+test("allows passing a string to resolve a parser", async () => {
+  await runPrettier("./custom-parsers/", [
     "--end-of-line",
     "lf",
     "./custom-rename-input.js",

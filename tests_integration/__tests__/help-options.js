@@ -25,8 +25,8 @@ for (const option of arrayify(
   ].filter(Boolean);
 
   for (const optionName of optionNames) {
-    describe(`show detailed usage with --help ${optionName}`, () => {
-      runPrettier("cli", ["--help", optionName]).test({
+    test(`show detailed usage with --help ${optionName}`, async () => {
+      await runPrettier("cli", ["--help", optionName]).test({
         status: 0,
       });
     });

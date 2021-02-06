@@ -63,8 +63,8 @@ const uppercaseRocksPlugin = path.join(
   projectRoot,
   "tests_config/prettier-plugins/prettier-plugin-uppercase-rocks"
 );
-describe("plugins `.`", () => {
-  runPrettier("cli/dirs/plugins", [
+test("plugins `.`", async () => {
+  await runPrettier("cli/dirs/plugins", [
     ".",
     "-l",
     "--plugin",
@@ -75,8 +75,8 @@ describe("plugins `.`", () => {
     status: 1,
   });
 });
-describe("plugins `*`", () => {
-  runPrettier("cli/dirs/plugins", [
+test("plugins `*`", async () => {
+  await runPrettier("cli/dirs/plugins", [
     "*",
     "-l",
     "--plugin",
@@ -127,8 +127,8 @@ function testPatterns(namePrefix, cliArgs, expected = {}) {
       .map((arg) => (/^[\w./=-]+$/.test(arg) ? arg : `'${arg}'`))
       .join(" ");
 
-  describe(testName, () => {
-    runPrettier("cli/patterns-dirs", [...cliArgs, "-l"]).test({
+  test(testName, async () => {
+    await runPrettier("cli/patterns-dirs", [...cliArgs, "-l"]).test({
       write: [],
       ...(!("status" in expected) && { stderr: "", status: 1 }),
       ...expected,

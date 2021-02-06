@@ -4,8 +4,8 @@ const runPrettier = require("../runPrettier");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
-describe("throw error for unsupported extension", () => {
-  runPrettier("cli/config/invalid", [
+test("throw error for unsupported extension", async () => {
+  await runPrettier("cli/config/invalid", [
     "--config",
     "file/.prettierrc.unsupported",
   ]).test({
@@ -13,8 +13,8 @@ describe("throw error for unsupported extension", () => {
   });
 });
 
-describe("throw error with invalid config format", () => {
-  runPrettier("cli/config/invalid", ["--config", "file/.prettierrc"]).test({
+test("throw error with invalid config format", async () => {
+  await runPrettier("cli/config/invalid", ["--config", "file/.prettierrc"]).test({
     status: "non-zero",
     stderr: expect.stringMatching(
       /Cannot (?:resolve|find) module '--invalid--' from/
@@ -22,8 +22,8 @@ describe("throw error with invalid config format", () => {
   });
 });
 
-describe("throw error with invalid config format", () => {
-  runPrettier("cli/config/invalid", [
+test("throw error with invalid config format", async () => {
+  await runPrettier("cli/config/invalid", [
     "--config",
     "type-error/.prettierrc",
   ]).test({
@@ -34,8 +34,8 @@ describe("throw error with invalid config format", () => {
   });
 });
 
-describe("throw error with invalid config target (directory)", () => {
-  runPrettier("cli/config/invalid", [
+test("throw error with invalid config target (directory)", async () => {
+  await runPrettier("cli/config/invalid", [
     "--config",
     "folder/.prettierrc", // this is a directory
   ]).test({
@@ -43,20 +43,20 @@ describe("throw error with invalid config target (directory)", () => {
   });
 });
 
-describe("throw error with invalid config option (int)", () => {
-  runPrettier("cli/config/invalid", ["--config", "option/int"]).test({
+test("throw error with invalid config option (int)", async () => {
+  await runPrettier("cli/config/invalid", ["--config", "option/int"]).test({
     status: "non-zero",
   });
 });
 
-describe("throw error with invalid config option (trailingComma)", () => {
-  runPrettier("cli/config/invalid", ["--config", "option/trailingComma"]).test({
+test("throw error with invalid config option (trailingComma)", async () => {
+  await runPrettier("cli/config/invalid", ["--config", "option/trailingComma"]).test({
     status: "non-zero",
   });
 });
 
-describe("throw error with invalid config precedence option (configPrecedence)", () => {
-  runPrettier("cli/config/invalid", [
+test("throw error with invalid config precedence option (configPrecedence)", async () => {
+  await runPrettier("cli/config/invalid", [
     "--config-precedence",
     "option/configPrecedence",
   ]).test({
@@ -64,8 +64,8 @@ describe("throw error with invalid config precedence option (configPrecedence)",
   });
 });
 
-describe("resolves external configuration from package.json", () => {
-  runPrettier("cli/config-external-config-syntax-error", [
+test("resolves external configuration from package.json", async () => {
+  await runPrettier("cli/config-external-config-syntax-error", [
     "syntax-error.js",
   ]).test({
     status: 2,
@@ -74,8 +74,8 @@ describe("resolves external configuration from package.json", () => {
 
 // Tests below require --parser to prevent an error (no parser/filepath specified)
 
-describe("show warning with unknown option", () => {
-  runPrettier("cli/config/invalid", [
+test("show warning with unknown option", async () => {
+  await runPrettier("cli/config/invalid", [
     "--config",
     "option/unknown",
     "--parser",
@@ -85,8 +85,8 @@ describe("show warning with unknown option", () => {
   });
 });
 
-describe("show warning with kebab-case option key", () => {
-  runPrettier("cli/config/invalid", [
+test("show warning with kebab-case option key", async () => {
+  await runPrettier("cli/config/invalid", [
     "--config",
     "option/kebab-case",
     "--parser",

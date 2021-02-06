@@ -98,24 +98,24 @@ function runPrettier(dir, args = [], options = {}) {
     .spyOn(require(thirdParty), "findParentDir")
     .mockImplementation(() => process.cwd());
 
-  try {
-    require(prettierCli);
-    status = (status === undefined ? process.exitCode : status) || 0;
-  } catch (error) {
-    status = 1;
-    stderr += error.message;
-  } finally {
-    process.chdir(originalCwd);
-    process.argv = originalArgv;
-    process.exitCode = originalExitCode;
-    process.stdin.isTTY = originalStdinIsTTY;
-    process.stdout.isTTY = originalStdoutIsTTY;
-    jest.restoreAllMocks();
-  }
+  const test = async (testOptions = {}) => {
+    try {
+      await require(prettierCli);
+      status = (status === undefined ? process.exitCode : status) || 0;
+    } catch (error) {
+      status = 1;
+      stderr += error.message;
+    } finally {
+      process.chdir(originalCwd);
+      process.argv = originalArgv;
+      process.exitCode = originalExitCode;
+      process.stdin.isTTY = originalStdinIsTTY;
+      process.stdout.isTTY = originalStdoutIsTTY;
+      jest.restoreAllMocks();
+    }
 
-  const result = { status, stdout, stderr, write };
+    const result =  { status, stdout, stderr, write };
 
-  const testResult = (testOptions) => {
     for (const name of Object.keys(result)) {
       test(`(${name})`, () => {
         const value =
@@ -142,7 +142,7 @@ function runPrettier(dir, args = [], options = {}) {
     return result;
   };
 
-  return { test: testResult, ...result };
+  return { test };
 
   function appendStdout(text) {
     if (status === undefined) {

@@ -3,8 +3,8 @@
 const { isCI } = require("ci-info");
 const runPrettier = require("../runPrettier");
 
-describe("format correctly if stdin content compatible with stdin-filepath", () => {
-  runPrettier(
+test("format correctly if stdin content compatible with stdin-filepath", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "abc.css"],
     { input: ".name { display: none; }" } // css
@@ -13,8 +13,8 @@ describe("format correctly if stdin content compatible with stdin-filepath", () 
   });
 });
 
-describe("throw error if stdin content incompatible with stdin-filepath", () => {
-  runPrettier(
+test("throw error if stdin content incompatible with stdin-filepath", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "abc.js"],
     { input: ".name { display: none; }" } // css
@@ -23,8 +23,8 @@ describe("throw error if stdin content incompatible with stdin-filepath", () => 
   });
 });
 
-describe("gracefully handle stdin-filepath with nonexistent directory", () => {
-  runPrettier(
+test("gracefully handle stdin-filepath with nonexistent directory", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "definitely/nonexistent/path.css"],
     { input: ".name { display: none; }" } // css
@@ -33,8 +33,8 @@ describe("gracefully handle stdin-filepath with nonexistent directory", () => {
   });
 });
 
-describe("apply editorconfig for stdin-filepath with nonexistent file", () => {
-  runPrettier(
+test("apply editorconfig for stdin-filepath with nonexistent file", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "config/editorconfig/nonexistent.js"],
     {
@@ -49,8 +49,8 @@ function f() {
   });
 });
 
-describe("apply editorconfig for stdin-filepath with nonexistent directory", () => {
-  runPrettier(
+test("apply editorconfig for stdin-filepath with nonexistent directory", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "config/editorconfig/nonexistent/one/two/three.js"],
     {
@@ -65,8 +65,8 @@ function f() {
   });
 });
 
-describe("apply editorconfig for stdin-filepath with a deep path", () => {
-  runPrettier(
+test("apply editorconfig for stdin-filepath with a deep path", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "config/editorconfig/" + "a/".repeat(30) + "three.js"],
     {
@@ -82,13 +82,13 @@ function f() {
 });
 
 if (isCI) {
-  describe("apply editorconfig for stdin-filepath in root", () => {
+  test("apply editorconfig for stdin-filepath in root", async () => {
     const code = `
 function f() {
   console.log("should be indented with a tab");
 }
 `.trim();
-    runPrettier("cli", ["--stdin-filepath", "/foo.js"], {
+    await runPrettier("cli", ["--stdin-filepath", "/foo.js"], {
       input: code, // js
     }).test({
       status: 0,
@@ -99,8 +99,8 @@ function f() {
   });
 }
 
-describe("apply editorconfig for stdin-filepath with a deep path", () => {
-  runPrettier(
+test("apply editorconfig for stdin-filepath with a deep path", async () => {
+  await runPrettier(
     "cli",
     ["--stdin-filepath", "config/editorconfig/" + "a/".repeat(30) + "three.js"],
     {
@@ -115,8 +115,8 @@ function f() {
   });
 });
 
-describe("don’t apply editorconfig outside project for stdin-filepath with nonexistent directory", () => {
-  runPrettier(
+test("don’t apply editorconfig outside project for stdin-filepath with nonexistent directory", async () => {
+  await runPrettier(
     "cli",
     [
       "--stdin-filepath",
@@ -134,8 +134,8 @@ function f() {
   });
 });
 
-describe("output file as-is if stdin-filepath matched patterns in ignore-path", () => {
-  runPrettier("cli/stdin-ignore", ["--stdin-filepath", "ignore/example.js"], {
+test("output file as-is if stdin-filepath matched patterns in ignore-path", async () => {
+  await runPrettier("cli/stdin-ignore", ["--stdin-filepath", "ignore/example.js"], {
     input: "hello_world( );",
   }).test({
     stdout: "hello_world( );",

@@ -2,8 +2,8 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("flush all line-suffix content", () => {
-  runPrettier("plugins/flushLineSuffix", ["*.foo", "--plugin=./plugin"], {
+test("flush all line-suffix content", async () => {
+  await runPrettier("plugins/flushLineSuffix", ["*.foo", "--plugin=./plugin"], {
     ignoreLineEndings: true,
   }).test({
     stdout: "contents",

@@ -2,16 +2,16 @@
 
 const runPrettier = require("../runPrettier");
 
-describe("doesn't crash when --debug-check is passed", () => {
-  runPrettier("cli/with-shebang", ["issue1890.js", "--debug-check"]).test({
+test("doesn't crash when --debug-check is passed", async () => {
+  await runPrettier("cli/with-shebang", ["issue1890.js", "--debug-check"]).test({
     stdout: "issue1890.js\n",
     stderr: "",
     status: 0,
   });
 });
 
-describe("checks stdin with --debug-check", () => {
-  runPrettier("cli/with-shebang", ["--debug-check", "--parser", "babel"], {
+test("checks stdin with --debug-check", async () => {
+  await runPrettier("cli/with-shebang", ["--debug-check", "--parser", "babel"], {
     input: "0",
   }).test({
     stdout: "(stdin)\n",
@@ -20,8 +20,8 @@ describe("checks stdin with --debug-check", () => {
   });
 });
 
-describe("show diff for 2+ error files with --debug-check", () => {
-  runPrettier("cli/debug-check", [
+test("show diff for 2+ error files with --debug-check", async () => {
+  await runPrettier("cli/debug-check", [
     "--end-of-line",
     "lf",
     "*.debug-check",
@@ -33,8 +33,8 @@ describe("show diff for 2+ error files with --debug-check", () => {
   });
 });
 
-describe("should not exit non-zero for already prettified code with --debug-check + --check", () => {
-  runPrettier("cli/debug-check", [
+test("should not exit non-zero for already prettified code with --debug-check + --check", async () => {
+  await runPrettier("cli/debug-check", [
     "issue-4599.js",
     "--debug-check",
     "--check",
@@ -43,8 +43,8 @@ describe("should not exit non-zero for already prettified code with --debug-chec
   });
 });
 
-describe("should not exit non-zero for already prettified code with --debug-check + --list-different", () => {
-  runPrettier("cli/debug-check", [
+test("should not exit non-zero for already prettified code with --debug-check + --list-different", async () => {
+  await runPrettier("cli/debug-check", [
     "issue-4599.js",
     "--debug-check",
     "--list-different",

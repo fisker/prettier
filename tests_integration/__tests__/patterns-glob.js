@@ -11,14 +11,14 @@ fixtures-1/
 └─ b.js
 */
 
-describe("fixtures-1: Should match all files", () => {
-  runPrettier("cli/patterns-glob/fixtures-1", ["*.js", "!file.js", "-l"]).test({
+test("fixtures-1: Should match all files", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-1", ["*.js", "!file.js", "-l"]).test({
     status: 1,
   });
 });
 
-describe("fixtures-1: Should match files except `a.js`", () => {
-  runPrettier("cli/patterns-glob/fixtures-1", ["*.js", "!a.js", "-l"]).test({
+test("fixtures-1: Should match files except `a.js`", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-1", ["*.js", "!a.js", "-l"]).test({
     status: 1,
   });
 });
@@ -32,20 +32,20 @@ fixtures-2/
   └─ 2.css
 */
 
-describe("fixtures-2: Should match all js files and all supported files in the '!dir.js' directory", () => {
-  runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!dir.js", "-l"]).test({
+test("fixtures-2: Should match all js files and all supported files in the '!dir.js' directory", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!dir.js", "-l"]).test({
     status: 1,
   });
 });
 
-describe("fixtures-2: Should match `a.js` and `!b.js`", () => {
-  runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!b.js", "-l"]).test({
+test("fixtures-2: Should match `a.js` and `!b.js`", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!b.js", "-l"]).test({
     status: 1,
   });
 });
 
-describe("fixtures-2: Should only match `!b.js`", () => {
-  runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!a.js", "-l"]).test({
+test("fixtures-2: Should only match `!b.js`", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!a.js", "-l"]).test({
     status: 1,
   });
 });
@@ -61,8 +61,8 @@ fixtures-3/
     └─in-svn.js
 */
 
-describe("fixtures-3: Should match `outside.js`, `dir/inside.js` and `dir/node_modules/in-node_modules.js`", () => {
-  runPrettier("cli/patterns-glob/fixtures-3", [
+test("fixtures-3: Should match `outside.js`, `dir/inside.js` and `dir/node_modules/in-node_modules.js`", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-3", [
     "**/*.js",
     "-l",
     "--with-node-modules",
@@ -71,15 +71,15 @@ describe("fixtures-3: Should match `outside.js`, `dir/inside.js` and `dir/node_m
   });
 });
 
-describe("fixtures-3: Should only match `outside.js` and `dir/inside.js`", () => {
-  runPrettier("cli/patterns-glob/fixtures-3", ["**/*.js", "-l"]).test({
+test("fixtures-3: Should only match `outside.js` and `dir/inside.js`", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-3", ["**/*.js", "-l"]).test({
     status: 1,
   });
 });
 
 describe("fixtures-3: Should exclude `.svn`", () => {
-  describe("(existing)", () => {
-    runPrettier("cli/patterns-glob/fixtures-3", [
+  test("(existing)", async () => {
+    await runPrettier("cli/patterns-glob/fixtures-3", [
       "*.js",
       "dir/.svn/in-svn.js",
       "-l",
@@ -88,8 +88,8 @@ describe("fixtures-3: Should exclude `.svn`", () => {
     });
   });
 
-  describe("(nonexisting)", () => {
-    runPrettier("cli/patterns-glob/fixtures-3", [
+  test("(nonexisting)", async () => {
+    await runPrettier("cli/patterns-glob/fixtures-3", [
       "*.js",
       ".svn/in-svn.js",
       "-l",
@@ -110,14 +110,14 @@ fixtures-4/
       └─ level-3.js
 */
 
-describe("fixtures-4: Should match `level-1.js`", () => {
-  runPrettier("cli/patterns-glob/fixtures-4", ["./0/./level-1.js", "-l"]).test({
+test("fixtures-4: Should match `level-1.js`", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-4", ["./0/./level-1.js", "-l"]).test({
     status: 1,
   });
 });
 
-describe("fixtures-4: Should match `level-1.js` #2", () => {
-  runPrettier("cli/patterns-glob/fixtures-4", [
+test("fixtures-4: Should match `level-1.js` #2", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-4", [
     "./0/1/2/../../level-1.js",
     "-l",
   ]).test({
@@ -125,8 +125,8 @@ describe("fixtures-4: Should match `level-1.js` #2", () => {
   });
 });
 
-describe("fixtures-4: Should match `level-1.js` #3", () => {
-  runPrettier("cli/patterns-glob/fixtures-4", [
+test("fixtures-4: Should match `level-1.js` #3", async () => {
+  await runPrettier("cli/patterns-glob/fixtures-4", [
     "./0/non-exists-dir/2/../../level-1.js",
     "-l",
   ]).test({

@@ -3,17 +3,17 @@
 const snapshotDiff = require("snapshot-diff");
 const runPrettier = require("../runPrettier");
 
-describe("show external options with `--help`", () => {
-  const originalStdout = runPrettier("plugins/options", ["--help"]).stdout;
-  const pluggedStdout = runPrettier("plugins/options", [
+test("show external options with `--help`", async () => {
+  const originalStdout = (await runPrettier("plugins/options", ["--help"]).test()).stdout;
+  const pluggedStdout = (await runPrettier("plugins/options", [
     "--help",
     "--plugin=./plugin",
-  ]).stdout;
+  ]).test()).stdout;
   expect(snapshotDiff(originalStdout, pluggedStdout)).toMatchSnapshot();
 });
 
-describe("show detailed external option with `--help foo-option`", () => {
-  runPrettier("plugins/options", [
+test("show detailed external option with `--help foo-option`", async () => {
+  await runPrettier("plugins/options", [
     "--plugin=./plugin",
     "--help",
     "foo-option",
@@ -22,8 +22,8 @@ describe("show detailed external option with `--help foo-option`", () => {
   });
 });
 
-describe("include plugin's parsers to the values of the `parser` option`", () => {
-  runPrettier("plugins/options", [
+test("include plugin's parsers to the values of the `parser` option`", async () => {
+  await runPrettier("plugins/options", [
     "--plugin=./plugin",
     "--help",
     "parser",
@@ -32,8 +32,8 @@ describe("include plugin's parsers to the values of the `parser` option`", () =>
   });
 });
 
-describe("external options from CLI should work", () => {
-  runPrettier(
+test("external options from CLI should work", async () => {
+  await runPrettier(
     "plugins/options",
     [
       "--plugin=./plugin",
@@ -51,8 +51,8 @@ describe("external options from CLI should work", () => {
   });
 });
 
-describe("external options from config file should work", () => {
-  runPrettier(
+test("external options from config file should work", async () => {
+  await runPrettier(
     "plugins/options",
     ["--config=./config.json", "--stdin-filepath", "example.foo"],
     { input: "hello-world" }

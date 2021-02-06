@@ -3,8 +3,8 @@
 const runPrettier = require("../runPrettier");
 const EOL = "\n";
 
-describe("uses 'extensions' from languages to determine parser", () => {
-  runPrettier("plugins/extensions", ["*.foo", "--plugin=./plugin"], {
+test("uses 'extensions' from languages to determine parser", async () => {
+  await runPrettier("plugins/extensions", ["*.foo", "--plugin=./plugin"], {
     ignoreLineEndings: true,
   }).test({
     stdout: "!contents" + EOL,

@@ -7,56 +7,56 @@ const runPrettier = require("../runPrettier");
 
 expect.addSnapshotSerializer(require("../path-serializer"));
 
-describe("resolves configuration from external files", () => {
-  runPrettier("cli/config/", ["--end-of-line", "lf", "**/*.js"]).test({
+test("resolves configuration from external files", async () => {
+  await runPrettier("cli/config/", ["--end-of-line", "lf", "**/*.js"]).test({
     status: 0,
   });
 });
 
-describe("resolves configuration from external files and overrides by extname", () => {
-  runPrettier("cli/config/", ["--end-of-line", "lf", "**/*.ts"]).test({
+test("resolves configuration from external files and overrides by extname", async () => {
+  await runPrettier("cli/config/", ["--end-of-line", "lf", "**/*.ts"]).test({
     status: 0,
   });
 });
 
-describe("accepts configuration from --config", () => {
-  runPrettier("cli/config/", ["--config", ".prettierrc", "./js/file.js"]).test({
+test("accepts configuration from --config", async () => {
+  await runPrettier("cli/config/", ["--config", ".prettierrc", "./js/file.js"]).test({
     status: 0,
   });
 });
 
-describe("resolves external configuration from package.json", () => {
-  runPrettier("cli/config/", ["external-config/index.js"]).test({
+test("resolves external configuration from package.json", async () => {
+  await runPrettier("cli/config/", ["external-config/index.js"]).test({
     status: 0,
   });
 });
 
-describe("resolves configuration file with --find-config-path file", () => {
-  runPrettier("cli/config/", ["--find-config-path", "no-config/file.js"]).test({
+test("resolves configuration file with --find-config-path file", async () => {
+  await runPrettier("cli/config/", ["--find-config-path", "no-config/file.js"]).test({
     status: 0,
   });
 });
 
-describe("resolves json configuration file with --find-config-path file", () => {
-  runPrettier("cli/config/", ["--find-config-path", "rc-json/file.js"]).test({
+test("resolves json configuration file with --find-config-path file", async () => {
+  await runPrettier("cli/config/", ["--find-config-path", "rc-json/file.js"]).test({
     status: 0,
   });
 });
 
-describe("resolves yaml configuration file with --find-config-path file", () => {
-  runPrettier("cli/config/", ["--find-config-path", "rc-yaml/file.js"]).test({
+test("resolves yaml configuration file with --find-config-path file", async () => {
+  await runPrettier("cli/config/", ["--find-config-path", "rc-yaml/file.js"]).test({
     status: 0,
   });
 });
 
-describe("resolves toml configuration file with --find-config-path file", () => {
-  runPrettier("cli/config/", ["--find-config-path", "rc-toml/file.js"]).test({
+test("resolves toml configuration file with --find-config-path file", async () => {
+  await runPrettier("cli/config/", ["--find-config-path", "rc-toml/file.js"]).test({
     status: 0,
   });
 });
 
-describe("prints error message when no file found with --find-config-path", () => {
-  runPrettier("cli/config/", [
+test("prints error message when no file found with --find-config-path", async () => {
+  await runPrettier("cli/config/", [
     "--end-of-line",
     "lf",
     "--find-config-path",
@@ -67,8 +67,8 @@ describe("prints error message when no file found with --find-config-path", () =
   });
 });
 
-describe("CLI overrides take precedence", () => {
-  runPrettier("cli/config/", [
+test("CLI overrides take precedence", async () => {
+  await runPrettier("cli/config/", [
     "--end-of-line",
     "lf",
     "--print-width",

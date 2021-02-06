@@ -3,18 +3,18 @@
 const snapshotDiff = require("snapshot-diff");
 const runPrettier = require("../runPrettier");
 
-describe("show external options with `--help`", () => {
-  const originalStdout = runPrettier("plugins/options-string", ["--help"])
+test("show external options with `--help`", async () => {
+  const originalStdout = await runPrettier("plugins/options-string", ["--help"])
     .stdout;
-  const pluggedStdout = runPrettier("plugins/options-string", [
+  const pluggedStdout = await runPrettier("plugins/options-string", [
     "--help",
     "--plugin=./plugin",
   ]).stdout;
   expect(snapshotDiff(originalStdout, pluggedStdout)).toMatchSnapshot();
 });
 
-describe("show detailed external option with `--help foo-string`", () => {
-  runPrettier("plugins/options-string", [
+test("show detailed external option with `--help foo-string`", async () => {
+  await runPrettier("plugins/options-string", [
     "--plugin=./plugin",
     "--help",
     "foo-string",
@@ -23,8 +23,8 @@ describe("show detailed external option with `--help foo-string`", () => {
   });
 });
 
-describe("external options from CLI should work", () => {
-  runPrettier(
+test("external options from CLI should work", async () => {
+  await runPrettier(
     "plugins/options-string",
     [
       "--plugin=./plugin",
@@ -42,8 +42,8 @@ describe("external options from CLI should work", () => {
   });
 });
 
-describe("external options from config file should work", () => {
-  runPrettier(
+test("external options from config file should work", async () => {
+  await runPrettier(
     "plugins/options-string",
     ["--config=./config.json", "--stdin-filepath", "example.foo"],
     { input: "hello-world" }
@@ -55,8 +55,8 @@ describe("external options from config file should work", () => {
   });
 });
 
-describe("Non exists plugin", () => {
-  runPrettier(
+test("Non exists plugin", async () => {
+  await runPrettier(
     "plugins/options-string",
     ["--plugin=--invalid--", "--stdin-filepath", "example.foo"],
     { input: "hello-world" }
