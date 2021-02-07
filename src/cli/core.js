@@ -17,13 +17,12 @@ const { createDetailedUsage, createUsage } = require("./usage");
 const { createLogger } = require("./logger");
 
 async function logResolvedConfigPathOrDie(context) {
-  const configFile = await prettier.resolveConfigFile(
-    context.argv["find-config-path"]
-  );
+  const file = context.argv["find-config-path"];
+  const configFile = await prettier.resolveConfigFile(file);
   if (configFile) {
     context.logger.log(path.relative(process.cwd(), configFile));
   } else {
-    process.exit(1);
+    throw new Error(`Can not find configure file for "${file}"`);
   }
 }
 
