@@ -5,6 +5,7 @@ const path = require("path");
 const stripAnsi = require("strip-ansi");
 const { SynchronousPromise } = require("synchronous-promise");
 const { prettierCli, thirdParty } = require("./env");
+const raw = require("jest-snapshot-serializer-raw").wrap;
 
 function runPrettier(dir, args = [], options = {}) {
   args = Array.isArray(args) ? args : [args];
@@ -115,30 +116,30 @@ function runPrettier(dir, args = [], options = {}) {
     }
 
     const result = { status, stdout, stderr, write };
+    const snapshot = {};
 
-    for (const name of Object.keys(result)) {
-      test(`(${name})`, () => {
-        const value =
-          // \r is trimmed from jest snapshots by default;
-          // manually replacing this character with /*CR*/ to test its true presence
-          // If ignoreLineEndings is specified, \r is simply deleted instead
-          typeof result[name] === "string"
-            ? options.ignoreLineEndings
-              ? stripAnsi(result[name]).replace(/\r/g, "")
-              : stripAnsi(result[name]).replace(/\r/g, "/*CR*/")
-            : result[name];
-        if (name in testOptions) {
-          if (name === "status" && testOptions[name] === "non-zero") {
-            expect(value).not.toEqual(0);
-          } else {
-            expect(value).toEqual(testOptions[name]);
-          }
+    for (const name of Object.keys(result).sort()) {
+      const value =
+        // \r is trimmed from jest snapshots by default;
+        // manually replacing this character with /*CR*/ to test its true presence
+        // If ignoreLineEndings is specified, \r is simply deleted instead
+        typeof result[name] === "string"
+          ? options.ignoreLineEndings
+            ? stripAnsi(result[name]).replace(/\r/g, "")
+            : stripAnsi(result[name]).replace(/\r/g, "/*CR*/")
+          : result[name];
+      if (name in testOptions) {
+        if (name === "status" && testOptions[name] === "non-zero") {
+          expect(value).not.toEqual(0);
         } else {
-          expect(value).toMatchSnapshot();
+          expect(value).toEqual(testOptions[name]);
         }
-      });
+      } else {
+        snapshot[name] = value;
+      }
     }
 
+    expect(createSnapshot(snapshot)).toMatchSnapshot();
     return result;
   };
 
@@ -159,6 +160,24 @@ function runPrettier(dir, args = [], options = {}) {
 function normalizeDir(dir) {
   const isRelative = dir[0] !== "/";
   return isRelative ? path.resolve(__dirname, dir) : dir;
+}
+
+const SEPARATOR_WIDTH = 80;
+function printSeparator(description = "") {
+  const leftLength = Math.floor((SEPARATOR_WIDTH - description.length) / 2);
+  const rightLength = SEPARATOR_WIDTH - leftLength - description.length;
+  return "=".repeat(leftLength) + description + "=".repeat(rightLength);
+}
+function createSnapshot(result) {
+  const parts = [];
+  for (const [key, value] of Object.entries(result)) {
+    parts.push(
+      printSeparator(`(${key})`),
+      typeof value === "string" ? value : JSON.stringify(value)
+    );
+  }
+
+  return raw(parts.join("\n"));
 }
 
 module.exports = runPrettier;
