@@ -139,7 +139,9 @@ function runPrettier(dir, args = [], options = {}) {
       }
     }
 
-    expect(createSnapshot(snapshot)).toMatchSnapshot();
+    if (Object.keys(snapshot).length > 0) {
+      expect(createSnapshot(snapshot)).toMatchSnapshot();
+    }
     return result;
   };
 
@@ -172,7 +174,7 @@ function createSnapshot(result) {
   const parts = [];
   for (const [key, value] of Object.entries(result)) {
     parts.push(
-      printSeparator(`(${key})`),
+      printSeparator(` (${key}) `),
       typeof value === "string" ? value : JSON.stringify(value)
     );
   }

@@ -305,7 +305,7 @@ async function formatFiles(context) {
     }
 
     const options = {
-      ...getOptionsForFile(context, filename),
+      ...await getOptionsForFile(context, filename),
       filepath: filename,
     };
 

@@ -1,37 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ignore file when using --debug-check (stderr) 1`] = `""`;
+exports[`ignore file when using --debug-check 1`] = `
+=================================== (stderr) ===================================
 
-exports[`ignore file when using --debug-check (stdout) 1`] = `
-"other-regular-modules.js
-"
+=================================== (stdout) ===================================
+other-regular-modules.js
+
+=================================== (write) ====================================
+[]
 `;
 
-exports[`ignore file when using --debug-check (write) 1`] = `Array []`;
+exports[`ignore path 1`] = `
+=================================== (stderr) ===================================
 
-exports[`ignore path (stderr) 1`] = `""`;
+=================================== (stdout) ===================================
+regular-module.js
 
-exports[`ignore path (stdout) 1`] = `
-"regular-module.js
-"
+=================================== (write) ====================================
+[]
 `;
 
-exports[`ignore path (write) 1`] = `Array []`;
+exports[`outputs files as-is if no --write 1`] = `
+=================================== (stderr) ===================================
 
-exports[`outputs files as-is if no --write (stderr) 1`] = `""`;
+=================================== (stdout) ===================================
+'use strict';
 
-exports[`outputs files as-is if no --write (stdout) 1`] = `
-"'use strict';
-"
+=================================== (write) ====================================
+[]
 `;
 
-exports[`outputs files as-is if no --write (write) 1`] = `Array []`;
+exports[`support .prettierignore 1`] = `
+=================================== (stderr) ===================================
 
-exports[`support .prettierignore (stderr) 1`] = `""`;
+=================================== (stdout) ===================================
+other-regular-modules.js
 
-exports[`support .prettierignore (stdout) 1`] = `
-"other-regular-modules.js
-"
+=================================== (write) ====================================
+[]
 `;
-
-exports[`support .prettierignore (write) 1`] = `Array []`;
