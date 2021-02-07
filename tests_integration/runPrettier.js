@@ -98,7 +98,7 @@ function runPrettier(dir, args = [], options = {}) {
     .spyOn(require(thirdParty), "findParentDir")
     .mockImplementation(() => process.cwd());
 
-  const test = async (testOptions = {}) => {
+  const runTest = async (testOptions = {}) => {
     try {
       await require(prettierCli);
       status = (status === undefined ? process.exitCode : status) || 0;
@@ -142,7 +142,7 @@ function runPrettier(dir, args = [], options = {}) {
     return result;
   };
 
-  return { test };
+  return { test: runTest };
 
   function appendStdout(text) {
     if (status === undefined) {

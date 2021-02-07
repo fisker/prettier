@@ -51,6 +51,7 @@ function createLogger(logLevel = "log") {
         clearable: false,
         ...options,
       };
+
       message = message.replace(/^/gm, prefix) + (options.newline ? "\n" : "");
       stream.write(message);
 

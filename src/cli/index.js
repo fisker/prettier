@@ -60,7 +60,7 @@ async function main(rawArguments, logger) {
     logger.log(
       typeof context.argv.help === "string" && context.argv.help !== ""
         ? core.createDetailedUsage(context, context.argv.help)
-        : core.createUsage(context)
+        : await core.createUsage(context)
     );
     return;
   }
