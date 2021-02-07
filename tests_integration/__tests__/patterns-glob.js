@@ -12,13 +12,21 @@ fixtures-1/
 */
 
 test("fixtures-1: Should match all files", async () => {
-  await runPrettier("cli/patterns-glob/fixtures-1", ["*.js", "!file.js", "-l"]).test({
+  await runPrettier("cli/patterns-glob/fixtures-1", [
+    "*.js",
+    "!file.js",
+    "-l",
+  ]).test({
     status: 1,
   });
 });
 
 test("fixtures-1: Should match files except `a.js`", async () => {
-  await runPrettier("cli/patterns-glob/fixtures-1", ["*.js", "!a.js", "-l"]).test({
+  await runPrettier("cli/patterns-glob/fixtures-1", [
+    "*.js",
+    "!a.js",
+    "-l",
+  ]).test({
     status: 1,
   });
 });
@@ -33,19 +41,31 @@ fixtures-2/
 */
 
 test("fixtures-2: Should match all js files and all supported files in the '!dir.js' directory", async () => {
-  await runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!dir.js", "-l"]).test({
+  await runPrettier("cli/patterns-glob/fixtures-2", [
+    "*.js",
+    "!dir.js",
+    "-l",
+  ]).test({
     status: 1,
   });
 });
 
 test("fixtures-2: Should match `a.js` and `!b.js`", async () => {
-  await runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!b.js", "-l"]).test({
+  await runPrettier("cli/patterns-glob/fixtures-2", [
+    "*.js",
+    "!b.js",
+    "-l",
+  ]).test({
     status: 1,
   });
 });
 
 test("fixtures-2: Should only match `!b.js`", async () => {
-  await runPrettier("cli/patterns-glob/fixtures-2", ["*.js", "!a.js", "-l"]).test({
+  await runPrettier("cli/patterns-glob/fixtures-2", [
+    "*.js",
+    "!a.js",
+    "-l",
+  ]).test({
     status: 1,
   });
 });
@@ -111,7 +131,10 @@ fixtures-4/
 */
 
 test("fixtures-4: Should match `level-1.js`", async () => {
-  await runPrettier("cli/patterns-glob/fixtures-4", ["./0/./level-1.js", "-l"]).test({
+  await runPrettier("cli/patterns-glob/fixtures-4", [
+    "./0/./level-1.js",
+    "-l",
+  ]).test({
     status: 1,
   });
 });

@@ -135,9 +135,13 @@ function f() {
 });
 
 test("output file as-is if stdin-filepath matched patterns in ignore-path", async () => {
-  await runPrettier("cli/stdin-ignore", ["--stdin-filepath", "ignore/example.js"], {
-    input: "hello_world( );",
-  }).test({
+  await runPrettier(
+    "cli/stdin-ignore",
+    ["--stdin-filepath", "ignore/example.js"],
+    {
+      input: "hello_world( );",
+    }
+  ).test({
     stdout: "hello_world( );",
     status: 0,
   });

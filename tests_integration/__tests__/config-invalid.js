@@ -14,7 +14,10 @@ test("throw error for unsupported extension", async () => {
 });
 
 test("throw error with invalid config format", async () => {
-  await runPrettier("cli/config/invalid", ["--config", "file/.prettierrc"]).test({
+  await runPrettier("cli/config/invalid", [
+    "--config",
+    "file/.prettierrc",
+  ]).test({
     status: "non-zero",
     stderr: expect.stringMatching(
       /Cannot (?:resolve|find) module '--invalid--' from/
@@ -50,7 +53,10 @@ test("throw error with invalid config option (int)", async () => {
 });
 
 test("throw error with invalid config option (trailingComma)", async () => {
-  await runPrettier("cli/config/invalid", ["--config", "option/trailingComma"]).test({
+  await runPrettier("cli/config/invalid", [
+    "--config",
+    "option/trailingComma",
+  ]).test({
     status: "non-zero",
   });
 });

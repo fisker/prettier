@@ -3,9 +3,13 @@
 const runPrettier = require("../runPrettier");
 
 test("prints doc with --debug-print-doc", async () => {
-  await runPrettier("cli/with-shebang", ["--debug-print-doc", "--parser", "babel"], {
-    input: "0",
-  }).test({
+  await runPrettier(
+    "cli/with-shebang",
+    ["--debug-print-doc", "--parser", "babel"],
+    {
+      input: "0",
+    }
+  ).test({
     stdout: '["0", ";", hardline]\n',
     stderr: "",
     status: 0,

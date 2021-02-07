@@ -29,13 +29,19 @@ test("extracts file-info for a known markdown file with no extension", async () 
 });
 
 test("extracts file-info with ignored=true for a file in .prettierignore", async () => {
-  await runPrettier("cli/ignore-path/", ["--file-info", "regular-module.js"]).test({
+  await runPrettier("cli/ignore-path/", [
+    "--file-info",
+    "regular-module.js",
+  ]).test({
     status: 0,
   });
 });
 
 test("file-info should try resolve config", async () => {
-  await runPrettier("cli/with-resolve-config/", ["--file-info", "file.js"]).test({
+  await runPrettier("cli/with-resolve-config/", [
+    "--file-info",
+    "file.js",
+  ]).test({
     status: 0,
   });
 });

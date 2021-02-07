@@ -20,7 +20,11 @@ test("resolves configuration from external files and overrides by extname", asyn
 });
 
 test("accepts configuration from --config", async () => {
-  await runPrettier("cli/config/", ["--config", ".prettierrc", "./js/file.js"]).test({
+  await runPrettier("cli/config/", [
+    "--config",
+    ".prettierrc",
+    "./js/file.js",
+  ]).test({
     status: 0,
   });
 });
@@ -32,25 +36,37 @@ test("resolves external configuration from package.json", async () => {
 });
 
 test("resolves configuration file with --find-config-path file", async () => {
-  await runPrettier("cli/config/", ["--find-config-path", "no-config/file.js"]).test({
+  await runPrettier("cli/config/", [
+    "--find-config-path",
+    "no-config/file.js",
+  ]).test({
     status: 0,
   });
 });
 
 test("resolves json configuration file with --find-config-path file", async () => {
-  await runPrettier("cli/config/", ["--find-config-path", "rc-json/file.js"]).test({
+  await runPrettier("cli/config/", [
+    "--find-config-path",
+    "rc-json/file.js",
+  ]).test({
     status: 0,
   });
 });
 
 test("resolves yaml configuration file with --find-config-path file", async () => {
-  await runPrettier("cli/config/", ["--find-config-path", "rc-yaml/file.js"]).test({
+  await runPrettier("cli/config/", [
+    "--find-config-path",
+    "rc-yaml/file.js",
+  ]).test({
     status: 0,
   });
 });
 
 test("resolves toml configuration file with --find-config-path file", async () => {
-  await runPrettier("cli/config/", ["--find-config-path", "rc-toml/file.js"]).test({
+  await runPrettier("cli/config/", [
+    "--find-config-path",
+    "rc-toml/file.js",
+  ]).test({
     status: 0,
   });
 });

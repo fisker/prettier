@@ -15,11 +15,13 @@ test("ignore-unknown dir", async () => {
 });
 
 test("ignore-unknown alias", async () => {
-  await runPrettier("cli/ignore-unknown", [".", "-u", "--list-different"]).test({
-    status: "non-zero",
-    stderr: "",
-    write: [],
-  });
+  await runPrettier("cli/ignore-unknown", [".", "-u", "--list-different"]).test(
+    {
+      status: "non-zero",
+      stderr: "",
+      write: [],
+    }
+  );
 });
 
 test("ignore-unknown pattern", async () => {
@@ -47,7 +49,11 @@ test("ignore-unknown write", async () => {
 });
 
 test("ignore-unknown check", async () => {
-  await runPrettier("cli/ignore-unknown", [".", "--ignore-unknown", "--check"]).test({
+  await runPrettier("cli/ignore-unknown", [
+    ".",
+    "--ignore-unknown",
+    "--check",
+  ]).test({
     status: 1,
   });
 });
@@ -71,7 +77,10 @@ test("Not matching pattern", async () => {
 });
 
 test("Ignored file", async () => {
-  await runPrettier("cli/ignore-unknown", ["ignored.js", "--ignore-unknown"]).test({
+  await runPrettier("cli/ignore-unknown", [
+    "ignored.js",
+    "--ignore-unknown",
+  ]).test({
     status: 0,
   });
 });

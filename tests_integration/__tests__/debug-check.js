@@ -3,17 +3,23 @@
 const runPrettier = require("../runPrettier");
 
 test("doesn't crash when --debug-check is passed", async () => {
-  await runPrettier("cli/with-shebang", ["issue1890.js", "--debug-check"]).test({
-    stdout: "issue1890.js\n",
-    stderr: "",
-    status: 0,
-  });
+  await runPrettier("cli/with-shebang", ["issue1890.js", "--debug-check"]).test(
+    {
+      stdout: "issue1890.js\n",
+      stderr: "",
+      status: 0,
+    }
+  );
 });
 
 test("checks stdin with --debug-check", async () => {
-  await runPrettier("cli/with-shebang", ["--debug-check", "--parser", "babel"], {
-    input: "0",
-  }).test({
+  await runPrettier(
+    "cli/with-shebang",
+    ["--debug-check", "--parser", "babel"],
+    {
+      input: "0",
+    }
+  ).test({
     stdout: "(stdin)\n",
     stderr: "",
     status: 0,

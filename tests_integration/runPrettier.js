@@ -114,7 +114,7 @@ function runPrettier(dir, args = [], options = {}) {
       jest.restoreAllMocks();
     }
 
-    const result =  { status, stdout, stderr, write };
+    const result = { status, stdout, stderr, write };
 
     for (const name of Object.keys(result)) {
       test(`(${name})`, () => {

@@ -3,9 +3,13 @@
 const runPrettier = require("../runPrettier");
 
 test("checks stdin with --list-different", async () => {
-  await runPrettier("cli/with-shebang", ["--list-different", "--parser", "babel"], {
-    input: "0",
-  }).test({
+  await runPrettier(
+    "cli/with-shebang",
+    ["--list-different", "--parser", "babel"],
+    {
+      input: "0",
+    }
+  ).test({
     stdout: "(stdin)\n",
     stderr: "",
     status: "non-zero",

@@ -4,11 +4,12 @@ const snapshotDiff = require("snapshot-diff");
 const runPrettier = require("../runPrettier");
 
 test("show external options with `--help`", async () => {
-  const originalStdout = (await runPrettier("plugins/options", ["--help"]).test()).stdout;
-  const pluggedStdout = (await runPrettier("plugins/options", [
-    "--help",
-    "--plugin=./plugin",
-  ]).test()).stdout;
+  const originalStdout = (
+    await runPrettier("plugins/options", ["--help"]).test()
+  ).stdout;
+  const pluggedStdout = (
+    await runPrettier("plugins/options", ["--help", "--plugin=./plugin"]).test()
+  ).stdout;
   expect(snapshotDiff(originalStdout, pluggedStdout)).toMatchSnapshot();
 });
 

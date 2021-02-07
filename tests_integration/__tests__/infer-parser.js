@@ -45,9 +45,13 @@ describe("stdin with unknown path and no parser", () => {
   });
 
   test("--check logs error but exits with 0", async () => {
-    await runPrettier("cli/infer-parser/", ["--check", "--stdin-filepath", "foo"], {
-      input: "foo",
-    }).test({
+    await runPrettier(
+      "cli/infer-parser/",
+      ["--check", "--stdin-filepath", "foo"],
+      {
+        input: "foo",
+      }
+    ).test({
       status: 0,
       stdout: "",
       write: [],
@@ -69,11 +73,13 @@ describe("stdin with unknown path and no parser", () => {
 
 describe("unknown path and no parser", () => {
   test("specific file", async () => {
-    await runPrettier("cli/infer-parser/", ["--end-of-line", "lf", "FOO"]).test({
-      status: 2,
-      stdout: "",
-      write: [],
-    });
+    await runPrettier("cli/infer-parser/", ["--end-of-line", "lf", "FOO"]).test(
+      {
+        status: 2,
+        stdout: "",
+        write: [],
+      }
+    );
   });
 
   test("multiple files", async () => {

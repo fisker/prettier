@@ -30,11 +30,13 @@ test("--write with --loglevel=silent doesn't log filenames", async () => {
 });
 
 test("Should use default level logger to log `--loglevel` error", async () => {
-  await runPrettier("cli/loglevel", ["--loglevel", "a-unknown-log-level"]).test({
-    status: "non-zero",
-    write: [],
-    stdout: "",
-  });
+  await runPrettier("cli/loglevel", ["--loglevel", "a-unknown-log-level"]).test(
+    {
+      status: "non-zero",
+      write: [],
+      stdout: "",
+    }
+  );
 });
 
 async function runPrettierWithLogLevel(logLevel, patterns) {

@@ -4,7 +4,11 @@ const prettier = require("prettier-local");
 const runPrettier = require("../runPrettier");
 
 test("infers postcss parser", async () => {
-  await runPrettier("cli/with-parser-inference", ["--end-of-line", "lf", "*"]).test({
+  await runPrettier("cli/with-parser-inference", [
+    "--end-of-line",
+    "lf",
+    "*",
+  ]).test({
     status: 0,
   });
 });
@@ -16,7 +20,10 @@ test("infers postcss parser with --check", async () => {
 });
 
 test("infers postcss parser with --list-different", async () => {
-  await runPrettier("cli/with-parser-inference", ["--list-different", "*"]).test({
+  await runPrettier("cli/with-parser-inference", [
+    "--list-different",
+    "*",
+  ]).test({
     status: 0,
   });
 });

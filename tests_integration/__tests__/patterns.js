@@ -41,7 +41,11 @@ test("multiple patterns by with ignore pattern, ignores node_modules by default"
 });
 
 test("multiple patterns by with ignore pattern, ignores node_modules by with ./**/*.js", async () => {
-  await runPrettier("cli/patterns", ["./**/*.js", "!./directory/**", "-l"]).test({
+  await runPrettier("cli/patterns", [
+    "./**/*.js",
+    "!./directory/**",
+    "-l",
+  ]).test({
     status: 1,
   });
 });
