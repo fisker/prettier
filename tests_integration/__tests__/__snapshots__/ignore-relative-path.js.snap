@@ -5,8 +5,8 @@ exports[`support relative paths 1`] = `
 
 =================================== (stdout) ===================================
 shouldNotBeIgnored.js
-level1-glob\\level2-glob\\level3-glob\\shouldNotBeIgnored.scss
-level1-glob\\shouldNotBeIgnored.js
+level1-glob/level2-glob/level3-glob/shouldNotBeIgnored.scss
+level1-glob/shouldNotBeIgnored.js
 
 =================================== (write) ====================================
 []

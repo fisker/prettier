@@ -5,59 +5,91 @@ exports[`CLI overrides take precedence 1`] = `
 
 =================================== (stdout) ===================================
 function f() {
-  console.log("should have tab width 8");
+	console.log(
+		"should have tab width 8"
+	)
 }
 function f() {
-  console.log("should have space width 2");
+  console.log(
+    "should have space width 2"
+  )
 }
 function f() {
-  console.log("should have space width 8");
+        console.log(
+                "should have space width 8"
+        )
 }
 function f() {
   console.log(
     "should have space width 2 despite ../.editorconfig specifying 8, because ./.hg is present"
-  );
+  )
 }
-console.log("should have no semi");
-console.log("jest/__best-tests__/.file.js should have semi");
-console.log("jest/__best-tests__/file.js should have semi");
-console.log("jest/Component.js should not have semi");
-console.log("jest/Component.test.js should have semi");
+console.log(
+  "should have no semi"
+)
+console.log(
+  "jest/__best-tests__/.file.js should have semi"
+);
+console.log(
+  "jest/__best-tests__/file.js should have semi"
+);
+console.log(
+  "jest/Component.js should not have semi"
+)
+console.log(
+  "jest/Component.test.js should have semi"
+);
 function js() {
-  console.log("js/file.js should have tab width 8 (1 if CLI)");
+        console.log(
+                "js/file.js should have tab width 8 (1 if CLI)"
+        );
 }
 "use strict";
 
 module.exports = {
-  endOfLine: "auto",
-  tabWidth: 8,
+        endOfLine:
+                "auto",
+        tabWidth: 8,
 };
 function noConfigJs() {
-  console.log("no-config/file.js should have no semicolons");
+  console.log(
+    "no-config/file.js should have no semicolons"
+  )
 }
 function packageJs() {
-  console.log("package/file.js should have tab width 3");
+   console.log(
+      "package/file.js should have tab width 3"
+   );
 }
 function rcJson() {
-  console.log.apply(null, [
-    "rc-json/file.js",
-    "should have trailing comma",
-    "and single quotes",
-  ]);
+  console.log.apply(
+    null,
+    [
+      'rc-json/file.js',
+      'should have trailing comma',
+      'and single quotes',
+    ],
+  );
 }
 function rcToml() {
-  console.log.apply(null, [
-    "rc-toml/file.js",
-    "should have trailing comma",
-    "and single quotes",
-  ]);
+  console.log.apply(
+    null,
+    [
+      'rc-toml/file.js',
+      'should have trailing comma',
+      'and single quotes',
+    ],
+  );
 }
 function rcYaml() {
-  console.log.apply(null, [
-    "rc-yaml/file.js",
-    "should have trailing comma",
-    "and single quotes",
-  ]);
+  console.log.apply(
+    null,
+    [
+      'rc-yaml/file.js',
+      'should have trailing comma',
+      'and single quotes',
+    ],
+  );
 }
 
 =================================== (write) ====================================
@@ -69,7 +101,7 @@ exports[`accepts configuration from --config 1`] = `
 
 =================================== (stdout) ===================================
 function js() {
-  console.log("js/file.js should have tab width 8 (1 if CLI)");
+ console.log("js/file.js should have tab width 8 (1 if CLI)")
 }
 
 =================================== (write) ====================================
@@ -99,58 +131,58 @@ exports[`resolves configuration from external files 1`] = `
 
 =================================== (stdout) ===================================
 function f() {
-  console.log("should have tab width 8");
+	console.log("should have tab width 8")
 }
 function f() {
-  console.log("should have space width 2");
+  console.log("should have space width 2")
 }
 function f() {
-  console.log("should have space width 8");
+        console.log("should have space width 8")
 }
 function f() {
   console.log(
     "should have space width 2 despite ../.editorconfig specifying 8, because ./.hg is present"
-  );
+  )
 }
-console.log("should have no semi");
+console.log("should have no semi")
 console.log("jest/__best-tests__/.file.js should have semi");
 console.log("jest/__best-tests__/file.js should have semi");
-console.log("jest/Component.js should not have semi");
+console.log("jest/Component.js should not have semi")
 console.log("jest/Component.test.js should have semi");
 function js() {
-  console.log("js/file.js should have tab width 8 (1 if CLI)");
+        console.log("js/file.js should have tab width 8 (1 if CLI)");
 }
 "use strict";
 
 module.exports = {
-  endOfLine: "auto",
-  tabWidth: 8,
+        endOfLine: "auto",
+        tabWidth: 8,
 };
 function noConfigJs() {
-  console.log("no-config/file.js should have no semicolons");
+  console.log("no-config/file.js should have no semicolons")
 }
 function packageJs() {
-  console.log("package/file.js should have tab width 3");
+   console.log("package/file.js should have tab width 3");
 }
 function rcJson() {
   console.log.apply(null, [
-    "rc-json/file.js",
-    "should have trailing comma",
-    "and single quotes",
+    'rc-json/file.js',
+    'should have trailing comma',
+    'and single quotes',
   ]);
 }
 function rcToml() {
   console.log.apply(null, [
-    "rc-toml/file.js",
-    "should have trailing comma",
-    "and single quotes",
+    'rc-toml/file.js',
+    'should have trailing comma',
+    'and single quotes',
   ]);
 }
 function rcYaml() {
   console.log.apply(null, [
-    "rc-yaml/file.js",
-    "should have trailing comma",
-    "and single quotes",
+    'rc-yaml/file.js',
+    'should have trailing comma',
+    'and single quotes',
   ]);
 }
 
@@ -168,9 +200,9 @@ function noConfigTs() {
   );
 }
 function packageTs() {
-  console.log(
-    "package/file.ts should have tab width 5 because it has .ts extension"
-  );
+     console.log(
+          "package/file.ts should have tab width 5 because it has .ts extension"
+     );
 }
 
 =================================== (write) ====================================
@@ -181,7 +213,7 @@ exports[`resolves external configuration from package.json 1`] = `
 =================================== (stderr) ===================================
 
 =================================== (stdout) ===================================
-console.log("should have no semi");
+console.log("should have no semi")
 
 =================================== (write) ====================================
 []
@@ -191,7 +223,7 @@ exports[`resolves json configuration file with --find-config-path file 1`] = `
 =================================== (stderr) ===================================
 
 =================================== (stdout) ===================================
-rc-json\\.prettierrc.json
+rc-json/.prettierrc.json
 
 =================================== (write) ====================================
 []
@@ -201,7 +233,7 @@ exports[`resolves toml configuration file with --find-config-path file 1`] = `
 =================================== (stderr) ===================================
 
 =================================== (stdout) ===================================
-rc-toml\\.prettierrc.toml
+rc-toml/.prettierrc.toml
 
 =================================== (write) ====================================
 []
@@ -211,7 +243,7 @@ exports[`resolves yaml configuration file with --find-config-path file 1`] = `
 =================================== (stderr) ===================================
 
 =================================== (stdout) ===================================
-rc-yaml\\.prettierrc.yaml
+rc-yaml/.prettierrc.yaml
 
 =================================== (write) ====================================
 []

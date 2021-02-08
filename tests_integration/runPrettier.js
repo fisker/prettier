@@ -6,6 +6,7 @@ const stripAnsi = require("strip-ansi");
 const { SynchronousPromise } = require("synchronous-promise");
 const { prettierCli, thirdParty } = require("./env");
 const raw = require("jest-snapshot-serializer-raw").wrap;
+const pathSerializer = require("./path-serializer");
 
 function runPrettier(dir, args = [], options = {}) {
   args = Array.isArray(args) ? args : [args];
@@ -142,6 +143,7 @@ function runPrettier(dir, args = [], options = {}) {
     if (Object.keys(snapshot).length > 0) {
       expect(createSnapshot(snapshot)).toMatchSnapshot();
     }
+
     return result;
   };
 
@@ -175,7 +177,10 @@ function createSnapshot(result) {
   for (const [key, value] of Object.entries(result)) {
     parts.push(
       printSeparator(` (${key}) `),
-      typeof value === "string" ? value : JSON.stringify(value)
+      pathSerializer.print(
+        typeof value === "string" ? value : JSON.stringify(value),
+        (value) => value
+      )
     );
   }
 

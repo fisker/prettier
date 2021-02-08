@@ -11,7 +11,7 @@ exports[`boolean flags do not swallow the next argument 1`] = `
 =================================== (stderr) ===================================
 
 =================================== (stdout) ===================================
-console.log("could be single quote and without semi");
+console.log('could be single quote and without semi');
 
 =================================== (write) ====================================
 []
@@ -21,7 +21,7 @@ exports[`negated options work 1`] = `
 =================================== (stderr) ===================================
 
 =================================== (stdout) ===================================
-console.log("could be single quote and without semi");
+console.log("could be single quote and without semi")
 
 =================================== (write) ====================================
 []
@@ -29,13 +29,34 @@ console.log("could be single quote and without semi");
 
 exports[`number file/dir 1`] = `
 =================================== (stdout) ===================================
-1\\file-in-dir-named-1.js
+1/file-in-dir-named-1.js
 
 `;
 
 exports[`number file/dir 2`] = `
 =================================== (stdout) ===================================
-2.2\\file-in-dir-named-2.2.js
+2.2/file-in-dir-named-2.2.js
+
+`;
+
+exports[`number file/dir 3`] = `
+=================================== (stdout) ===================================
+3
+
+`;
+
+exports[`number file/dir 4`] = `
+=================================== (stdout) ===================================
+4.44
+
+`;
+
+exports[`number file/dir 5`] = `
+=================================== (stdout) ===================================
+1/file-in-dir-named-1.js
+2.2/file-in-dir-named-2.2.js
+3
+4.44
 
 `;
 

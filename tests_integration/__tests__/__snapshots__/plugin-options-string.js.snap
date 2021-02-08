@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Non exists plugin 1`] = ``;
-
-exports[`external options from CLI should work 1`] = ``;
-
-exports[`external options from config file should work 1`] = ``;
-
 exports[`show external options with \`--help\` 1`] = `
 "Snapshot Diff:
 Compared values have no visual difference."
