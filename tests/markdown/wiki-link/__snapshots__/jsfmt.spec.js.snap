@@ -109,8 +109,8 @@ If I have some markdown text, it should be wrapped properly at the character lim
 However, if I have a link that overflows the end of line it should be [[wrapped as a single entity]] like this.
 
 =====================================output=====================================
-If I have some markdown text, it should be wrapped properly at the character limit for markdown. However, if I have a link that overflows the end of line it should be [[wrapped as a single entity]] like this.
-
+If I have some markdown text, it should be wrapped properly at the character lim | it for markdown. However, if I have a link that overflows the end of line it should be [[wrapped as a single entity]] like this.
+                                                                                 |
 ================================================================================
 `;
 
@@ -125,9 +125,9 @@ If I have some markdown text, it should be wrapped properly at the character lim
 However, if I have a link that overflows the end of line it should be [[wrapped as a single entity]] like this.
 
 =====================================output=====================================
-If I have some markdown text, it should be wrapped properly at the character limit for markdown.
-However, if I have a link that overflows the end of line it should be [[wrapped as a single entity]] like this.
-
+If I have some markdown text, it should be wrapped properly at the character lim | it for markdown.
+However, if I have a link that overflows the end of line it should be [[wrapped  | as a single entity]] like this.
+                                                                                 |
 ================================================================================
 `;
 
@@ -142,8 +142,8 @@ singleQuote: true
 [[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
 
 =====================================output=====================================
-[[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
-
+[[Here is an incredibly long wiki-style link that overflows the standard wrap wi | dth for markdown]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -157,8 +157,8 @@ proseWrap: "always"
 [[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
 
 =====================================output=====================================
-[[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
-
+[[Here is an incredibly long wiki-style link that overflows the standard wrap wi | dth for markdown]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -172,8 +172,8 @@ proseWrap: "never"
 [[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
 
 =====================================output=====================================
-[[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
-
+[[Here is an incredibly long wiki-style link that overflows the standard wrap wi | dth for markdown]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -187,8 +187,8 @@ proseWrap: "preserve"
 [[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
 
 =====================================output=====================================
-[[Here is an incredibly long wiki-style link that overflows the standard wrap width for markdown]].
-
+[[Here is an incredibly long wiki-style link that overflows the standard wrap wi | dth for markdown]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -203,9 +203,9 @@ singleQuote: true
 I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that
-[[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that            |
+[[makes little sense at all as I continue it into an obscenely long wiki-style l | ink thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -219,9 +219,9 @@ proseWrap: "always"
 I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that
-[[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that            |
+[[makes little sense at all as I continue it into an obscenely long wiki-style l | ink thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -235,8 +235,8 @@ proseWrap: "never"
 I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that [[makes li | ttle sense at all as I continue it into an obscenely long wiki-style link thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -250,8 +250,8 @@ proseWrap: "preserve"
 I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that [[makes li | ttle sense at all as I continue it into an obscenely long wiki-style link thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -267,9 +267,9 @@ I have some markdown prose here, with a horrible run-on sentence that [[makes li
 continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that
-[[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that            |
+[[makes little sense at all as I continue it into an obscenely long wiki-style l | ink thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -284,9 +284,9 @@ I have some markdown prose here, with a horrible run-on sentence that [[makes li
 continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that
-[[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that            |
+[[makes little sense at all as I continue it into an obscenely long wiki-style l | ink thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -301,8 +301,8 @@ I have some markdown prose here, with a horrible run-on sentence that [[makes li
 continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that [[makes li | ttle sense at all as I continue it into an obscenely long wiki-style link thingy]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -317,9 +317,9 @@ I have some markdown prose here, with a horrible run-on sentence that [[makes li
 continue it into an obscenely long wiki-style link thingy]].
 
 =====================================output=====================================
-I have some markdown prose here, with a horrible run-on sentence that [[makes little sense at all as I
-continue it into an obscenely long wiki-style link thingy]].
-
+I have some markdown prose here, with a horrible run-on sentence that [[makes li | ttle sense at all as I
+continue it into an obscenely long wiki-style link thingy]].                     |
+                                                                                 |
 ================================================================================
 `;
 
@@ -369,8 +369,8 @@ A very long line of markdown with additional brackets as it wraps over the [[[en
 
 
 =====================================output=====================================
-A very long line of markdown with additional brackets as it wraps over the [[[end like this]]].
-
+A very long line of markdown with additional brackets as it wraps over the [[[en | d like this]]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -385,8 +385,8 @@ A very long line of markdown with additional brackets as it wraps over the [[[en
 
 
 =====================================output=====================================
-A very long line of markdown with additional brackets as it wraps over the [[[end like this]]].
-
+A very long line of markdown with additional brackets as it wraps over the [[[en | d like this]]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -436,8 +436,8 @@ A very long line of markdown with additional brackets as it wraps over [[[the en
 
 
 =====================================output=====================================
-A very long line of markdown with additional brackets as it wraps over [[[the end like this]].
-
+A very long line of markdown with additional brackets as it wraps over [[[the en | d like this]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -452,8 +452,8 @@ A very long line of markdown with additional brackets as it wraps over [[[the en
 
 
 =====================================output=====================================
-A very long line of markdown with additional brackets as it wraps over [[[the end like this]].
-
+A very long line of markdown with additional brackets as it wraps over [[[the en | d like this]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -503,8 +503,8 @@ A very long line of markdown with additional brackets as it wraps over [[the end
 
 
 =====================================output=====================================
-A very long line of markdown with additional brackets as it wraps over [[the end like this]]].
-
+A very long line of markdown with additional brackets as it wraps over [[the end |  like this]]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -519,8 +519,8 @@ A very long line of markdown with additional brackets as it wraps over [[the end
 
 
 =====================================output=====================================
-A very long line of markdown with additional brackets as it wraps over [[the end like this]]].
-
+A very long line of markdown with additional brackets as it wraps over [[the end |  like this]]].
+                                                                                 |
 ================================================================================
 `;
 
@@ -633,8 +633,8 @@ proseWrap: "never"
 Here's some text to ensure that the link and wiki link break the line [[a[b](http://www.example.com/)]]
 
 =====================================output=====================================
-Here's some text to ensure that the link and wiki link break the line [[a[b](http://www.example.com/)]]
-
+Here's some text to ensure that the link and wiki link break the line [[a[b](htt | p://www.example.com/)]]
+                                                                                 |
 ================================================================================
 `;
 
@@ -648,8 +648,8 @@ proseWrap: "preserve"
 Here's some text to ensure that the link and wiki link break the line [[a[b](http://www.example.com/)]]
 
 =====================================output=====================================
-Here's some text to ensure that the link and wiki link break the line [[a[b](http://www.example.com/)]]
-
+Here's some text to ensure that the link and wiki link break the line [[a[b](htt | p://www.example.com/)]]
+                                                                                 |
 ================================================================================
 `;
 

@@ -79,8 +79,8 @@ proseWrap: "always"
 \`this is a long long long long long long long long long long long long long long long inline code\`
 
 =====================================output=====================================
-\`this is a long long long long long long long long long long long long long long long inline code\`
-
+\`this is a long long long long long long long long long long long long long long |  long inline code\`
+                                                                                 |
 ================================================================================
 `;
 

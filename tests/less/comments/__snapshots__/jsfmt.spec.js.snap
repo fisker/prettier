@@ -253,14 +253,14 @@ printWidth: 80
 // @endindex
 
 =====================================output=====================================
-@import "../node_modules/foo/bar.less";
-
-// @index(['./components/**/*.less', '!./**/_demo/**'], f => \`@import '\${f.path}\${f.ext}';\`)
-@import "./components/Button/Button.less";
-@import "./components/Form/Form.less";
-@import "./components/Input/Input.less";
-// @endindex
-
+@import "../node_modules/foo/bar.less";                                          |
+                                                                                 |
+// @index(['./components/**/*.less', '!./**/_demo/**'], f => \`@import '\${f.path} | \${f.ext}';\`)
+@import "./components/Button/Button.less";                                       |
+@import "./components/Form/Form.less";                                           |
+@import "./components/Input/Input.less";                                         |
+// @endindex                                                                     |
+                                                                                 |
 ================================================================================
 `;
 

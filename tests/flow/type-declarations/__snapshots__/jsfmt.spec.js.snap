@@ -104,15 +104,15 @@ export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey
 type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = SomeReallyLongLongLongLongLongLongIdentifier;
 
 =====================================output=====================================
-export type AdamPlacementValidationSingleErrorKey =
-  "SOME_FANCY_TARGETS.GLOBAL_TARGET"
-
-export type SomeReallyLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey = true
-
-export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey = null
-
-type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = SomeReallyLongLongLongLongLongLongIdentifier
-
+export type AdamPlacementValidationSingleErrorKey =                              |
+  "SOME_FANCY_TARGETS.GLOBAL_TARGET"                                             |
+                                                                                 |
+export type SomeReallyLongLongLongLongLongLongLongLongLongLongLongLongLongLongKe | y = true
+                                                                                 |
+export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey |  = null
+                                                                                 |
+type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = Som | eReallyLongLongLongLongLongLongIdentifier
+                                                                                 |
 ================================================================================
 `;
 
@@ -132,15 +132,15 @@ export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey
 type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = SomeReallyLongLongLongLongLongLongIdentifier;
 
 =====================================output=====================================
-export type AdamPlacementValidationSingleErrorKey =
-  "SOME_FANCY_TARGETS.GLOBAL_TARGET";
-
-export type SomeReallyLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey = true;
-
-export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey = null;
-
-type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = SomeReallyLongLongLongLongLongLongIdentifier;
-
+export type AdamPlacementValidationSingleErrorKey =                              |
+  "SOME_FANCY_TARGETS.GLOBAL_TARGET";                                            |
+                                                                                 |
+export type SomeReallyLongLongLongLongLongLongLongLongLongLongLongLongLongLongKe | y = true;
+                                                                                 |
+export type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey |  = null;
+                                                                                 |
+type SomeOtherLongLongLongLongLongLongLongLongLongLongLongLongLongLongKey2 = Som | eReallyLongLongLongLongLongLongIdentifier;
+                                                                                 |
 ================================================================================
 `;
 

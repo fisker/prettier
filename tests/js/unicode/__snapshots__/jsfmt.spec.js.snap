@@ -42,12 +42,12 @@ printWidth: 80
 x = <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </p>;
 
 =====================================output=====================================
-// Note: there are non breaking spaces in the JSX text
-x = (
-  <p>
-     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 
-  </p>
-);
-
+// Note: there are non breaking spaces in the JSX text                           |
+x = (                                                                            |
+  <p>                                                                            |
+     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | aaaaaaaaaaaaaaaaaaaa 
+  </p>                                                                           |
+);                                                                               |
+                                                                                 |
 ================================================================================
 `;

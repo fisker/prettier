@@ -19,19 +19,19 @@ var X = {
 }
 
 =====================================output=====================================
-var X = {
-  perform: function <
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G, // eslint-disable-line space-before-function-paren
-  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},
-};
-
+var X = {                                                                        |
+  perform: function <                                                            |
+    A,                                                                           |
+    B,                                                                           |
+    C,                                                                           |
+    D,                                                                           |
+    E,                                                                           |
+    F,                                                                           |
+    G,                                                                           |
+    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G, // eslint-disable-line space-b | efore-function-paren
+  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},            |
+};                                                                               |
+                                                                                 |
 ================================================================================
 `;
 
@@ -53,19 +53,19 @@ var X = {
 }
 
 =====================================output=====================================
-var X = {
-  perform: function <
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
-  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},
-};
-
+var X = {                                                                        |
+  perform: function <                                                            |
+    A,                                                                           |
+    B,                                                                           |
+    C,                                                                           |
+    D,                                                                           |
+    E,                                                                           |
+    F,                                                                           |
+    G,                                                                           |
+    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-be | fore-function-paren
+  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},            |
+};                                                                               |
+                                                                                 |
 ================================================================================
 `;
 
@@ -243,8 +243,8 @@ trailingComma: "all"
 const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices.reduce();
 
 =====================================output=====================================
-const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices.reduce();
-
+const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices. | reduce();
+                                                                                 |
 ================================================================================
 `;
 
@@ -257,8 +257,8 @@ printWidth: 80
 const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices.reduce();
 
 =====================================output=====================================
-const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices.reduce();
-
+const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices. | reduce();
+                                                                                 |
 ================================================================================
 `;
 

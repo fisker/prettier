@@ -109,10 +109,10 @@ Default | CLI Override | API Override
 \`"none"\` | <code>--trailing-comma <none&#124;es5&#124;all></code> | <code>trailingComma: "<none&#124;es5&#124;all>"</code>
 
 =====================================output=====================================
-| Default  | CLI Override                                           | API Override                                           |
-| -------- | ------------------------------------------------------ | ------------------------------------------------------ |
-| \`"none"\` | <code>--trailing-comma <none&#124;es5&#124;all></code> | <code>trailingComma: "<none&#124;es5&#124;all>"</code> |
-
+| Default  | CLI Override                                           | API Overri | de                                           |
+| -------- | ------------------------------------------------------ | ---------- | -------------------------------------------- |
+| \`"none"\` | <code>--trailing-comma <none&#124;es5&#124;all></code> | <code>trai | lingComma: "<none&#124;es5&#124;all>"</code> |
+                                                                                 |
 ================================================================================
 `;
 

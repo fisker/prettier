@@ -507,16 +507,16 @@ asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsj
 }
 
 =====================================output=====================================
-asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsjkdjkakjsdm,
-asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsjkdjkakjsdm {
-}
-
-.some-class {
-  &.another-class {
-    color: red;
-  }
-}
-
+asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsj | kdjkakjsdm,
+asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsj | kdjkakjsdm {
+}                                                                                |
+                                                                                 |
+.some-class {                                                                    |
+  &.another-class {                                                              |
+    color: red;                                                                  |
+  }                                                                              |
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -538,16 +538,16 @@ asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsj
 }
 
 =====================================output=====================================
-asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsjkdjkakjsdm,
-asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsjkdjkakjsdm {
-}
-
-.some-class {
-  &.another-class {
-    color: red;
-  }
-}
-
+asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsj | kdjkakjsdm,
+asdasldaskdhjkashdahsdkjahskdjhakjsdkjahsdhkasdhkajsdhakjsdhkajsdhjkahskjdkjahsj | kdjkakjsdm {
+}                                                                                |
+                                                                                 |
+.some-class {                                                                    |
+  &.another-class {                                                              |
+    color: red;                                                                  |
+  }                                                                              |
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 

@@ -320,16 +320,16 @@ import a, {somethingSuperLongsomethingSuperLong2} from 'somethingSuperLongsometh
 import {a2, somethingSuperLongsomethingSuperLong3} from 'somethingSuperLongsomethingSuperLongsomethingSuperLong'
 
 =====================================output=====================================
-import somethingSuperLongsomethingSuperLong from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-import {somethingSuperLongsomethingSuperLong1} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-import a, {
-  somethingSuperLongsomethingSuperLong2,
-} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-import {
-  a2,
-  somethingSuperLongsomethingSuperLong3,
-} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-
+import somethingSuperLongsomethingSuperLong from "somethingSuperLongsomethingSup | erLongsomethingSuperLong";
+import {somethingSuperLongsomethingSuperLong1} from "somethingSuperLongsomething | SuperLongsomethingSuperLong";
+import a, {                                                                      |
+  somethingSuperLongsomethingSuperLong2,                                         |
+} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";                 |
+import {                                                                         |
+  a2,                                                                            |
+  somethingSuperLongsomethingSuperLong3,                                         |
+} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";                 |
+                                                                                 |
 ================================================================================
 `;
 
@@ -345,16 +345,16 @@ import a, {somethingSuperLongsomethingSuperLong2} from 'somethingSuperLongsometh
 import {a2, somethingSuperLongsomethingSuperLong3} from 'somethingSuperLongsomethingSuperLongsomethingSuperLong'
 
 =====================================output=====================================
-import somethingSuperLongsomethingSuperLong from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-import { somethingSuperLongsomethingSuperLong1 } from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-import a, {
-  somethingSuperLongsomethingSuperLong2,
-} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-import {
-  a2,
-  somethingSuperLongsomethingSuperLong3,
-} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";
-
+import somethingSuperLongsomethingSuperLong from "somethingSuperLongsomethingSup | erLongsomethingSuperLong";
+import { somethingSuperLongsomethingSuperLong1 } from "somethingSuperLongsomethi | ngSuperLongsomethingSuperLong";
+import a, {                                                                      |
+  somethingSuperLongsomethingSuperLong2,                                         |
+} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";                 |
+import {                                                                         |
+  a2,                                                                            |
+  somethingSuperLongsomethingSuperLong3,                                         |
+} from "somethingSuperLongsomethingSuperLongsomethingSuperLong";                 |
+                                                                                 |
 ================================================================================
 `;
 
@@ -368,8 +368,8 @@ printWidth: 80
 import someCoolUtilWithARatherLongName from '../../../../utils/someCoolUtilWithARatherLongName';
 
 =====================================output=====================================
-import someCoolUtilWithARatherLongName from "../../../../utils/someCoolUtilWithARatherLongName";
-
+import someCoolUtilWithARatherLongName from "../../../../utils/someCoolUtilWithA | RatherLongName";
+                                                                                 |
 ================================================================================
 `;
 
@@ -382,8 +382,8 @@ printWidth: 80
 import someCoolUtilWithARatherLongName from '../../../../utils/someCoolUtilWithARatherLongName';
 
 =====================================output=====================================
-import someCoolUtilWithARatherLongName from "../../../../utils/someCoolUtilWithARatherLongName";
-
+import someCoolUtilWithARatherLongName from "../../../../utils/someCoolUtilWithA | RatherLongName";
+                                                                                 |
 ================================================================================
 `;
 

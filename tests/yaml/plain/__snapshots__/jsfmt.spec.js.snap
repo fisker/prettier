@@ -19,20 +19,20 @@ newline: longlonglonglonglonglonglonglonglonglonglong
   longlonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-no-whitesapce: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
-whitespace:
-  longlonglonglonglonglonglonglonglonglonglong
-  longlonglonglonglonglonglonglonglonglonglong
-
-literal-newline:
-  longlonglonglonglonglonglonglonglonglonglong
-  longlonglonglonglonglonglonglonglonglonglong
-
-newline: longlonglonglonglonglonglonglonglonglonglong
-
-  longlonglonglonglonglonglonglonglonglonglong
-
+no-whitesapce: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglongl | onglong
+                                                                                 |
+whitespace:                                                                      |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+                                                                                 |
+literal-newline:                                                                 |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+                                                                                 |
+newline: longlonglonglonglonglonglonglonglonglonglong                            |
+                                                                                 |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+                                                                                 |
 ================================================================================
 `;
 
@@ -55,16 +55,16 @@ newline: longlonglonglonglonglonglonglonglonglonglong
   longlonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-no-whitesapce: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
-whitespace: longlonglonglonglonglonglonglonglonglonglong longlonglonglonglonglonglonglonglonglonglong
-
-literal-newline: longlonglonglonglonglonglonglonglonglonglong longlonglonglonglonglonglonglonglonglonglong
-
-newline: longlonglonglonglonglonglonglonglonglonglong
-
-  longlonglonglonglonglonglonglonglonglonglong
-
+no-whitesapce: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglongl | onglong
+                                                                                 |
+whitespace: longlonglonglonglonglonglonglonglonglonglong longlonglonglonglonglon | glonglonglonglonglong
+                                                                                 |
+literal-newline: longlonglonglonglonglonglonglonglonglonglong longlonglonglonglo | nglonglonglonglonglonglong
+                                                                                 |
+newline: longlonglonglonglonglonglonglonglonglonglong                            |
+                                                                                 |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+                                                                                 |
 ================================================================================
 `;
 
@@ -86,17 +86,17 @@ newline: longlonglonglonglonglonglonglonglonglonglong
   longlonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-no-whitesapce: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
-whitespace: longlonglonglonglonglonglonglonglonglonglong longlonglonglonglonglonglonglonglonglonglong
-
-literal-newline: longlonglonglonglonglonglonglonglonglonglong
-  longlonglonglonglonglonglonglonglonglonglong
-
-newline: longlonglonglonglonglonglonglonglonglonglong
-
-  longlonglonglonglonglonglonglonglonglonglong
-
+no-whitesapce: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglongl | onglong
+                                                                                 |
+whitespace: longlonglonglonglonglonglonglonglonglonglong longlonglonglonglonglon | glonglonglonglonglong
+                                                                                 |
+literal-newline: longlonglonglonglonglonglonglonglonglonglong                    |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+                                                                                 |
+newline: longlonglonglonglonglonglonglonglonglonglong                            |
+                                                                                 |
+  longlonglonglonglonglonglonglonglonglonglong                                   |
+                                                                                 |
 ================================================================================
 `;
 
@@ -283,19 +283,19 @@ b:
     
 
 =====================================output=====================================
-b:
-  123123123123123123123123123 123123123123123123123123123 123123123123123123123123123 123123123123123123123123123 123123123123123123123123123 123123123123123123123123123 123123123123123123123123123
-
-  123123123123123123123123123
-
-
-  123123123123123123123123123
-
-
-
-
-  123123123123123123123123123
-
+b:                                                                               |
+  123123123123123123123123123 123123123123123123123123123 1231231231231231231231 | 23123 123123123123123123123123123 123123123123123123123123123 123123123123123123123123123 123123123123123123123123123
+                                                                                 |
+  123123123123123123123123123                                                    |
+                                                                                 |
+                                                                                 |
+  123123123123123123123123123                                                    |
+                                                                                 |
+                                                                                 |
+                                                                                 |
+                                                                                 |
+  123123123123123123123123123                                                    |
+                                                                                 |
 ================================================================================
 `;
 

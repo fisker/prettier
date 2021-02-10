@@ -737,14 +737,14 @@ printWidth: 40
 <!-- U+0020 -->
 <div>before<span> </span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
 =====================================output=====================================
-<!-- U+2005 -->
-<div>before<span
-  > </span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
-<!-- U+005F -->
-<div>before<span
-  >_</span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
-<!-- U+0020 -->
-<div>before<span>
-  </span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
+<!-- U+2005 -->                          |
+<div>before<span                         |
+  > </span>afterafterafterafterafterafte | rafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
+<!-- U+005F -->                          |
+<div>before<span                         |
+  >_</span>afterafterafterafterafterafte | rafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
+<!-- U+0020 -->                          |
+<div>before<span>                        |
+  </span>afterafterafterafterafteraftera | fterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
 ================================================================================
 `;

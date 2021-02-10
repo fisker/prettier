@@ -82,103 +82,103 @@ strOrNum = unionWithRestParameter4("hello"); // error supplied parameters do not
 strOrNum = unionWithRestParameter4("hello", "world");
 
 =====================================output=====================================
-﻿var numOrDate: number | Date;
-var strOrBoolean: string | boolean;
-var strOrNum: string | number;
-
-// If each type in U has call signatures and the sets of call signatures are identical ignoring return types,
-// U has the same set of call signatures, but with return types that are unions of the return types of the respective call signatures from each type in U.
-var unionOfDifferentReturnType: { (a: number): number } | { (a: number): Date };
-numOrDate = unionOfDifferentReturnType(10);
-strOrBoolean = unionOfDifferentReturnType("hello"); // error
-unionOfDifferentReturnType1(true); // error in type of parameter
-
-var unionOfDifferentReturnType1:
-  | { (a: number): number; (a: string): string }
-  | { (a: number): Date; (a: string): boolean };
-numOrDate = unionOfDifferentReturnType1(10);
-strOrBoolean = unionOfDifferentReturnType1("hello");
-unionOfDifferentReturnType1(true); // error in type of parameter
-unionOfDifferentReturnType1(); // error missing parameter
-
-var unionOfDifferentParameterTypes:
-  | { (a: number): number }
-  | { (a: string): Date };
-unionOfDifferentParameterTypes(10); // error - no call signatures
-unionOfDifferentParameterTypes("hello"); // error - no call signatures
-unionOfDifferentParameterTypes(); // error - no call signatures
-
-var unionOfDifferentNumberOfSignatures:
-  | { (a: number): number }
-  | { (a: number): Date; (a: string): boolean };
-unionOfDifferentNumberOfSignatures(); // error - no call signatures
-unionOfDifferentNumberOfSignatures(10); // error - no call signatures
-unionOfDifferentNumberOfSignatures("hello"); // error - no call signatures
-
-var unionWithDifferentParameterCount:
-  | { (a: string): string }
-  | { (a: string, b: number): number };
-unionWithDifferentParameterCount(); // no  call signature
-unionWithDifferentParameterCount("hello"); // no  call signature
-unionWithDifferentParameterCount("hello", 10); // no  call signature
-
-var unionWithOptionalParameter1:
-  | { (a: string, b?: number): string }
-  | { (a: string, b?: number): number };
-strOrNum = unionWithOptionalParameter1("hello");
-strOrNum = unionWithOptionalParameter1("hello", 10);
-strOrNum = unionWithOptionalParameter1("hello", "hello"); // error in parameter type
-strOrNum = unionWithOptionalParameter1(); // error
-
-var unionWithOptionalParameter2:
-  | { (a: string, b?: number): string }
-  | { (a: string, b: number): number };
-strOrNum = unionWithOptionalParameter2("hello"); // error no call signature
-strOrNum = unionWithOptionalParameter2("hello", 10); // error no call signature
-strOrNum = unionWithOptionalParameter2("hello", "hello"); // error no call signature
-strOrNum = unionWithOptionalParameter2(); // error no call signature
-
-var unionWithOptionalParameter3:
-  | { (a: string, b?: number): string }
-  | { (a: string): number };
-strOrNum = unionWithOptionalParameter3("hello");
-strOrNum = unionWithOptionalParameter3("hello", 10); // error no call signature
-strOrNum = unionWithOptionalParameter3("hello", "hello"); // error no call signature
-strOrNum = unionWithOptionalParameter3(); // error no call signature
-
-var unionWithRestParameter1:
-  | { (a: string, ...b: number[]): string }
-  | { (a: string, ...b: number[]): number };
-strOrNum = unionWithRestParameter1("hello");
-strOrNum = unionWithRestParameter1("hello", 10);
-strOrNum = unionWithRestParameter1("hello", 10, 11);
-strOrNum = unionWithRestParameter1("hello", "hello"); // error in parameter type
-strOrNum = unionWithRestParameter1(); // error
-
-var unionWithRestParameter2:
-  | { (a: string, ...b: number[]): string }
-  | { (a: string, b: number): number };
-strOrNum = unionWithRestParameter2("hello"); // error no call signature
-strOrNum = unionWithRestParameter2("hello", 10); // error no call signature
-strOrNum = unionWithRestParameter2("hello", 10, 11); // error no call signature
-strOrNum = unionWithRestParameter2("hello", "hello"); // error no call signature
-strOrNum = unionWithRestParameter2(); // error no call signature
-
-var unionWithRestParameter3:
-  | { (a: string, ...b: number[]): string }
-  | { (a: string): number };
-strOrNum = unionWithRestParameter3("hello");
-strOrNum = unionWithRestParameter3("hello", 10); // error no call signature
-strOrNum = unionWithRestParameter3("hello", 10, 11); // error no call signature
-strOrNum = unionWithRestParameter3("hello", "hello"); // error no call signature
-strOrNum = unionWithRestParameter3(); // error no call signature
-
-var unionWithRestParameter4:
-  | { (...a: string[]): string }
-  | { (a: string, b: string): number };
-strOrNum = unionWithRestParameter4("hello"); // error supplied parameters do not match any call signature
-strOrNum = unionWithRestParameter4("hello", "world");
-
+﻿var numOrDate: number | Date;                                                   |
+var strOrBoolean: string | boolean;                                              |
+var strOrNum: string | number;                                                   |
+                                                                                 |
+// If each type in U has call signatures and the sets of call signatures are ide | ntical ignoring return types,
+// U has the same set of call signatures, but with return types that are unions  | of the return types of the respective call signatures from each type in U.
+var unionOfDifferentReturnType: { (a: number): number } | { (a: number): Date }; |
+numOrDate = unionOfDifferentReturnType(10);                                      |
+strOrBoolean = unionOfDifferentReturnType("hello"); // error                     |
+unionOfDifferentReturnType1(true); // error in type of parameter                 |
+                                                                                 |
+var unionOfDifferentReturnType1:                                                 |
+  | { (a: number): number; (a: string): string }                                 |
+  | { (a: number): Date; (a: string): boolean };                                 |
+numOrDate = unionOfDifferentReturnType1(10);                                     |
+strOrBoolean = unionOfDifferentReturnType1("hello");                             |
+unionOfDifferentReturnType1(true); // error in type of parameter                 |
+unionOfDifferentReturnType1(); // error missing parameter                        |
+                                                                                 |
+var unionOfDifferentParameterTypes:                                              |
+  | { (a: number): number }                                                      |
+  | { (a: string): Date };                                                       |
+unionOfDifferentParameterTypes(10); // error - no call signatures                |
+unionOfDifferentParameterTypes("hello"); // error - no call signatures           |
+unionOfDifferentParameterTypes(); // error - no call signatures                  |
+                                                                                 |
+var unionOfDifferentNumberOfSignatures:                                          |
+  | { (a: number): number }                                                      |
+  | { (a: number): Date; (a: string): boolean };                                 |
+unionOfDifferentNumberOfSignatures(); // error - no call signatures              |
+unionOfDifferentNumberOfSignatures(10); // error - no call signatures            |
+unionOfDifferentNumberOfSignatures("hello"); // error - no call signatures       |
+                                                                                 |
+var unionWithDifferentParameterCount:                                            |
+  | { (a: string): string }                                                      |
+  | { (a: string, b: number): number };                                          |
+unionWithDifferentParameterCount(); // no  call signature                        |
+unionWithDifferentParameterCount("hello"); // no  call signature                 |
+unionWithDifferentParameterCount("hello", 10); // no  call signature             |
+                                                                                 |
+var unionWithOptionalParameter1:                                                 |
+  | { (a: string, b?: number): string }                                          |
+  | { (a: string, b?: number): number };                                         |
+strOrNum = unionWithOptionalParameter1("hello");                                 |
+strOrNum = unionWithOptionalParameter1("hello", 10);                             |
+strOrNum = unionWithOptionalParameter1("hello", "hello"); // error in parameter  | type
+strOrNum = unionWithOptionalParameter1(); // error                               |
+                                                                                 |
+var unionWithOptionalParameter2:                                                 |
+  | { (a: string, b?: number): string }                                          |
+  | { (a: string, b: number): number };                                          |
+strOrNum = unionWithOptionalParameter2("hello"); // error no call signature      |
+strOrNum = unionWithOptionalParameter2("hello", 10); // error no call signature  |
+strOrNum = unionWithOptionalParameter2("hello", "hello"); // error no call signa | ture
+strOrNum = unionWithOptionalParameter2(); // error no call signature             |
+                                                                                 |
+var unionWithOptionalParameter3:                                                 |
+  | { (a: string, b?: number): string }                                          |
+  | { (a: string): number };                                                     |
+strOrNum = unionWithOptionalParameter3("hello");                                 |
+strOrNum = unionWithOptionalParameter3("hello", 10); // error no call signature  |
+strOrNum = unionWithOptionalParameter3("hello", "hello"); // error no call signa | ture
+strOrNum = unionWithOptionalParameter3(); // error no call signature             |
+                                                                                 |
+var unionWithRestParameter1:                                                     |
+  | { (a: string, ...b: number[]): string }                                      |
+  | { (a: string, ...b: number[]): number };                                     |
+strOrNum = unionWithRestParameter1("hello");                                     |
+strOrNum = unionWithRestParameter1("hello", 10);                                 |
+strOrNum = unionWithRestParameter1("hello", 10, 11);                             |
+strOrNum = unionWithRestParameter1("hello", "hello"); // error in parameter type |
+strOrNum = unionWithRestParameter1(); // error                                   |
+                                                                                 |
+var unionWithRestParameter2:                                                     |
+  | { (a: string, ...b: number[]): string }                                      |
+  | { (a: string, b: number): number };                                          |
+strOrNum = unionWithRestParameter2("hello"); // error no call signature          |
+strOrNum = unionWithRestParameter2("hello", 10); // error no call signature      |
+strOrNum = unionWithRestParameter2("hello", 10, 11); // error no call signature  |
+strOrNum = unionWithRestParameter2("hello", "hello"); // error no call signature |
+strOrNum = unionWithRestParameter2(); // error no call signature                 |
+                                                                                 |
+var unionWithRestParameter3:                                                     |
+  | { (a: string, ...b: number[]): string }                                      |
+  | { (a: string): number };                                                     |
+strOrNum = unionWithRestParameter3("hello");                                     |
+strOrNum = unionWithRestParameter3("hello", 10); // error no call signature      |
+strOrNum = unionWithRestParameter3("hello", 10, 11); // error no call signature  |
+strOrNum = unionWithRestParameter3("hello", "hello"); // error no call signature |
+strOrNum = unionWithRestParameter3(); // error no call signature                 |
+                                                                                 |
+var unionWithRestParameter4:                                                     |
+  | { (...a: string[]): string }                                                 |
+  | { (a: string, b: string): number };                                          |
+strOrNum = unionWithRestParameter4("hello"); // error supplied parameters do not |  match any call signature
+strOrNum = unionWithRestParameter4("hello", "world");                            |
+                                                                                 |
 ================================================================================
 `;
 
@@ -363,99 +363,99 @@ strOrNum = new unionWithRestParameter3('hello', "hello"); // error no call signa
 strOrNum = new unionWithRestParameter3(); // error no call signature
 
 =====================================output=====================================
-﻿var numOrDate: number | Date;
-var strOrBoolean: string | boolean;
-var strOrNum: string | number;
-
-// If each type in U has construct signatures and the sets of construct signatures are identical ignoring return types,
-// U has the same set of construct signatures, but with return types that are unions of the return types of the respective construct signatures from each type in U.
-var unionOfDifferentReturnType:
-  | { new (a: number): number }
-  | { new (a: number): Date };
-numOrDate = new unionOfDifferentReturnType(10);
-strOrBoolean = new unionOfDifferentReturnType("hello"); // error
-new unionOfDifferentReturnType1(true); // error in type of parameter
-
-var unionOfDifferentReturnType1:
-  | { new (a: number): number; new (a: string): string }
-  | { new (a: number): Date; new (a: string): boolean };
-numOrDate = new unionOfDifferentReturnType1(10);
-strOrBoolean = new unionOfDifferentReturnType1("hello");
-new unionOfDifferentReturnType1(true); // error in type of parameter
-new unionOfDifferentReturnType1(); // error missing parameter
-
-var unionOfDifferentParameterTypes:
-  | { new (a: number): number }
-  | { new (a: string): Date };
-new unionOfDifferentParameterTypes(10); // error - no call signatures
-new unionOfDifferentParameterTypes("hello"); // error - no call signatures
-new unionOfDifferentParameterTypes(); // error - no call signatures
-
-var unionOfDifferentNumberOfSignatures:
-  | { new (a: number): number }
-  | { new (a: number): Date; new (a: string): boolean };
-new unionOfDifferentNumberOfSignatures(); // error - no call signatures
-new unionOfDifferentNumberOfSignatures(10); // error - no call signatures
-new unionOfDifferentNumberOfSignatures("hello"); // error - no call signatures
-
-var unionWithDifferentParameterCount:
-  | { new (a: string): string }
-  | { new (a: string, b: number): number };
-new unionWithDifferentParameterCount(); // no  call signature
-new unionWithDifferentParameterCount("hello"); // no  call signature
-new unionWithDifferentParameterCount("hello", 10); // no  call signature
-
-var unionWithOptionalParameter1:
-  | { new (a: string, b?: number): string }
-  | { new (a: string, b?: number): number };
-strOrNum = new unionWithOptionalParameter1("hello");
-strOrNum = new unionWithOptionalParameter1("hello", 10);
-strOrNum = new unionWithOptionalParameter1("hello", "hello"); // error in parameter type
-strOrNum = new unionWithOptionalParameter1(); // error
-
-var unionWithOptionalParameter2:
-  | { new (a: string, b?: number): string }
-  | { new (a: string, b: number): number };
-strOrNum = new unionWithOptionalParameter2("hello"); // error no call signature
-strOrNum = new unionWithOptionalParameter2("hello", 10); // error no call signature
-strOrNum = new unionWithOptionalParameter2("hello", "hello"); // error no call signature
-strOrNum = new unionWithOptionalParameter2(); // error no call signature
-
-var unionWithOptionalParameter3:
-  | { new (a: string, b?: number): string }
-  | { new (a: string): number };
-strOrNum = new unionWithOptionalParameter3("hello"); // error no call signature
-strOrNum = new unionWithOptionalParameter3("hello", 10); // error no call signature
-strOrNum = new unionWithOptionalParameter3("hello", "hello"); // error no call signature
-strOrNum = new unionWithOptionalParameter3(); // error no call signature
-
-var unionWithRestParameter1:
-  | { new (a: string, ...b: number[]): string }
-  | { new (a: string, ...b: number[]): number };
-strOrNum = new unionWithRestParameter1("hello");
-strOrNum = new unionWithRestParameter1("hello", 10);
-strOrNum = new unionWithRestParameter1("hello", 10, 11);
-strOrNum = new unionWithRestParameter1("hello", "hello"); // error in parameter type
-strOrNum = new unionWithRestParameter1(); // error
-
-var unionWithRestParameter2:
-  | { new (a: string, ...b: number[]): string }
-  | { new (a: string, b: number): number };
-strOrNum = new unionWithRestParameter2("hello"); // error no call signature
-strOrNum = new unionWithRestParameter2("hello", 10); // error no call signature
-strOrNum = new unionWithRestParameter2("hello", 10, 11); // error no call signature
-strOrNum = new unionWithRestParameter2("hello", "hello"); // error no call signature
-strOrNum = new unionWithRestParameter2(); // error no call signature
-
-var unionWithRestParameter3:
-  | { new (a: string, ...b: number[]): string }
-  | { new (a: string): number };
-strOrNum = new unionWithRestParameter3("hello"); // error no call signature
-strOrNum = new unionWithRestParameter3("hello", 10); // error no call signature
-strOrNum = new unionWithRestParameter3("hello", 10, 11); // error no call signature
-strOrNum = new unionWithRestParameter3("hello", "hello"); // error no call signature
-strOrNum = new unionWithRestParameter3(); // error no call signature
-
+﻿var numOrDate: number | Date;                                                   |
+var strOrBoolean: string | boolean;                                              |
+var strOrNum: string | number;                                                   |
+                                                                                 |
+// If each type in U has construct signatures and the sets of construct signatur | es are identical ignoring return types,
+// U has the same set of construct signatures, but with return types that are un | ions of the return types of the respective construct signatures from each type in U.
+var unionOfDifferentReturnType:                                                  |
+  | { new (a: number): number }                                                  |
+  | { new (a: number): Date };                                                   |
+numOrDate = new unionOfDifferentReturnType(10);                                  |
+strOrBoolean = new unionOfDifferentReturnType("hello"); // error                 |
+new unionOfDifferentReturnType1(true); // error in type of parameter             |
+                                                                                 |
+var unionOfDifferentReturnType1:                                                 |
+  | { new (a: number): number; new (a: string): string }                         |
+  | { new (a: number): Date; new (a: string): boolean };                         |
+numOrDate = new unionOfDifferentReturnType1(10);                                 |
+strOrBoolean = new unionOfDifferentReturnType1("hello");                         |
+new unionOfDifferentReturnType1(true); // error in type of parameter             |
+new unionOfDifferentReturnType1(); // error missing parameter                    |
+                                                                                 |
+var unionOfDifferentParameterTypes:                                              |
+  | { new (a: number): number }                                                  |
+  | { new (a: string): Date };                                                   |
+new unionOfDifferentParameterTypes(10); // error - no call signatures            |
+new unionOfDifferentParameterTypes("hello"); // error - no call signatures       |
+new unionOfDifferentParameterTypes(); // error - no call signatures              |
+                                                                                 |
+var unionOfDifferentNumberOfSignatures:                                          |
+  | { new (a: number): number }                                                  |
+  | { new (a: number): Date; new (a: string): boolean };                         |
+new unionOfDifferentNumberOfSignatures(); // error - no call signatures          |
+new unionOfDifferentNumberOfSignatures(10); // error - no call signatures        |
+new unionOfDifferentNumberOfSignatures("hello"); // error - no call signatures   |
+                                                                                 |
+var unionWithDifferentParameterCount:                                            |
+  | { new (a: string): string }                                                  |
+  | { new (a: string, b: number): number };                                      |
+new unionWithDifferentParameterCount(); // no  call signature                    |
+new unionWithDifferentParameterCount("hello"); // no  call signature             |
+new unionWithDifferentParameterCount("hello", 10); // no  call signature         |
+                                                                                 |
+var unionWithOptionalParameter1:                                                 |
+  | { new (a: string, b?: number): string }                                      |
+  | { new (a: string, b?: number): number };                                     |
+strOrNum = new unionWithOptionalParameter1("hello");                             |
+strOrNum = new unionWithOptionalParameter1("hello", 10);                         |
+strOrNum = new unionWithOptionalParameter1("hello", "hello"); // error in parame | ter type
+strOrNum = new unionWithOptionalParameter1(); // error                           |
+                                                                                 |
+var unionWithOptionalParameter2:                                                 |
+  | { new (a: string, b?: number): string }                                      |
+  | { new (a: string, b: number): number };                                      |
+strOrNum = new unionWithOptionalParameter2("hello"); // error no call signature  |
+strOrNum = new unionWithOptionalParameter2("hello", 10); // error no call signat | ure
+strOrNum = new unionWithOptionalParameter2("hello", "hello"); // error no call s | ignature
+strOrNum = new unionWithOptionalParameter2(); // error no call signature         |
+                                                                                 |
+var unionWithOptionalParameter3:                                                 |
+  | { new (a: string, b?: number): string }                                      |
+  | { new (a: string): number };                                                 |
+strOrNum = new unionWithOptionalParameter3("hello"); // error no call signature  |
+strOrNum = new unionWithOptionalParameter3("hello", 10); // error no call signat | ure
+strOrNum = new unionWithOptionalParameter3("hello", "hello"); // error no call s | ignature
+strOrNum = new unionWithOptionalParameter3(); // error no call signature         |
+                                                                                 |
+var unionWithRestParameter1:                                                     |
+  | { new (a: string, ...b: number[]): string }                                  |
+  | { new (a: string, ...b: number[]): number };                                 |
+strOrNum = new unionWithRestParameter1("hello");                                 |
+strOrNum = new unionWithRestParameter1("hello", 10);                             |
+strOrNum = new unionWithRestParameter1("hello", 10, 11);                         |
+strOrNum = new unionWithRestParameter1("hello", "hello"); // error in parameter  | type
+strOrNum = new unionWithRestParameter1(); // error                               |
+                                                                                 |
+var unionWithRestParameter2:                                                     |
+  | { new (a: string, ...b: number[]): string }                                  |
+  | { new (a: string, b: number): number };                                      |
+strOrNum = new unionWithRestParameter2("hello"); // error no call signature      |
+strOrNum = new unionWithRestParameter2("hello", 10); // error no call signature  |
+strOrNum = new unionWithRestParameter2("hello", 10, 11); // error no call signat | ure
+strOrNum = new unionWithRestParameter2("hello", "hello"); // error no call signa | ture
+strOrNum = new unionWithRestParameter2(); // error no call signature             |
+                                                                                 |
+var unionWithRestParameter3:                                                     |
+  | { new (a: string, ...b: number[]): string }                                  |
+  | { new (a: string): number };                                                 |
+strOrNum = new unionWithRestParameter3("hello"); // error no call signature      |
+strOrNum = new unionWithRestParameter3("hello", 10); // error no call signature  |
+strOrNum = new unionWithRestParameter3("hello", 10, 11); // error no call signat | ure
+strOrNum = new unionWithRestParameter3("hello", "hello"); // error no call signa | ture
+strOrNum = new unionWithRestParameter3(); // error no call signature             |
+                                                                                 |
 ================================================================================
 `;
 
@@ -540,38 +540,38 @@ var arr8 = [c, e]; // C[]
 var arr9 = [e, f]; // (E|F)[]
 
 =====================================output=====================================
-﻿// The resulting type an array literal expression is determined as follows:
-// If the array literal is empty, the resulting type is an array type with the element type Undefined.
-// Otherwise, if the array literal is contextually typed by a type that has a property with the numeric name ‘0’, the resulting type is a tuple type constructed from the types of the element expressions.
-// Otherwise, the resulting type is an array type with an element type that is the union of the types of the element expressions.
-
-var arr1 = [1, 2]; // number[]
-var arr2 = ["hello", true]; // (string | number)[]
-var arr3Tuple: [number, string] = [3, "three"]; // [number, string]
-var arr4Tuple: [number, string] = [3, "three", "hello"]; // [number, string, string]
-var arrEmpty = [];
-var arr5Tuple: {
-  0: string;
-  5: number;
-} = ["hello", true, false, " hello", true, 10, "any"]; // Tuple
-class C {
-  foo() {}
-}
-class D {
-  foo2() {}
-}
-class E extends C {
-  foo3() {}
-}
-class F extends C {
-  foo4() {}
-}
-var c: C, d: D, e: E, f: F;
-var arr6 = [c, d]; // (C | D)[]
-var arr7 = [c, d, e]; // (C | D)[]
-var arr8 = [c, e]; // C[]
-var arr9 = [e, f]; // (E|F)[]
-
+﻿// The resulting type an array literal expression is determined as follows:     |
+// If the array literal is empty, the resulting type is an array type with the e | lement type Undefined.
+// Otherwise, if the array literal is contextually typed by a type that has a pr | operty with the numeric name ‘0’, the resulting type is a tuple type constructed from the types of the element expressions.
+// Otherwise, the resulting type is an array type with an element type that is t | he union of the types of the element expressions.
+                                                                                 |
+var arr1 = [1, 2]; // number[]                                                   |
+var arr2 = ["hello", true]; // (string | number)[]                               |
+var arr3Tuple: [number, string] = [3, "three"]; // [number, string]              |
+var arr4Tuple: [number, string] = [3, "three", "hello"]; // [number, string, str | ing]
+var arrEmpty = [];                                                               |
+var arr5Tuple: {                                                                 |
+  0: string;                                                                     |
+  5: number;                                                                     |
+} = ["hello", true, false, " hello", true, 10, "any"]; // Tuple                  |
+class C {                                                                        |
+  foo() {}                                                                       |
+}                                                                                |
+class D {                                                                        |
+  foo2() {}                                                                      |
+}                                                                                |
+class E extends C {                                                              |
+  foo3() {}                                                                      |
+}                                                                                |
+class F extends C {                                                              |
+  foo4() {}                                                                      |
+}                                                                                |
+var c: C, d: D, e: E, f: F;                                                      |
+var arr6 = [c, d]; // (C | D)[]                                                  |
+var arr7 = [c, d, e]; // (C | D)[]                                               |
+var arr8 = [c, e]; // C[]                                                        |
+var arr9 = [e, f]; // (E|F)[]                                                    |
+                                                                                 |
 ================================================================================
 `;
 
@@ -606,36 +606,36 @@ anyVar = unionOfTypesWithAndWithoutStringSignature1["hello"]; // any
 anyVar = unionOfTypesWithAndWithoutStringSignature1[10]; // any
 
 =====================================output=====================================
-﻿var numOrDate: number | Date;
-var anyVar: number;
-
-// If each type in U has a string index signature,
-// U has a string index signature of a union type of the types of the string index signatures from each type in U.
-
-var unionOfDifferentReturnType: { [a: string]: number } | { [a: string]: Date };
-numOrDate = unionOfDifferentReturnType["hello"]; // number | Date
-numOrDate = unionOfDifferentReturnType[10]; // number | Date
-
-var unionOfTypesWithAndWithoutStringSignature:
-  | { [a: string]: number }
-  | boolean;
-anyVar = unionOfTypesWithAndWithoutStringSignature["hello"]; // any
-anyVar = unionOfTypesWithAndWithoutStringSignature[10]; // any
-
-// If each type in U has a numeric index signature,
-// U has a numeric index signature of a union type of the types of the numeric index signatures from each type in U.
-var unionOfDifferentReturnType1:
-  | { [a: number]: number }
-  | { [a: number]: Date };
-numOrDate = unionOfDifferentReturnType1["hello"]; // any
-numOrDate = unionOfDifferentReturnType1[10]; // number | Date
-
-var unionOfTypesWithAndWithoutStringSignature1:
-  | { [a: number]: number }
-  | boolean;
-anyVar = unionOfTypesWithAndWithoutStringSignature1["hello"]; // any
-anyVar = unionOfTypesWithAndWithoutStringSignature1[10]; // any
-
+﻿var numOrDate: number | Date;                                                   |
+var anyVar: number;                                                              |
+                                                                                 |
+// If each type in U has a string index signature,                               |
+// U has a string index signature of a union type of the types of the string ind | ex signatures from each type in U.
+                                                                                 |
+var unionOfDifferentReturnType: { [a: string]: number } | { [a: string]: Date }; |
+numOrDate = unionOfDifferentReturnType["hello"]; // number | Date                |
+numOrDate = unionOfDifferentReturnType[10]; // number | Date                     |
+                                                                                 |
+var unionOfTypesWithAndWithoutStringSignature:                                   |
+  | { [a: string]: number }                                                      |
+  | boolean;                                                                     |
+anyVar = unionOfTypesWithAndWithoutStringSignature["hello"]; // any              |
+anyVar = unionOfTypesWithAndWithoutStringSignature[10]; // any                   |
+                                                                                 |
+// If each type in U has a numeric index signature,                              |
+// U has a numeric index signature of a union type of the types of the numeric i | ndex signatures from each type in U.
+var unionOfDifferentReturnType1:                                                 |
+  | { [a: number]: number }                                                      |
+  | { [a: number]: Date };                                                       |
+numOrDate = unionOfDifferentReturnType1["hello"]; // any                         |
+numOrDate = unionOfDifferentReturnType1[10]; // number | Date                    |
+                                                                                 |
+var unionOfTypesWithAndWithoutStringSignature1:                                  |
+  | { [a: number]: number }                                                      |
+  | boolean;                                                                     |
+anyVar = unionOfTypesWithAndWithoutStringSignature1["hello"]; // any             |
+anyVar = unionOfTypesWithAndWithoutStringSignature1[10]; // any                  |
+                                                                                 |
 ================================================================================
 `;
 

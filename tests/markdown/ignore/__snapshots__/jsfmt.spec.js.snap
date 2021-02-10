@@ -38,9 +38,9 @@ proseWrap: "always"
 This is a long long long long long long long long long long long long long long long paragraph.
 
 =====================================output=====================================
-<!-- prettier-ignore -->
-This is a long long long long long long long long long long long long long long long paragraph.
-
+<!-- prettier-ignore -->                                                         |
+This is a long long long long long long long long long long long long long long  | long paragraph.
+                                                                                 |
 ================================================================================
 `;
 

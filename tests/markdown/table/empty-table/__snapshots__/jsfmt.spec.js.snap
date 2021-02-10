@@ -20,18 +20,18 @@ Text
 Text
 
 =====================================output=====================================
-Text
-
-| Specify the selected option : | Option 1 |
-| :---------------------------- | -------- |
-
-Text
-
-| Should print as compact table when --proseWrap=never | a long long long long long long long long long long long long long head |
-| ---------------------------------------------------- | ----------------------------------------------------------------------: |
-
-Text
-
+Text                                                                             |
+                                                                                 |
+| Specify the selected option : | Option 1 |                                     |
+| :---------------------------- | -------- |                                     |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
+| Should print as compact table when --proseWrap=never | a long long long long l | ong long long long long long long long long head |
+| ---------------------------------------------------- | ----------------------- | -----------------------------------------------: |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
 ================================================================================
 `;
 
@@ -55,18 +55,18 @@ Text
 Text
 
 =====================================output=====================================
-Text
-
-| Specify the selected option : | Option 1 |
-| :---------------------------- | -------- |
-
-Text
-
-| Should print as compact table when --proseWrap=never | a long long long long long long long long long long long long long head |
-| --- | --: |
-
-Text
-
+Text                                                                             |
+                                                                                 |
+| Specify the selected option : | Option 1 |                                     |
+| :---------------------------- | -------- |                                     |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
+| Should print as compact table when --proseWrap=never | a long long long long l | ong long long long long long long long long head |
+| --- | --: |                                                                    |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
 ================================================================================
 `;
 
@@ -90,18 +90,18 @@ Text
 Text
 
 =====================================output=====================================
-Text
-
-| Specify the selected option : | Option 1 |
-| :---------------------------- | -------- |
-
-Text
-
-| Should print as compact table when --proseWrap=never | a long long long long long long long long long long long long long head |
-| ---------------------------------------------------- | ----------------------------------------------------------------------: |
-
-Text
-
+Text                                                                             |
+                                                                                 |
+| Specify the selected option : | Option 1 |                                     |
+| :---------------------------- | -------- |                                     |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
+| Should print as compact table when --proseWrap=never | a long long long long l | ong long long long long long long long long head |
+| ---------------------------------------------------- | ----------------------- | -----------------------------------------------: |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
 ================================================================================
 `;
 
@@ -124,17 +124,17 @@ Text
 Text
 
 =====================================output=====================================
-Text
-
-| Specify the selected option : | Option 1 |
-| :---------------------------- | -------- |
-
-Text
-
-| Should print as compact table when --proseWrap=never | a long long long long long long long long long long long long long head |
-| ---------------------------------------------------- | ----------------------------------------------------------------------: |
-
-Text
-
+Text                                                                             |
+                                                                                 |
+| Specify the selected option : | Option 1 |                                     |
+| :---------------------------- | -------- |                                     |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
+| Should print as compact table when --proseWrap=never | a long long long long l | ong long long long long long long long long head |
+| ---------------------------------------------------- | ----------------------- | -----------------------------------------------: |
+                                                                                 |
+Text                                                                             |
+                                                                                 |
 ================================================================================
 `;
