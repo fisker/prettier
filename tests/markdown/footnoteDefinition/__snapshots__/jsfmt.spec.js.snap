@@ -36,9 +36,9 @@ proseWrap: "never"
           this is a long long long long long long long long long long long long long paragraph.
 
 =====================================output=====================================
-[^hello]: this is a long long long long long long long long long long long long long paragraph.
-[^world]: this is a long long long long long long long long long long long long long paragraph. this is a long long long long long long long long long long long long long paragraph.
-
+[^hello]: this is a long long long long long long long long long long long long  | long paragraph.
+[^world]: this is a long long long long long long long long long long long long  | long paragraph. this is a long long long long long long long long long long long long long paragraph.
+                                                                                 |
 ================================================================================
 `;
 
@@ -54,11 +54,11 @@ proseWrap: "preserve"
           this is a long long long long long long long long long long long long long paragraph.
 
 =====================================output=====================================
-[^hello]: this is a long long long long long long long long long long long long long paragraph.
-[^world]:
-    this is a long long long long long long long long long long long long long paragraph.
-    this is a long long long long long long long long long long long long long paragraph.
-
+[^hello]: this is a long long long long long long long long long long long long  | long paragraph.
+[^world]:                                                                        |
+    this is a long long long long long long long long long long long long long p | aragraph.
+    this is a long long long long long long long long long long long long long p | aragraph.
+                                                                                 |
 ================================================================================
 `;
 
@@ -74,11 +74,11 @@ tabWidth: 3
           this is a long long long long long long long long long long long long long paragraph.
 
 =====================================output=====================================
-[^hello]: this is a long long long long long long long long long long long long long paragraph.
-[^world]:
-    this is a long long long long long long long long long long long long long paragraph.
-    this is a long long long long long long long long long long long long long paragraph.
-
+[^hello]: this is a long long long long long long long long long long long long  | long paragraph.
+[^world]:                                                                        |
+    this is a long long long long long long long long long long long long long p | aragraph.
+    this is a long long long long long long long long long long long long long p | aragraph.
+                                                                                 |
 ================================================================================
 `;
 
@@ -174,30 +174,30 @@ proseWrap: "never"
     \`\`\`
 
 =====================================output=====================================
-[^fn1]:
-    > \`\`\`rs
-    > fn main() {
-    >     println!("this is some Rust!");
-    > }
-    > \`\`\`
-
-[^fn2]: Here is a footnote which includes code.
-
-    \`\`\`rs
-    fn main() {
-        println!("this is some Rust!");
-    }
-    \`\`\`
-
-[^fn2]:
-    Here is a footnote which includes code. Here is a footnote which includes code. Here is a footnote which includes code.
-
-    \`\`\`rs
-    fn main() {
-        println!("this is some Rust!");
-    }
-    \`\`\`
-
+[^fn1]:                                                                          |
+    > \`\`\`rs                                                                      |
+    > fn main() {                                                                |
+    >     println!("this is some Rust!");                                        |
+    > }                                                                          |
+    > \`\`\`                                                                        |
+                                                                                 |
+[^fn2]: Here is a footnote which includes code.                                  |
+                                                                                 |
+    \`\`\`rs                                                                        |
+    fn main() {                                                                  |
+        println!("this is some Rust!");                                          |
+    }                                                                            |
+    \`\`\`                                                                          |
+                                                                                 |
+[^fn2]:                                                                          |
+    Here is a footnote which includes code. Here is a footnote which includes co | de. Here is a footnote which includes code.
+                                                                                 |
+    \`\`\`rs                                                                        |
+    fn main() {                                                                  |
+        println!("this is some Rust!");                                          |
+    }                                                                            |
+    \`\`\`                                                                          |
+                                                                                 |
 ================================================================================
 `;
 
@@ -233,30 +233,30 @@ proseWrap: "preserve"
     \`\`\`
 
 =====================================output=====================================
-[^fn1]:
-    > \`\`\`rs
-    > fn main() {
-    >     println!("this is some Rust!");
-    > }
-    > \`\`\`
-
-[^fn2]: Here is a footnote which includes code.
-
-    \`\`\`rs
-    fn main() {
-        println!("this is some Rust!");
-    }
-    \`\`\`
-
-[^fn2]:
-    Here is a footnote which includes code. Here is a footnote which includes code. Here is a footnote which includes code.
-
-    \`\`\`rs
-    fn main() {
-        println!("this is some Rust!");
-    }
-    \`\`\`
-
+[^fn1]:                                                                          |
+    > \`\`\`rs                                                                      |
+    > fn main() {                                                                |
+    >     println!("this is some Rust!");                                        |
+    > }                                                                          |
+    > \`\`\`                                                                        |
+                                                                                 |
+[^fn2]: Here is a footnote which includes code.                                  |
+                                                                                 |
+    \`\`\`rs                                                                        |
+    fn main() {                                                                  |
+        println!("this is some Rust!");                                          |
+    }                                                                            |
+    \`\`\`                                                                          |
+                                                                                 |
+[^fn2]:                                                                          |
+    Here is a footnote which includes code. Here is a footnote which includes co | de. Here is a footnote which includes code.
+                                                                                 |
+    \`\`\`rs                                                                        |
+    fn main() {                                                                  |
+        println!("this is some Rust!");                                          |
+    }                                                                            |
+    \`\`\`                                                                          |
+                                                                                 |
 ================================================================================
 `;
 
@@ -292,30 +292,30 @@ tabWidth: 3
     \`\`\`
 
 =====================================output=====================================
-[^fn1]:
-    > \`\`\`rs
-    > fn main() {
-    >     println!("this is some Rust!");
-    > }
-    > \`\`\`
-
-[^fn2]: Here is a footnote which includes code.
-
-    \`\`\`rs
-    fn main() {
-        println!("this is some Rust!");
-    }
-    \`\`\`
-
-[^fn2]:
-    Here is a footnote which includes code. Here is a footnote which includes code. Here is a footnote which includes code.
-
-    \`\`\`rs
-    fn main() {
-        println!("this is some Rust!");
-    }
-    \`\`\`
-
+[^fn1]:                                                                          |
+    > \`\`\`rs                                                                      |
+    > fn main() {                                                                |
+    >     println!("this is some Rust!");                                        |
+    > }                                                                          |
+    > \`\`\`                                                                        |
+                                                                                 |
+[^fn2]: Here is a footnote which includes code.                                  |
+                                                                                 |
+    \`\`\`rs                                                                        |
+    fn main() {                                                                  |
+        println!("this is some Rust!");                                          |
+    }                                                                            |
+    \`\`\`                                                                          |
+                                                                                 |
+[^fn2]:                                                                          |
+    Here is a footnote which includes code. Here is a footnote which includes co | de. Here is a footnote which includes code.
+                                                                                 |
+    \`\`\`rs                                                                        |
+    fn main() {                                                                  |
+        println!("this is some Rust!");                                          |
+    }                                                                            |
+    \`\`\`                                                                          |
+                                                                                 |
 ================================================================================
 `;
 

@@ -52,8 +52,8 @@ proseWrap: "always"
 # this is a long long long long long long long long long long long long long long heading.
 
 =====================================output=====================================
-# this is a long long long long long long long long long long long long long long heading.
-
+# this is a long long long long long long long long long long long long long lon | g heading.
+                                                                                 |
 ================================================================================
 `;
 
@@ -67,8 +67,8 @@ proseWrap: "always"
 ## LaraCart - Laravel Shopping Cart Package (<a href="http://laracart.lukepolo.com/">http://laracart.lukepolo.com</a>)
 
 =====================================output=====================================
-## LaraCart - Laravel Shopping Cart Package (<a href="http://laracart.lukepolo.com/">http://laracart.lukepolo.com</a>)
-
+## LaraCart - Laravel Shopping Cart Package (<a href="http://laracart.lukepolo.c | om/">http://laracart.lukepolo.com</a>)
+                                                                                 |
 ================================================================================
 `;
 

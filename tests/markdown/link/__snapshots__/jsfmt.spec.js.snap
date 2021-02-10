@@ -89,8 +89,8 @@ singleQuote: true
 [podium context](https://github.schibsted.io/finn/podium/tree/master/packages/podium-context)
 
 =====================================output=====================================
-[podium context](https://github.schibsted.io/finn/podium/tree/master/packages/podium-context)
-
+[podium context](https://github.schibsted.io/finn/podium/tree/master/packages/po | dium-context)
+                                                                                 |
 ================================================================================
 `;
 
@@ -104,8 +104,8 @@ proseWrap: "always"
 [podium context](https://github.schibsted.io/finn/podium/tree/master/packages/podium-context)
 
 =====================================output=====================================
-[podium context](https://github.schibsted.io/finn/podium/tree/master/packages/podium-context)
-
+[podium context](https://github.schibsted.io/finn/podium/tree/master/packages/po | dium-context)
+                                                                                 |
 ================================================================================
 `;
 

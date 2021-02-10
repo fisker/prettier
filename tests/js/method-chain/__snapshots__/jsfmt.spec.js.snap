@@ -185,44 +185,44 @@ const {
 } = rawAd.entry;
 
 =====================================output=====================================
-SomeVeryLongUpperCaseConstant.someVeryLongCallExpression()
-  .some_very_long_member_expression;
-weNeedToReachTheEightyCharacterLimitXXXXXXXXXXXXXXXXX.someNode
-  .childrenInAnArray[0];
-superSupersuperSupersuperSupersuperSupersuperSuperLong.exampleOfOrderOfGetterAndSetterReordered;
-superSupersuperSupersuperSupersuperSupersuperSuperLong
-  .exampleOfOrderOfGetterAndSetterReordered[0];
-
-expect(
-  findDOMNode(component.instance()).getElementsByClassName(styles.inner)[0]
-    .style.paddingRight
-).toBe("1000px");
-
-const {
-  course,
-  conflicts = [],
-  index,
-  scheduleId,
-  studentId,
-  something,
-} = a.this.props;
-
-const {
-  course2,
-  conflicts2 = [],
-  index2,
-  scheduleId2,
-  studentId2,
-  something2,
-} = this.props;
-
-const {
-  updated,
-  author: { identifier: ownerId },
-  location,
-  category: categories,
-} = rawAd.entry;
-
+SomeVeryLongUpperCaseConstant.someVeryLongCallExpression()                       |
+  .some_very_long_member_expression;                                             |
+weNeedToReachTheEightyCharacterLimitXXXXXXXXXXXXXXXXX.someNode                   |
+  .childrenInAnArray[0];                                                         |
+superSupersuperSupersuperSupersuperSupersuperSuperLong.exampleOfOrderOfGetterAnd | SetterReordered;
+superSupersuperSupersuperSupersuperSupersuperSuperLong                           |
+  .exampleOfOrderOfGetterAndSetterReordered[0];                                  |
+                                                                                 |
+expect(                                                                          |
+  findDOMNode(component.instance()).getElementsByClassName(styles.inner)[0]      |
+    .style.paddingRight                                                          |
+).toBe("1000px");                                                                |
+                                                                                 |
+const {                                                                          |
+  course,                                                                        |
+  conflicts = [],                                                                |
+  index,                                                                         |
+  scheduleId,                                                                    |
+  studentId,                                                                     |
+  something,                                                                     |
+} = a.this.props;                                                                |
+                                                                                 |
+const {                                                                          |
+  course2,                                                                       |
+  conflicts2 = [],                                                               |
+  index2,                                                                        |
+  scheduleId2,                                                                   |
+  studentId2,                                                                    |
+  something2,                                                                    |
+} = this.props;                                                                  |
+                                                                                 |
+const {                                                                          |
+  updated,                                                                       |
+  author: { identifier: ownerId },                                               |
+  location,                                                                      |
+  category: categories,                                                          |
+} = rawAd.entry;                                                                 |
+                                                                                 |
 ================================================================================
 `;
 
@@ -309,69 +309,69 @@ angular.module('AngularAppModule')
   .constant('API_URL', 'http://localhost:8080/api');
 
 =====================================output=====================================
-function f() {
-  return (
-    observableFromSubscribeFunction()
-      // Debounce manually rather than using editor.onDidStopChanging so that the debounce time is
-      // configurable.
-      .debounceTime(debounceInterval)
-  );
-}
-
-_.a(a)
-  /* very very very very very very very long such that it is longer than 80 columns */
-  .a();
-
-_.a(
-  a
-) /* very very very very very very very long such that it is longer than 80 columns */
-  .a();
-
-_.a(
-  a
-) /* very very very very very very very long such that it is longer than 80 columns */
-  .a();
-
-Something
-  // $FlowFixMe(>=0.41.0)
-  .getInstance(this.props.dao)
-  .getters();
-
-// Warm-up first
-measure().then(() => {
-  SomethingLong();
-});
-
-measure() // Warm-up first
-  .then(() => {
-    SomethingLong();
-  });
-
-const configModel = this.baseConfigurationService
-  .getCache()
-  .consolidated // global/default values (do NOT modify)
-  .merge(this.cachedWorkspaceConfig);
-
-this.doWriteConfiguration(target, value, options) // queue up writes to prevent race conditions
-  .then(
-    () => null,
-    (error) => {
-      return options.donotNotifyError
-        ? TPromise.wrapError(error)
-        : this.onError(error, target, value);
-    }
-  );
-
-ret = __DEV__
-  ? // $FlowFixMe: this type differs according to the env
-    vm.runInContext(source, ctx)
-  : a;
-
-angular
-  .module("AngularAppModule")
-  // Hello, I am comment.
-  .constant("API_URL", "http://localhost:8080/api");
-
+function f() {                                                                   |
+  return (                                                                       |
+    observableFromSubscribeFunction()                                            |
+      // Debounce manually rather than using editor.onDidStopChanging so that th | e debounce time is
+      // configurable.                                                           |
+      .debounceTime(debounceInterval)                                            |
+  );                                                                             |
+}                                                                                |
+                                                                                 |
+_.a(a)                                                                           |
+  /* very very very very very very very long such that it is longer than 80 colu | mns */
+  .a();                                                                          |
+                                                                                 |
+_.a(                                                                             |
+  a                                                                              |
+) /* very very very very very very very long such that it is longer than 80 colu | mns */
+  .a();                                                                          |
+                                                                                 |
+_.a(                                                                             |
+  a                                                                              |
+) /* very very very very very very very long such that it is longer than 80 colu | mns */
+  .a();                                                                          |
+                                                                                 |
+Something                                                                        |
+  // $FlowFixMe(>=0.41.0)                                                        |
+  .getInstance(this.props.dao)                                                   |
+  .getters();                                                                    |
+                                                                                 |
+// Warm-up first                                                                 |
+measure().then(() => {                                                           |
+  SomethingLong();                                                               |
+});                                                                              |
+                                                                                 |
+measure() // Warm-up first                                                       |
+  .then(() => {                                                                  |
+    SomethingLong();                                                             |
+  });                                                                            |
+                                                                                 |
+const configModel = this.baseConfigurationService                                |
+  .getCache()                                                                    |
+  .consolidated // global/default values (do NOT modify)                         |
+  .merge(this.cachedWorkspaceConfig);                                            |
+                                                                                 |
+this.doWriteConfiguration(target, value, options) // queue up writes to prevent  | race conditions
+  .then(                                                                         |
+    () => null,                                                                  |
+    (error) => {                                                                 |
+      return options.donotNotifyError                                            |
+        ? TPromise.wrapError(error)                                              |
+        : this.onError(error, target, value);                                    |
+    }                                                                            |
+  );                                                                             |
+                                                                                 |
+ret = __DEV__                                                                    |
+  ? // $FlowFixMe: this type differs according to the env                        |
+    vm.runInContext(source, ctx)                                                 |
+  : a;                                                                           |
+                                                                                 |
+angular                                                                          |
+  .module("AngularAppModule")                                                    |
+  // Hello, I am comment.                                                        |
+  .constant("API_URL", "http://localhost:8080/api");                             |
+                                                                                 |
 ================================================================================
 `;
 

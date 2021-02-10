@@ -77,292 +77,292 @@ semi: false
 </template>
 
 =====================================output=====================================
-<template>
-  <div
-    v-for="(
-      { longLongProp, longLongProp }, index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      { longLongProp = 42, longLongProp = 'Hello, World!' }, index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="{
-      longLongProp,
-      longLongProp,
-    } of longLongLongLongLongLongLongLongList"
-    v-for="(
-      {
-        longLongProp,
-        longLongProp,
-        anotherLongLongProp,
-        yetAnotherLongLongProp,
-      },
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="{
-      longLongProp,
-      longLongProp,
-      anotherLongLongProp,
-      yetAnotherLongLongProp,
-    } of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [longLongProp, longLongProp, anotherLongLongProp, yetAnotherLongLongProp],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp = 42,
-        anotherLongLongProp,
-        yetAnotherLongLongProp = 'Hello, World!',
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp,
-        [
-          longLongProp,
-          longLongProp,
-          [
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          ],
-          yetAnotherLongLongProp,
-        ],
-        yetAnotherLongLongProp,
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp,
-        [
-          longLongProp,
-          longLongProp = 'Hello, Prettier!',
-          [
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp = [
-              longLongProp,
-              longLongProp,
-              anotherLongLongProp,
-              yetAnotherLongLongProp,
-            ],
-            yetAnotherLongLongProp,
-          ],
-          yetAnotherLongLongProp,
-        ],
-        yetAnotherLongLongProp,
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        { longLongProp, longLongProp },
-        { longLongProp, longLongProp },
-        [
-          {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          },
-          longLongProp,
-        ],
-        yetAnotherLongLongProp,
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      {
-        firstValue,
-        secondValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp,
-        },
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue = { longLongProp, longLongProp }, secondValue },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp,
-        },
-        sixthValue,
-        seventhValue,
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp,
-        },
-        sixthValue: {
-          firstValue,
-          secondValue,
-          thirdValue,
-          fourthValue,
-          fifthValue: {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          },
-          sixthValue,
-          seventhValue,
-        },
-        seventhValue,
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp = {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          },
-          yetAnotherLongLongProp,
-        },
-        sixthValue,
-        seventhValue,
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="item in items"
-    v-for="item of items"
-    v-for="(item, index) in items"
-    v-for="value in object"
-    v-for="(value, key) in object"
-    v-for="(value, key) of object"
-    v-for="(value, key, index) in object"
-    v-for="n in evenNumbers"
-    v-for="n in even(numbers)"
-    v-for="n in 10"
-    v-for="{ a } in [0].map(() => ({ a: 1 }))"
-    v-for="({ a }, [c]) in [0].map(() => 1)"
-    v-for="n in items.map((x) => {
-      return x
-    })"
-    @click="/* hello */"
-    @click="/* 1 */ $emit(/* 2 */ 'click' /* 3 */) /* 4 */ /* 5 */"
-    @click="$emit('click')"
-    @click="$emit('click')"
-    @click="
-      $emit('click')
-      if (something) {
-        for (let i = j; i < 100; i++) {}
-      } else {
-      }
-    "
-    slot-scope="foo"
-    slot-scope="{ row }"
-    slot-scope="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    #default="foo"
-    #default="{ row }"
-    #default="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    v-slot="foo"
-    v-slot="{ row }"
-    v-slot="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    v-slot:name="foo"
-    v-slot:name="{ row }"
-    v-slot:name="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    :class="{
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong: true,
-    }"
-    :class="
-      (() => {
-        return 'hello'
-      })()
-    "
-    :key="index /* hello */"
-    :key="
-      index // hello
-    "
-    @click="
-      () => {
-        console.log(test)
-      }
-    "
-    @click="
-      () => {
-        console.log(test)
-      }
-    "
-    @click="doSomething()"
-    @click="doSomething;"
-    @click="a.b;"
-    @click="a[1];"
-    @click="a['b'];"
-    @click="a[null]"
-    #default="{
-      foo: {
-        bar: { baz },
-      },
-    }"
-  ></div>
-</template>
-
+<template>                                                                       |
+  <div                                                                           |
+    v-for="(                                                                     |
+      { longLongProp, longLongProp }, index                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      { longLongProp = 42, longLongProp = 'Hello, World!' }, index               |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="{                                                                     |
+      longLongProp,                                                              |
+      longLongProp,                                                              |
+    } of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      {                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        anotherLongLongProp,                                                     |
+        yetAnotherLongLongProp,                                                  |
+      },                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="{                                                                     |
+      longLongProp,                                                              |
+      longLongProp,                                                              |
+      anotherLongLongProp,                                                       |
+      yetAnotherLongLongProp,                                                    |
+    } of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [longLongProp, longLongProp, anotherLongLongProp, yetAnotherLongLongProp], |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp = 42,                                                       |
+        anotherLongLongProp,                                                     |
+        yetAnotherLongLongProp = 'Hello, World!',                                |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        [                                                                        |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          [                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          ],                                                                     |
+          yetAnotherLongLongProp,                                                |
+        ],                                                                       |
+        yetAnotherLongLongProp,                                                  |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        [                                                                        |
+          longLongProp,                                                          |
+          longLongProp = 'Hello, Prettier!',                                     |
+          [                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp = [                                              |
+              longLongProp,                                                      |
+              longLongProp,                                                      |
+              anotherLongLongProp,                                               |
+              yetAnotherLongLongProp,                                            |
+            ],                                                                   |
+            yetAnotherLongLongProp,                                              |
+          ],                                                                     |
+          yetAnotherLongLongProp,                                                |
+        ],                                                                       |
+        yetAnotherLongLongProp,                                                  |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        { longLongProp, longLongProp },                                          |
+        { longLongProp, longLongProp },                                          |
+        [                                                                        |
+          {                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          },                                                                     |
+          longLongProp,                                                          |
+        ],                                                                       |
+        yetAnotherLongLongProp,                                                  |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue: {                                                           |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue = { longLongProp, longLongProp }, secondValue },              |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index     |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index     |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+        sixthValue,                                                              |
+        seventhValue,                                                            |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+        sixthValue: {                                                            |
+          firstValue,                                                            |
+          secondValue,                                                           |
+          thirdValue,                                                            |
+          fourthValue,                                                           |
+          fifthValue: {                                                          |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          },                                                                     |
+          sixthValue,                                                            |
+          seventhValue,                                                          |
+        },                                                                       |
+        seventhValue,                                                            |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp = {                                                |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          },                                                                     |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+        sixthValue,                                                              |
+        seventhValue,                                                            |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="item in items"                                                        |
+    v-for="item of items"                                                        |
+    v-for="(item, index) in items"                                               |
+    v-for="value in object"                                                      |
+    v-for="(value, key) in object"                                               |
+    v-for="(value, key) of object"                                               |
+    v-for="(value, key, index) in object"                                        |
+    v-for="n in evenNumbers"                                                     |
+    v-for="n in even(numbers)"                                                   |
+    v-for="n in 10"                                                              |
+    v-for="{ a } in [0].map(() => ({ a: 1 }))"                                   |
+    v-for="({ a }, [c]) in [0].map(() => 1)"                                     |
+    v-for="n in items.map((x) => {                                               |
+      return x                                                                   |
+    })"                                                                          |
+    @click="/* hello */"                                                         |
+    @click="/* 1 */ $emit(/* 2 */ 'click' /* 3 */) /* 4 */ /* 5 */"              |
+    @click="$emit('click')"                                                      |
+    @click="$emit('click')"                                                      |
+    @click="                                                                     |
+      $emit('click')                                                             |
+      if (something) {                                                           |
+        for (let i = j; i < 100; i++) {}                                         |
+      } else {                                                                   |
+      }                                                                          |
+    "                                                                            |
+    slot-scope="foo"                                                             |
+    slot-scope="{ row }"                                                         |
+    slot-scope="{                                                                |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    #default="foo"                                                               |
+    #default="{ row }"                                                           |
+    #default="{                                                                  |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    v-slot="foo"                                                                 |
+    v-slot="{ row }"                                                             |
+    v-slot="{                                                                    |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    v-slot:name="foo"                                                            |
+    v-slot:name="{ row }"                                                        |
+    v-slot:name="{                                                               |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    :class="{                                                                    |
+      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglonglonglonglong: true,
+    }"                                                                           |
+    :class="                                                                     |
+      (() => {                                                                   |
+        return 'hello'                                                           |
+      })()                                                                       |
+    "                                                                            |
+    :key="index /* hello */"                                                     |
+    :key="                                                                       |
+      index // hello                                                             |
+    "                                                                            |
+    @click="                                                                     |
+      () => {                                                                    |
+        console.log(test)                                                        |
+      }                                                                          |
+    "                                                                            |
+    @click="                                                                     |
+      () => {                                                                    |
+        console.log(test)                                                        |
+      }                                                                          |
+    "                                                                            |
+    @click="doSomething()"                                                       |
+    @click="doSomething;"                                                        |
+    @click="a.b;"                                                                |
+    @click="a[1];"                                                               |
+    @click="a['b'];"                                                             |
+    @click="a[null]"                                                             |
+    #default="{                                                                  |
+      foo: {                                                                     |
+        bar: { baz },                                                            |
+      },                                                                         |
+    }"                                                                           |
+  ></div>                                                                        |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -443,292 +443,292 @@ trailingComma: "none"
 </template>
 
 =====================================output=====================================
-<template>
-  <div
-    v-for="(
-      { longLongProp, longLongProp }, index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      { longLongProp = 42, longLongProp = 'Hello, World!' }, index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="{
-      longLongProp,
-      longLongProp
-    } of longLongLongLongLongLongLongLongList"
-    v-for="(
-      {
-        longLongProp,
-        longLongProp,
-        anotherLongLongProp,
-        yetAnotherLongLongProp
-      },
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="{
-      longLongProp,
-      longLongProp,
-      anotherLongLongProp,
-      yetAnotherLongLongProp
-    } of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [longLongProp, longLongProp, anotherLongLongProp, yetAnotherLongLongProp],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp = 42,
-        anotherLongLongProp,
-        yetAnotherLongLongProp = 'Hello, World!'
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp,
-        [
-          longLongProp,
-          longLongProp,
-          [
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp
-          ],
-          yetAnotherLongLongProp
-        ],
-        yetAnotherLongLongProp
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp,
-        [
-          longLongProp,
-          longLongProp = 'Hello, Prettier!',
-          [
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp = [
-              longLongProp,
-              longLongProp,
-              anotherLongLongProp,
-              yetAnotherLongLongProp
-            ],
-            yetAnotherLongLongProp
-          ],
-          yetAnotherLongLongProp
-        ],
-        yetAnotherLongLongProp
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        { longLongProp, longLongProp },
-        { longLongProp, longLongProp },
-        [
-          {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp
-          },
-          longLongProp
-        ],
-        yetAnotherLongLongProp
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      {
-        firstValue,
-        secondValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp
-        }
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue = { longLongProp, longLongProp }, secondValue },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp
-        },
-        sixthValue,
-        seventhValue
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp
-        },
-        sixthValue: {
-          firstValue,
-          secondValue,
-          thirdValue,
-          fourthValue,
-          fifthValue: {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp
-          },
-          sixthValue,
-          seventhValue
-        },
-        seventhValue
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp = {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp
-          },
-          yetAnotherLongLongProp
-        },
-        sixthValue,
-        seventhValue
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="item in items"
-    v-for="item of items"
-    v-for="(item, index) in items"
-    v-for="value in object"
-    v-for="(value, key) in object"
-    v-for="(value, key) of object"
-    v-for="(value, key, index) in object"
-    v-for="n in evenNumbers"
-    v-for="n in even(numbers)"
-    v-for="n in 10"
-    v-for="{ a } in [0].map(() => ({ a: 1 }))"
-    v-for="({ a }, [c]) in [0].map(() => 1)"
-    v-for="n in items.map((x) => {
-      return x;
-    })"
-    @click="/* hello */"
-    @click="/* 1 */ $emit(/* 2 */ 'click' /* 3 */) /* 4 */ /* 5 */"
-    @click="$emit('click')"
-    @click="$emit('click')"
-    @click="
-      $emit('click');
-      if (something) {
-        for (let i = j; i < 100; i++) {}
-      } else {
-      }
-    "
-    slot-scope="foo"
-    slot-scope="{ row }"
-    slot-scope="{
-      destructuring: {
-        a: { b }
-      }
-    }"
-    #default="foo"
-    #default="{ row }"
-    #default="{
-      destructuring: {
-        a: { b }
-      }
-    }"
-    v-slot="foo"
-    v-slot="{ row }"
-    v-slot="{
-      destructuring: {
-        a: { b }
-      }
-    }"
-    v-slot:name="foo"
-    v-slot:name="{ row }"
-    v-slot:name="{
-      destructuring: {
-        a: { b }
-      }
-    }"
-    :class="{
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong: true
-    }"
-    :class="
-      (() => {
-        return 'hello';
-      })()
-    "
-    :key="index /* hello */"
-    :key="
-      index // hello
-    "
-    @click="
-      () => {
-        console.log(test);
-      }
-    "
-    @click="
-      () => {
-        console.log(test);
-      }
-    "
-    @click="doSomething()"
-    @click="doSomething;"
-    @click="a.b;"
-    @click="a[1];"
-    @click="a['b'];"
-    @click="a[null]"
-    #default="{
-      foo: {
-        bar: { baz }
-      }
-    }"
-  ></div>
-</template>
-
+<template>                                                                       |
+  <div                                                                           |
+    v-for="(                                                                     |
+      { longLongProp, longLongProp }, index                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      { longLongProp = 42, longLongProp = 'Hello, World!' }, index               |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="{                                                                     |
+      longLongProp,                                                              |
+      longLongProp                                                               |
+    } of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      {                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        anotherLongLongProp,                                                     |
+        yetAnotherLongLongProp                                                   |
+      },                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="{                                                                     |
+      longLongProp,                                                              |
+      longLongProp,                                                              |
+      anotherLongLongProp,                                                       |
+      yetAnotherLongLongProp                                                     |
+    } of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [longLongProp, longLongProp, anotherLongLongProp, yetAnotherLongLongProp], |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp = 42,                                                       |
+        anotherLongLongProp,                                                     |
+        yetAnotherLongLongProp = 'Hello, World!'                                 |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        [                                                                        |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          [                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp                                               |
+          ],                                                                     |
+          yetAnotherLongLongProp                                                 |
+        ],                                                                       |
+        yetAnotherLongLongProp                                                   |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        [                                                                        |
+          longLongProp,                                                          |
+          longLongProp = 'Hello, Prettier!',                                     |
+          [                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp = [                                              |
+              longLongProp,                                                      |
+              longLongProp,                                                      |
+              anotherLongLongProp,                                               |
+              yetAnotherLongLongProp                                             |
+            ],                                                                   |
+            yetAnotherLongLongProp                                               |
+          ],                                                                     |
+          yetAnotherLongLongProp                                                 |
+        ],                                                                       |
+        yetAnotherLongLongProp                                                   |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        { longLongProp, longLongProp },                                          |
+        { longLongProp, longLongProp },                                          |
+        [                                                                        |
+          {                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp                                               |
+          },                                                                     |
+          longLongProp                                                           |
+        ],                                                                       |
+        yetAnotherLongLongProp                                                   |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue: {                                                           |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp                                                 |
+        }                                                                        |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue = { longLongProp, longLongProp }, secondValue },              |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index     |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index     |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp                                                 |
+        },                                                                       |
+        sixthValue,                                                              |
+        seventhValue                                                             |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp                                                 |
+        },                                                                       |
+        sixthValue: {                                                            |
+          firstValue,                                                            |
+          secondValue,                                                           |
+          thirdValue,                                                            |
+          fourthValue,                                                           |
+          fifthValue: {                                                          |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp                                               |
+          },                                                                     |
+          sixthValue,                                                            |
+          seventhValue                                                           |
+        },                                                                       |
+        seventhValue                                                             |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp = {                                                |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp                                               |
+          },                                                                     |
+          yetAnotherLongLongProp                                                 |
+        },                                                                       |
+        sixthValue,                                                              |
+        seventhValue                                                             |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="item in items"                                                        |
+    v-for="item of items"                                                        |
+    v-for="(item, index) in items"                                               |
+    v-for="value in object"                                                      |
+    v-for="(value, key) in object"                                               |
+    v-for="(value, key) of object"                                               |
+    v-for="(value, key, index) in object"                                        |
+    v-for="n in evenNumbers"                                                     |
+    v-for="n in even(numbers)"                                                   |
+    v-for="n in 10"                                                              |
+    v-for="{ a } in [0].map(() => ({ a: 1 }))"                                   |
+    v-for="({ a }, [c]) in [0].map(() => 1)"                                     |
+    v-for="n in items.map((x) => {                                               |
+      return x;                                                                  |
+    })"                                                                          |
+    @click="/* hello */"                                                         |
+    @click="/* 1 */ $emit(/* 2 */ 'click' /* 3 */) /* 4 */ /* 5 */"              |
+    @click="$emit('click')"                                                      |
+    @click="$emit('click')"                                                      |
+    @click="                                                                     |
+      $emit('click');                                                            |
+      if (something) {                                                           |
+        for (let i = j; i < 100; i++) {}                                         |
+      } else {                                                                   |
+      }                                                                          |
+    "                                                                            |
+    slot-scope="foo"                                                             |
+    slot-scope="{ row }"                                                         |
+    slot-scope="{                                                                |
+      destructuring: {                                                           |
+        a: { b }                                                                 |
+      }                                                                          |
+    }"                                                                           |
+    #default="foo"                                                               |
+    #default="{ row }"                                                           |
+    #default="{                                                                  |
+      destructuring: {                                                           |
+        a: { b }                                                                 |
+      }                                                                          |
+    }"                                                                           |
+    v-slot="foo"                                                                 |
+    v-slot="{ row }"                                                             |
+    v-slot="{                                                                    |
+      destructuring: {                                                           |
+        a: { b }                                                                 |
+      }                                                                          |
+    }"                                                                           |
+    v-slot:name="foo"                                                            |
+    v-slot:name="{ row }"                                                        |
+    v-slot:name="{                                                               |
+      destructuring: {                                                           |
+        a: { b }                                                                 |
+      }                                                                          |
+    }"                                                                           |
+    :class="{                                                                    |
+      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglonglonglonglong: true
+    }"                                                                           |
+    :class="                                                                     |
+      (() => {                                                                   |
+        return 'hello';                                                          |
+      })()                                                                       |
+    "                                                                            |
+    :key="index /* hello */"                                                     |
+    :key="                                                                       |
+      index // hello                                                             |
+    "                                                                            |
+    @click="                                                                     |
+      () => {                                                                    |
+        console.log(test);                                                       |
+      }                                                                          |
+    "                                                                            |
+    @click="                                                                     |
+      () => {                                                                    |
+        console.log(test);                                                       |
+      }                                                                          |
+    "                                                                            |
+    @click="doSomething()"                                                       |
+    @click="doSomething;"                                                        |
+    @click="a.b;"                                                                |
+    @click="a[1];"                                                               |
+    @click="a['b'];"                                                             |
+    @click="a[null]"                                                             |
+    #default="{                                                                  |
+      foo: {                                                                     |
+        bar: { baz }                                                             |
+      }                                                                          |
+    }"                                                                           |
+  ></div>                                                                        |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -808,292 +808,292 @@ printWidth: 80
 </template>
 
 =====================================output=====================================
-<template>
-  <div
-    v-for="(
-      { longLongProp, longLongProp }, index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      { longLongProp = 42, longLongProp = 'Hello, World!' }, index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="{
-      longLongProp,
-      longLongProp,
-    } of longLongLongLongLongLongLongLongList"
-    v-for="(
-      {
-        longLongProp,
-        longLongProp,
-        anotherLongLongProp,
-        yetAnotherLongLongProp,
-      },
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="{
-      longLongProp,
-      longLongProp,
-      anotherLongLongProp,
-      yetAnotherLongLongProp,
-    } of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [longLongProp, longLongProp, anotherLongLongProp, yetAnotherLongLongProp],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp = 42,
-        anotherLongLongProp,
-        yetAnotherLongLongProp = 'Hello, World!',
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp,
-        [
-          longLongProp,
-          longLongProp,
-          [
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          ],
-          yetAnotherLongLongProp,
-        ],
-        yetAnotherLongLongProp,
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        longLongProp,
-        longLongProp,
-        [
-          longLongProp,
-          longLongProp = 'Hello, Prettier!',
-          [
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp = [
-              longLongProp,
-              longLongProp,
-              anotherLongLongProp,
-              yetAnotherLongLongProp,
-            ],
-            yetAnotherLongLongProp,
-          ],
-          yetAnotherLongLongProp,
-        ],
-        yetAnotherLongLongProp,
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      [
-        { longLongProp, longLongProp },
-        { longLongProp, longLongProp },
-        [
-          {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          },
-          longLongProp,
-        ],
-        yetAnotherLongLongProp,
-      ],
-      index
-    ) of longLongLongLongLongLongLongLongList"
-    v-for="(
-      {
-        firstValue,
-        secondValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp,
-        },
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue = { longLongProp, longLongProp }, secondValue },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp,
-        },
-        sixthValue,
-        seventhValue,
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp,
-          yetAnotherLongLongProp,
-        },
-        sixthValue: {
-          firstValue,
-          secondValue,
-          thirdValue,
-          fourthValue,
-          fifthValue: {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          },
-          sixthValue,
-          seventhValue,
-        },
-        seventhValue,
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="(
-      {
-        firstValue,
-        secondValue,
-        thirdValue,
-        fourthValue,
-        fifthValue: {
-          longLongProp,
-          longLongProp,
-          anotherLongLongProp = {
-            longLongProp,
-            longLongProp,
-            anotherLongLongProp,
-            yetAnotherLongLongProp,
-          },
-          yetAnotherLongLongProp,
-        },
-        sixthValue,
-        seventhValue,
-      },
-      objectKey,
-      index
-    ) in objectWithAVeryVeryVeryVeryLongName"
-    v-for="item in items"
-    v-for="item of items"
-    v-for="(item, index) in items"
-    v-for="value in object"
-    v-for="(value, key) in object"
-    v-for="(value, key) of object"
-    v-for="(value, key, index) in object"
-    v-for="n in evenNumbers"
-    v-for="n in even(numbers)"
-    v-for="n in 10"
-    v-for="{ a } in [0].map(() => ({ a: 1 }))"
-    v-for="({ a }, [c]) in [0].map(() => 1)"
-    v-for="n in items.map((x) => {
-      return x;
-    })"
-    @click="/* hello */"
-    @click="/* 1 */ $emit(/* 2 */ 'click' /* 3 */) /* 4 */ /* 5 */"
-    @click="$emit('click')"
-    @click="$emit('click')"
-    @click="
-      $emit('click');
-      if (something) {
-        for (let i = j; i < 100; i++) {}
-      } else {
-      }
-    "
-    slot-scope="foo"
-    slot-scope="{ row }"
-    slot-scope="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    #default="foo"
-    #default="{ row }"
-    #default="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    v-slot="foo"
-    v-slot="{ row }"
-    v-slot="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    v-slot:name="foo"
-    v-slot:name="{ row }"
-    v-slot:name="{
-      destructuring: {
-        a: { b },
-      },
-    }"
-    :class="{
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong: true,
-    }"
-    :class="
-      (() => {
-        return 'hello';
-      })()
-    "
-    :key="index /* hello */"
-    :key="
-      index // hello
-    "
-    @click="
-      () => {
-        console.log(test);
-      }
-    "
-    @click="
-      () => {
-        console.log(test);
-      }
-    "
-    @click="doSomething()"
-    @click="doSomething;"
-    @click="a.b;"
-    @click="a[1];"
-    @click="a['b'];"
-    @click="a[null]"
-    #default="{
-      foo: {
-        bar: { baz },
-      },
-    }"
-  ></div>
-</template>
-
+<template>                                                                       |
+  <div                                                                           |
+    v-for="(                                                                     |
+      { longLongProp, longLongProp }, index                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      { longLongProp = 42, longLongProp = 'Hello, World!' }, index               |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="{                                                                     |
+      longLongProp,                                                              |
+      longLongProp,                                                              |
+    } of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      {                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        anotherLongLongProp,                                                     |
+        yetAnotherLongLongProp,                                                  |
+      },                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="{                                                                     |
+      longLongProp,                                                              |
+      longLongProp,                                                              |
+      anotherLongLongProp,                                                       |
+      yetAnotherLongLongProp,                                                    |
+    } of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [longLongProp, longLongProp, anotherLongLongProp, yetAnotherLongLongProp], |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp = 42,                                                       |
+        anotherLongLongProp,                                                     |
+        yetAnotherLongLongProp = 'Hello, World!',                                |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        [                                                                        |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          [                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          ],                                                                     |
+          yetAnotherLongLongProp,                                                |
+        ],                                                                       |
+        yetAnotherLongLongProp,                                                  |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        longLongProp,                                                            |
+        longLongProp,                                                            |
+        [                                                                        |
+          longLongProp,                                                          |
+          longLongProp = 'Hello, Prettier!',                                     |
+          [                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp = [                                              |
+              longLongProp,                                                      |
+              longLongProp,                                                      |
+              anotherLongLongProp,                                               |
+              yetAnotherLongLongProp,                                            |
+            ],                                                                   |
+            yetAnotherLongLongProp,                                              |
+          ],                                                                     |
+          yetAnotherLongLongProp,                                                |
+        ],                                                                       |
+        yetAnotherLongLongProp,                                                  |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      [                                                                          |
+        { longLongProp, longLongProp },                                          |
+        { longLongProp, longLongProp },                                          |
+        [                                                                        |
+          {                                                                      |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          },                                                                     |
+          longLongProp,                                                          |
+        ],                                                                       |
+        yetAnotherLongLongProp,                                                  |
+      ],                                                                         |
+      index                                                                      |
+    ) of longLongLongLongLongLongLongLongList"                                   |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue: {                                                           |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue = { longLongProp, longLongProp }, secondValue },              |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index     |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      { firstValue, secondValue, thirdValue, fourthValue }, objectKey, index     |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+        sixthValue,                                                              |
+        seventhValue,                                                            |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp,                                                   |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+        sixthValue: {                                                            |
+          firstValue,                                                            |
+          secondValue,                                                           |
+          thirdValue,                                                            |
+          fourthValue,                                                           |
+          fifthValue: {                                                          |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          },                                                                     |
+          sixthValue,                                                            |
+          seventhValue,                                                          |
+        },                                                                       |
+        seventhValue,                                                            |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="(                                                                     |
+      {                                                                          |
+        firstValue,                                                              |
+        secondValue,                                                             |
+        thirdValue,                                                              |
+        fourthValue,                                                             |
+        fifthValue: {                                                            |
+          longLongProp,                                                          |
+          longLongProp,                                                          |
+          anotherLongLongProp = {                                                |
+            longLongProp,                                                        |
+            longLongProp,                                                        |
+            anotherLongLongProp,                                                 |
+            yetAnotherLongLongProp,                                              |
+          },                                                                     |
+          yetAnotherLongLongProp,                                                |
+        },                                                                       |
+        sixthValue,                                                              |
+        seventhValue,                                                            |
+      },                                                                         |
+      objectKey,                                                                 |
+      index                                                                      |
+    ) in objectWithAVeryVeryVeryVeryLongName"                                    |
+    v-for="item in items"                                                        |
+    v-for="item of items"                                                        |
+    v-for="(item, index) in items"                                               |
+    v-for="value in object"                                                      |
+    v-for="(value, key) in object"                                               |
+    v-for="(value, key) of object"                                               |
+    v-for="(value, key, index) in object"                                        |
+    v-for="n in evenNumbers"                                                     |
+    v-for="n in even(numbers)"                                                   |
+    v-for="n in 10"                                                              |
+    v-for="{ a } in [0].map(() => ({ a: 1 }))"                                   |
+    v-for="({ a }, [c]) in [0].map(() => 1)"                                     |
+    v-for="n in items.map((x) => {                                               |
+      return x;                                                                  |
+    })"                                                                          |
+    @click="/* hello */"                                                         |
+    @click="/* 1 */ $emit(/* 2 */ 'click' /* 3 */) /* 4 */ /* 5 */"              |
+    @click="$emit('click')"                                                      |
+    @click="$emit('click')"                                                      |
+    @click="                                                                     |
+      $emit('click');                                                            |
+      if (something) {                                                           |
+        for (let i = j; i < 100; i++) {}                                         |
+      } else {                                                                   |
+      }                                                                          |
+    "                                                                            |
+    slot-scope="foo"                                                             |
+    slot-scope="{ row }"                                                         |
+    slot-scope="{                                                                |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    #default="foo"                                                               |
+    #default="{ row }"                                                           |
+    #default="{                                                                  |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    v-slot="foo"                                                                 |
+    v-slot="{ row }"                                                             |
+    v-slot="{                                                                    |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    v-slot:name="foo"                                                            |
+    v-slot:name="{ row }"                                                        |
+    v-slot:name="{                                                               |
+      destructuring: {                                                           |
+        a: { b },                                                                |
+      },                                                                         |
+    }"                                                                           |
+    :class="{                                                                    |
+      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglonglonglonglong: true,
+    }"                                                                           |
+    :class="                                                                     |
+      (() => {                                                                   |
+        return 'hello';                                                          |
+      })()                                                                       |
+    "                                                                            |
+    :key="index /* hello */"                                                     |
+    :key="                                                                       |
+      index // hello                                                             |
+    "                                                                            |
+    @click="                                                                     |
+      () => {                                                                    |
+        console.log(test);                                                       |
+      }                                                                          |
+    "                                                                            |
+    @click="                                                                     |
+      () => {                                                                    |
+        console.log(test);                                                       |
+      }                                                                          |
+    "                                                                            |
+    @click="doSomething()"                                                       |
+    @click="doSomething;"                                                        |
+    @click="a.b;"                                                                |
+    @click="a[1];"                                                               |
+    @click="a['b'];"                                                             |
+    @click="a[null]"                                                             |
+    #default="{                                                                  |
+      foo: {                                                                     |
+        bar: { baz },                                                            |
+      },                                                                         |
+    }"                                                                           |
+  ></div>                                                                        |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -1768,48 +1768,48 @@ semi: false
 </template>
 
 =====================================output=====================================
-<!-- #7396 -->
-<template>
-  <MyComponent
-    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${foo} template literal value\`"
-  />
-</template>
-<template>
-  <MyComponent
-    :attr="
-      \`\${first} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${template} \${literal}\` +
-      \`\${second} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${template} \${literal}\`
-    "
-  />
-</template>
-<template>
-  <MyComponent
-    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${
-      foo + bar
-    } template literal value\`"
-  />
-</template>
-<template>
-  <MyComponent
-    :src="'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog literal string value'"
-  />
-</template>
-<template>
-  <MyComponent
-    :src="
-      'first loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog' +
-      'second loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog'
-    "
-  />
-</template>
-<template>
-  <MyComponent
-    :src="
-      100000000000000000000000000000000000000000000000000000000000000000000000000
-    "
-  />
-</template>
-
+<!-- #7396 -->                                                                   |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${foo | } template literal value\`"
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="                                                                      |
+      \`\${first} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog $ | {template} \${literal}\` +
+      \`\${second} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog  | \${template} \${literal}\`
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${    |
+      foo + bar                                                                  |
+    } template literal value\`"                                                   |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog litera | l string value'"
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="                                                                       |
+      'first loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog' +   |
+      'second loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog'    |
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="                                                                       |
+      10000000000000000000000000000000000000000000000000000000000000000000000000 | 0
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -1842,48 +1842,48 @@ trailingComma: "none"
 </template>
 
 =====================================output=====================================
-<!-- #7396 -->
-<template>
-  <MyComponent
-    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${foo} template literal value\`"
-  />
-</template>
-<template>
-  <MyComponent
-    :attr="
-      \`\${first} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${template} \${literal}\` +
-      \`\${second} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${template} \${literal}\`
-    "
-  />
-</template>
-<template>
-  <MyComponent
-    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${
-      foo + bar
-    } template literal value\`"
-  />
-</template>
-<template>
-  <MyComponent
-    :src="'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog literal string value'"
-  />
-</template>
-<template>
-  <MyComponent
-    :src="
-      'first loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog' +
-      'second loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog'
-    "
-  />
-</template>
-<template>
-  <MyComponent
-    :src="
-      100000000000000000000000000000000000000000000000000000000000000000000000000
-    "
-  />
-</template>
-
+<!-- #7396 -->                                                                   |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${foo | } template literal value\`"
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="                                                                      |
+      \`\${first} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog $ | {template} \${literal}\` +
+      \`\${second} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog  | \${template} \${literal}\`
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${    |
+      foo + bar                                                                  |
+    } template literal value\`"                                                   |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog litera | l string value'"
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="                                                                       |
+      'first loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog' +   |
+      'second loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog'    |
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="                                                                       |
+      10000000000000000000000000000000000000000000000000000000000000000000000000 | 0
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -1915,48 +1915,48 @@ printWidth: 80
 </template>
 
 =====================================output=====================================
-<!-- #7396 -->
-<template>
-  <MyComponent
-    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${foo} template literal value\`"
-  />
-</template>
-<template>
-  <MyComponent
-    :attr="
-      \`\${first} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${template} \${literal}\` +
-      \`\${second} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${template} \${literal}\`
-    "
-  />
-</template>
-<template>
-  <MyComponent
-    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${
-      foo + bar
-    } template literal value\`"
-  />
-</template>
-<template>
-  <MyComponent
-    :src="'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog literal string value'"
-  />
-</template>
-<template>
-  <MyComponent
-    :src="
-      'first loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog' +
-      'second loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog'
-    "
-  />
-</template>
-<template>
-  <MyComponent
-    :src="
-      100000000000000000000000000000000000000000000000000000000000000000000000000
-    "
-  />
-</template>
-
+<!-- #7396 -->                                                                   |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${foo | } template literal value\`"
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="                                                                      |
+      \`\${first} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog $ | {template} \${literal}\` +
+      \`\${second} loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog  | \${template} \${literal}\`
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :attr="\`loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog \${    |
+      foo + bar                                                                  |
+    } template literal value\`"                                                   |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog litera | l string value'"
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="                                                                       |
+      'first loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog' +   |
+      'second loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog'    |
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+<template>                                                                       |
+  <MyComponent                                                                   |
+    :src="                                                                       |
+      10000000000000000000000000000000000000000000000000000000000000000000000000 | 0
+    "                                                                            |
+  />                                                                             |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -2917,57 +2917,57 @@ semi: false
 </template>
 
 =====================================output=====================================
-<template>
-  <!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/ide/components/jobs/detail.vue -->
-  <pre ref="buildTrace" class="build-trace mb-0 h-100" @scroll="scrollBuildLog">
-  <code
-    v-show="!detailJob.isLoading"
-    class="bash"
-    v-html="jobOutput"
-  >
-  </code>
-  <div
-    v-show="detailJob.isLoading"
-    class="build-loader-animation"
-  >
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-</pre>
-</template>
-
-<!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/vue_shared/components/code_block.vue -->
-<template>
-  <pre class="code-block rounded">
-    <code class="d-block">{{ code }}</code>
-  </pre>
-</template>
-
-<template>
-  <pre class="woot">
-  {{ stuff }}
-  </pre>
-</template>
-
-<template>
-  <pre class="woot">
-  123{{
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq
-    }}123
-  123{{
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq
-    }}123
-    </pre
-  >
-</template>
-
+<template>                                                                       |
+  <!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/j | avascripts/ide/components/jobs/detail.vue -->
+  <pre ref="buildTrace" class="build-trace mb-0 h-100" @scroll="scrollBuildLog"> |
+  <code                                                                          |
+    v-show="!detailJob.isLoading"                                                |
+    class="bash"                                                                 |
+    v-html="jobOutput"                                                           |
+  >                                                                              |
+  </code>                                                                        |
+  <div                                                                           |
+    v-show="detailJob.isLoading"                                                 |
+    class="build-loader-animation"                                               |
+  >                                                                              |
+    <div class="dot"></div>                                                      |
+    <div class="dot"></div>                                                      |
+    <div class="dot"></div>                                                      |
+  </div>                                                                         |
+</pre>                                                                           |
+</template>                                                                      |
+                                                                                 |
+<!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/jav | ascripts/vue_shared/components/code_block.vue -->
+<template>                                                                       |
+  <pre class="code-block rounded">                                               |
+    <code class="d-block">{{ code }}</code>                                      |
+  </pre>                                                                         |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <pre class="woot">                                                             |
+  {{ stuff }}                                                                    |
+  </pre>                                                                         |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <pre class="woot">                                                             |
+  123{{                                                                          |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq                                                       |
+    }}123                                                                        |
+  123{{                                                                          |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq                                                       |
+    }}123                                                                        |
+    </pre                                                                        |
+  >                                                                              |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -3023,57 +3023,57 @@ trailingComma: "none"
 </template>
 
 =====================================output=====================================
-<template>
-  <!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/ide/components/jobs/detail.vue -->
-  <pre ref="buildTrace" class="build-trace mb-0 h-100" @scroll="scrollBuildLog">
-  <code
-    v-show="!detailJob.isLoading"
-    class="bash"
-    v-html="jobOutput"
-  >
-  </code>
-  <div
-    v-show="detailJob.isLoading"
-    class="build-loader-animation"
-  >
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-</pre>
-</template>
-
-<!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/vue_shared/components/code_block.vue -->
-<template>
-  <pre class="code-block rounded">
-    <code class="d-block">{{ code }}</code>
-  </pre>
-</template>
-
-<template>
-  <pre class="woot">
-  {{ stuff }}
-  </pre>
-</template>
-
-<template>
-  <pre class="woot">
-  123{{
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq
-    }}123
-  123{{
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq
-    }}123
-    </pre
-  >
-</template>
-
+<template>                                                                       |
+  <!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/j | avascripts/ide/components/jobs/detail.vue -->
+  <pre ref="buildTrace" class="build-trace mb-0 h-100" @scroll="scrollBuildLog"> |
+  <code                                                                          |
+    v-show="!detailJob.isLoading"                                                |
+    class="bash"                                                                 |
+    v-html="jobOutput"                                                           |
+  >                                                                              |
+  </code>                                                                        |
+  <div                                                                           |
+    v-show="detailJob.isLoading"                                                 |
+    class="build-loader-animation"                                               |
+  >                                                                              |
+    <div class="dot"></div>                                                      |
+    <div class="dot"></div>                                                      |
+    <div class="dot"></div>                                                      |
+  </div>                                                                         |
+</pre>                                                                           |
+</template>                                                                      |
+                                                                                 |
+<!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/jav | ascripts/vue_shared/components/code_block.vue -->
+<template>                                                                       |
+  <pre class="code-block rounded">                                               |
+    <code class="d-block">{{ code }}</code>                                      |
+  </pre>                                                                         |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <pre class="woot">                                                             |
+  {{ stuff }}                                                                    |
+  </pre>                                                                         |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <pre class="woot">                                                             |
+  123{{                                                                          |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq                                                       |
+    }}123                                                                        |
+  123{{                                                                          |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq                                                       |
+    }}123                                                                        |
+    </pre                                                                        |
+  >                                                                              |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -3128,57 +3128,57 @@ printWidth: 80
 </template>
 
 =====================================output=====================================
-<template>
-  <!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/ide/components/jobs/detail.vue -->
-  <pre ref="buildTrace" class="build-trace mb-0 h-100" @scroll="scrollBuildLog">
-  <code
-    v-show="!detailJob.isLoading"
-    class="bash"
-    v-html="jobOutput"
-  >
-  </code>
-  <div
-    v-show="detailJob.isLoading"
-    class="build-loader-animation"
-  >
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-</pre>
-</template>
-
-<!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/vue_shared/components/code_block.vue -->
-<template>
-  <pre class="code-block rounded">
-    <code class="d-block">{{ code }}</code>
-  </pre>
-</template>
-
-<template>
-  <pre class="woot">
-  {{ stuff }}
-  </pre>
-</template>
-
-<template>
-  <pre class="woot">
-  123{{
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq
-    }}123
-  123{{
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq ||
-      wqeqwwqwqweqweqwewwq
-    }}123
-    </pre
-  >
-</template>
-
+<template>                                                                       |
+  <!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/j | avascripts/ide/components/jobs/detail.vue -->
+  <pre ref="buildTrace" class="build-trace mb-0 h-100" @scroll="scrollBuildLog"> |
+  <code                                                                          |
+    v-show="!detailJob.isLoading"                                                |
+    class="bash"                                                                 |
+    v-html="jobOutput"                                                           |
+  >                                                                              |
+  </code>                                                                        |
+  <div                                                                           |
+    v-show="detailJob.isLoading"                                                 |
+    class="build-loader-animation"                                               |
+  >                                                                              |
+    <div class="dot"></div>                                                      |
+    <div class="dot"></div>                                                      |
+    <div class="dot"></div>                                                      |
+  </div>                                                                         |
+</pre>                                                                           |
+</template>                                                                      |
+                                                                                 |
+<!-- copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/jav | ascripts/vue_shared/components/code_block.vue -->
+<template>                                                                       |
+  <pre class="code-block rounded">                                               |
+    <code class="d-block">{{ code }}</code>                                      |
+  </pre>                                                                         |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <pre class="woot">                                                             |
+  {{ stuff }}                                                                    |
+  </pre>                                                                         |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <pre class="woot">                                                             |
+  123{{                                                                          |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq                                                       |
+    }}123                                                                        |
+  123{{                                                                          |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq ||                                                    |
+      wqeqwwqwqweqweqwewwq                                                       |
+    }}123                                                                        |
+    </pre                                                                        |
+  >                                                                              |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -3193,9 +3193,9 @@ semi: false
 <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
 
 =====================================output=====================================
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>    |
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></ | script>
+                                                                                 |
 ================================================================================
 `;
 
@@ -3210,9 +3210,9 @@ trailingComma: "none"
 <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
 
 =====================================output=====================================
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>    |
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></ | script>
+                                                                                 |
 ================================================================================
 `;
 
@@ -3226,9 +3226,9 @@ printWidth: 80
 <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
 
 =====================================output=====================================
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>    |
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-firestore.js"></ | script>
+                                                                                 |
 ================================================================================
 `;
 
@@ -3876,31 +3876,31 @@ semi: false
 </template>
 
 =====================================output=====================================
-<!--copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/vue_shared/components/content_viewer/viewers/image_viewer.vue-->
-<template>
-  <div class="file-container">
-    <div class="file-content image_file">
-      <img
-        ref="contentImg"
-        :class="{ 'is-zoomable': isZoomable, 'is-zoomed': isZoomed }"
-        :src="path"
-        :alt="path"
-        @load="onImgLoad"
-        @click="onImgClick"
-      />
-      <p v-if="renderInfo" class="file-info prepend-top-10">
-        <template v-if="fileSize > 0">
-          {{ fileSizeReadable }}
-        </template>
-        <template v-if="fileSize > 0 && width && height"> | </template>
-        <template v-if="width && height">
-          W: {{ width }} | H: {{ height }}
-        </template>
-      </p>
-    </div>
-  </div>
-</template>
-
+<!--copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/java | scripts/vue_shared/components/content_viewer/viewers/image_viewer.vue-->
+<template>                                                                       |
+  <div class="file-container">                                                   |
+    <div class="file-content image_file">                                        |
+      <img                                                                       |
+        ref="contentImg"                                                         |
+        :class="{ 'is-zoomable': isZoomable, 'is-zoomed': isZoomed }"            |
+        :src="path"                                                              |
+        :alt="path"                                                              |
+        @load="onImgLoad"                                                        |
+        @click="onImgClick"                                                      |
+      />                                                                         |
+      <p v-if="renderInfo" class="file-info prepend-top-10">                     |
+        <template v-if="fileSize > 0">                                           |
+          {{ fileSizeReadable }}                                                 |
+        </template>                                                              |
+        <template v-if="fileSize > 0 && width && height"> | </template>          |
+        <template v-if="width && height">                                        |
+          W: {{ width }} | H: {{ height }}                                       |
+        </template>                                                              |
+      </p>                                                                       |
+    </div>                                                                       |
+  </div>                                                                         |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -3940,31 +3940,31 @@ trailingComma: "none"
 </template>
 
 =====================================output=====================================
-<!--copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/vue_shared/components/content_viewer/viewers/image_viewer.vue-->
-<template>
-  <div class="file-container">
-    <div class="file-content image_file">
-      <img
-        ref="contentImg"
-        :class="{ 'is-zoomable': isZoomable, 'is-zoomed': isZoomed }"
-        :src="path"
-        :alt="path"
-        @load="onImgLoad"
-        @click="onImgClick"
-      />
-      <p v-if="renderInfo" class="file-info prepend-top-10">
-        <template v-if="fileSize > 0">
-          {{ fileSizeReadable }}
-        </template>
-        <template v-if="fileSize > 0 && width && height"> | </template>
-        <template v-if="width && height">
-          W: {{ width }} | H: {{ height }}
-        </template>
-      </p>
-    </div>
-  </div>
-</template>
-
+<!--copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/java | scripts/vue_shared/components/content_viewer/viewers/image_viewer.vue-->
+<template>                                                                       |
+  <div class="file-container">                                                   |
+    <div class="file-content image_file">                                        |
+      <img                                                                       |
+        ref="contentImg"                                                         |
+        :class="{ 'is-zoomable': isZoomable, 'is-zoomed': isZoomed }"            |
+        :src="path"                                                              |
+        :alt="path"                                                              |
+        @load="onImgLoad"                                                        |
+        @click="onImgClick"                                                      |
+      />                                                                         |
+      <p v-if="renderInfo" class="file-info prepend-top-10">                     |
+        <template v-if="fileSize > 0">                                           |
+          {{ fileSizeReadable }}                                                 |
+        </template>                                                              |
+        <template v-if="fileSize > 0 && width && height"> | </template>          |
+        <template v-if="width && height">                                        |
+          W: {{ width }} | H: {{ height }}                                       |
+        </template>                                                              |
+      </p>                                                                       |
+    </div>                                                                       |
+  </div>                                                                         |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 
@@ -4003,31 +4003,31 @@ printWidth: 80
 </template>
 
 =====================================output=====================================
-<!--copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/javascripts/vue_shared/components/content_viewer/viewers/image_viewer.vue-->
-<template>
-  <div class="file-container">
-    <div class="file-content image_file">
-      <img
-        ref="contentImg"
-        :class="{ 'is-zoomable': isZoomable, 'is-zoomed': isZoomed }"
-        :src="path"
-        :alt="path"
-        @load="onImgLoad"
-        @click="onImgClick"
-      />
-      <p v-if="renderInfo" class="file-info prepend-top-10">
-        <template v-if="fileSize > 0">
-          {{ fileSizeReadable }}
-        </template>
-        <template v-if="fileSize > 0 && width && height"> | </template>
-        <template v-if="width && height">
-          W: {{ width }} | H: {{ height }}
-        </template>
-      </p>
-    </div>
-  </div>
-</template>
-
+<!--copied from https://github.com/gitlabhq/gitlabhq/blob/master/app/assets/java | scripts/vue_shared/components/content_viewer/viewers/image_viewer.vue-->
+<template>                                                                       |
+  <div class="file-container">                                                   |
+    <div class="file-content image_file">                                        |
+      <img                                                                       |
+        ref="contentImg"                                                         |
+        :class="{ 'is-zoomable': isZoomable, 'is-zoomed': isZoomed }"            |
+        :src="path"                                                              |
+        :alt="path"                                                              |
+        @load="onImgLoad"                                                        |
+        @click="onImgClick"                                                      |
+      />                                                                         |
+      <p v-if="renderInfo" class="file-info prepend-top-10">                     |
+        <template v-if="fileSize > 0">                                           |
+          {{ fileSizeReadable }}                                                 |
+        </template>                                                              |
+        <template v-if="fileSize > 0 && width && height"> | </template>          |
+        <template v-if="width && height">                                        |
+          W: {{ width }} | H: {{ height }}                                       |
+        </template>                                                              |
+      </p>                                                                       |
+    </div>                                                                       |
+  </div>                                                                         |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;
 

@@ -16,14 +16,14 @@ function bar(x:number) { }
 bar(app.props.children); // No error, App doesn't specify propTypes so anything goes
 
 =====================================output=====================================
-var app = require("JSX");
-
-app.setProps({ y: 42 }); // error, y:number but foo expects string in App.react
-app.setState({ z: 42 }); // error, z:number but foo expects string in App.react
-
-function bar(x: number) {}
-bar(app.props.children); // No error, App doesn't specify propTypes so anything goes
-
+var app = require("JSX");                                                        |
+                                                                                 |
+app.setProps({ y: 42 }); // error, y:number but foo expects string in App.react  |
+app.setState({ z: 42 }); // error, z:number but foo expects string in App.react  |
+                                                                                 |
+function bar(x: number) {}                                                       |
+bar(app.props.children); // No error, App doesn't specify propTypes so anything  | goes
+                                                                                 |
 ================================================================================
 `;
 
@@ -223,49 +223,49 @@ checkPropTypes({ foo: PropTypes.string }, { foo: 'foo' }, 'value', 'TestComponen
 checkPropTypes({ foo: PropTypes.string }, { foo: 'foo' }, 'value', 'TestComponent', () => undefined); // OK
 
 =====================================output=====================================
-/* @flow */
-
-import { PropTypes, checkPropTypes } from "react";
-
-checkPropTypes(
-  { foo: PropTypes.string },
-  { foo: "foo" },
-  "value",
-  "TestComponent"
-); // OK
-
-checkPropTypes({ foo: PropTypes.string }, { foo: "foo" }); // error: missing arguments
-checkPropTypes({ foo: PropTypes.string }, { foo: "foo" }, "value"); // error: missing argument
-
-checkPropTypes(
-  { bar: PropTypes.string },
-  { foo: "foo" },
-  "value",
-  "TestComponent"
-); // error: property not found
-
-checkPropTypes(
-  { foo: PropTypes.string },
-  { foo: "foo" },
-  "value",
-  "TestComponent",
-  () => 123
-); // error: number ~> string
-checkPropTypes(
-  { foo: PropTypes.string },
-  { foo: "foo" },
-  "value",
-  "TestComponent",
-  () => null
-); // OK
-checkPropTypes(
-  { foo: PropTypes.string },
-  { foo: "foo" },
-  "value",
-  "TestComponent",
-  () => undefined
-); // OK
-
+/* @flow */                                                                      |
+                                                                                 |
+import { PropTypes, checkPropTypes } from "react";                               |
+                                                                                 |
+checkPropTypes(                                                                  |
+  { foo: PropTypes.string },                                                     |
+  { foo: "foo" },                                                                |
+  "value",                                                                       |
+  "TestComponent"                                                                |
+); // OK                                                                         |
+                                                                                 |
+checkPropTypes({ foo: PropTypes.string }, { foo: "foo" }); // error: missing arg | uments
+checkPropTypes({ foo: PropTypes.string }, { foo: "foo" }, "value"); // error: mi | ssing argument
+                                                                                 |
+checkPropTypes(                                                                  |
+  { bar: PropTypes.string },                                                     |
+  { foo: "foo" },                                                                |
+  "value",                                                                       |
+  "TestComponent"                                                                |
+); // error: property not found                                                  |
+                                                                                 |
+checkPropTypes(                                                                  |
+  { foo: PropTypes.string },                                                     |
+  { foo: "foo" },                                                                |
+  "value",                                                                       |
+  "TestComponent",                                                               |
+  () => 123                                                                      |
+); // error: number ~> string                                                    |
+checkPropTypes(                                                                  |
+  { foo: PropTypes.string },                                                     |
+  { foo: "foo" },                                                                |
+  "value",                                                                       |
+  "TestComponent",                                                               |
+  () => null                                                                     |
+); // OK                                                                         |
+checkPropTypes(                                                                  |
+  { foo: PropTypes.string },                                                     |
+  { foo: "foo" },                                                                |
+  "value",                                                                       |
+  "TestComponent",                                                               |
+  () => undefined                                                                |
+); // OK                                                                         |
+                                                                                 |
 ================================================================================
 `;
 

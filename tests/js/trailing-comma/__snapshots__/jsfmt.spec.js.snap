@@ -12,10 +12,10 @@ import(
 );
 
 =====================================output=====================================
-import(
-  "myreallylongdynamicallyloadedmodulenamemyreallylongdynamicallyloadedmodulename"
-);
-
+import(                                                                          |
+  "myreallylongdynamicallyloadedmodulenamemyreallylongdynamicallyloadedmodulenam | e"
+);                                                                               |
+                                                                                 |
 ================================================================================
 `;
 
@@ -31,10 +31,10 @@ import(
 );
 
 =====================================output=====================================
-import(
-  "myreallylongdynamicallyloadedmodulenamemyreallylongdynamicallyloadedmodulename"
-);
-
+import(                                                                          |
+  "myreallylongdynamicallyloadedmodulenamemyreallylongdynamicallyloadedmodulenam | e"
+);                                                                               |
+                                                                                 |
 ================================================================================
 `;
 
@@ -49,10 +49,10 @@ import(
 );
 
 =====================================output=====================================
-import(
-  "myreallylongdynamicallyloadedmodulenamemyreallylongdynamicallyloadedmodulename"
-);
-
+import(                                                                          |
+  "myreallylongdynamicallyloadedmodulenamemyreallylongdynamicallyloadedmodulenam | e"
+);                                                                               |
+                                                                                 |
 ================================================================================
 `;
 

@@ -10,8 +10,8 @@ proseWrap: "always"
 [這是一段很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長的段落][]
 
 =====================================output=====================================
-[這是一段很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長的段落][]
-
+[這是一段很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長 | 很長的段落][]
+                                                                                 |
 ================================================================================
 `;
 
@@ -25,8 +25,8 @@ proseWrap: "never"
 [這是一段很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長的段落][]
 
 =====================================output=====================================
-[這是一段很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長的段落][]
-
+[這是一段很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長很長 | 很長的段落][]
+                                                                                 |
 ================================================================================
 `;
 
@@ -77,20 +77,20 @@ proseWrap: "always"
 [long-with-empty-title]: https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx ""
 
 =====================================output=====================================
-[just-url]: https://example.com
-[url-with-short-title]: https://example.com "title"
-[url-with-long-title]:
-  https://example.com
-  "a long, long title. It's really really long. Here have words."
-[empty-title]: https://example.com
-[long]:
-  https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx
-[long-with-title]:
-  https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx
-  "look a title!"
-[long-with-empty-title]:
-  https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx
-
+[just-url]: https://example.com                                                  |
+[url-with-short-title]: https://example.com "title"                              |
+[url-with-long-title]:                                                           |
+  https://example.com                                                            |
+  "a long, long title. It's really really long. Here have words."                |
+[empty-title]: https://example.com                                               |
+[long]:                                                                          |
+  https://example.com/a-long-url/another-segment/yet-another-segment/a-really-lo | ng-file-name.php.aspx
+[long-with-title]:                                                               |
+  https://example.com/a-long-url/another-segment/yet-another-segment/a-really-lo | ng-file-name.php.aspx
+  "look a title!"                                                                |
+[long-with-empty-title]:                                                         |
+  https://example.com/a-long-url/another-segment/yet-another-segment/a-really-lo | ng-file-name.php.aspx
+                                                                                 |
 ================================================================================
 `;
 
@@ -111,14 +111,14 @@ proseWrap: "never"
 [long-with-empty-title]: https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx ""
 
 =====================================output=====================================
-[just-url]: https://example.com
-[url-with-short-title]: https://example.com "title"
-[url-with-long-title]: https://example.com "a long, long title. It's really really long. Here have words."
-[empty-title]: https://example.com
-[long]: https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx
-[long-with-title]: https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx "look a title!"
-[long-with-empty-title]: https://example.com/a-long-url/another-segment/yet-another-segment/a-really-long-file-name.php.aspx
-
+[just-url]: https://example.com                                                  |
+[url-with-short-title]: https://example.com "title"                              |
+[url-with-long-title]: https://example.com "a long, long title. It's really real | ly long. Here have words."
+[empty-title]: https://example.com                                               |
+[long]: https://example.com/a-long-url/another-segment/yet-another-segment/a-rea | lly-long-file-name.php.aspx
+[long-with-title]: https://example.com/a-long-url/another-segment/yet-another-se | gment/a-really-long-file-name.php.aspx "look a title!"
+[long-with-empty-title]: https://example.com/a-long-url/another-segment/yet-anot | her-segment/a-really-long-file-name.php.aspx
+                                                                                 |
 ================================================================================
 `;
 
@@ -273,25 +273,25 @@ proseWrap: "never"
 
 
 =====================================output=====================================
-[ref]: https://example.com "bar"
-[other-ref]: https://example.com (Shakespeare's "Romeo and Juliet" is a famous play)
-
-[a]: https://example.com "\\"" [a]: https://example.com '\\"' [a]: https://example.com (\\")
-
-[a]: https://example.com "'"
-
-[a]: https://example.com '\\'' [a]: https://example.com (\\')
-
-[a]: https://example.com "'"
-[a]: https://example.com ")"
-
-[a]: https://example.com (\\))
-
-[a]: https://example.com "\\\\\\"" [a]: https://example.com '\\\\\\'' [a] https://example.com (\\\\\\))
-
-[a]: https://example.com "'"
-[a]: https://example.com '"'
-[a]: https://example.com '"'
-
+[ref]: https://example.com "bar"                                                 |
+[other-ref]: https://example.com (Shakespeare's "Romeo and Juliet" is a famous p | lay)
+                                                                                 |
+[a]: https://example.com "\\"" [a]: https://example.com '\\"' [a]: https://example | .com (\\")
+                                                                                 |
+[a]: https://example.com "'"                                                     |
+                                                                                 |
+[a]: https://example.com '\\'' [a]: https://example.com (\\')                      |
+                                                                                 |
+[a]: https://example.com "'"                                                     |
+[a]: https://example.com ")"                                                     |
+                                                                                 |
+[a]: https://example.com (\\))                                                    |
+                                                                                 |
+[a]: https://example.com "\\\\\\"" [a]: https://example.com '\\\\\\'' [a] https://exam | ple.com (\\\\\\))
+                                                                                 |
+[a]: https://example.com "'"                                                     |
+[a]: https://example.com '"'                                                     |
+[a]: https://example.com '"'                                                     |
+                                                                                 |
 ================================================================================
 `;

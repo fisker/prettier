@@ -86,12 +86,12 @@ trailingComma: "all"
 }
 
 =====================================output=====================================
-{
-  "string": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
-  "stringstringstringstringstringstringstringstring": "stringstringstringstringstringstringstringstring",
-  "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring": "string"
-}
-
+{                                                                                |
+  "string": "stringstringstringstringstringstringstringstringstringstringstrings | tringstringstringstring",
+  "stringstringstringstringstringstringstringstring": "stringstringstringstrings | tringstringstringstring",
+  "stringstringstringstringstringstringstringstringstringstringstringstringstrin | gstringstring": "string"
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -109,12 +109,12 @@ trailingComma: "all"
 }
 
 =====================================output=====================================
-{
-  string: "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
-  stringstringstringstringstringstringstringstring: "stringstringstringstringstringstringstringstring",
-  stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring: "string",
-}
-
+{                                                                                |
+  string: "stringstringstringstringstringstringstringstringstringstringstringstr | ingstringstringstring",
+  stringstringstringstringstringstringstringstring: "stringstringstringstringstr | ingstringstringstring",
+  stringstringstringstringstringstringstringstringstringstringstringstringstring | stringstring: "string",
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -131,12 +131,12 @@ printWidth: 80
 }
 
 =====================================output=====================================
-{
-  "string": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
-  "stringstringstringstringstringstringstringstring": "stringstringstringstringstringstringstringstring",
-  "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring": "string"
-}
-
+{                                                                                |
+  "string": "stringstringstringstringstringstringstringstringstringstringstrings | tringstringstringstring",
+  "stringstringstringstringstringstringstringstring": "stringstringstringstrings | tringstringstringstring",
+  "stringstringstringstringstringstringstringstringstringstringstringstringstrin | gstringstring": "string"
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -153,12 +153,12 @@ printWidth: 80
 }
 
 =====================================output=====================================
-{
-  string: "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
-  stringstringstringstringstringstringstringstring: "stringstringstringstringstringstringstringstring",
-  stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring: "string",
-}
-
+{                                                                                |
+  string: "stringstringstringstringstringstringstringstringstringstringstringstr | ingstringstringstring",
+  stringstringstringstringstringstringstringstring: "stringstringstringstringstr | ingstringstringstring",
+  stringstringstringstringstringstringstringstringstringstringstringstringstring | stringstring: "string",
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -175,12 +175,12 @@ printWidth: 80
 }
 
 =====================================output=====================================
-{
-  "string": "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring",
-  "stringstringstringstringstringstringstringstring": "stringstringstringstringstringstringstringstring",
-  "stringstringstringstringstringstringstringstringstringstringstringstringstringstringstring": "string"
-}
-
+{                                                                                |
+  "string": "stringstringstringstringstringstringstringstringstringstringstrings | tringstringstringstring",
+  "stringstringstringstringstringstringstringstring": "stringstringstringstrings | tringstringstringstring",
+  "stringstringstringstringstringstringstringstringstringstringstringstringstrin | gstringstring": "string"
+}                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -487,66 +487,66 @@ trailingComma: "all"
 ,"rosebud"]
 
 =====================================output=====================================
-[
-  "JSON Test Pattern pass1",
-  { "object with 1 member": ["array with 1 element"] },
-  {},
-  [],
-  -42,
-  true,
-  false,
-  null,
-  {
-    "integer": 1234567890,
-    "real": -9876.54321,
-    "e": 0.123456789e-12,
-    "E": 1.23456789e34,
-    "": 23456789012e66,
-    "zero": 0,
-    "one": 1,
-    "space": " ",
-    "quote": "\\"",
-    "backslash": "\\\\",
-    "controls": "\\b\\f\\n\\r\\t",
-    "slash": "/ & /",
-    "alpha": "abcdefghijklmnopqrstuvwyz",
-    "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",
-    "digit": "0123456789",
-    "0123456789": "digit",
-    "special": "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",
-    "hex": "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",
-    "true": true,
-    "false": false,
-    "null": null,
-    "array": [],
-    "object": {},
-    "address": "50 St. James Street",
-    "url": "http://www.JSON.org/",
-    "comment": "// /* <!-- --",
-    "# -- --> */": " ",
-    " s p a c e d ": [
-      1, 2, 3,
-
-      4, 5, 6, 7
-    ],
-    "compact": [1, 2, 3, 4, 5, 6, 7],
-    "jsontext": "{\\"object with 1 member\\":[\\"array with 1 element\\"]}",
-    "quotes": "&#34; \\u0022 %22 0x22 034 &#x22;",
-    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;:',./<>?": "A key can be any string"
-  },
-  0.5,
-  98.6,
-  99.44,
-  1066,
-  1e1,
-  0.1e1,
-  1e-1,
-  1,
-  2,
-  2,
-  "rosebud"
-]
-
+[                                                                                |
+  "JSON Test Pattern pass1",                                                     |
+  { "object with 1 member": ["array with 1 element"] },                          |
+  {},                                                                            |
+  [],                                                                            |
+  -42,                                                                           |
+  true,                                                                          |
+  false,                                                                         |
+  null,                                                                          |
+  {                                                                              |
+    "integer": 1234567890,                                                       |
+    "real": -9876.54321,                                                         |
+    "e": 0.123456789e-12,                                                        |
+    "E": 1.23456789e34,                                                          |
+    "": 23456789012e66,                                                          |
+    "zero": 0,                                                                   |
+    "one": 1,                                                                    |
+    "space": " ",                                                                |
+    "quote": "\\"",                                                               |
+    "backslash": "\\\\",                                                           |
+    "controls": "\\b\\f\\n\\r\\t",                                                    |
+    "slash": "/ & /",                                                            |
+    "alpha": "abcdefghijklmnopqrstuvwyz",                                        |
+    "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",                                        |
+    "digit": "0123456789",                                                       |
+    "0123456789": "digit",                                                       |
+    "special": "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",                                |
+    "hex": "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",                               |
+    "true": true,                                                                |
+    "false": false,                                                              |
+    "null": null,                                                                |
+    "array": [],                                                                 |
+    "object": {},                                                                |
+    "address": "50 St. James Street",                                            |
+    "url": "http://www.JSON.org/",                                               |
+    "comment": "// /* <!-- --",                                                  |
+    "# -- --> */": " ",                                                          |
+    " s p a c e d ": [                                                           |
+      1, 2, 3,                                                                   |
+                                                                                 |
+      4, 5, 6, 7                                                                 |
+    ],                                                                           |
+    "compact": [1, 2, 3, 4, 5, 6, 7],                                            |
+    "jsontext": "{\\"object with 1 member\\":[\\"array with 1 element\\"]}",         |
+    "quotes": "&#34; \\u0022 %22 0x22 034 &#x22;",                                |
+    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;: | ',./<>?": "A key can be any string"
+  },                                                                             |
+  0.5,                                                                           |
+  98.6,                                                                          |
+  99.44,                                                                         |
+  1066,                                                                          |
+  1e1,                                                                           |
+  0.1e1,                                                                         |
+  1e-1,                                                                          |
+  1,                                                                             |
+  2,                                                                             |
+  2,                                                                             |
+  "rosebud"                                                                      |
+]                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -617,66 +617,66 @@ trailingComma: "all"
 ,"rosebud"]
 
 =====================================output=====================================
-[
-  "JSON Test Pattern pass1",
-  { "object with 1 member": ["array with 1 element"] },
-  {},
-  [],
-  -42,
-  true,
-  false,
-  null,
-  {
-    integer: 1234567890,
-    real: -9876.54321,
-    e: 0.123456789e-12,
-    E: 1.23456789e34,
-    "": 23456789012e66,
-    zero: 0,
-    one: 1,
-    space: " ",
-    quote: '"',
-    backslash: "\\\\",
-    controls: "\\b\\f\\n\\r\\t",
-    slash: "/ & /",
-    alpha: "abcdefghijklmnopqrstuvwyz",
-    ALPHA: "ABCDEFGHIJKLMNOPQRSTUVWYZ",
-    digit: "0123456789",
-    "0123456789": "digit",
-    special: "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",
-    hex: "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",
-    true: true,
-    false: false,
-    null: null,
-    array: [],
-    object: {},
-    address: "50 St. James Street",
-    url: "http://www.JSON.org/",
-    comment: "// /* <!-- --",
-    "# -- --> */": " ",
-    " s p a c e d ": [
-      1, 2, 3,
-
-      4, 5, 6, 7,
-    ],
-    compact: [1, 2, 3, 4, 5, 6, 7],
-    jsontext: '{"object with 1 member":["array with 1 element"]}',
-    quotes: "&#34; \\u0022 %22 0x22 034 &#x22;",
-    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;:',./<>?": "A key can be any string",
-  },
-  0.5,
-  98.6,
-  99.44,
-  1066,
-  1e1,
-  0.1e1,
-  1e-1,
-  1,
-  2,
-  2,
-  "rosebud",
-]
-
+[                                                                                |
+  "JSON Test Pattern pass1",                                                     |
+  { "object with 1 member": ["array with 1 element"] },                          |
+  {},                                                                            |
+  [],                                                                            |
+  -42,                                                                           |
+  true,                                                                          |
+  false,                                                                         |
+  null,                                                                          |
+  {                                                                              |
+    integer: 1234567890,                                                         |
+    real: -9876.54321,                                                           |
+    e: 0.123456789e-12,                                                          |
+    E: 1.23456789e34,                                                            |
+    "": 23456789012e66,                                                          |
+    zero: 0,                                                                     |
+    one: 1,                                                                      |
+    space: " ",                                                                  |
+    quote: '"',                                                                  |
+    backslash: "\\\\",                                                             |
+    controls: "\\b\\f\\n\\r\\t",                                                      |
+    slash: "/ & /",                                                              |
+    alpha: "abcdefghijklmnopqrstuvwyz",                                          |
+    ALPHA: "ABCDEFGHIJKLMNOPQRSTUVWYZ",                                          |
+    digit: "0123456789",                                                         |
+    "0123456789": "digit",                                                       |
+    special: "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",                                  |
+    hex: "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",                                 |
+    true: true,                                                                  |
+    false: false,                                                                |
+    null: null,                                                                  |
+    array: [],                                                                   |
+    object: {},                                                                  |
+    address: "50 St. James Street",                                              |
+    url: "http://www.JSON.org/",                                                 |
+    comment: "// /* <!-- --",                                                    |
+    "# -- --> */": " ",                                                          |
+    " s p a c e d ": [                                                           |
+      1, 2, 3,                                                                   |
+                                                                                 |
+      4, 5, 6, 7,                                                                |
+    ],                                                                           |
+    compact: [1, 2, 3, 4, 5, 6, 7],                                              |
+    jsontext: '{"object with 1 member":["array with 1 element"]}',               |
+    quotes: "&#34; \\u0022 %22 0x22 034 &#x22;",                                  |
+    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;: | ',./<>?": "A key can be any string",
+  },                                                                             |
+  0.5,                                                                           |
+  98.6,                                                                          |
+  99.44,                                                                         |
+  1066,                                                                          |
+  1e1,                                                                           |
+  0.1e1,                                                                         |
+  1e-1,                                                                          |
+  1,                                                                             |
+  2,                                                                             |
+  2,                                                                             |
+  "rosebud",                                                                     |
+]                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -746,66 +746,66 @@ printWidth: 80
 ,"rosebud"]
 
 =====================================output=====================================
-[
-  "JSON Test Pattern pass1",
-  { "object with 1 member": ["array with 1 element"] },
-  {},
-  [],
-  -42,
-  true,
-  false,
-  null,
-  {
-    "integer": 1234567890,
-    "real": -9876.54321,
-    "e": 0.123456789e-12,
-    "E": 1.23456789e34,
-    "": 23456789012e66,
-    "zero": 0,
-    "one": 1,
-    "space": " ",
-    "quote": "\\"",
-    "backslash": "\\\\",
-    "controls": "\\b\\f\\n\\r\\t",
-    "slash": "/ & /",
-    "alpha": "abcdefghijklmnopqrstuvwyz",
-    "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",
-    "digit": "0123456789",
-    "0123456789": "digit",
-    "special": "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",
-    "hex": "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",
-    "true": true,
-    "false": false,
-    "null": null,
-    "array": [],
-    "object": {},
-    "address": "50 St. James Street",
-    "url": "http://www.JSON.org/",
-    "comment": "// /* <!-- --",
-    "# -- --> */": " ",
-    " s p a c e d ": [
-      1, 2, 3,
-
-      4, 5, 6, 7
-    ],
-    "compact": [1, 2, 3, 4, 5, 6, 7],
-    "jsontext": "{\\"object with 1 member\\":[\\"array with 1 element\\"]}",
-    "quotes": "&#34; \\u0022 %22 0x22 034 &#x22;",
-    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;:',./<>?": "A key can be any string"
-  },
-  0.5,
-  98.6,
-  99.44,
-  1066,
-  1e1,
-  0.1e1,
-  1e-1,
-  1,
-  2,
-  2,
-  "rosebud"
-]
-
+[                                                                                |
+  "JSON Test Pattern pass1",                                                     |
+  { "object with 1 member": ["array with 1 element"] },                          |
+  {},                                                                            |
+  [],                                                                            |
+  -42,                                                                           |
+  true,                                                                          |
+  false,                                                                         |
+  null,                                                                          |
+  {                                                                              |
+    "integer": 1234567890,                                                       |
+    "real": -9876.54321,                                                         |
+    "e": 0.123456789e-12,                                                        |
+    "E": 1.23456789e34,                                                          |
+    "": 23456789012e66,                                                          |
+    "zero": 0,                                                                   |
+    "one": 1,                                                                    |
+    "space": " ",                                                                |
+    "quote": "\\"",                                                               |
+    "backslash": "\\\\",                                                           |
+    "controls": "\\b\\f\\n\\r\\t",                                                    |
+    "slash": "/ & /",                                                            |
+    "alpha": "abcdefghijklmnopqrstuvwyz",                                        |
+    "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",                                        |
+    "digit": "0123456789",                                                       |
+    "0123456789": "digit",                                                       |
+    "special": "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",                                |
+    "hex": "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",                               |
+    "true": true,                                                                |
+    "false": false,                                                              |
+    "null": null,                                                                |
+    "array": [],                                                                 |
+    "object": {},                                                                |
+    "address": "50 St. James Street",                                            |
+    "url": "http://www.JSON.org/",                                               |
+    "comment": "// /* <!-- --",                                                  |
+    "# -- --> */": " ",                                                          |
+    " s p a c e d ": [                                                           |
+      1, 2, 3,                                                                   |
+                                                                                 |
+      4, 5, 6, 7                                                                 |
+    ],                                                                           |
+    "compact": [1, 2, 3, 4, 5, 6, 7],                                            |
+    "jsontext": "{\\"object with 1 member\\":[\\"array with 1 element\\"]}",         |
+    "quotes": "&#34; \\u0022 %22 0x22 034 &#x22;",                                |
+    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;: | ',./<>?": "A key can be any string"
+  },                                                                             |
+  0.5,                                                                           |
+  98.6,                                                                          |
+  99.44,                                                                         |
+  1066,                                                                          |
+  1e1,                                                                           |
+  0.1e1,                                                                         |
+  1e-1,                                                                          |
+  1,                                                                             |
+  2,                                                                             |
+  2,                                                                             |
+  "rosebud"                                                                      |
+]                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -875,66 +875,66 @@ printWidth: 80
 ,"rosebud"]
 
 =====================================output=====================================
-[
-  "JSON Test Pattern pass1",
-  { "object with 1 member": ["array with 1 element"] },
-  {},
-  [],
-  -42,
-  true,
-  false,
-  null,
-  {
-    integer: 1234567890,
-    real: -9876.54321,
-    e: 0.123456789e-12,
-    E: 1.23456789e34,
-    "": 23456789012e66,
-    zero: 0,
-    one: 1,
-    space: " ",
-    quote: '"',
-    backslash: "\\\\",
-    controls: "\\b\\f\\n\\r\\t",
-    slash: "/ & /",
-    alpha: "abcdefghijklmnopqrstuvwyz",
-    ALPHA: "ABCDEFGHIJKLMNOPQRSTUVWYZ",
-    digit: "0123456789",
-    "0123456789": "digit",
-    special: "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",
-    hex: "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",
-    true: true,
-    false: false,
-    null: null,
-    array: [],
-    object: {},
-    address: "50 St. James Street",
-    url: "http://www.JSON.org/",
-    comment: "// /* <!-- --",
-    "# -- --> */": " ",
-    " s p a c e d ": [
-      1, 2, 3,
-
-      4, 5, 6, 7,
-    ],
-    compact: [1, 2, 3, 4, 5, 6, 7],
-    jsontext: '{"object with 1 member":["array with 1 element"]}',
-    quotes: "&#34; \\u0022 %22 0x22 034 &#x22;",
-    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;:',./<>?": "A key can be any string",
-  },
-  0.5,
-  98.6,
-  99.44,
-  1066,
-  1e1,
-  0.1e1,
-  1e-1,
-  1,
-  2,
-  2,
-  "rosebud",
-]
-
+[                                                                                |
+  "JSON Test Pattern pass1",                                                     |
+  { "object with 1 member": ["array with 1 element"] },                          |
+  {},                                                                            |
+  [],                                                                            |
+  -42,                                                                           |
+  true,                                                                          |
+  false,                                                                         |
+  null,                                                                          |
+  {                                                                              |
+    integer: 1234567890,                                                         |
+    real: -9876.54321,                                                           |
+    e: 0.123456789e-12,                                                          |
+    E: 1.23456789e34,                                                            |
+    "": 23456789012e66,                                                          |
+    zero: 0,                                                                     |
+    one: 1,                                                                      |
+    space: " ",                                                                  |
+    quote: '"',                                                                  |
+    backslash: "\\\\",                                                             |
+    controls: "\\b\\f\\n\\r\\t",                                                      |
+    slash: "/ & /",                                                              |
+    alpha: "abcdefghijklmnopqrstuvwyz",                                          |
+    ALPHA: "ABCDEFGHIJKLMNOPQRSTUVWYZ",                                          |
+    digit: "0123456789",                                                         |
+    "0123456789": "digit",                                                       |
+    special: "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",                                  |
+    hex: "\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A",                                 |
+    true: true,                                                                  |
+    false: false,                                                                |
+    null: null,                                                                  |
+    array: [],                                                                   |
+    object: {},                                                                  |
+    address: "50 St. James Street",                                              |
+    url: "http://www.JSON.org/",                                                 |
+    comment: "// /* <!-- --",                                                    |
+    "# -- --> */": " ",                                                          |
+    " s p a c e d ": [                                                           |
+      1, 2, 3,                                                                   |
+                                                                                 |
+      4, 5, 6, 7,                                                                |
+    ],                                                                           |
+    compact: [1, 2, 3, 4, 5, 6, 7],                                              |
+    jsontext: '{"object with 1 member":["array with 1 element"]}',               |
+    quotes: "&#34; \\u0022 %22 0x22 034 &#x22;",                                  |
+    "/\\\\\\"\\uCAFE\\uBABE\\uAB98\\uFCDE\\ubcda\\uef4A\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;: | ',./<>?": "A key can be any string",
+  },                                                                             |
+  0.5,                                                                           |
+  98.6,                                                                          |
+  99.44,                                                                         |
+  1066,                                                                          |
+  1e1,                                                                           |
+  0.1e1,                                                                         |
+  1e-1,                                                                          |
+  1,                                                                             |
+  2,                                                                             |
+  2,                                                                             |
+  "rosebud",                                                                     |
+]                                                                                |
+                                                                                 |
 ================================================================================
 `;
 
@@ -1004,82 +1004,82 @@ printWidth: 80
 ,"rosebud"]
 
 =====================================output=====================================
-[
-  "JSON Test Pattern pass1",
-  {
-    "object with 1 member": [
-      "array with 1 element"
-    ]
-  },
-  {},
-  [],
-  -42,
-  true,
-  false,
-  null,
-  {
-    "integer": 1234567890,
-    "real": -9876.54321,
-    "e": 1.23456789e-13,
-    "E": 1.23456789e+34,
-    "": 2.3456789012e+76,
-    "zero": 0,
-    "one": 1,
-    "space": " ",
-    "quote": "\\"",
-    "backslash": "\\\\",
-    "controls": "\\b\\f\\n\\r\\t",
-    "slash": "/ & /",
-    "alpha": "abcdefghijklmnopqrstuvwyz",
-    "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",
-    "digit": "0123456789",
-    "0123456789": "digit",
-    "special": "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",
-    "hex": "ģ䕧覫췯ꯍ",
-    "true": true,
-    "false": false,
-    "null": null,
-    "array": [],
-    "object": {},
-    "address": "50 St. James Street",
-    "url": "http://www.JSON.org/",
-    "comment": "// /* <!-- --",
-    "# -- --> */": " ",
-    " s p a c e d ": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7
-    ],
-    "compact": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7
-    ],
-    "jsontext": "{\\"object with 1 member\\":[\\"array with 1 element\\"]}",
-    "quotes": "&#34; \\" %22 0x22 034 &#x22;",
-    "/\\\\\\"쫾몾ꮘﳞ볚\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;:',./<>?": "A key can be any string"
-  },
-  0.5,
-  98.6,
-  99.44,
-  1066,
-  10,
-  1,
-  0.1,
-  1,
-  2,
-  2,
-  "rosebud"
-]
-
+[                                                                                |
+  "JSON Test Pattern pass1",                                                     |
+  {                                                                              |
+    "object with 1 member": [                                                    |
+      "array with 1 element"                                                     |
+    ]                                                                            |
+  },                                                                             |
+  {},                                                                            |
+  [],                                                                            |
+  -42,                                                                           |
+  true,                                                                          |
+  false,                                                                         |
+  null,                                                                          |
+  {                                                                              |
+    "integer": 1234567890,                                                       |
+    "real": -9876.54321,                                                         |
+    "e": 1.23456789e-13,                                                         |
+    "E": 1.23456789e+34,                                                         |
+    "": 2.3456789012e+76,                                                        |
+    "zero": 0,                                                                   |
+    "one": 1,                                                                    |
+    "space": " ",                                                                |
+    "quote": "\\"",                                                               |
+    "backslash": "\\\\",                                                           |
+    "controls": "\\b\\f\\n\\r\\t",                                                    |
+    "slash": "/ & /",                                                            |
+    "alpha": "abcdefghijklmnopqrstuvwyz",                                        |
+    "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",                                        |
+    "digit": "0123456789",                                                       |
+    "0123456789": "digit",                                                       |
+    "special": "\`1~!@#$%^&*()_+-={':[,]}|;.</>?",                                |
+    "hex": "ģ䕧覫췯ꯍ",                                                          |
+    "true": true,                                                                |
+    "false": false,                                                              |
+    "null": null,                                                                |
+    "array": [],                                                                 |
+    "object": {},                                                                |
+    "address": "50 St. James Street",                                            |
+    "url": "http://www.JSON.org/",                                               |
+    "comment": "// /* <!-- --",                                                  |
+    "# -- --> */": " ",                                                          |
+    " s p a c e d ": [                                                           |
+      1,                                                                         |
+      2,                                                                         |
+      3,                                                                         |
+      4,                                                                         |
+      5,                                                                         |
+      6,                                                                         |
+      7                                                                          |
+    ],                                                                           |
+    "compact": [                                                                 |
+      1,                                                                         |
+      2,                                                                         |
+      3,                                                                         |
+      4,                                                                         |
+      5,                                                                         |
+      6,                                                                         |
+      7                                                                          |
+    ],                                                                           |
+    "jsontext": "{\\"object with 1 member\\":[\\"array with 1 element\\"]}",         |
+    "quotes": "&#34; \\" %22 0x22 034 &#x22;",                                    |
+    "/\\\\\\"쫾몾ꮘﳞ볚\\b\\f\\n\\r\\t\`1~!@#$%^&*()_+-=[]{}|;:',./<>?": "A key can be any |  string"
+  },                                                                             |
+  0.5,                                                                           |
+  98.6,                                                                          |
+  99.44,                                                                         |
+  1066,                                                                          |
+  10,                                                                            |
+  1,                                                                             |
+  0.1,                                                                           |
+  1,                                                                             |
+  2,                                                                             |
+  2,                                                                             |
+  "rosebud"                                                                      |
+]                                                                                |
+                                                                                 |
 ================================================================================
 `;
 

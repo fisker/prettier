@@ -153,9 +153,9 @@ requirePragma: true
 function test() { const answer = 42;console.log("%s is the answer to life, the universe, and everything", answer);}
 
 =====================================output=====================================
-#!/usr/bin/env node
-function test() { const answer = 42;console.log("%s is the answer to life, the universe, and everything", answer);}
-
+#!/usr/bin/env node                                                              |
+function test() { const answer = 42;console.log("%s is the answer to life, the u | niverse, and everything", answer);}
+                                                                                 |
 ================================================================================
 `;
 

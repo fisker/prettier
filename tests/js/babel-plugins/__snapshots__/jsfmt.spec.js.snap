@@ -1492,28 +1492,28 @@ o.f(?, x, ?)      // partial application for any arg
 super.f(?)        // partial application allowed for call on |SuperProperty|
 
 =====================================output=====================================
-// https://babeljs.io/docs/en/babel-plugin-proposal-partial-application
-
-function add(x, y) {
-  return x + y;
-}
-
-const addOne = add(1, ?); // apply from the left
-addOne(2); // 3
-
-const addTen = add(?, 10); // apply from the right
-addTen(2); // 12
-
-let newScore = player.score |> add(7, ?) |> clamp(0, 100, ?); // shallow stack, the pipe to \`clamp\` is the same frame as the pipe to \`add\`.
-
-f(x, ?); // partial application from left
-f(?, x); // partial application from right
-f(?, x, ?); // partial application for any arg
-o.f(x, ?); // partial application from left
-o.f(?, x); // partial application from right
-o.f(?, x, ?); // partial application for any arg
-super.f(?); // partial application allowed for call on |SuperProperty|
-
+// https://babeljs.io/docs/en/babel-plugin-proposal-partial-application          |
+                                                                                 |
+function add(x, y) {                                                             |
+  return x + y;                                                                  |
+}                                                                                |
+                                                                                 |
+const addOne = add(1, ?); // apply from the left                                 |
+addOne(2); // 3                                                                  |
+                                                                                 |
+const addTen = add(?, 10); // apply from the right                               |
+addTen(2); // 12                                                                 |
+                                                                                 |
+let newScore = player.score |> add(7, ?) |> clamp(0, 100, ?); // shallow stack,  | the pipe to \`clamp\` is the same frame as the pipe to \`add\`.
+                                                                                 |
+f(x, ?); // partial application from left                                        |
+f(?, x); // partial application from right                                       |
+f(?, x, ?); // partial application for any arg                                   |
+o.f(x, ?); // partial application from left                                      |
+o.f(?, x); // partial application from right                                     |
+o.f(?, x, ?); // partial application for any arg                                 |
+super.f(?); // partial application allowed for call on |SuperProperty|           |
+                                                                                 |
 ================================================================================
 `;
 
@@ -2129,30 +2129,30 @@ function *foo() {
 foo%bar()
 
 =====================================output=====================================
-// https://github.com/babel/babel/pull/10148
-
-%DebugPrint(foo);
-
-// Invalid code https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/in-bind-expression/options.json
-// ::%DebugPrint(null)
-
-// Invalid code https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/in-member-expression/options.json
-// a.%DebugPrint();
-
-// Invalid code https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/not-in-call-expression/options.json
-// const i = %DebugPrint;
-// i(foo);
-
-// https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/not-in-call-expression/options.json
-// %DebugPrint?.(null)
-
-new %DebugPrint(null);
-
-function* foo() {
-  yield %StringParseInt("42", 10);
-}
-
-foo % bar();
-
+// https://github.com/babel/babel/pull/10148                                     |
+                                                                                 |
+%DebugPrint(foo);                                                                |
+                                                                                 |
+// Invalid code https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62 | add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/in-bind-expression/options.json
+// ::%DebugPrint(null)                                                           |
+                                                                                 |
+// Invalid code https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62 | add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/in-member-expression/options.json
+// a.%DebugPrint();                                                              |
+                                                                                 |
+// Invalid code https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62 | add8cb10b4b169/packages/babel-parser/test/fixtures/v8intrinsic/_errors/not-in-call-expression/options.json
+// const i = %DebugPrint;                                                        |
+// i(foo);                                                                       |
+                                                                                 |
+// https://github.com/JLHwung/babel/blob/c1a3cbfd65e08b7013fd6f8c62add8cb10b4b16 | 9/packages/babel-parser/test/fixtures/v8intrinsic/_errors/not-in-call-expression/options.json
+// %DebugPrint?.(null)                                                           |
+                                                                                 |
+new %DebugPrint(null);                                                           |
+                                                                                 |
+function* foo() {                                                                |
+  yield %StringParseInt("42", 10);                                               |
+}                                                                                |
+                                                                                 |
+foo % bar();                                                                     |
+                                                                                 |
 ================================================================================
 `;

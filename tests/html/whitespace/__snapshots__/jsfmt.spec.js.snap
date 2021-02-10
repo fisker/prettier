@@ -40,32 +40,32 @@ Click here! Click here! Click here! Click here! Click here! Click here!
 <video src="brave.webm"><track kind=subtitles src=brave.en.vtt srclang=en label="English"><track kind=subtitles src=brave.en.vtt srclang=en label="English"></video>
 
 =====================================output=====================================
-<button>
-  Click here! Click here! Click here! Click here! Click here! Click here!
-</button>
-<button>
-  Click here! Click here! Click here! Click here! Click here! Click here!
-</button>
-<div>
-  <button>
-    Click here! Click here! Click here! Click here! Click here! Click here!</button
-  ><button>
-    Click here! Click here! Click here! Click here! Click here! Click here!
-  </button>
-</div>
-<div>
-  <button>
-    Click here! Click here! Click here! Click here! Click here! Click here!
-  </button>
-  <button>
-    Click here! Click here! Click here! Click here! Click here! Click here!
-  </button>
-</div>
-<video src="brave.webm">
-  <track kind="subtitles" src="brave.en.vtt" srclang="en" label="English" />
-  <track kind="subtitles" src="brave.en.vtt" srclang="en" label="English" />
-</video>
-
+<button>                                                                         |
+  Click here! Click here! Click here! Click here! Click here! Click here!        |
+</button>                                                                        |
+<button>                                                                         |
+  Click here! Click here! Click here! Click here! Click here! Click here!        |
+</button>                                                                        |
+<div>                                                                            |
+  <button>                                                                       |
+    Click here! Click here! Click here! Click here! Click here! Click here!</but | ton
+  ><button>                                                                      |
+    Click here! Click here! Click here! Click here! Click here! Click here!      |
+  </button>                                                                      |
+</div>                                                                           |
+<div>                                                                            |
+  <button>                                                                       |
+    Click here! Click here! Click here! Click here! Click here! Click here!      |
+  </button>                                                                      |
+  <button>                                                                       |
+    Click here! Click here! Click here! Click here! Click here! Click here!      |
+  </button>                                                                      |
+</div>                                                                           |
+<video src="brave.webm">                                                         |
+  <track kind="subtitles" src="brave.en.vtt" srclang="en" label="English" />     |
+  <track kind="subtitles" src="brave.en.vtt" srclang="en" label="English" />     |
+</video>                                                                         |
+                                                                                 |
 ================================================================================
 `;
 
@@ -251,18 +251,18 @@ printWidth: 80
 <span>Prix : 32 €</span>
 
 =====================================output=====================================
-<!-- normal whitespaces -->
-<span
-  >Nihil aut odit omnis. Quam maxime est molestiae. Maxime dolorem dolores
-  voluptas quaerat ut qui sunt vitae error.</span
->
-<!-- non-breaking whitespaces -->
-<span
-  >Nihil aut odit omnis. Quam maxime est molestiae. Maxime dolorem dolores voluptas quaerat ut qui sunt vitae error.</span
->
-<!-- non-breaking narrow whitespaces -->
-<span>Prix : 32 €</span>
-
+<!-- normal whitespaces -->                                                      |
+<span                                                                            |
+  >Nihil aut odit omnis. Quam maxime est molestiae. Maxime dolorem dolores       |
+  voluptas quaerat ut qui sunt vitae error.</span                                |
+>                                                                                |
+<!-- non-breaking whitespaces -->                                                |
+<span                                                                            |
+  >Nihil aut odit omnis. Quam maxime est molestiae. Maxime dolorem dolores volup | tas quaerat ut qui sunt vitae error.</span
+>                                                                                |
+<!-- non-breaking narrow whitespaces -->                                         |
+<span>Prix : 32 €</span>                                                         |
+                                                                                 |
 ================================================================================
 `;
 
@@ -462,21 +462,21 @@ printWidth: 80
 <!-- U+0020 -->
 <div>before<span> </span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter</div>
 =====================================output=====================================
-<!-- U+2005 -->
-<div>
-  before<span> </span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter
-</div>
-<!-- U+005F -->
-<div>
-  before<span>_</span>afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter
-</div>
-<!-- U+0020 -->
-<div>
-  before<span
-  > </span
-  >afterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafterafter
-</div>
-
+<!-- U+2005 -->                                                                  |
+<div>                                                                            |
+  before<span> </span>afterafterafterafterafterafterafterafterafterafterafteraft | erafterafterafterafterafterafterafterafter
+</div>                                                                           |
+<!-- U+005F -->                                                                  |
+<div>                                                                            |
+  before<span>_</span>afterafterafterafterafterafterafterafterafterafterafteraft | erafterafterafterafterafterafterafterafter
+</div>                                                                           |
+<!-- U+0020 -->                                                                  |
+<div>                                                                            |
+  before<span                                                                    |
+  > </span                                                                       |
+  >afterafterafterafterafterafterafterafterafterafterafterafterafterafterafteraf | terafterafterafterafter
+</div>                                                                           |
+                                                                                 |
 ================================================================================
 `;
 
@@ -653,15 +653,15 @@ printWidth: 80
 </template>
 
 =====================================output=====================================
-<template>
-  <template>foo</template>
-</template>
-
-<template>
-  <template
-    >foooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</template
-  >
-</template>
-
+<template>                                                                       |
+  <template>foo</template>                                                       |
+</template>                                                                      |
+                                                                                 |
+<template>                                                                       |
+  <template                                                                      |
+    >foooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</templa | te
+  >                                                                              |
+</template>                                                                      |
+                                                                                 |
 ================================================================================
 `;

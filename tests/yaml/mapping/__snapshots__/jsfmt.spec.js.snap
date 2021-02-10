@@ -14,16 +14,16 @@ tabWidth: 4
 [aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 =====================================output=====================================
-[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]:
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-? [
-      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-  ]
-: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
+[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa       |
+                                                                                 |
+[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]:                                      |
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                                     |
+                                                                                 |
+? [                                                                              |
+      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | aaaaaa,
+  ]                                                                              |
+: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                                       |
+                                                                                 |
 ================================================================================
 `;
 
@@ -40,16 +40,16 @@ printWidth: 80
 [aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 =====================================output=====================================
-[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]:
-  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-? [
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
-  ]
-: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
+[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa       |
+                                                                                 |
+[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa]:                                      |
+  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                                       |
+                                                                                 |
+? [                                                                              |
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | aaaa,
+  ]                                                                              |
+: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa                                       |
+                                                                                 |
 ================================================================================
 `;
 
@@ -123,10 +123,10 @@ tabWidth: 4
 : longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-? key
-# comment
-: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
+? key                                                                            |
+# comment                                                                        |
+: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | ng
+                                                                                 |
 ================================================================================
 `;
 
@@ -141,10 +141,10 @@ printWidth: 80
 : longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-? key
-# comment
-: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
+? key                                                                            |
+# comment                                                                        |
+: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | ng
+                                                                                 |
 ================================================================================
 `;
 
@@ -188,9 +188,9 @@ key1: value
 key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-key1: value
-key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
+key1: value                                                                      |
+key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglong
+                                                                                 |
 ================================================================================
 `;
 
@@ -204,9 +204,9 @@ key1: value
 key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
 
 =====================================output=====================================
-key1: value
-key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-
+key1: value                                                                      |
+key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglong
+                                                                                 |
 ================================================================================
 `;
 
@@ -225,10 +225,10 @@ tabWidth: 4
 : value
 
 =====================================output=====================================
-key1: value
-key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong: value
-
+key1: value                                                                      |
+key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglong
+longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong | : value
+                                                                                 |
 ================================================================================
 `;
 
@@ -246,10 +246,10 @@ printWidth: 80
 : value
 
 =====================================output=====================================
-key1: value
-key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong: value
-
+key1: value                                                                      |
+key2: longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglo | nglong
+longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong | : value
+                                                                                 |
 ================================================================================
 `;
 

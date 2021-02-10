@@ -46,37 +46,37 @@ var {veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLon
 
 
 =====================================output=====================================
-declare class C {
-  f(
-    superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,
-    ...args
-  ): void;
-}
-
-function f(
-  superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,
-  ...args
-) {}
-
-declare class C {
-  f(
-    ...superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong
-  ): void;
-}
-
-[
-  superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,
-  ,
-];
-
-[
-  veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLong,
-  ...a
-] = [];
-var {
-  veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLong,
-  ...a
-} = {};
-
+declare class C {                                                                |
+  f(                                                                             |
+    superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,  |
+    ...args                                                                      |
+  ): void;                                                                       |
+}                                                                                |
+                                                                                 |
+function f(                                                                      |
+  superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLong,    |
+  ...args                                                                        |
+) {}                                                                             |
+                                                                                 |
+declare class C {                                                                |
+  f(                                                                             |
+    ...superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLon | g
+  ): void;                                                                       |
+}                                                                                |
+                                                                                 |
+[                                                                                |
+  superSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperSuperLon | g,
+  ,                                                                              |
+];                                                                               |
+                                                                                 |
+[                                                                                |
+  veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLong,  |
+  ...a                                                                           |
+] = [];                                                                          |
+var {                                                                            |
+  veryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLong,  |
+  ...a                                                                           |
+} = {};                                                                          |
+                                                                                 |
 ================================================================================
 `;
