@@ -3,6 +3,7 @@
 const raw = require("jest-snapshot-serializer-raw").wrap;
 const visualizeRange = require("./visualize-range");
 const visualizeEndOfLine = require("./visualize-end-of-line");
+const drawPrintWidth = require("./draw-print-width");
 
 const SEPARATOR_WIDTH = 80;
 function printSeparator(description = "") {
@@ -72,6 +73,14 @@ function createSnapshot(
 
     input = visualizeRange(input, { rangeStart, rangeEnd });
     codeOffset = input.match(/^>?\s+1 \|/)[0].length + 1;
+  }
+
+  if (
+    Number.isFinite(printWidth) &&
+    printWidth > 0 &&
+    typeof cursorOffset !== "number"
+  ) {
+    output = drawPrintWidth(output, printWidth);
   }
 
   if ("endOfLine" in formatOptions) {
