@@ -40,3 +40,20 @@ test("allows passing a string to resolve a parser", async () => {
     status: 0,
   });
 });
+
+test("allows add empty `trailingComments` array", () => {
+  const output = prettier.format("(foo /* comment */)( )", {
+    parser(text, parsers) {
+      const ast = parsers.babel(text);
+
+      // This may happens in this use case https://github.com/prettier/prettier/pull/5497#issuecomment-439841965
+      // Simply simulate it
+      const callExpression = ast.program.body[0].expression;
+      callExpression.extra = { parenthesized: true };
+      callExpression.trailingComments = [];
+
+      return ast;
+    },
+  });
+  expect(output).toEqual("foo(/* comment */);\n");
+});

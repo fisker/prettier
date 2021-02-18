@@ -1,8 +1,8 @@
 "use strict";
 
-const { getStringWidth } = require("../common/util");
+const { getStringWidth, getLast } = require("../common/util");
 const { convertEndOfLineToChars } = require("../common/end-of-line");
-const { concat, fill, cursor, indent } = require("./doc-builders");
+const { fill, cursor, indent } = require("./doc-builders");
 const { isConcat, getDocParts } = require("./doc-utils");
 
 /** @type {Record<symbol, typeof MODE_BREAK | typeof MODE_FLAT>} */
@@ -187,16 +187,25 @@ function fits(next, restCommands, width, options, hasLineSuffix, mustBeFlat) {
           width += trim(out);
 
           break;
-        case "group":
+        case "group": {
           if (mustBeFlat && doc.break) {
             return false;
           }
-          cmds.push([ind, doc.break ? MODE_BREAK : mode, doc.contents]);
+          const groupMode = doc.break ? MODE_BREAK : mode;
+          cmds.push([
+            ind,
+            groupMode,
+            // The most expanded state takes up the least space on the current line.
+            doc.expandedStates && groupMode === MODE_BREAK
+              ? getLast(doc.expandedStates)
+              : doc.contents,
+          ]);
 
           if (doc.id) {
-            groupModeMap[doc.id] = cmds[cmds.length - 1][1];
+            groupModeMap[doc.id] = groupMode;
           }
           break;
+        }
         case "fill":
           for (let i = doc.parts.length - 1; i >= 0; i--) {
             cmds.push([ind, mode, doc.parts[i]]);
@@ -257,6 +266,9 @@ function fits(next, restCommands, width, options, hasLineSuffix, mustBeFlat) {
           if (hasLineSuffix) {
             return false;
           }
+          break;
+        case "label":
+          cmds.push([ind, mode, doc.contents]);
           break;
       }
     }
@@ -452,7 +464,7 @@ function printDocToString(doc, options) {
           const firstAndSecondContentFlatCmd = [
             ind,
             MODE_FLAT,
-            concat([content, whitespace, secondContent]),
+            [content, whitespace, secondContent],
           ];
           const firstAndSecondContentFits = fits(
             firstAndSecondContentFlatCmd,
@@ -552,6 +564,9 @@ function printDocToString(doc, options) {
               }
               break;
           }
+          break;
+        case "label":
+          cmds.push([ind, mode, doc.contents]);
           break;
         default:
       }
