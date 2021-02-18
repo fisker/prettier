@@ -65,5 +65,5 @@ exports[`ignore-unknown write 1`] = `
 javascript.js
 
 =================================== (write) ====================================
-[{"filename":"javascript.js","content":"const foo = \\"bar\\";\\n"}]
+[{"filename":"javascript.js","content":"const foo = /"bar/";/n"}]
 `;

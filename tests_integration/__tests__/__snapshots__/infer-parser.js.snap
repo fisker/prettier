@@ -43,7 +43,7 @@ exports[`--write and --check with unknown path and no parser multiple files 1`] 
 Checking formatting...
 
 =================================== (write) ====================================
-[{"filename":"foo.js","content":"foo();\\n"}]
+[{"filename":"foo.js","content":"foo();/n"}]
 `;
 
 exports[`--write and --check with unknown path and no parser specific file 1`] = `
@@ -64,7 +64,7 @@ exports[`--write and --list-different with unknown path and no parser multiple f
 foo.js
 
 =================================== (write) ====================================
-[{"filename":"foo.js","content":"foo();\\n"}]
+[{"filename":"foo.js","content":"foo();/n"}]
 `;
 
 exports[`--write and --list-different with unknown path and no parser specific file 1`] = `
@@ -81,7 +81,7 @@ exports[`--write with unknown path and no parser multiple files 1`] = `
 foo.js 0ms
 
 =================================== (write) ====================================
-[{"filename":"foo.js","content":"foo();\\n"}]
+[{"filename":"foo.js","content":"foo();/n"}]
 `;
 
 exports[`--write with unknown path and no parser specific file 1`] = `

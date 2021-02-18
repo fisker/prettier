@@ -49,7 +49,7 @@ exports[`output with --check + unformatted differs when piped 1`] = `
 Checking formatting...
 unformatted.js
 =================================== (write) ====================================
-[{"filename":"unformatted.js","content":"var x = 1;\\n"}]
+[{"filename":"unformatted.js","content":"var x = 1;/n"}]
 `;
 
 exports[`output with --check + unformatted differs when piped 2`] = `
@@ -61,7 +61,7 @@ exports[`output with --check + unformatted differs when piped 2`] = `
 Checking formatting...
 
 =================================== (write) ====================================
-[{"filename":"unformatted.js","content":"var x = 1;\\n"}]
+[{"filename":"unformatted.js","content":"var x = 1;/n"}]
 `;
 
 exports[`output with --list-different + unformatted differs when piped 1`] = `
@@ -71,7 +71,7 @@ exports[`output with --list-different + unformatted differs when piped 1`] = `
 unformatted.jsunformatted.js
 
 =================================== (write) ====================================
-[{"filename":"unformatted.js","content":"var x = 1;\\n"}]
+[{"filename":"unformatted.js","content":"var x = 1;/n"}]
 `;
 
 exports[`output with --list-different + unformatted differs when piped 2`] = `
@@ -81,5 +81,5 @@ exports[`output with --list-different + unformatted differs when piped 2`] = `
 unformatted.js
 
 =================================== (write) ====================================
-[{"filename":"unformatted.js","content":"var x = 1;\\n"}]
+[{"filename":"unformatted.js","content":"var x = 1;/n"}]
 `;

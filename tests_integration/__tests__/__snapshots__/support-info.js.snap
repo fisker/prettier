@@ -769,7 +769,7 @@ exports[`CLI --support-info 1`] = `
     {
       "category": "Special",
       "default": -1,
-      "description": "Print (to stderr) where a cursor at the given position would move to after formatting.\\nThis option cannot be used with --range-start and --range-end.",
+      "description": "Print (to stderr) where a cursor at the given position would move to after formatting./nThis option cannot be used with --range-start and --range-end.",
       "name": "cursorOffset",
       "pluginDefaults": {},
       "range": { "end": null, "start": -1, "step": 1 },
@@ -799,19 +799,19 @@ exports[`CLI --support-info 1`] = `
       "category": "Global",
       "choices": [
         {
-          "description": "Line Feed only (\\\\n), common on Linux and macOS as well as inside git repos",
+          "description": "Line Feed only (//n), common on Linux and macOS as well as inside git repos",
           "value": "lf"
         },
         {
-          "description": "Carriage Return + Line Feed characters (\\\\r\\\\n), common on Windows",
+          "description": "Carriage Return + Line Feed characters (//r//n), common on Windows",
           "value": "crlf"
         },
         {
-          "description": "Carriage Return character only (\\\\r), used very rarely",
+          "description": "Carriage Return character only (//r), used very rarely",
           "value": "cr"
         },
         {
-          "description": "Maintain existing\\n(mixed values within one file are normalised by looking at what's used after the first line)",
+          "description": "Maintain existing/n(mixed values within one file are normalised by looking at what's used after the first line)",
           "value": "auto"
         }
       ],
@@ -927,7 +927,7 @@ exports[`CLI --support-info 1`] = `
       "array": true,
       "category": "Global",
       "default": [],
-      "description": "Custom directory that contains prettier plugins in node_modules subdirectory.\\nOverrides default behavior when plugins are searched relatively to the location of Prettier.\\nMultiple values are accepted.",
+      "description": "Custom directory that contains prettier plugins in node_modules subdirectory./nOverrides default behavior when plugins are searched relatively to the location of Prettier./nMultiple values are accepted.",
       "name": "pluginSearchDirs",
       "pluginDefaults": {},
       "since": "1.13.0",
@@ -1005,7 +1005,7 @@ exports[`CLI --support-info 1`] = `
     {
       "category": "Special",
       "default": null,
-      "description": "Format code ending at a given character offset (exclusive).\\nThe range will extend forwards to the end of the selected statement.\\nThis option cannot be used with --cursor-offset.",
+      "description": "Format code ending at a given character offset (exclusive)./nThe range will extend forwards to the end of the selected statement./nThis option cannot be used with --cursor-offset.",
       "name": "rangeEnd",
       "pluginDefaults": {},
       "range": { "end": null, "start": 0, "step": 1 },
@@ -1015,7 +1015,7 @@ exports[`CLI --support-info 1`] = `
     {
       "category": "Special",
       "default": 0,
-      "description": "Format code starting at a given character offset.\\nThe range will extend backwards to the start of the first line containing the selected statement.\\nThis option cannot be used with --cursor-offset.",
+      "description": "Format code starting at a given character offset./nThe range will extend backwards to the start of the first line containing the selected statement./nThis option cannot be used with --cursor-offset.",
       "name": "rangeStart",
       "pluginDefaults": {},
       "range": { "end": null, "start": 0, "step": 1 },
@@ -1025,7 +1025,7 @@ exports[`CLI --support-info 1`] = `
     {
       "category": "Special",
       "default": false,
-      "description": "Require either '@prettier' or '@format' to be present in the file's first docblock comment\\nin order for it to be formatted.",
+      "description": "Require either '@prettier' or '@format' to be present in the file's first docblock comment/nin order for it to be formatted.",
       "name": "requirePragma",
       "pluginDefaults": {},
       "since": "1.7.0",

@@ -26,7 +26,7 @@ exports[`write file with --write + unformatted file 1`] = `
 unformatted.js 0ms
 
 =================================== (write) ====================================
-[{"filename":"unformatted.js","content":"var x = 1;\\n"}]
+[{"filename":"unformatted.js","content":"var x = 1;/n"}]
 `;
 
 exports[`write file with -w + unformatted file 1`] = `
@@ -36,5 +36,5 @@ exports[`write file with -w + unformatted file 1`] = `
 unformatted.js 0ms
 
 =================================== (write) ====================================
-[{"filename":"unformatted.js","content":"var x = 1;\\n"}]
+[{"filename":"unformatted.js","content":"var x = 1;/n"}]
 `;

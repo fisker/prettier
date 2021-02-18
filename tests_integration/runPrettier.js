@@ -175,13 +175,11 @@ function printSeparator(description = "") {
 function createSnapshot(result) {
   const parts = [];
   for (const [key, value] of Object.entries(result)) {
-    parts.push(
-      printSeparator(` (${key}) `),
-      pathSerializer.print(
-        typeof value === "string" ? value : JSON.stringify(value),
-        (value) => value
-      )
-    );
+    let string = typeof value === "string" ? value : JSON.stringify(value);
+    if (pathSerializer.test(string)) {
+      string = pathSerializer.print(string, (value) => value);
+    }
+    parts.push(printSeparator(` (${key}) `), string);
   }
 
   return raw(parts.join("\n"));
