@@ -2,7 +2,7 @@
   "name": "prettier",
   "version": "2.3.0-dev",
   "description": "Prettier is an opinionated code formatter",
-  "bin": "./bin/prettier.js",
+  "bin": "./bin/prettier.mjs",
   "repository": "prettier/prettier",
   "homepage": "https://prettier.io",
   "author": "James Long",
@@ -11,7 +11,7 @@
   "browser": "./standalone.js",
   "unpkg": "./standalone.js",
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=12.21.0"
   },
   "files": [
     "index.js",

@@ -142,7 +142,7 @@ const coreBundles = [
     ),
   },
   {
-    input: "bin/prettier.js",
+    input: "bin/prettier.mjs",
     type: "core",
     output: "bin-prettier.js",
     target: "node",
