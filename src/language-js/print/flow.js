@@ -85,6 +85,24 @@ function printFlow(path, options, print) {
     // transformed away before printing.
     case "TypeAnnotation":
       return path.call(print, "typeAnnotation");
+    case "AnyTypeAnnotation":
+      return "any";
+    case "BooleanTypeAnnotation":
+      return "boolean";
+    case "BigIntTypeAnnotation":
+      return "bigint";
+    case "NullLiteralTypeAnnotation":
+      return "null";
+    case "NumberTypeAnnotation":
+      return "number";
+    case "SymbolTypeAnnotation":
+      return "symbol";
+    case "StringTypeAnnotation":
+      return "string";
+    case "VoidTypeAnnotation":
+      return "void";
+    case "ThisTypeAnnotation":
+      return "this";
   }
 }
 

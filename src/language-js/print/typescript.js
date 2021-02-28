@@ -537,6 +537,26 @@ function printTypescript(path, options, print) {
       return path.call(print, "typeAnnotation");
     case "TSEmptyBodyFunctionExpression":
       return printMethodInternal(path, options, print);
+    case "TSAnyKeyword":
+      return "any";
+    case "TSBooleanKeyword":
+      return "boolean";
+    case "TSBigIntKeyword":
+      return "bigint";
+    case "TSConstKeyword":
+      return "const";
+    case "TSNullKeyword":
+      return "null";
+    case "TSNumberKeyword":
+      return "number";
+    case "TSSymbolKeyword":
+      return "symbol";
+    case "TSStringKeyword":
+      return "string";
+    case "TSVoidKeyword":
+      return "void";
+    case "TSThisType":
+      return "this";
 
     // These are not valid TypeScript. Printing them just for the sake of error recovery.
     case "TSJSDocAllType":
