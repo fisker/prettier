@@ -1,6 +1,8 @@
 "use strict";
 
 const assert = require("assert");
+const { printString, printNumber } = require("../../common/util");
+const { locStart, locEnd } = require("../loc");
 const { getParentExportDeclaration } = require("../utils");
 const { printClass } = require("./class");
 const {
@@ -17,6 +19,7 @@ const {
   printExportDeclaration,
   printExportAllDeclaration,
 } = require("./module");
+const { printTypeAnnotation } = require("./misc");
 
 function printFlow(path, options, print) {
   const n = path.getValue();
@@ -85,6 +88,53 @@ function printFlow(path, options, print) {
     // transformed away before printing.
     case "TypeAnnotation":
       return path.call(print, "typeAnnotation");
+    case "QualifiedTypeIdentifier":
+      return [path.call(print, "qualification"), ".", path.call(print, "id")];
+    case "StringLiteralTypeAnnotation":
+      return printString(rawText(n), options);
+    case "NumberLiteralTypeAnnotation":
+      assert.strictEqual(typeof n.value, "number");
+    // fall through
+    case "BigIntLiteralTypeAnnotation":
+      if (n.extra) {
+        return printNumber(n.extra.raw);
+      }
+      return printNumber(n.raw);
+    case "TypeCastExpression": {
+      return [
+        "(",
+        path.call(print, "expression"),
+        printTypeAnnotation(path, options, print),
+        ")",
+      ];
+    }
+    case "TypeParameterDeclaration":
+    case "TypeParameterInstantiation": {
+      const printed = printTypeParameters(path, options, print, "params");
+
+      if (options.parser === "flow") {
+        const start = locStart(n);
+        const end = locEnd(n);
+        const commentStartIndex = options.originalText.lastIndexOf("/*", start);
+        const commentEndIndex = options.originalText.indexOf("*/", end);
+        if (commentStartIndex !== -1 && commentEndIndex !== -1) {
+          const comment = options.originalText
+            .slice(commentStartIndex + 2, commentEndIndex)
+            .trim();
+          if (
+            comment.startsWith("::") &&
+            !comment.includes("/*") &&
+            !comment.includes("*/")
+          ) {
+            return ["/*:: ", printed, " */"];
+          }
+        }
+      }
+
+      return printed;
+    }
+    case "InferredPredicate":
+      return "%checks";
     case "AnyTypeAnnotation":
       return "any";
     case "BooleanTypeAnnotation":

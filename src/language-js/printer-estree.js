@@ -7,7 +7,7 @@ const assert = require("assert");
 
 // TODO(azz): anything that imports from main shouldn't be in a `language-*` dir.
 const { printDanglingComments } = require("../main/comments");
-const { hasNewline, printString, printNumber } = require("../common/util");
+const { hasNewline } = require("../common/util");
 const {
   builders: { join, line, hardline, softline, literalline, group, indent },
 } = require("../document");
@@ -66,7 +66,6 @@ const {
   printClassMethod,
   printClassProperty,
 } = require("./print/class");
-const { printTypeParameters } = require("./print/type-parameters");
 const { printPropertyKey, printProperty } = require("./print/property");
 const {
   printFunctionDeclaration,
@@ -920,55 +919,7 @@ function printPathNoParens(path, options, print, args) {
         path.call(print, "value"),
       ];
     }
-    case "QualifiedTypeIdentifier":
-      return [path.call(print, "qualification"), ".", path.call(print, "id")];
-    case "StringLiteralTypeAnnotation":
-      return printString(rawText(n), options);
-    case "NumberLiteralTypeAnnotation":
-      assert.strictEqual(typeof n.value, "number");
-    // fall through
-    case "BigIntLiteralTypeAnnotation":
-      if (n.extra) {
-        return printNumber(n.extra.raw);
-      }
-      return printNumber(n.raw);
-    case "TypeCastExpression": {
-      return [
-        "(",
-        path.call(print, "expression"),
-        printTypeAnnotation(path, options, print),
-        ")",
-      ];
-    }
 
-    case "TypeParameterDeclaration":
-    case "TypeParameterInstantiation": {
-      const printed = printTypeParameters(path, options, print, "params");
-
-      if (options.parser === "flow") {
-        const start = locStart(n);
-        const end = locEnd(n);
-        const commentStartIndex = options.originalText.lastIndexOf("/*", start);
-        const commentEndIndex = options.originalText.indexOf("*/", end);
-        if (commentStartIndex !== -1 && commentEndIndex !== -1) {
-          const comment = options.originalText
-            .slice(commentStartIndex + 2, commentEndIndex)
-            .trim();
-          if (
-            comment.startsWith("::") &&
-            !comment.includes("/*") &&
-            !comment.includes("*/")
-          ) {
-            return ["/*:: ", printed, " */"];
-          }
-        }
-      }
-
-      return printed;
-    }
-
-    case "InferredPredicate":
-      return "%checks";
     // Unhandled types below. If encountered, nodes of these types should
     // be either left alone or desugared into AST types that are fully
     // supported by the pretty-printer.
