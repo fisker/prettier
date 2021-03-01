@@ -3,7 +3,7 @@
 const assert = require("assert");
 const { printString, printNumber } = require("../../common/util");
 const { locStart, locEnd } = require("../loc");
-const { getParentExportDeclaration } = require("../utils");
+const { getParentExportDeclaration, rawText } = require("../utils");
 const { printClass } = require("./class");
 const {
   printOpaqueType,
