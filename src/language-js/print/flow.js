@@ -1,9 +1,17 @@
 "use strict";
 
 const assert = require("assert");
+const { printDanglingComments } = require("../../main/comments");
 const { printString, printNumber } = require("../../common/util");
+const {
+  builders: { hardline, softline, group, indent },
+} = require("../../document");
 const { locStart, locEnd } = require("../loc");
-const { getParentExportDeclaration, rawText } = require("../utils");
+const {
+  getParentExportDeclaration,
+  rawText,
+  shouldPrintComma,
+} = require("../utils");
 const { printClass } = require("./class");
 const {
   printOpaqueType,
@@ -19,10 +27,12 @@ const {
   printExportDeclaration,
   printExportAllDeclaration,
 } = require("./module");
-const { printTypeAnnotation } = require("./misc");
+const { printTypeAnnotation, printOptionalToken } = require("./misc");
+const { printArrayItems } = require("./array");
 
 function printFlow(path, options, print) {
   const n = path.getValue();
+  const parts = [];
   const semi = options.semi ? ";" : "";
   switch (n.type) {
     case "DeclareClass":
@@ -67,6 +77,92 @@ function printFlow(path, options, print) {
         path,
         printExportAllDeclaration(path, options, print)
       );
+    case "ExistsTypeAnnotation":
+      return "*";
+    case "EmptyTypeAnnotation":
+      return "empty";
+    case "MixedTypeAnnotation":
+      return "mixed";
+    case "ArrayTypeAnnotation":
+      return [path.call(print, "elementType"), "[]"];
+    case "BooleanLiteralTypeAnnotation":
+      return String(n.value);
+    case "EnumDeclaration":
+      return ["enum ", path.call(print, "id"), " ", path.call(print, "body")];
+    case "EnumBooleanBody":
+    case "EnumNumberBody":
+    case "EnumStringBody":
+    case "EnumSymbolBody": {
+      if (n.type === "EnumSymbolBody" || n.explicitType) {
+        let type = null;
+        switch (n.type) {
+          case "EnumBooleanBody":
+            type = "boolean";
+            break;
+          case "EnumNumberBody":
+            type = "number";
+            break;
+          case "EnumStringBody":
+            type = "string";
+            break;
+          case "EnumSymbolBody":
+            type = "symbol";
+            break;
+        }
+        parts.push("of ", type, " ");
+      }
+      if (n.members.length === 0 && !n.hasUnknownMembers) {
+        parts.push(
+          group(["{", printDanglingComments(path, options), softline, "}"])
+        );
+      } else {
+        const members =
+          n.members.length > 0
+            ? [
+                hardline,
+                printArrayItems(path, options, "members", print),
+                n.hasUnknownMembers || shouldPrintComma(options) ? "," : "",
+              ]
+            : [];
+
+        parts.push(
+          group([
+            "{",
+            indent([
+              ...members,
+              ...(n.hasUnknownMembers ? [hardline, "..."] : []),
+            ]),
+            printDanglingComments(path, options, /* sameIndent */ true),
+            hardline,
+            "}",
+          ])
+        );
+      }
+      return parts;
+    }
+    case "EnumBooleanMember":
+    case "EnumNumberMember":
+    case "EnumStringMember":
+      return [
+        path.call(print, "id"),
+        " = ",
+        typeof n.init === "object" ? path.call(print, "init") : String(n.init),
+      ];
+    case "EnumDefaultedMember":
+      return path.call(print, "id");
+    case "FunctionTypeParam": {
+      const name = n.name
+        ? path.call(print, "name")
+        : path.getParentNode().this === n
+        ? "this"
+        : "";
+      return [
+        name,
+        printOptionalToken(path),
+        name ? ": " : "",
+        path.call(print, "typeAnnotation"),
+      ];
+    }
     case "OpaqueType":
       return printOpaqueType(path, options, print);
     case "TypeAlias":

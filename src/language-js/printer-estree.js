@@ -30,7 +30,6 @@ const {
   isNextLineEmpty,
   needsHardlineAfterDanglingComment,
   rawText,
-  shouldPrintComma,
   hasIgnoreComment,
   isCallExpression,
   isMemberExpression,
@@ -59,7 +58,7 @@ const {
 } = require("./print/module");
 const { printTernary } = require("./print/ternary");
 const { printTemplateLiteral } = require("./print/template-literal");
-const { printArray, printArrayItems } = require("./print/array");
+const { printArray } = require("./print/array");
 const { printObject } = require("./print/object");
 const {
   printClass,
@@ -780,93 +779,6 @@ function printPathNoParens(path, options, print, args) {
     case "Type":
       /* istanbul ignore next */
       throw new Error("unprintable type: " + JSON.stringify(n.type));
-    case "ExistsTypeAnnotation":
-      return "*";
-    case "EmptyTypeAnnotation":
-      return "empty";
-    case "MixedTypeAnnotation":
-      return "mixed";
-    case "ArrayTypeAnnotation":
-      return [path.call(print, "elementType"), "[]"];
-    case "BooleanLiteralTypeAnnotation":
-      return String(n.value);
-
-    case "EnumDeclaration":
-      return ["enum ", path.call(print, "id"), " ", path.call(print, "body")];
-    case "EnumBooleanBody":
-    case "EnumNumberBody":
-    case "EnumStringBody":
-    case "EnumSymbolBody": {
-      if (n.type === "EnumSymbolBody" || n.explicitType) {
-        let type = null;
-        switch (n.type) {
-          case "EnumBooleanBody":
-            type = "boolean";
-            break;
-          case "EnumNumberBody":
-            type = "number";
-            break;
-          case "EnumStringBody":
-            type = "string";
-            break;
-          case "EnumSymbolBody":
-            type = "symbol";
-            break;
-        }
-        parts.push("of ", type, " ");
-      }
-      if (n.members.length === 0 && !n.hasUnknownMembers) {
-        parts.push(
-          group(["{", printDanglingComments(path, options), softline, "}"])
-        );
-      } else {
-        const members =
-          n.members.length > 0
-            ? [
-                hardline,
-                printArrayItems(path, options, "members", print),
-                n.hasUnknownMembers || shouldPrintComma(options) ? "," : "",
-              ]
-            : [];
-
-        parts.push(
-          group([
-            "{",
-            indent([
-              ...members,
-              ...(n.hasUnknownMembers ? [hardline, "..."] : []),
-            ]),
-            printDanglingComments(path, options, /* sameIndent */ true),
-            hardline,
-            "}",
-          ])
-        );
-      }
-      return parts;
-    }
-    case "EnumBooleanMember":
-    case "EnumNumberMember":
-    case "EnumStringMember":
-      return [
-        path.call(print, "id"),
-        " = ",
-        typeof n.init === "object" ? path.call(print, "init") : String(n.init),
-      ];
-    case "EnumDefaultedMember":
-      return path.call(print, "id");
-    case "FunctionTypeParam": {
-      const name = n.name
-        ? path.call(print, "name")
-        : path.getParentNode().this === n
-        ? "this"
-        : "";
-      return [
-        name,
-        printOptionalToken(path),
-        name ? ": " : "",
-        path.call(print, "typeAnnotation"),
-      ];
-    }
 
     case "InterfaceDeclaration":
     case "InterfaceTypeAnnotation":
