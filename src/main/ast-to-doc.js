@@ -38,8 +38,9 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
   }
 
   const cache = new Map();
+  const path = new AstPath(ast);
 
-  function print(path, args) {
+  function print(_, args) {
     const node = path.getValue();
 
     const shouldCache = node && typeof node === "object" && args === undefined;
@@ -67,7 +68,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
     return doc;
   }
 
-  let doc = print(new AstPath(ast));
+  let doc = print(path);
   if (alignmentSize > 0) {
     // Add a hardline to make the indents take effect
     // It should be removed in index.js format()
