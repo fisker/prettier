@@ -7,7 +7,7 @@ const {
   utils: { propagateBreaks },
 } = require("../document");
 const { printComments } = require("./comments");
-const multiparser = require("./multiparser");
+const { printSubtree } = require("./multiparser");
 
 /**
  * Takes an abstract syntax tree (AST) and recursively converts it to a
@@ -48,7 +48,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
       return cache.get(node);
     }
 
-    let doc = callPluginPrintFunction(path, options, print, args);
+    let doc = callPluginPrintFunction(args);
 
     // We let JSXElement print its comments itself because it adds () around
     // UnionTypeAnnotation has to align the child without the comments
@@ -66,6 +66,38 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
     }
 
     return doc;
+  }
+
+  function callPluginPrintFunction(args) {
+    const node = path.getValue();
+
+    // Escape hatch
+    if (printer.hasPrettierIgnore && printer.hasPrettierIgnore(path)) {
+      return printPrettierIgnoredNode(node, options);
+    }
+
+    if (node) {
+      try {
+        // Potentially switch to a different parser
+        const sub = printSubtree(
+          path,
+          print,
+          options,
+          printAstToDoc
+        );
+        if (sub) {
+          return sub;
+        }
+      } catch (error) {
+        /* istanbul ignore if */
+        if (process.env.PRETTIER_DEBUG) {
+          throw error;
+        }
+        // Continue with current parser
+      }
+    }
+
+    return printer.print(path, options, print, args);
   }
 
   let doc = print(path);
@@ -97,41 +129,6 @@ function printPrettierIgnoredNode(node, options) {
   }
 
   return originalText.slice(start, end);
-}
-
-function callPluginPrintFunction(path, options, printPath, args) {
-  assert.ok(path instanceof AstPath);
-
-  const node = path.getValue();
-  const { printer } = options;
-
-  // Escape hatch
-  if (printer.hasPrettierIgnore && printer.hasPrettierIgnore(path)) {
-    return printPrettierIgnoredNode(node, options);
-  }
-
-  if (node) {
-    try {
-      // Potentially switch to a different parser
-      const sub = multiparser.printSubtree(
-        path,
-        printPath,
-        options,
-        printAstToDoc
-      );
-      if (sub) {
-        return sub;
-      }
-    } catch (error) {
-      /* istanbul ignore if */
-      if (process.env.PRETTIER_DEBUG) {
-        throw error;
-      }
-      // Continue with current parser
-    }
-  }
-
-  return printer.print(path, options, printPath, args);
 }
 
 module.exports = printAstToDoc;
