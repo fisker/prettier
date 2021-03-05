@@ -39,7 +39,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
 
   const cache = new Map();
 
-  function printGenerically(path, args) {
+  function print(path, args) {
     const node = path.getValue();
 
     const shouldCache = node && typeof node === "object" && args === undefined;
@@ -47,7 +47,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
       return cache.get(node);
     }
 
-    let doc = callPluginPrintFunction(path, options, printGenerically, args);
+    let doc = callPluginPrintFunction(path, options, print, args);
 
     // We let JSXElement print its comments itself because it adds () around
     // UnionTypeAnnotation has to align the child without the comments
@@ -67,7 +67,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
     return doc;
   }
 
-  let doc = printGenerically(new AstPath(ast));
+  let doc = print(new AstPath(ast));
   if (alignmentSize > 0) {
     // Add a hardline to make the indents take effect
     // It should be removed in index.js format()
