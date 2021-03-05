@@ -7,7 +7,7 @@ const {
   utils: { propagateBreaks },
 } = require("../document");
 const { printComments } = require("./comments");
-const multiparser = require("./multiparser");
+const { printSubtree } = require("./multiparser");
 
 /**
  * Takes an abstract syntax tree (AST) and recursively converts it to a
@@ -31,15 +31,19 @@ const multiparser = require("./multiparser");
  * the path to the current node through the Abstract Syntax Tree.
  */
 function printAstToDoc(ast, options, alignmentSize = 0) {
-  const { printer } = options;
+  const {
+    preprocess = (ast) => ast,
+    willPrintOwnComments = () => false,
+    hasPrettierIgnore = () => false,
+    print,
+  } = options.printer;
 
-  if (printer.preprocess) {
-    ast = printer.preprocess(ast, options);
-  }
+  ast = preprocess(ast, options);
 
   const cache = new Map();
+  const path = new AstPath(ast);
 
-  function printGenerically(path, args) {
+  function printGenerically(_, args) {
     const node = path.getValue();
 
     const shouldCache = node && typeof node === "object" && args === undefined;
@@ -47,14 +51,22 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
       return cache.get(node);
     }
 
-    let doc = callPluginPrintFunction(path, options, printGenerically, args);
+    let doc;
+    // Escape hatch
+    if (hasPrettierIgnore(path)) {
+      doc = printPrettierIgnoredNode(node, options);
+    } else {
+      if (node) {
+        doc = tryPrintSubtree(path, printGenerically, options);
+      }
+      if (!doc) {
+        doc = print(path, options, printGenerically, args);
+      }
+    }
 
     // We let JSXElement print its comments itself because it adds () around
     // UnionTypeAnnotation has to align the child without the comments
-    if (
-      !printer.willPrintOwnComments ||
-      !printer.willPrintOwnComments(path, options)
-    ) {
+    if (!willPrintOwnComments(path, options)) {
       // printComments will call the plugin print function and check for
       // comments to print
       doc = printComments(path, doc, options, args && args.needsSemi);
@@ -67,7 +79,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
     return doc;
   }
 
-  let doc = printGenerically(new AstPath(ast));
+  let doc = printGenerically();
   if (alignmentSize > 0) {
     // Add a hardline to make the indents take effect
     // It should be removed in index.js format()
@@ -98,39 +110,17 @@ function printPrettierIgnoredNode(node, options) {
   return originalText.slice(start, end);
 }
 
-function callPluginPrintFunction(path, options, printPath, args) {
-  assert.ok(path instanceof AstPath);
-
-  const node = path.getValue();
-  const { printer } = options;
-
-  // Escape hatch
-  if (printer.hasPrettierIgnore && printer.hasPrettierIgnore(path)) {
-    return printPrettierIgnoredNode(node, options);
-  }
-
-  if (node) {
-    try {
-      // Potentially switch to a different parser
-      const sub = multiparser.printSubtree(
-        path,
-        printPath,
-        options,
-        printAstToDoc
-      );
-      if (sub) {
-        return sub;
-      }
-    } catch (error) {
-      /* istanbul ignore if */
-      if (process.env.PRETTIER_DEBUG) {
-        throw error;
-      }
-      // Continue with current parser
+function tryPrintSubtree(path, printGenerically, options) {
+  try {
+    // Potentially switch to a different parser
+    return printSubtree(path, printGenerically, options, printAstToDoc);
+  } catch (error) {
+    /* istanbul ignore if */
+    if (process.env.PRETTIER_DEBUG) {
+      throw error;
     }
+    // Continue with current parser
   }
-
-  return printer.print(path, options, printPath, args);
 }
 
 module.exports = printAstToDoc;
