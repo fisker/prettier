@@ -1,6 +1,5 @@
 "use strict";
 
-const AstPath = require("../common/ast-path");
 const {
   builders: { hardline, addAlignmentToDoc },
   utils: { propagateBreaks },
@@ -37,9 +36,8 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
   }
 
   const cache = new Map();
-  const path = new AstPath(ast);
 
-  let doc = mainPrint();
+  let doc = mainPrint(ast);
 
   if (alignmentSize > 0) {
     // Add a hardline to make the indents take effect
@@ -51,21 +49,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
 
   return doc;
 
-  function mainPrint(selector, args) {
-    if (selector === undefined || selector === path) {
-      return mainPrintInternal(args);
-    }
-
-    if (Array.isArray(selector)) {
-      return path.call(() => mainPrintInternal(args), ...selector);
-    }
-
-    return path.call(() => mainPrintInternal(args), selector);
-  }
-
-  function mainPrintInternal(args) {
-    const value = path.getValue();
-
+  function mainPrint(value, args) {
     const shouldCache =
       value && typeof value === "object" && args === undefined;
 
@@ -73,7 +57,7 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
       return cache.get(value);
     }
 
-    const doc = callPluginPrintFunction(path, options, mainPrint, args);
+    const doc = callPluginPrintFunction(value, options, mainPrint, args);
 
     if (shouldCache) {
       cache.set(value, doc);
@@ -103,20 +87,19 @@ function printPrettierIgnoredNode(node, options) {
   return originalText.slice(start, end);
 }
 
-function callPluginPrintFunction(path, options, printPath, args) {
-  const node = path.getValue();
+function callPluginPrintFunction(node, options, printPath, args) {
   const { printer } = options;
 
   let doc;
 
   // Escape hatch
-  if (printer.hasPrettierIgnore && printer.hasPrettierIgnore(path)) {
+  if (printer.hasPrettierIgnore && printer.hasPrettierIgnore(node)) {
     doc = printPrettierIgnoredNode(node, options);
   } else {
     if (node) {
       try {
         // Potentially switch to a different parser
-        doc = multiparser.printSubtree(path, printPath, options, printAstToDoc);
+        doc = multiparser.printSubtree(node, printPath, options, printAstToDoc);
       } catch (error) {
         /* istanbul ignore if */
         if (process.env.PRETTIER_DEBUG) {
@@ -127,7 +110,7 @@ function callPluginPrintFunction(path, options, printPath, args) {
     }
 
     if (!doc) {
-      doc = printer.print(path, options, printPath, args);
+      doc = printer.print(node, options, printPath, args);
     }
   }
 
@@ -135,11 +118,11 @@ function callPluginPrintFunction(path, options, printPath, args) {
   // UnionTypeAnnotation has to align the child without the comments
   if (
     !printer.willPrintOwnComments ||
-    !printer.willPrintOwnComments(path, options)
+    !printer.willPrintOwnComments(node, options)
   ) {
     // printComments will call the plugin print function and check for
     // comments to print
-    doc = printComments(path, doc, options);
+    doc = printComments(node, doc, options);
   }
 
   return doc;
