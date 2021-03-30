@@ -420,10 +420,9 @@ function breakTies(tiesToBreak, text, options) {
   tiesToBreak.length = 0;
 }
 
-function printComment(commentPath, options) {
-  const comment = commentPath.getValue();
+function printComment(comment, options) {
   comment.printed = true;
-  return options.printer.printComment(commentPath, options);
+  return options.printer.printComment(comment, options);
 }
 
 function findExpressionIndexForComment(quasis, comment, options) {
@@ -441,9 +440,8 @@ function findExpressionIndexForComment(quasis, comment, options) {
   return 0;
 }
 
-function printLeadingComment(commentPath, options) {
-  const comment = commentPath.getValue();
-  const contents = printComment(commentPath, options);
+function printLeadingComment(comment, options) {
+  const contents = printComment(comment, options);
   /* istanbul ignore next */
   if (!contents) {
     return "";
@@ -468,9 +466,8 @@ function printLeadingComment(commentPath, options) {
   return [contents, hardline];
 }
 
-function printTrailingComment(commentPath, options) {
-  const comment = commentPath.getValue();
-  const contents = printComment(commentPath, options);
+function printTrailingComment(comment, options) {
+  const contents = printComment(comment, options);
   /* istanbul ignore next */
   if (!contents) {
     return "";
@@ -510,25 +507,22 @@ function printTrailingComment(commentPath, options) {
   return printed;
 }
 
-function printDanglingComments(path, options, sameIndent, filter) {
+function printDanglingComments(node, options, sameIndent, filter) {
   const parts = [];
-  const node = path.getValue();
-
   if (!node || !node.comments) {
     return "";
   }
 
-  path.each((commentPath) => {
-    const comment = commentPath.getValue();
+  for (const comment of node.comment) {
     if (
       comment &&
       !comment.leading &&
       !comment.trailing &&
       (!filter || filter(comment))
     ) {
-      parts.push(printComment(commentPath, options));
+      parts.push(printComment(comment, options));
     }
-  }, "comments");
+  }
 
   if (parts.length === 0) {
     return "";
@@ -540,8 +534,7 @@ function printDanglingComments(path, options, sameIndent, filter) {
   return indent([hardline, join(hardline, parts)]);
 }
 
-function printCommentsSeparately(path, options) {
-  const value = path.getValue();
+function printCommentsSeparately(value, options) {
   const hasComments = isNonEmptyArray(value && value.comments);
   const isCursorNode = Boolean(value && value === options.cursorNode);
 
@@ -553,12 +546,11 @@ function printCommentsSeparately(path, options) {
   const leadingParts = [];
   const trailingParts = [];
 
-  path.each((commentPath) => {
-    const comment = commentPath.getValue();
+  for (const comment of value.comments) {
     const { leading, trailing } = comment;
 
     if (leading) {
-      const contents = printLeadingComment(commentPath, options);
+      const contents = printLeadingComment(comment, options);
       /* istanbul ignore next */
       if (!contents) {
         return;
@@ -574,9 +566,9 @@ function printCommentsSeparately(path, options) {
         leadingParts.push(hardline);
       }
     } else if (trailing) {
-      trailingParts.push(printTrailingComment(commentPath, options));
+      trailingParts.push(printTrailingComment(comment, options));
     }
-  }, "comments");
+  }
 
   if (isCursorNode) {
     leadingParts.unshift(cursor);
@@ -586,8 +578,8 @@ function printCommentsSeparately(path, options) {
   return { leading: leadingParts, trailing: trailingParts };
 }
 
-function printComments(path, doc, options) {
-  const { leading, trailing } = printCommentsSeparately(path, options);
+function printComments(node, doc, options) {
+  const { leading, trailing } = printCommentsSeparately(node, options);
   if (!leading && !trailing) {
     return doc;
   }

@@ -6,10 +6,10 @@ const {
 const { normalize } = require("./options");
 const comments = require("./comments");
 
-function printSubtree(path, print, options, printAstToDoc) {
+function printSubtree(node, print, options, printAstToDoc) {
   if (options.printer.embed && options.embeddedLanguageFormatting === "auto") {
     return options.printer.embed(
-      path,
+      node,
       print,
       (text, partialNextOptions, textToDocOptions) =>
         textToDoc(
