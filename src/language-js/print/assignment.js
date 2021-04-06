@@ -131,21 +131,18 @@ function chooseLayout(path, options, leftDoc, rightPropertyName) {
     return "break-lhs";
   }
 
-  // wrapping object properties with very short keys usually doesn't add much value
-  const hasShortKey = isObjectPropertyWithShortKey(node, leftDoc, options);
-
-  if (shouldBreakAfterOperator(rightNode, hasShortKey)) {
+  if (shouldBreakAfterOperator(rightNode)) {
     return "break-after-operator";
   }
 
-  if (hasShortKey || shouldNeverBreakAfterOperator(rightNode)) {
+  if (shouldNeverBreakAfterOperator(rightNode)) {
     return "never-break-after-operator";
   }
 
   return "fluid";
 }
 
-function shouldBreakAfterOperator(rightNode, hasShortKey) {
+function shouldBreakAfterOperator(rightNode) {
   if (isBinaryish(rightNode) && !shouldInlineLogicalExpression(rightNode)) {
     return true;
   }
@@ -160,10 +157,6 @@ function shouldBreakAfterOperator(rightNode, hasShortKey) {
     }
     case "ClassExpression":
       return isNonEmptyArray(rightNode.decorators);
-  }
-
-  if (hasShortKey) {
-    return false;
   }
 
   let node = rightNode;
