@@ -146,6 +146,21 @@ const coreBundles = [
     type: "core",
     output: "bin-prettier.js",
     target: "node",
+    externals: [path.resolve("bin/cli.js")],
+    replace: {
+      // `import-local` use `require`
+      "require(path.join(globalDir, 'package.json'))":
+        "eval('require')(path.join(globalDir, 'package.json'))",
+      "require(filePath)": "eval('require')(filePath)",
+      "require(localFile)": "eval('require')(localFile)",
+      "parent.eval('require')(filePath)": "parent.require(filePath)",
+      "require.cache": "eval('require').cache",
+    },
+  },
+  {
+    input: "bin/cli.js",
+    type: "core",
+    target: "node",
     externals: [
       path.resolve("src/index.js"),
       path.resolve("src/common/third-party.js"),
