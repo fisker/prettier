@@ -110,15 +110,7 @@ function getBabelConfig(bundle) {
       "@babel/preset-env",
       {
         targets,
-        exclude: [
-          "es.array.unscopables.flat-map",
-          "es.promise",
-          "es.promise.finally",
-          "es.string.replace",
-          "es.symbol.description",
-          "es.typed-array.*",
-          "web.*",
-        ],
+        exclude: [],
         modules: false,
         useBuiltIns: "usage",
         corejs: {
@@ -128,10 +120,50 @@ function getBabelConfig(bundle) {
       },
     ],
   ];
-  config.plugins.push([
-    "@babel/plugin-proposal-object-rest-spread",
-    { useBuiltIns: true },
+  const excludedPolyfills = new Set([
+    "es.array.unscopables.flat-map",
+    "es.object.set-prototype-of",
+    "es.promise",
+    "es.promise.finally",
+    "es.string.replace",
+    "es.symbol.description",
+    "web.dom-collections.iterator",
+    "web.queue-microtask",
+    "web.url",
+    "web.url.to-json",
   ]);
+  const allowedPolyfills = new Set([
+    "es.array.flat",
+    "es.array.flat-map",
+    "es.object.from-entries",
+  ]);
+  config.plugins.push(
+    ["@babel/plugin-proposal-object-rest-spread", { useBuiltIns: true }],
+    // https://github.com/babel/babel/discussions/13306#discussioncomment-733730
+    [
+      "babel-plugin-polyfill-corejs3",
+      {
+        method: "usage-global",
+        targets,
+        version: 3,
+        proposals: false,
+        shippedProposals: false,
+        shouldInjectPolyfill(polyfillName, shouldInject) {
+          if (!shouldInject || excludedPolyfills.has(polyfillName)) {
+            return false;
+          }
+          if (allowedPolyfills.has(polyfillName)) {
+            return true;
+          }
+          console.log(polyfillName);
+          return false;
+          // throw new Error(
+          //   `New polyfill '${polyfillName}' detected, please add it to the excluded or allowed list!`
+          // );
+        },
+      },
+    ]
+  );
   return config;
 }
 
