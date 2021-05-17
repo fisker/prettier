@@ -47,7 +47,10 @@ const parsers = [
       'require("perf_hooks")': "{}",
       'require("inspector")': "{}",
       // Useless module
-      'ts.sys = (function () {': "ts.sys = {} || (function () {",
+      "ts.generateDjb2Hash = generateDjb2Hash;":
+      'return;',
+'ts.directorySeparator = "/";': 'return;',
+'var ShimCollections;': 'return;'
     },
   },
   {
