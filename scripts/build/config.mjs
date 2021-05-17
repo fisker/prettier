@@ -46,6 +46,8 @@ const parsers = [
       // `rollup-plugin-polyfill-node` don't have polyfill for these modules
       'require("perf_hooks")': "{}",
       'require("inspector")': "{}",
+      // Useless module
+      'ts.sys = (function () {': "ts.sys = {} || (function () {",
     },
   },
   {
