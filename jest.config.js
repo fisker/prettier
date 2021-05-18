@@ -18,41 +18,19 @@ if (INSTALL_PACKAGE || (isProduction && !TEST_STANDALONE)) {
 process.env.PRETTIER_DIR = PRETTIER_DIR;
 
 const testPathIgnorePatterns = [];
-let transform = {};
+const transform = {};
 if (TEST_STANDALONE) {
   testPathIgnorePatterns.push("<rootDir>/tests/integration/");
 }
-if (isProduction) {
-  // `esm` bundles need transform
-  transform = {
-    "(?:\\.mjs|codeSamples\\.js)$": [
-      "babel-jest",
-      {
-        presets: [
-          [
-            "@babel/env",
-            {
-              targets: { node: "current" },
-              exclude: [
-                "transform-async-to-generator",
-                "transform-classes",
-                "proposal-async-generator-functions",
-                "transform-regenerator",
-              ],
-            },
-          ],
-        ],
-      },
-    ],
-  };
-} else {
+testPathIgnorePatterns.push("<rootDir>/tests/format/");
+if (!isProduction) {
   // Only test bundles for production
   testPathIgnorePatterns.push(
     "<rootDir>/tests/integration/__tests__/bundle.js"
   );
 }
 
-module.exports = {
+module.exports = {verbose: true,
   setupFiles: ["<rootDir>/tests/config/setup.js"],
   snapshotSerializers: [
     "jest-snapshot-serializer-raw",
