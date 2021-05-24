@@ -14,7 +14,7 @@ import WebpackPluginTerser from "terser-webpack-plugin";
 import createEsmUtils from "esm-utils";
 import rollupPluginExecutable from "./rollup-plugins/executable.mjs";
 import rollupPluginEvaluate from "./rollup-plugins/evaluate.mjs";
-import rollupPluginExternals from "./rollup-plugins/externals.mjs";
+import rollupPluginReplaceModule from "./rollup-plugins/replace-module.mjs";
 
 const { __dirname, require } = createEsmUtils(import.meta);
 const PROJECT_ROOT = path.join(__dirname, "../..");
@@ -212,13 +212,9 @@ function getRollupConfig(bundle) {
     rollupPluginCommonjs({
       ignoreGlobal: bundle.target === "node",
       ...bundle.commonjs,
-      ignore:
-        bundle.type === "plugin"
-          ? undefined
-          : (id) => /\.\/parser-.*?/.test(id),
       requireReturnsDefault: "preferred",
     }),
-    rollupPluginExternals(bundle.externals),
+    rollupPluginReplaceModule(bundle.replaceModule),
     bundle.target === "universal" && rollupPluginPolyfillNode(),
     rollupPluginBabel(babelConfig),
     bundle.minify !== false &&
