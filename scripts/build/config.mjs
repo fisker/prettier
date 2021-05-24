@@ -9,7 +9,7 @@ import path from "node:path";
  * @property {'core' | 'plugin'} type - it's a plugin bundle or core part of prettier
  * @property {'rollup' | 'webpack'} [bundler='rollup'] - define which bundler to use
  * @property {CommonJSConfig} [commonjs={}] - options for `rollup-plugin-commonjs`
- * @property {string[]} externals - array of paths that should not be included in the final bundle
+ * @property {Object.<string, string | {code: string}>} replacementModule - replace module with path or code
  * @property {Object.<string, string>} replace - map of strings to replace when processing the bundle
  * @property {string[]} babelPlugins - babel plugins
  * @property {Object?} terserOptions - options for `terser`
@@ -114,7 +114,9 @@ const coreBundles = [
     input: "index.js",
     type: "core",
     target: "node",
-    externals: [path.resolve("src/common/third-party.js")],
+    replaceModule: {
+      [path.resolve("src/common/third-party.js")]: "./third-party.js",
+    },
     replace: {
       // from @iarna/toml/parse-string
       "eval(\"require('util').inspect\")": "require('util').inspect",
@@ -135,8 +137,12 @@ const coreBundles = [
     type: "core",
     target: "universal",
     // TODO: Find a better way to remove parsers
-    replace: Object.fromEntries(
-      parsers.map(({ name }) => [`require("./parser-${name}")`, "({})"])
+    replaceModule: Object.fromEntries(
+      parsers.map(({ input }) => [
+        path.resolve(input),
+        // TODO: Make it use `globalThis.prettierPlugin.babel`, and work for esm build too
+        { code: "export default {};" },
+      ])
     ),
   },
   {
@@ -144,10 +150,10 @@ const coreBundles = [
     type: "core",
     output: "bin-prettier.js",
     target: "node",
-    externals: [
-      path.resolve("src/index.js"),
-      path.resolve("src/common/third-party.js"),
-    ],
+    replaceModule: {
+      [path.resolve("src/index.js")]: "./index.js",
+      [path.resolve("src/common/third-party.js")]: "./third-party.js",
+    },
   },
   {
     input: "src/common/third-party.js",
@@ -163,7 +169,18 @@ const coreBundles = [
       "parentModule(__filename)": "__filename",
     },
   },
-];
+].map((bundle) => ({
+  ...bundle,
+  replaceModule: {
+    ...Object.fromEntries(
+      parsers.map(({ input, name }) => [
+        path.resolve(input),
+        `./parser-${name}.js`,
+      ])
+    ),
+    ...bundle.replaceModule,
+  },
+}));
 
 function getFileOutput(bundle) {
   return bundle.output || path.basename(bundle.input);
