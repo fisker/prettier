@@ -60,8 +60,6 @@ const parsers = [
   },
   {
     input: "src/language-css/parser-postcss.js",
-    // postcss has dependency cycles that don't work with rollup
-    bundler: "webpack",
     terserOptions: {
       // prevent terser generate extra .LICENSE file
       extractComments: false,
@@ -128,6 +126,7 @@ const coreBundles = [
     target: "universal",
     format: "umd",
     minify: false,
+    bundler: "rollup",
   },
   {
     input: "src/standalone.js",
@@ -138,6 +137,7 @@ const coreBundles = [
     input: "bin/prettier.js",
     output: "bin-prettier.js",
     external: ["benchmark"],
+    bundler: "rollup",
   },
   {
     input: "src/common/third-party.js",
@@ -149,6 +149,7 @@ const coreBundles = [
 ].map((bundle) => ({
   type: "core",
   target: "node",
+  bundler: "esbuild",
   output: path.basename(bundle.input),
   ...bundle,
 }));

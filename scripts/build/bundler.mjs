@@ -2,6 +2,7 @@ import path from "node:path";
 import fs from "node:fs";
 import { rollup } from "rollup";
 import webpack from "webpack";
+import esbuild from "esbuild";
 import { nodeResolve as rollupPluginNodeResolve } from "@rollup/plugin-node-resolve";
 import rollupPluginAlias from "@rollup/plugin-alias";
 import rollupPluginCommonjs from "@rollup/plugin-commonjs";
@@ -11,6 +12,9 @@ import rollupPluginReplace from "@rollup/plugin-replace";
 import { terser as rollupPluginTerser } from "rollup-plugin-terser";
 import { babel as rollupPluginBabel } from "@rollup/plugin-babel";
 import WebpackPluginTerser from "terser-webpack-plugin";
+import esbuildPluginBabel from "esbuild-plugin-babel";
+import esbuildPluginEvaluate from "./esbuild-plugins/evaluate.mjs";
+import esbuildPluginReplaceModule from "./esbuild-plugins/replace-module.mjs";
 import createEsmUtils from "esm-utils";
 import builtinModules from "builtin-modules";
 import rollupPluginExecutable from "./rollup-plugins/executable.mjs";
@@ -345,6 +349,35 @@ function runWebpack(config) {
   });
 }
 
+async function runEsbuild(bundle) {
+  const replaceModule = {};
+  // Replace other bundled files
+  if (bundle.target === "node") {
+    for (const item of bundles) {
+      if (item.input !== bundle.input) {
+        replaceModule[path.join(PROJECT_ROOT, item.input)] = `./${item.output}`;
+      }
+    }
+    replaceModule[path.join(PROJECT_ROOT, "./package.json")] = "./package.json";
+  }
+  Object.assign(replaceModule, bundle.replaceModule);
+
+  const result = await esbuild.build({
+    entryPoints: [bundle.input],
+    bundle: true,
+    outfile: `dist/${bundle.output}`,
+    platform: "node",
+    // target: ["node10"],
+    // loader: { ".json": "json" },
+    // external,
+    plugins: [
+      esbuildPluginEvaluate(),
+      esbuildPluginReplaceModule(replaceModule),
+    ],
+  });
+  console.log(result);
+}
+
 async function createBundle(bundle, cache, options) {
   const inputOptions = getRollupConfig(bundle);
   const outputOptions = getRollupOutputOptions(bundle, options);
@@ -368,9 +401,11 @@ async function createBundle(bundle, cache, options) {
 
   if (bundle.bundler === "webpack") {
     await runWebpack(getWebpackConfig(bundle));
-  } else {
+  } else if (bundle.bundler === "rollup") {
     const result = await rollup(inputOptions);
     await Promise.all(outputOptions.map((option) => result.write(option)));
+  } else {
+    await runEsbuild(bundle);
   }
 
   return { bundled: true };
