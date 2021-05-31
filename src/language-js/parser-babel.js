@@ -166,14 +166,6 @@ const allowedMessageCodes = new Set([
   "MixedLabeledAndUnlabeledElements",
   "InvalidTupleMemberLabel",
 
-  "NonClassMethodPropertyHasAbstractModifer",
-  "ReadonlyForMethodSignature",
-  "ClassMethodHasDeclare",
-  "ClassMethodHasReadonly",
-  "InvalidModifierOnTypeMember",
-  "DuplicateAccessibilityModifier",
-  "IndexSignatureHasDeclare",
-
   "DecoratorExportClass",
   "ParamDupe",
   "InvalidDecimal",

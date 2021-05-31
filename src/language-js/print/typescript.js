@@ -225,7 +225,6 @@ function printTypescript(path, options, print) {
         node.accessibility ? [node.accessibility, " "] : "",
         node.static ? "static " : "",
         node.readonly ? "readonly " : "",
-        node.declare ? "declare " : "",
         "[",
         node.parameters ? parametersGroup : "",
         node.typeAnnotation ? "]: " : "]",
@@ -328,11 +327,6 @@ function printTypescript(path, options, print) {
         kind,
         node.export ? "export " : "",
         node.static ? "static " : "",
-        node.readonly ? "readonly " : "",
-        // "abstract" and "declare" are supported by only "babel-ts"
-        // https://github.com/prettier/prettier/issues/9760
-        node.abstract ? "abstract " : "",
-        node.declare ? "declare " : "",
         node.computed ? "[" : "",
         print("key"),
         node.computed ? "]" : "",
