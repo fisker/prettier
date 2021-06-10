@@ -23,16 +23,6 @@ import path from "node:path";
 /** @type {Bundle[]} */
 const parsers = [
   {
-    input: "src/language-js/parser-babel.js",
-  },
-  {
-    input: "src/language-js/parser-flow.js",
-    replace: {
-      // `flow-parser` use this for `globalThis`, can't work in strictMode
-      "(function(){return this}())": '(new Function("return this")())',
-    },
-  },
-  {
     input: "src/language-js/parser-typescript.js",
     replace: {
       // `typescript/lib/typescript.js` expose extra global objects
@@ -48,6 +38,16 @@ const parsers = [
       'require("perf_hooks")': "{}",
       'require("inspector")': "{}",
     },
+  },
+  {
+    input: "src/language-js/parser-flow.js",
+    replace: {
+      // `flow-parser` use this for `globalThis`, can't work in strictMode
+      "(function(){return this}())": '(new Function("return this")())',
+    },
+  },
+  {
+    input: "src/language-js/parser-babel.js",
   },
   {
     input: "src/language-js/parser-espree.js",
@@ -153,4 +153,4 @@ const coreBundles = [
   ...bundle,
 }));
 
-export default [...coreBundles, ...parsers];
+export default [...parsers, ...coreBundles];
