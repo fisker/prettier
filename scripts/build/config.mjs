@@ -22,16 +22,16 @@ import path from "node:path";
 
 /** @type {Bundle[]} */
 const parsers = [
-  {
-    input: "src/language-js/parser-babel.js",
-  },
-  {
-    input: "src/language-js/parser-flow.js",
-    replace: {
-      // `flow-parser` use this for `globalThis`, can't work in strictMode
-      "(function(){return this}())": '(new Function("return this")())',
-    },
-  },
+  // {
+  //   input: "src/language-js/parser-babel.js",
+  // },
+  // {
+  //   input: "src/language-js/parser-flow.js",
+  //   replace: {
+  //     // `flow-parser` use this for `globalThis`, can't work in strictMode
+  //     "(function(){return this}())": '(new Function("return this")())',
+  //   },
+  // },
   {
     input: "src/language-js/parser-typescript.js",
     replace: {
@@ -49,59 +49,59 @@ const parsers = [
       'require("inspector")': "{}",
     },
   },
-  {
-    input: "src/language-js/parser-espree.js",
-  },
-  {
-    input: "src/language-js/parser-meriyah.js",
-  },
-  {
-    input: "src/language-js/parser-angular.js",
-  },
-  {
-    input: "src/language-css/parser-postcss.js",
-    // postcss has dependency cycles that don't work with rollup
-    bundler: "webpack",
-    terserOptions: {
-      // prevent terser generate extra .LICENSE file
-      extractComments: false,
-      terserOptions: {
-        // prevent U+FFFE in the output
-        output: {
-          ascii_only: true,
-        },
-        mangle: {
-          // postcss need keep_fnames when minify
-          keep_fnames: true,
-          // we don't transform class anymore, so we need keep_classnames too
-          keep_classnames: true,
-        },
-      },
-    },
-  },
-  {
-    input: "dist/parser-postcss.js",
-    output: "esm/parser-postcss.mjs",
-    format: "esm",
-  },
-  {
-    input: "src/language-graphql/parser-graphql.js",
-  },
-  {
-    input: "src/language-markdown/parser-markdown.js",
-  },
-  {
-    input: "src/language-handlebars/parser-glimmer.js",
-    commonjs: {
-      ignore: ["source-map"],
-    },
-  },
-  {
-    input: "src/language-html/parser-html.js",
-  },
-  {
-    input: "src/language-yaml/parser-yaml.js",
-  },
+  // {
+  //   input: "src/language-js/parser-espree.js",
+  // },
+  // {
+  //   input: "src/language-js/parser-meriyah.js",
+  // },
+  // {
+  //   input: "src/language-js/parser-angular.js",
+  // },
+  // {
+  //   input: "src/language-css/parser-postcss.js",
+  //   // postcss has dependency cycles that don't work with rollup
+  //   bundler: "webpack",
+  //   terserOptions: {
+  //     // prevent terser generate extra .LICENSE file
+  //     extractComments: false,
+  //     terserOptions: {
+  //       // prevent U+FFFE in the output
+  //       output: {
+  //         ascii_only: true,
+  //       },
+  //       mangle: {
+  //         // postcss need keep_fnames when minify
+  //         keep_fnames: true,
+  //         // we don't transform class anymore, so we need keep_classnames too
+  //         keep_classnames: true,
+  //       },
+  //     },
+  //   },
+  // },
+  // {
+  //   input: "dist/parser-postcss.js",
+  //   output: "esm/parser-postcss.mjs",
+  //   format: "esm",
+  // },
+  // {
+  //   input: "src/language-graphql/parser-graphql.js",
+  // },
+  // {
+  //   input: "src/language-markdown/parser-markdown.js",
+  // },
+  // {
+  //   input: "src/language-handlebars/parser-glimmer.js",
+  //   commonjs: {
+  //     ignore: ["source-map"],
+  //   },
+  // },
+  // {
+  //   input: "src/language-html/parser-html.js",
+  // },
+  // {
+  //   input: "src/language-yaml/parser-yaml.js",
+  // },
 ].map((bundle) => ({
   type: "plugin",
   target: "universal",
@@ -114,38 +114,38 @@ const parsers = [
 
 /** @type {Bundle[]} */
 const coreBundles = [
-  {
-    input: "src/index.js",
-    replace: {
-      // from @iarna/toml/parse-string
-      "eval(\"require('util').inspect\")": "require('util').inspect",
-    },
-  },
-  {
-    input: "src/document/index.js",
-    name: "doc",
-    output: "doc.js",
-    target: "universal",
-    format: "umd",
-    minify: false,
-  },
-  {
-    input: "src/standalone.js",
-    name: "prettier",
-    target: "universal",
-  },
-  {
-    input: "bin/prettier.js",
-    output: "bin-prettier.js",
-    external: ["benchmark"],
-  },
-  {
-    input: "src/common/third-party.js",
-    replace: {
-      // cosmiconfig@6 -> import-fresh can't find parentModule, since module is bundled
-      "parentModule(__filename)": "__filename",
-    },
-  },
+  // {
+  //   input: "src/index.js",
+  //   replace: {
+  //     // from @iarna/toml/parse-string
+  //     "eval(\"require('util').inspect\")": "require('util').inspect",
+  //   },
+  // },
+  // {
+  //   input: "src/document/index.js",
+  //   name: "doc",
+  //   output: "doc.js",
+  //   target: "universal",
+  //   format: "umd",
+  //   minify: false,
+  // },
+  // {
+  //   input: "src/standalone.js",
+  //   name: "prettier",
+  //   target: "universal",
+  // },
+  // {
+  //   input: "bin/prettier.js",
+  //   output: "bin-prettier.js",
+  //   external: ["benchmark"],
+  // },
+  // {
+  //   input: "src/common/third-party.js",
+  //   replace: {
+  //     // cosmiconfig@6 -> import-fresh can't find parentModule, since module is bundled
+  //     "parentModule(__filename)": "__filename",
+  //   },
+  // },
 ].map((bundle) => ({
   type: "core",
   target: "node",
