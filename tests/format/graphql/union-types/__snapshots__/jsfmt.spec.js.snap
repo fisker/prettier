@@ -12,13 +12,14 @@ union tooLongNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
 union mySecondUnion = ATypeName | ASecondTypeName | AThirdTypeName
 
-union myThirdUnion = AVeryVeryVeryLongNamedTypeName | ASecondVeryVeryVeryLongedNameTypeName 
+union myThirdUnion = AVeryVeryVeryLongNamedTypeName | ASecondVeryVeryVeryLongedNameTypeName
 
 union longUnion = A | B | C | D | E | F | G | H | I | J | K | L |  A | B | C | D | E | F | G | H | I | J | K | L
 
 # comment
 # comment2
 union union = B | C | D
+
 =====================================output=====================================
 union myUnion = ATypeName | ASecondTypeName
 
