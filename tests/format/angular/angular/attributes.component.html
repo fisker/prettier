@@ -13,12 +13,6 @@
     [target]=" [ 1 ] "
     [target]=" { 'a' : 1 } "
     [target]=" { a : 1 } "
-    [target]=" { 
-      trailingComma : 'notAllowed'
-    }"
-    [target]=" [ 
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-    ]"
     [target]=" true "
     [target]=" undefined "
     [target]=" null "
@@ -88,16 +82,6 @@
     [stickout]="+toolAssembly.stickoutMm"
     test='{{ "test" | translate }}'
     test='foo {{       invalid invalid       }} bar {{       valid       }} baz'
-    test='foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{       valid       }} 
-    
-    baz'
     i18n="Normal i18n text"
     i18n="This is a very long internationalization description text, exceeding the configured print width, but could easily be formatted"
     i18n-test="Attribute i18n text"

@@ -334,12 +334,6 @@ printWidth: 80
     [target]=" [ 1 ] "
     [target]=" { 'a' : 1 } "
     [target]=" { a : 1 } "
-    [target]=" { 
-      trailingComma : 'notAllowed'
-    }"
-    [target]=" [ 
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-    ]"
     [target]=" true "
     [target]=" undefined "
     [target]=" null "
@@ -409,16 +403,6 @@ printWidth: 80
     [stickout]="+toolAssembly.stickoutMm"
     test='{{ "test" | translate }}'
     test='foo {{       invalid invalid       }} bar {{       valid       }} baz'
-    test='foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{       valid       }} 
-    
-    baz'
     i18n="Normal i18n text"
     i18n="This is a very long internationalization description text, exceeding the configured print width, but could easily be formatted"
     i18n-test="Attribute i18n text"
@@ -446,12 +430,6 @@ printWidth: 80
   [target]="[1]"
   [target]="{a: 1}"
   [target]="{a: 1}"
-  [target]="{
-    trailingComma: 'notAllowed'
-  }"
-  [target]="[
-    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-  ]"
   [target]="true"
   [target]="undefined"
   [target]="null"
@@ -544,16 +522,6 @@ printWidth: 80
   [stickout]="+toolAssembly.stickoutMm"
   test="{{ 'test' | translate }}"
   test="foo {{       invalid invalid       }} bar {{ valid }} baz"
-  test="foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{ valid }} 
-    
-    baz"
   i18n="Normal i18n text"
   i18n="
     This is a very long internationalization description text, exceeding the
@@ -605,12 +573,6 @@ printWidth: 80
     [target]=" [ 1 ] "
     [target]=" { 'a' : 1 } "
     [target]=" { a : 1 } "
-    [target]=" { 
-      trailingComma : 'notAllowed'
-    }"
-    [target]=" [ 
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-    ]"
     [target]=" true "
     [target]=" undefined "
     [target]=" null "
@@ -680,16 +642,6 @@ printWidth: 80
     [stickout]="+toolAssembly.stickoutMm"
     test='{{ "test" | translate }}'
     test='foo {{       invalid invalid       }} bar {{       valid       }} baz'
-    test='foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{       valid       }} 
-    
-    baz'
     i18n="Normal i18n text"
     i18n="This is a very long internationalization description text, exceeding the configured print width, but could easily be formatted"
     i18n-test="Attribute i18n text"
@@ -717,12 +669,6 @@ printWidth: 80
   [target]="[1]"
   [target]="{ a: 1 }"
   [target]="{ a: 1 }"
-  [target]="{
-    trailingComma: 'notAllowed'
-  }"
-  [target]="[
-    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-  ]"
   [target]="true"
   [target]="undefined"
   [target]="null"
@@ -815,16 +761,6 @@ printWidth: 80
   [stickout]="+toolAssembly.stickoutMm"
   test="{{ 'test' | translate }}"
   test="foo {{       invalid invalid       }} bar {{ valid }} baz"
-  test="foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{ valid }} 
-    
-    baz"
   i18n="Normal i18n text"
   i18n="
     This is a very long internationalization description text, exceeding the
@@ -875,12 +811,6 @@ printWidth: 1
     [target]=" [ 1 ] "
     [target]=" { 'a' : 1 } "
     [target]=" { a : 1 } "
-    [target]=" { 
-      trailingComma : 'notAllowed'
-    }"
-    [target]=" [ 
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-    ]"
     [target]=" true "
     [target]=" undefined "
     [target]=" null "
@@ -950,16 +880,6 @@ printWidth: 1
     [stickout]="+toolAssembly.stickoutMm"
     test='{{ "test" | translate }}'
     test='foo {{       invalid invalid       }} bar {{       valid       }} baz'
-    test='foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{       valid       }} 
-    
-    baz'
     i18n="Normal i18n text"
     i18n="This is a very long internationalization description text, exceeding the configured print width, but could easily be formatted"
     i18n-test="Attribute i18n text"
@@ -1033,13 +953,6 @@ printWidth: 1
   [target]="{
     a: 1
   }"
-  [target]="{
-    trailingComma:
-      'notAllowed'
-  }"
-  [target]="[
-    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-  ]"
   [target]="
     true
   "
@@ -1324,18 +1237,6 @@ printWidth: 1
   test="foo {{       invalid invalid       }} bar {{
     valid
   }} baz"
-  test="foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{
-    valid
-  }} 
-    
-    baz"
   i18n="
     Normal
     i18n
@@ -1476,12 +1377,6 @@ trailingComma: "none"
     [target]=" [ 1 ] "
     [target]=" { 'a' : 1 } "
     [target]=" { a : 1 } "
-    [target]=" { 
-      trailingComma : 'notAllowed'
-    }"
-    [target]=" [ 
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-    ]"
     [target]=" true "
     [target]=" undefined "
     [target]=" null "
@@ -1551,16 +1446,6 @@ trailingComma: "none"
     [stickout]="+toolAssembly.stickoutMm"
     test='{{ "test" | translate }}'
     test='foo {{       invalid invalid       }} bar {{       valid       }} baz'
-    test='foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{       valid       }} 
-    
-    baz'
     i18n="Normal i18n text"
     i18n="This is a very long internationalization description text, exceeding the configured print width, but could easily be formatted"
     i18n-test="Attribute i18n text"
@@ -1588,12 +1473,6 @@ trailingComma: "none"
   [target]="[1]"
   [target]="{ a: 1 }"
   [target]="{ a: 1 }"
-  [target]="{
-    trailingComma: 'notAllowed'
-  }"
-  [target]="[
-    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-  ]"
   [target]="true"
   [target]="undefined"
   [target]="null"
@@ -1686,16 +1565,6 @@ trailingComma: "none"
   [stickout]="+toolAssembly.stickoutMm"
   test="{{ 'test' | translate }}"
   test="foo {{       invalid invalid       }} bar {{ valid }} baz"
-  test="foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{ valid }} 
-    
-    baz"
   i18n="Normal i18n text"
   i18n="
     This is a very long internationalization description text, exceeding the
@@ -1746,12 +1615,6 @@ printWidth: 80
     [target]=" [ 1 ] "
     [target]=" { 'a' : 1 } "
     [target]=" { a : 1 } "
-    [target]=" { 
-      trailingComma : 'notAllowed'
-    }"
-    [target]=" [ 
-      longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-    ]"
     [target]=" true "
     [target]=" undefined "
     [target]=" null "
@@ -1821,16 +1684,6 @@ printWidth: 80
     [stickout]="+toolAssembly.stickoutMm"
     test='{{ "test" | translate }}'
     test='foo {{       invalid invalid       }} bar {{       valid       }} baz'
-    test='foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{       valid       }} 
-    
-    baz'
     i18n="Normal i18n text"
     i18n="This is a very long internationalization description text, exceeding the configured print width, but could easily be formatted"
     i18n-test="Attribute i18n text"
@@ -1858,12 +1711,6 @@ printWidth: 80
   [target]="[1]"
   [target]="{ a: 1 }"
   [target]="{ a: 1 }"
-  [target]="{
-    trailingComma: 'notAllowed'
-  }"
-  [target]="[
-    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
-  ]"
   [target]="true"
   [target]="undefined"
   [target]="null"
@@ -1956,16 +1803,6 @@ printWidth: 80
   [stickout]="+toolAssembly.stickoutMm"
   test="{{ 'test' | translate }}"
   test="foo {{       invalid invalid       }} bar {{ valid }} baz"
-  test="foo
-    
-    {{       invalid
-             invalid       }} 
-    
-    bar 
-    
-          {{ valid }} 
-    
-    baz"
   i18n="Normal i18n text"
   i18n="
     This is a very long internationalization description text, exceeding the
@@ -2005,85 +1842,37 @@ printWidth: 80
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>
 {{ generatedDiscountCodes }}</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>
 {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}123</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
     {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
     {{ generatedDiscountCodes }}123</textarea>
 
 =====================================output=====================================
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>{{ generatedDiscountCodes }}</textarea>
-<textarea>    {{ generatedDiscountCodes }}</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>{{ generatedDiscountCodes }}123</textarea>
-<textarea>    {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}123</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}123</textarea
->
 
 ================================================================================
 `;
@@ -2098,85 +1887,37 @@ printWidth: 80
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>
 {{ generatedDiscountCodes }}</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>
 {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}123</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
     {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
     {{ generatedDiscountCodes }}123</textarea>
 
 =====================================output=====================================
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>{{ generatedDiscountCodes }}</textarea>
-<textarea>    {{ generatedDiscountCodes }}</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>{{ generatedDiscountCodes }}123</textarea>
-<textarea>    {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}123</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}123</textarea
->
 
 ================================================================================
 `;
@@ -2190,38 +1931,21 @@ printWidth: 1
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>
 {{ generatedDiscountCodes }}</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>
 {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}123</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
     {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
     {{ generatedDiscountCodes }}123</textarea>
 
 =====================================output=====================================
@@ -2235,23 +1959,7 @@ printWidth: 1
     generatedDiscountCodes
   }}</textarea
 >
-<textarea>
-    {{
-    generatedDiscountCodes
-  }}</textarea
->
-<textarea>
-  
-{{
-    generatedDiscountCodes
-  }}</textarea
->
-<textarea>
-  
-    {{
-    generatedDiscountCodes
-  }}</textarea
->
+
 <textarea
   >{{
     generatedDiscountCodes
@@ -2262,23 +1970,7 @@ printWidth: 1
     generatedDiscountCodes
   }}123</textarea
 >
-<textarea>
-    {{
-    generatedDiscountCodes
-  }}123</textarea
->
-<textarea>
-  
-{{
-    generatedDiscountCodes
-  }}123</textarea
->
-<textarea>
-  
-    {{
-    generatedDiscountCodes
-  }}123</textarea
->
+
 <textarea
   type="text"
   >{{
@@ -2298,22 +1990,7 @@ printWidth: 1
     generatedDiscountCodes
   }}</textarea
 >
-<textarea
-  type="text"
->
-  
-{{
-    generatedDiscountCodes
-  }}</textarea
->
-<textarea
-  type="text"
->
-  
-    {{
-    generatedDiscountCodes
-  }}</textarea
->
+
 <textarea
   type="text"
   >{{
@@ -2329,22 +2006,6 @@ printWidth: 1
 <textarea
   type="text"
 >
-    {{
-    generatedDiscountCodes
-  }}123</textarea
->
-<textarea
-  type="text"
->
-  
-{{
-    generatedDiscountCodes
-  }}123</textarea
->
-<textarea
-  type="text"
->
-  
     {{
     generatedDiscountCodes
   }}123</textarea
@@ -2363,85 +2024,37 @@ trailingComma: "none"
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>
 {{ generatedDiscountCodes }}</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>
 {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}123</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
     {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
     {{ generatedDiscountCodes }}123</textarea>
 
 =====================================output=====================================
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>{{ generatedDiscountCodes }}</textarea>
-<textarea>    {{ generatedDiscountCodes }}</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>{{ generatedDiscountCodes }}123</textarea>
-<textarea>    {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}123</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}123</textarea
->
 
 ================================================================================
 `;
@@ -2455,85 +2068,37 @@ printWidth: 80
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>
 {{ generatedDiscountCodes }}</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>
 {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea>  
-    {{ generatedDiscountCodes }}123</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}</textarea>
 <textarea type="text">
     {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}</textarea>
-<textarea type="text">  
-    {{ generatedDiscountCodes }}</textarea>
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
 {{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">
-    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
-{{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">  
     {{ generatedDiscountCodes }}123</textarea>
 
 =====================================output=====================================
 <textarea>{{ generatedDiscountCodes }}</textarea>
 <textarea>{{ generatedDiscountCodes }}</textarea>
-<textarea>    {{ generatedDiscountCodes }}</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea>{{ generatedDiscountCodes }}123</textarea>
 <textarea>{{ generatedDiscountCodes }}123</textarea>
-<textarea>    {{ generatedDiscountCodes }}123</textarea>
-<textarea>
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea>
-  
-    {{ generatedDiscountCodes }}123</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}</textarea
->
+
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">{{ generatedDiscountCodes }}123</textarea>
 <textarea type="text">    {{ generatedDiscountCodes }}123</textarea>
-<textarea type="text">
-  
-{{ generatedDiscountCodes }}123</textarea
->
-<textarea type="text">
-  
-    {{ generatedDiscountCodes }}123</textarea
->
 
 ================================================================================
 `;
@@ -4607,7 +4172,7 @@ The null hero's name is {{nullHero && nullHero.name}}
 <a class="to-toc" href="#toc">top</a>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -4628,7 +4193,7 @@ can be found in the LICENSE file at http://angular.io/license
 </div>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -5400,7 +4965,7 @@ See console log:
 
 <a class="to-toc" href="#toc">top</a>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -5426,7 +4991,7 @@ can be found in the LICENSE file at http://angular.io/license
   </div>
 </div>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -6134,7 +5699,7 @@ The null hero's name is {{nullHero && nullHero.name}}
 <a class="to-toc" href="#toc">top</a>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -6155,7 +5720,7 @@ can be found in the LICENSE file at http://angular.io/license
 </div>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -7065,7 +6630,7 @@ See console log:
 
 <a class="to-toc" href="#toc">top</a>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -7091,7 +6656,7 @@ can be found in the LICENSE file at http://angular.io/license
   </div>
 </div>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -7798,7 +7363,7 @@ The null hero's name is {{nullHero && nullHero.name}}
 <a class="to-toc" href="#toc">top</a>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -7819,7 +7384,7 @@ can be found in the LICENSE file at http://angular.io/license
 </div>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -10565,7 +10130,7 @@ See console log:
   >top</a
 >
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -10626,7 +10191,7 @@ can be found in the LICENSE file at http://angular.io/license
   </div>
 </div>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -11334,7 +10899,7 @@ The null hero's name is {{nullHero && nullHero.name}}
 <a class="to-toc" href="#toc">top</a>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -11355,7 +10920,7 @@ can be found in the LICENSE file at http://angular.io/license
 </div>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -12127,7 +11692,7 @@ See console log:
 
 <a class="to-toc" href="#toc">top</a>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -12153,7 +11718,7 @@ can be found in the LICENSE file at http://angular.io/license
   </div>
 </div>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -12860,7 +12425,7 @@ The null hero's name is {{nullHero && nullHero.name}}
 <a class="to-toc" href="#toc">top</a>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -12881,7 +12446,7 @@ can be found in the LICENSE file at http://angular.io/license
 </div>
 
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -13653,7 +13218,7 @@ See console log:
 
 <a class="to-toc" href="#toc">top</a>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
@@ -13679,11 +13244,612 @@ can be found in the LICENSE file at http://angular.io/license
   </div>
 </div>
 
-<!-- 
+<!--
 Copyright 2017-2018 Google Inc. All Rights Reserved.
 Use of this source code is governed by an MIT-style license that
 can be found in the LICENSE file at http://angular.io/license
 -->
+
+================================================================================
+`;
+
+exports[`snippet: attributes.component.html - {"bracketSpacing":false} format 1`] = `
+====================================options=====================================
+bracketSpacing: false
+parsers: ["angular"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<div
+  [target]=" { 
+    trailingComma : 'notAllowed'
+  }"
+  [target]=" [ 
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test='foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{       valid       }}
+  
+  baz'
+></div>
+=====================================output=====================================
+<div
+  [target]="{
+    trailingComma: 'notAllowed'
+  }"
+  [target]="[
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test="foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{ valid }}
+  
+  baz"
+></div>
+
+================================================================================
+`;
+
+exports[`snippet: attributes.component.html - {"htmlWhitespaceSensitivity":"ignore"} format 1`] = `
+====================================options=====================================
+htmlWhitespaceSensitivity: "ignore"
+parsers: ["angular"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<div
+  [target]=" { 
+    trailingComma : 'notAllowed'
+  }"
+  [target]=" [ 
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test='foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{       valid       }}
+  
+  baz'
+></div>
+=====================================output=====================================
+<div
+  [target]="{
+    trailingComma: 'notAllowed'
+  }"
+  [target]="[
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test="foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{ valid }}
+  
+  baz"
+></div>
+
+================================================================================
+`;
+
+exports[`snippet: attributes.component.html - {"printWidth":1} format 1`] = `
+====================================options=====================================
+parsers: ["angular"]
+printWidth: 1
+ | printWidth
+=====================================input======================================
+<div
+  [target]=" { 
+    trailingComma : 'notAllowed'
+  }"
+  [target]=" [ 
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test='foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{       valid       }}
+  
+  baz'
+></div>
+=====================================output=====================================
+<div
+  [target]="{
+    trailingComma:
+      'notAllowed'
+  }"
+  [target]="[
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test="foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{
+    valid
+  }}
+  
+  baz"
+></div>
+
+================================================================================
+`;
+
+exports[`snippet: attributes.component.html - {"trailingComma":"none"} format 1`] = `
+====================================options=====================================
+parsers: ["angular"]
+printWidth: 80
+trailingComma: "none"
+                                                                                | printWidth
+=====================================input======================================
+<div
+  [target]=" { 
+    trailingComma : 'notAllowed'
+  }"
+  [target]=" [ 
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test='foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{       valid       }}
+  
+  baz'
+></div>
+=====================================output=====================================
+<div
+  [target]="{
+    trailingComma: 'notAllowed'
+  }"
+  [target]="[
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test="foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{ valid }}
+  
+  baz"
+></div>
+
+================================================================================
+`;
+
+exports[`snippet: attributes.component.html format 1`] = `
+====================================options=====================================
+parsers: ["angular"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<div
+  [target]=" { 
+    trailingComma : 'notAllowed'
+  }"
+  [target]=" [ 
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test='foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{       valid       }}
+  
+  baz'
+></div>
+=====================================output=====================================
+<div
+  [target]="{
+    trailingComma: 'notAllowed'
+  }"
+  [target]="[
+    longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong
+  ]"
+  test="foo
+  
+  {{       invalid
+          invalid       }}
+  
+  bar
+  
+        {{ valid }}
+  
+  baz"
+></div>
+
+================================================================================
+`;
+
+exports[`snippet: first-lf.component.html - {"bracketSpacing":false} format 1`] = `
+====================================options=====================================
+bracketSpacing: false
+parsers: ["angular"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<textarea>
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}123</textarea>
+=====================================output=====================================
+<textarea>    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea>    {{ generatedDiscountCodes }}123</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+
+================================================================================
+`;
+
+exports[`snippet: first-lf.component.html - {"htmlWhitespaceSensitivity":"ignore"} format 1`] = `
+====================================options=====================================
+htmlWhitespaceSensitivity: "ignore"
+parsers: ["angular"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<textarea>
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}123</textarea>
+=====================================output=====================================
+<textarea>    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea>    {{ generatedDiscountCodes }}123</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+
+================================================================================
+`;
+
+exports[`snippet: first-lf.component.html - {"printWidth":1} format 1`] = `
+====================================options=====================================
+parsers: ["angular"]
+printWidth: 1
+ | printWidth
+=====================================input======================================
+<textarea>
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}123</textarea>
+=====================================output=====================================
+<textarea>
+    {{
+    generatedDiscountCodes
+  }}</textarea
+>
+<textarea>
+  
+{{
+    generatedDiscountCodes
+  }}</textarea
+>
+<textarea>
+  
+    {{
+    generatedDiscountCodes
+  }}</textarea
+>
+<textarea>
+    {{
+    generatedDiscountCodes
+  }}123</textarea
+>
+<textarea>
+  
+{{
+    generatedDiscountCodes
+  }}123</textarea
+>
+<textarea>
+  
+    {{
+    generatedDiscountCodes
+  }}123</textarea
+>
+<textarea
+  type="text"
+>
+  
+{{
+    generatedDiscountCodes
+  }}</textarea
+>
+<textarea
+  type="text"
+>
+  
+    {{
+    generatedDiscountCodes
+  }}</textarea
+>
+<textarea
+  type="text"
+>
+  
+{{
+    generatedDiscountCodes
+  }}123</textarea
+>
+<textarea
+  type="text"
+>
+  
+    {{
+    generatedDiscountCodes
+  }}123</textarea
+>
+
+================================================================================
+`;
+
+exports[`snippet: first-lf.component.html - {"trailingComma":"none"} format 1`] = `
+====================================options=====================================
+parsers: ["angular"]
+printWidth: 80
+trailingComma: "none"
+                                                                                | printWidth
+=====================================input======================================
+<textarea>
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}123</textarea>
+=====================================output=====================================
+<textarea>    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea>    {{ generatedDiscountCodes }}123</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+
+================================================================================
+`;
+
+exports[`snippet: first-lf.component.html format 1`] = `
+====================================options=====================================
+parsers: ["angular"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+<textarea>
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea>  
+    {{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}</textarea>
+<textarea type="text">  
+{{ generatedDiscountCodes }}123</textarea>
+<textarea type="text">  
+    {{ generatedDiscountCodes }}123</textarea>
+=====================================output=====================================
+<textarea>    {{ generatedDiscountCodes }}</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea>    {{ generatedDiscountCodes }}123</textarea>
+<textarea>
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea>
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}</textarea
+>
+<textarea type="text">
+  
+{{ generatedDiscountCodes }}123</textarea
+>
+<textarea type="text">
+  
+    {{ generatedDiscountCodes }}123</textarea
+>
 
 ================================================================================
 `;
