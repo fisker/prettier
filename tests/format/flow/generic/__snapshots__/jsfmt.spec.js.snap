@@ -362,7 +362,7 @@ trailingComma: "all"
                                                                                 | printWidth
 =====================================input======================================
 type Foo = Promise<
-  { ok: true, bar: string, baz: SomeOtherLongType } | 
+  { ok: true, bar: string, baz: SomeOtherLongType } |
   { ok: false, bar: SomeOtherLongType }
 >;
 
@@ -382,7 +382,7 @@ printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
 type Foo = Promise<
-  { ok: true, bar: string, baz: SomeOtherLongType } | 
+  { ok: true, bar: string, baz: SomeOtherLongType } |
   { ok: false, bar: SomeOtherLongType }
 >;
 
