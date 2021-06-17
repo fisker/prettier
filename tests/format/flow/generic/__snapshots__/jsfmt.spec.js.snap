@@ -1,74 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`break.js - {"trailingComma":"all"} format 1`] = `
-====================================options=====================================
-parsers: ["flow", "babel"]
-printWidth: 80
-trailingComma: "all"
-                                                                                | printWidth
-=====================================input======================================
-var X = {
-  perform: function<    
-     A, B, C, D, E, F, G,     
-     T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
-   >(     
-     method: T, scope: any,     
-     a: A, b: B, c: C, d: D, e: E, f: F,    
-   ): G {
-  }
-}
-
-=====================================output=====================================
-var X = {
-  perform: function <
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G, // eslint-disable-line space-before-function-paren
-  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},
-};
-
-================================================================================
-`;
-
-exports[`break.js format 1`] = `
-====================================options=====================================
-parsers: ["flow", "babel"]
-printWidth: 80
-                                                                                | printWidth
-=====================================input======================================
-var X = {
-  perform: function<    
-     A, B, C, D, E, F, G,     
-     T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
-   >(     
-     method: T, scope: any,     
-     a: A, b: B, c: C, d: D, e: E, f: F,    
-   ): G {
-  }
-}
-
-=====================================output=====================================
-var X = {
-  perform: function <
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
-  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},
-};
-
-================================================================================
-`;
-
 exports[`function-default-type-parameters.js - {"trailingComma":"all"} format 1`] = `
 ====================================options=====================================
 parsers: ["flow", "babel"]
@@ -260,6 +191,75 @@ const longVariableName: Array<number> = this.foo.bar.baz.collider.body.vertices.
 =====================================output=====================================
 const longVariableName: Array<number> =
   this.foo.bar.baz.collider.body.vertices.reduce();
+
+================================================================================
+`;
+
+exports[`snippet: break.js - {"trailingComma":"all"} format 1`] = `
+====================================options=====================================
+parsers: ["flow", "babel"]
+printWidth: 80
+trailingComma: "all"
+                                                                                | printWidth
+=====================================input======================================
+var X = {
+  perform: function<    
+    A, B, C, D, E, F, G,     
+    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
+  >(     
+    method: T, scope: any,     
+    a: A, b: B, c: C, d: D, e: E, f: F,    
+  ): G {
+  }
+}
+
+=====================================output=====================================
+var X = {
+  perform: function <
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G, // eslint-disable-line space-before-function-paren
+  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},
+};
+
+================================================================================
+`;
+
+exports[`snippet: break.js format 1`] = `
+====================================options=====================================
+parsers: ["flow", "babel"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+var X = {
+  perform: function<    
+    A, B, C, D, E, F, G,     
+    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
+  >(     
+    method: T, scope: any,     
+    a: A, b: B, c: C, d: D, e: E, f: F,    
+  ): G {
+  }
+}
+
+=====================================output=====================================
+var X = {
+  perform: function <
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    T: (a: A, b: B, c: C, d: D, e: E, f: F) => G // eslint-disable-line space-before-function-paren
+  >(method: T, scope: any, a: A, b: B, c: C, d: D, e: E, f: F): G {},
+};
 
 ================================================================================
 `;
