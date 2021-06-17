@@ -65,7 +65,7 @@ trailingComma: "none"
         keyB: shortValue | pipeB | pipeC: valueToPipeC
       }
       | aaa,
-   (hideLinqPanel ? "ReportSelection.HideShowLabel_Show.String" : "ReportSelection.HideShowLabel_Hide.String") | localize:(localizationSection) 
+   (hideLinqPanel ? "ReportSelection.HideShowLabel_Show.String" : "ReportSelection.HideShowLabel_Hide.String") | localize:(localizationSection)
 ]
 
 =====================================output=====================================
