@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`issue2267.css format 1`] = `
+exports[`snippet: issue2267.css format 1`] = `
 ====================================options=====================================
 parsers: ["css"]
 printWidth: 80
