@@ -257,7 +257,7 @@ type OldArtist implements Node, Entity {
 ================================================================================
 `;
 
-exports[`separator-detection.graphql format 1`] = `
+exports[`snippet: separator-detection.graphql format 1`] = `
 ====================================options=====================================
 parsers: ["graphql"]
 printWidth: 80
@@ -265,12 +265,12 @@ printWidth: 80
 =====================================input======================================
 type Type1 implements A, B, C, D
 # {&&&&&&&&
-# Should separate by \`,\` not \`&\`
+# Should separate by ',' not '&'
 {a: a}
 
 type Type2 implements A, B, C, D
 # &&&&{}&&&&
-# Should separate by \`,\` not \`&\`
+# Should separate by ',' not '&'
 {a: a}
 
 type Type3 implements A, 
@@ -295,13 +295,13 @@ type Type5 implements A
 =====================================output=====================================
 type Type1 implements A, B, C, D {
   # {&&&&&&&&
-  # Should separate by \`,\` not \`&\`
+  # Should separate by ',' not '&'
   a: a
 }
 
 type Type2 implements A, B, C, D {
   # &&&&{}&&&&
-  # Should separate by \`,\` not \`&\`
+  # Should separate by ',' not '&'
   a: a
 }
 
