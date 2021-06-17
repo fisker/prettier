@@ -3,5 +3,5 @@ type State = {
 } & (
   | { discriminant: "FOO"; foo: any }
   | { discriminant: "BAR"; bar: any }
-  | { discriminant: "BAZ"; baz: any } 
+  | { discriminant: "BAZ"; baz: any }
 );
