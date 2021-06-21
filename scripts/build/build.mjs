@@ -87,15 +87,6 @@ async function createBundle(bundleConfig, cache, options) {
       const getSizeText = async (file) =>
         prettyBytes((await fs.stat(file)).size);
       const sizeTexts = [await getSizeText(file)];
-      if (
-        type !== "core" &&
-        format !== "esm" &&
-        bundleConfig.bundler !== "webpack" &&
-        target === "universal"
-      ) {
-        const esmFile = path.join("dist/esm", output.replace(".js", ".mjs"));
-        sizeTexts.push(`esm ${await getSizeText(esmFile)}`);
-      }
       process.stdout.write(fitTerminal(output, `${sizeTexts.join(", ")} `));
     }
 

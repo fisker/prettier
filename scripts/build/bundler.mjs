@@ -249,101 +249,13 @@ function getRollupOutputOptions(bundle, buildOptions) {
   if (bundle.target === "node") {
     options.format = "cjs";
   } else if (bundle.target === "universal") {
-    if (!bundle.format && bundle.bundler !== "webpack") {
-      return [
-        {
-          ...options,
-          format: "umd",
-        },
-        !buildOptions.playground && {
-          ...options,
-          format: "esm",
-          file: `dist/esm/${bundle.output.replace(".js", ".mjs")}`,
-        },
-      ].filter(Boolean);
-    }
     options.format = bundle.format;
   }
 
-  if (buildOptions.playground && bundle.bundler !== "webpack") {
+  if (buildOptions.playground) {
     return { skipped: true };
   }
   return [options];
-}
-
-function getWebpackConfig(bundle) {
-  if (bundle.type !== "plugin" || bundle.target !== "universal") {
-    throw new Error("Must use rollup for this bundle");
-  }
-
-  const root = path.resolve(__dirname, "..", "..");
-  const config = {
-    mode: "production",
-    performance: { hints: false },
-    entry: path.resolve(root, bundle.input),
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          use: {
-            loader: "babel-loader",
-            options: getBabelConfig(bundle),
-          },
-        },
-      ],
-    },
-    output: {
-      path: path.resolve(root, "dist"),
-      filename: bundle.output,
-      library: {
-        type: "umd",
-        name: bundle.name.split("."),
-      },
-      // https://github.com/webpack/webpack/issues/6642
-      globalObject: 'new Function("return this")()',
-    },
-    optimization: {},
-    resolve: {
-      // Webpack@5 can't resolve "postcss/lib/parser" and "postcss/lib/stringifier"" imported by `postcss-scss`
-      // Ignore `exports` field to fix bundle script
-      exportsFields: [],
-    },
-  };
-
-  if (bundle.terserOptions) {
-    config.optimization.minimizer = [
-      new WebpackPluginTerser(bundle.terserOptions),
-    ];
-  }
-  // config.optimization.minimize = false;
-
-  return webpackNativeShims(config, ["os", "path", "util", "url", "fs"]);
-}
-
-function runWebpack(config) {
-  return new Promise((resolve, reject) => {
-    webpack(config, (error, stats) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-
-      if (stats.hasErrors()) {
-        const { errors } = stats.toJson();
-        const error = new Error(errors[0].message);
-        error.errors = errors;
-        reject(error);
-        return;
-      }
-
-      if (stats.hasWarnings()) {
-        const { warnings } = stats.toJson();
-        console.warn(warnings);
-      }
-
-      resolve();
-    });
-  });
 }
 
 async function createBundle(bundle, cache, options) {
@@ -367,12 +279,8 @@ async function createBundle(bundle, cache, options) {
     return { cached: true };
   }
 
-  if (bundle.bundler === "webpack") {
-    await runWebpack(getWebpackConfig(bundle));
-  } else {
-    const result = await rollup(inputOptions);
-    await Promise.all(outputOptions.map((option) => result.write(option)));
-  }
+  const result = await rollup(inputOptions);
+  await Promise.all(outputOptions.map((option) => result.write(option)));
 
   return { bundled: true };
 }
