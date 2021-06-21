@@ -1,7 +1,6 @@
 import path from "node:path";
 import fs from "node:fs";
 import { rollup } from "rollup";
-import webpack from "webpack";
 import { nodeResolve as rollupPluginNodeResolve } from "@rollup/plugin-node-resolve";
 import rollupPluginAlias from "@rollup/plugin-alias";
 import rollupPluginCommonjs from "@rollup/plugin-commonjs";
@@ -10,7 +9,6 @@ import rollupPluginJson from "@rollup/plugin-json";
 import rollupPluginReplace from "@rollup/plugin-replace";
 import { terser as rollupPluginTerser } from "rollup-plugin-terser";
 import { babel as rollupPluginBabel } from "@rollup/plugin-babel";
-import WebpackPluginTerser from "terser-webpack-plugin";
 import createEsmUtils from "esm-utils";
 import builtinModules from "builtin-modules";
 import rollupPluginExecutable from "./rollup-plugins/executable.mjs";
@@ -44,27 +42,6 @@ const entries = [
     replacement: require.resolve("@glimmer/syntax"),
   },
 ];
-
-function webpackNativeShims(config, modules) {
-  if (!config.resolve) {
-    config.resolve = {};
-  }
-  const { resolve } = config;
-  resolve.alias = resolve.alias || {};
-  resolve.fallback = resolve.fallback || {};
-  for (const module of modules) {
-    if (module in resolve.alias || module in resolve.fallback) {
-      throw new Error(`fallback/alias for "${module}" already exists.`);
-    }
-    const file = path.join(__dirname, `shims/${module}.mjs`);
-    if (fs.existsSync(file)) {
-      resolve.alias[module] = file;
-    } else {
-      resolve.fallback[module] = false;
-    }
-  }
-  return config;
-}
 
 function getBabelConfig(bundle) {
   const config = {
