@@ -241,6 +241,7 @@ function getRollupOutputOptions(bundle, buildOptions) {
           output: {
             ascii_only: true,
           },
+          ...bundle.terserOptions,
         }),
     ],
   };

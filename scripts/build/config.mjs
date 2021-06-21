@@ -60,22 +60,12 @@ const parsers = [
   },
   {
     input: "src/language-css/parser-postcss.js",
-    // postcss has dependency cycles that don't work with rollup
-    bundler: "webpack",
     terserOptions: {
-      // prevent terser generate extra .LICENSE file
-      extractComments: false,
-      terserOptions: {
-        // prevent U+FFFE in the output
-        output: {
-          ascii_only: true,
-        },
-        mangle: {
-          // postcss need keep_fnames when minify
-          keep_fnames: true,
-          // we don't transform class anymore, so we need keep_classnames too
-          keep_classnames: true,
-        },
+      mangle: {
+        // postcss need keep_fnames when minify
+        keep_fnames: true,
+        // we don't transform class anymore, so we need keep_classnames too
+        keep_classnames: true,
       },
     },
   },
