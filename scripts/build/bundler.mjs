@@ -22,27 +22,7 @@ const { __dirname, require } = createEsmUtils(import.meta);
 const PROJECT_ROOT = path.join(__dirname, "../..");
 
 const entries = [
-  // Force using the CJS file, instead of ESM; i.e. get the file
-  // from `"main"` instead of `"module"` (rollup default) of package.json
-  {
-    find: "outdent",
-    replacement: require.resolve("outdent"),
-  },
-  {
-    find: "lines-and-columns",
-    replacement: require.resolve("lines-and-columns"),
-  },
-  {
-    find: "@angular/compiler/src",
-    replacement: path.resolve(
-      `${PROJECT_ROOT}/node_modules/@angular/compiler/esm2015/src`
-    ),
-  },
-  // Avoid rollup `SOURCEMAP_ERROR` and `THIS_IS_UNDEFINED` error
-  {
-    find: "@glimmer/syntax",
-    replacement: require.resolve("@glimmer/syntax"),
-  },
+
 ];
 
 function webpackNativeShims(config, modules) {
@@ -120,6 +100,7 @@ function getRollupConfig(bundle) {
   const config = {
     input: bundle.input,
     onwarn(warning) {
+console.log({warning})
       if (
         // ignore `MIXED_EXPORTS` warn
         warning.code === "MIXED_EXPORTS" ||
