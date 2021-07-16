@@ -22,7 +22,12 @@ const { __dirname, require } = createEsmUtils(import.meta);
 const PROJECT_ROOT = path.join(__dirname, "../..");
 
 const entries = [
-
+  {
+    find: "@angular/compiler/src",
+    replacement: path.resolve(
+      `${PROJECT_ROOT}/node_modules/@angular/compiler/esm2015/src`
+    ),
+  },
 ];
 
 function webpackNativeShims(config, modules) {
