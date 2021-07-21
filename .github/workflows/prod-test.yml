@@ -129,10 +129,10 @@ jobs:
           path: dist
 
       - name: Run Tests
-        run: yarn test:dist
+        run: yarn test:dist --maxWorkers=1
 
       - name: Run Tests (standalone)
-        run: yarn test:dist-standalone
+        run: yarn test:dist-standalone --maxWorkers=1
 
       # #8073 test
       - name: Run Tests (PRETTIER_FALLBACK_RESOLVE)
