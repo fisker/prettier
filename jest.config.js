@@ -30,7 +30,8 @@ if (!isProduction) {
   );
 }
 
-module.exports = {verbose: true,
+module.exports = {
+  verbose: true,
   setupFiles: ["<rootDir>/tests/config/setup.js"],
   snapshotSerializers: [
     "jest-snapshot-serializer-raw",

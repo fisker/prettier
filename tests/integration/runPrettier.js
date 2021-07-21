@@ -111,7 +111,9 @@ async function run(dir, args, options) {
 
   try {
     // await (await import("../../bin/prettier.mjs")).default;
-    await (await import(prettierCli)).default;
+    await (
+      await import(prettierCli)
+    ).default;
     status = (status === undefined ? process.exitCode : status) || 0;
   } catch (error) {
     status = 1;
