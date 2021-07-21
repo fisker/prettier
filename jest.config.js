@@ -8,6 +8,7 @@ const isProduction = process.env.NODE_ENV === "production";
 const ENABLE_CODE_COVERAGE = Boolean(process.env.ENABLE_CODE_COVERAGE);
 const TEST_STANDALONE = Boolean(process.env.TEST_STANDALONE);
 const INSTALL_PACKAGE = Boolean(process.env.INSTALL_PACKAGE);
+const SUPPORT_MODULE = !process.version.startsWith("v10.");
 
 let PRETTIER_DIR = isProduction
   ? path.join(PROJECT_ROOT, "dist")
@@ -49,6 +50,13 @@ if (isProduction) {
   // Only test bundles for production
   testPathIgnorePatterns.push(
     "<rootDir>/tests/integration/__tests__/bundle.js"
+  );
+}
+
+if (!SUPPORT_MODULE) {
+  testPathIgnorePatterns.push(
+    "<rootDir>/tests/integration/__tests__/bundle.js",
+    "<rootDir>/tests/integration/__tests__/schema.js"
   );
 }
 
