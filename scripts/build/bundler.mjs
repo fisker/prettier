@@ -217,7 +217,7 @@ function getRollupConfig(bundle) {
       mainFields:
         bundle.target === "node"
           ? ["main", "module", "browser"]
-          : ["browser", "module", "main"],
+          : ["browser", "main", "module"],
     }),
     rollupPluginCommonjs({
       ignoreGlobal: bundle.target === "node",
