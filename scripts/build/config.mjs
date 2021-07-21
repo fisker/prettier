@@ -139,7 +139,7 @@ const coreBundles = [
     target: "universal",
   },
   {
-    input: "bin/prettier.js",
+    input: "bin/prettier.mjs",
     output: "bin-prettier.js",
     external: ["benchmark"],
   },
