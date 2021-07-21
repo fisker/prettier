@@ -105,7 +105,7 @@ function getRollupConfig(bundle) {
   const config = {
     input: bundle.input,
     onwarn(warning) {
-console.log({warning})
+      console.log({ warning });
       if (
         // ignore `MIXED_EXPORTS` warn
         warning.code === "MIXED_EXPORTS" ||
@@ -214,6 +214,10 @@ console.log({warning})
     rollupPluginNodeResolve({
       extensions: [".js", ".json"],
       preferBuiltins: bundle.target === "node",
+      mainFields:
+        bundle.target === "node"
+          ? ["main", "module", "browser"]
+          : ["browser", "module", "main"],
     }),
     rollupPluginCommonjs({
       ignoreGlobal: bundle.target === "node",
