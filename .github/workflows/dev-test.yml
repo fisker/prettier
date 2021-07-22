@@ -56,7 +56,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Run Tests
-        run: yarn test --maxWorkers=1 --maxConcurrency=1 --runInBand
+        run: yarn test --runInBand
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v1.5.2
