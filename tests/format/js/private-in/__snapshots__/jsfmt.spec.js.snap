@@ -1,5 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`private-in.js [acorn] format 1`] = `
+"Unexpected token (1:4)
+   1 | if (#prop in obj) {
+   2 | }
+   3 |
+   4 | #prop in     obj;
+   5 |
+   6 | #prop      in obj;
+   7 |
+   8 | #prop in
+   9 | obj;
+  10 |
+  11 | #prop
+  12 | in
+  13 | obj;
+  14 |
+  15 | #prop
+  16 | in obj;
+  17 |"
+`;
+
 exports[`private-in.js [espree] format 1`] = `
 "Unexpected token #prop (1:5)
 > 1 | if (#prop in obj) {

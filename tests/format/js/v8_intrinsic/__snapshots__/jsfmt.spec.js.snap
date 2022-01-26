@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`avoid-conflicts-to-pipeline.js [acorn] format 1`] = `
+"Unexpected token (2:15)
+  1 | // |>
+  2 | const status = %GetOptimizationStatus(fn);
+  3 |"
+`;
+
 exports[`avoid-conflicts-to-pipeline.js [espree] format 1`] = `
 "Unexpected token % (2:16)
   1 | // |>
@@ -30,6 +37,35 @@ const status = %GetOptimizationStatus(fn);
 const status = %GetOptimizationStatus(fn);
 
 ================================================================================
+`;
+
+exports[`intrinsic_call.js [acorn] format 1`] = `
+"Unexpected token (2:12)
+   1 | function doSmth()     {
+   2 |             %DebugPrint
+   3 |         (
+   4 |                 foo )
+   5 |   }
+   6 |
+   7 |     function printFunc  (
+   8 |         f
+   9 | ) {
+  10 |     if(%
+  11 |     IsAsmWasmCode(f))              console.log(\\"asm.js\\");
+  12 |         if(
+  13 |
+  14 |         % IsWasmCode(
+  15 |         f))
+  16 |             console.log (
+  17 |                 \\"wasm\\"
+  18 |             );
+  19 |
+  20 |     console.log
+  21 |     (%
+  22 |         GetFunctioName(f)
+  23 |         );
+  24 | }
+  25 |"
 `;
 
 exports[`intrinsic_call.js [espree] format 1`] = `

@@ -94,7 +94,8 @@ const parsers = [
     },
   },
   {
-    input: "src/language-js/parse/espree.js",
+    input: "src/language-js/parse/acorn-and-espree.js",
+    name: "prettierPlugins.acornAndEspree",
   },
   {
     input: "src/language-js/parse/meriyah.js",

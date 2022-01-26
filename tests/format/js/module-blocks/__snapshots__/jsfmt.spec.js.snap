@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`comments.js [acorn] format 1`] = `
+"Unexpected token (1:31)
+   1 | const m = /*A1*/ module /*A2*/ { /*A3*/
+   2 |   /*A4*/
+   3 |   export const foo = \\"foo\\";
+   4 |   export { foo }; /*A5*/
+   5 |   /*A6*/
+   6 | }/*A7*/;/*A8*/
+   7 |
+   8 | const m2 = module/* B1 */{
+   9 |   /* B2 */
+  10 | };
+  11 |"
+`;
+
 exports[`comments.js [espree] format 1`] = `
 "Unexpected token { (1:32)
 > 1 | const m = /*A1*/ module /*A2*/ { /*A3*/
@@ -50,6 +65,49 @@ const m2 = module {
 };
 
 ================================================================================
+`;
+
+exports[`module-blocks.js [acorn] format 1`] = `
+"Unexpected token (1:7)
+   1 | module { await 3 };
+   2 |
+   3 | class B {
+   4 |   #p() {
+   5 |     module {
+   6 |       class C { [this.#p]; }
+   7 |     };
+   8 |   }
+   9 | }
+  10 |
+  11 | const m = module {
+  12 |   export const foo = \\"foo\\";
+  13 |   export { foo };
+  14 | };
+  15 |
+  16 | module {
+  17 |   export { foo }
+  18 | };
+  19 |
+  20 | const m = module       {};
+  21 |
+  22 | const worker = new Worker(module {
+  23 |   export const foo = \\"foo\\";
+  24 | });
+  25 |
+  26 | let m = module {
+  27 |   module {
+  28 |     export let foo = \\"foo\\";
+  29 |   };
+  30 | };
+  31 |
+  32 | const m = module { export const foo = \\"foo\\" };
+  33 |
+  34 | let moduleBlock = module { export let y = 1; };
+  35 |
+  36 | foo(module { export let foo = \\"foo\\"; });
+  37 |
+  38 | let m = module { /* foo */ };
+  39 |"
 `;
 
 exports[`module-blocks.js [espree] format 1`] = `
@@ -187,6 +245,15 @@ const m = module;
 ================================================================================
 `;
 
+exports[`range.js [acorn] format 1`] = `
+"Unexpected token (1:25)
+  1 | let moduleBlock = module {  export let y = 1;
+  2 | };
+  3 |
+  4 | foo(module { export let foo = \\"foo\\"; })
+  5 |"
+`;
+
 exports[`range.js [espree] format 1`] = `
 "Unexpected token { (1:26)
 > 1 | let moduleBlock = module {  export let y = 1;
@@ -232,6 +299,26 @@ foo(module {
 });
 
 ================================================================================
+`;
+
+exports[`worker.js [acorn] format 1`] = `
+"Unexpected token (1:31)
+   1 | let worker = new Worker(module {
+   2 |   onmessage = function({data}) {
+   3 |     let mod = import(data);
+   4 |     postMessage(mod.fn());
+   5 |   }
+   6 | }, {type: \\"module\\"});
+   7 |
+   8 | let worker = new Worker(module {
+   9 |   onmessage = function({data}) {
+  10 |     let mod = import(data);
+  11 |     postMessage(mod.fn());
+  12 |   }
+  13 | }, {type: \\"module\\", foo: \\"bar\\" });
+  14 |
+  15 | worker.postMessage(module { export function fn() { return \\"hello!\\" } });
+  16 |"
 `;
 
 exports[`worker.js [espree] format 1`] = `

@@ -1,5 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`call-arguments.js [acorn] format 1`] = `
+"Unexpected token (3:2)
+   1 | // from https://github.com/babel/babel/pull/13122/
+   2 | expect(
+   3 |   do {
+   4 |     var bar = \\"foo\\";
+   5 |     if (!bar) throw new Error(
+   6 |       \\"unreachable\\"
+   7 |     )
+   8 |     bar;
+   9 |   }
+  10 | ).toBe(\\"foo\\");
+  11 | expect(bar).toBe(\\"foo\\");
+  12 |
+  13 | var x = do {
+  14 |   var bar = \\"foo\\";
+  15 |   if (!bar) throw new Error(
+  16 |     \\"unreachable\\"
+  17 |   )
+  18 |   bar;
+  19 | };
+  20 |
+  21 | expect(
+  22 |   do {
+  23 |     var bar = \\"foo\\";
+  24 |     bar;
+  25 |   }
+  26 | ).toBe(\\"foo\\");
+  27 | expect(bar).toBe(\\"foo\\");
+  28 |
+  29 | var x = do {
+  30 |   var bar = \\"foo\\";
+  31 |   bar;
+  32 | };
+  33 |
+  34 | expect(
+  35 |   () => do {
+  36 |     () => {
+  37 |       var bar = \\"foo\\";
+  38 |     };
+  39 |     bar;
+  40 |   }
+  41 | ).toThrow(ReferenceError);
+  42 |"
+`;
+
 exports[`call-arguments.js [espree] format 1`] = `
 "Unexpected token do (3:3)
   1 | // from https://github.com/babel/babel/pull/13122/
@@ -106,6 +152,65 @@ expect(
 ).toThrow(ReferenceError);
 
 ================================================================================
+`;
+
+exports[`do.js [acorn] format 1`] = `
+"Unexpected token (3:4)
+   1 | const envSpecific = {
+   2 |   domain:
+   3 |     do {
+   4 |       if(env === 'production') 'https://abc.mno.com/';
+   5 |       else if(env === 'development') 'http://localhost:4000';
+   6 |     }
+   7 | };
+   8 |
+   9 | let x = do {
+  10 |   let tmp = f();
+  11 |   tmp * tmp + 1
+  12 | };
+  13 |
+  14 | let y = do {
+  15 |   if (foo()) { f() }
+  16 |   else if (bar()) { g() }
+  17 |   else { h() }
+  18 | };
+  19 |
+  20 | function foo() {
+  21 |   return (
+  22 |     <nav>
+  23 |       <Home />
+  24 |       {
+  25 |         do {
+  26 |           if (loggedIn) {
+  27 |             <LogoutButton />
+  28 |           } else {
+  29 |             <LoginButton />
+  30 |           }
+  31 |         }
+  32 |       }
+  33 |     </nav>
+  34 |   );
+  35 | }
+  36 |
+  37 | (do {});
+  38 | (do {} + 1);
+  39 | (1 + do {});
+  40 | () => do {};
+  41 |
+  42 | (do {
+  43 |   switch(0) {
+  44 |     case 0: \\"foo\\";
+  45 |     case 1: break;
+  46 |   }
+  47 | });
+  48 |
+  49 | () => do {
+  50 |   var obj = { foo: \\"bar\\", bar: \\"foo\\" };
+  51 |   for (var key in obj) {
+  52 |     obj[key];
+  53 |   }
+  54 | };
+  55 |"
 `;
 
 exports[`do.js [espree] format 1`] = `
