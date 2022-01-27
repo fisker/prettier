@@ -1,6 +1,9 @@
 "use strict";
 
-const isIdentifierName = require("esutils").keyword.isIdentifierNameES5;
+// Use `esutils/lib/keyword.js` instead of `esutils` to reduce bundle size
+const {
+  isIdentifierNameES5: isIdentifierName,
+} = require("esutils/lib/keyword.js");
 const {
   getLast,
   hasNewline,
