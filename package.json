@@ -106,6 +106,9 @@
     "benchmark": "2.1.4",
     "browserslist-to-esbuild": "1.1.1",
     "builtin-modules": "3.2.0",
+    "chai": "4.3.6",
+    "chai-as-promised": "7.1.1",
+    "chai-jest-snapshot": "2.0.0",
     "cross-env": "7.0.3",
     "cspell": "5.18.3",
     "enquirer": "2.3.6",
@@ -128,6 +131,7 @@
     "jest-snapshot-serializer-ansi": "1.0.0",
     "jest-snapshot-serializer-raw": "1.2.0",
     "jest-watch-typeahead": "1.0.0",
+    "mocha": "9.2.0",
     "node-actionlint": "1.2.2",
     "node-fetch": "3.1.1",
     "npm-run-all": "4.1.5",
@@ -138,12 +142,13 @@
     "rimraf": "3.0.2",
     "rollup-plugin-license": "2.6.1",
     "snapshot-diff": "0.9.0",
-    "tempy": "2.0.0"
+    "tempy": "2.0.0",
+    "testdouble": "3.16.4"
   },
   "scripts": {
     "prepublishOnly": "echo \"Error: must publish from dist/\" && exit 1",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:integration": "yarn test --config=jest-integration-test.config.mjs",
+    "test:integration": "mocha --loader=testdouble tests/integration/__tests__/arg-parsing.js --no-parallel",
     "test:format": "yarn test --config=jest-format-test.config.mjs",
     "test:dev-package": "cross-env INSTALL_PACKAGE=1 yarn test",
     "test:dist": "cross-env NODE_ENV=production yarn test",

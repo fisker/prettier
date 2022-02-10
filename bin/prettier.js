@@ -2,4 +2,6 @@
 
 "use strict";
 
-module.exports = require("../src/cli/index.js").run(process.argv.slice(2));
+const promise = require("../src/cli/index.js").run(process.argv.slice(2));
+
+module.exports = { promise };

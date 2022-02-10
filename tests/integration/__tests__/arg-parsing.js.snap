@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`allow overriding flags (stderr) 1`] = `""`;
+
+exports[`allow overriding flags (write) 1`] = `Array []`;
+
+exports[`boolean flags do not swallow the next argument (stderr) 1`] = `""`;
+
+exports[`boolean flags do not swallow the next argument (stdout) 1`] = `
+"console.log('could be single quote and without semi');
+"
+`;
+
+exports[`boolean flags do not swallow the next argument (write) 1`] = `Array []`;
+
+exports[`deprecated option values are warned (stderr) 1`] = `""`;
+
+exports[`deprecated option values are warned (stdout) 1`] = `""`;
+
+exports[`deprecated option values are warned (write) 1`] = `Array []`;
+
+exports[`negated options work (stderr) 1`] = `""`;
+
+exports[`negated options work (stdout) 1`] = `""`;
+
+exports[`negated options work (write) 1`] = `Array []`;
+
+exports[`number file/dir (stdout) 1`] = `""`;
+
+exports[`number file/dir (stdout) 2`] = `""`;
+
+exports[`number file/dir (stdout) 3`] = `""`;
+
+exports[`number file/dir (stdout) 4`] = `""`;
+
+exports[`number file/dir (stdout) 5`] = `""`;
+
+exports[`options with \`cliName\` should not allow to pass directly (stderr) 1`] = `""`;
+
+exports[`options with \`cliName\` should not allow to pass directly (stdout) 1`] = `""`;
+
+exports[`options with \`cliName\` should not allow to pass directly (stdout) 2`] = `""`;
+
+exports[`unknown negated options are warned (stderr) 1`] = `""`;
+
+exports[`unknown negated options are warned (stdout) 1`] = `""`;
+
+exports[`unknown negated options are warned (write) 1`] = `Array []`;
+
+exports[`unknown options are warned (stderr) 1`] = `""`;
+
+exports[`unknown options are warned (stdout) 1`] = `""`;
+
+exports[`unknown options are warned (write) 1`] = `Array []`;
+
+exports[`unknown options not suggestion \`_\` (stderr) 1`] = `""`;
+
+exports[`unknown options not suggestion \`_\` (stdout) 1`] = `""`;

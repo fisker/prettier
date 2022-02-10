@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { jest } from "@jest/globals";
+import url from "node:url";
 import stripAnsi from "strip-ansi";
 import createEsmUtils from "esm-utils";
 import { prettierCli, thirdParty } from "./env.js";
@@ -14,42 +14,23 @@ async function run(dir, args, options) {
   let stdout = "";
   let stderr = "";
 
-  jest.spyOn(process, "exit").mockImplementation((exitCode) => {
+  td.replace(process, "exit", (exitCode) => {
     if (status === undefined) {
       status = exitCode || 0;
     }
   });
-
-  jest
-    .spyOn(process.stdout, "write")
-    .mockImplementation((text) => appendStdout(text));
-
-  jest
-    .spyOn(process.stderr, "write")
-    .mockImplementation((text) => appendStderr(text));
-
-  jest
-    .spyOn(console, "log")
-    .mockImplementation((text) => appendStdout(text + "\n"));
-
-  jest
-    .spyOn(console, "warn")
-    .mockImplementation((text) => appendStderr(text + "\n"));
-
-  jest
-    .spyOn(console, "error")
-    .mockImplementation((text) => appendStderr(text + "\n"));
-
-  jest.spyOn(Date, "now").mockImplementation(() => 0);
+  td.replace(process.stdout, "write", (text) => appendStdout(text));
+  td.replace(process.stderr, "write", (text) => appendStderr(text));
+  td.replace(console, "log", (text) => appendStdout(text + "\n"));
+  td.replace(console, "warn", (text) => appendStderr(text + "\n"));
+  td.replace(console, "error", (text) => appendStderr(text + "\n"));
+  td.replace(Date, "now", () => 0);
 
   const write = [];
 
-  jest
-    .spyOn(fs.promises, "writeFile")
-    // eslint-disable-next-line require-await
-    .mockImplementation(async (filename, content) => {
-      write.push({ filename, content });
-    });
+  td.replace(fs.promises, "writeFile", async (filename, content) => {
+    write.push({ filename, content });
+  });
 
   /*
     A fake non-existing directory to test plugin search won't crash.
@@ -60,13 +41,11 @@ async function run(dir, args, options) {
     - Pull request #5819
   */
   const originalStatSync = fs.statSync;
-  jest
-    .spyOn(fs, "statSync")
-    .mockImplementation((filename) =>
-      originalStatSync(
-        path.basename(filename) === "virtualDirectory" ? __filename : filename
-      )
-    );
+  td.replace(fs, "statSync", (filename) =>
+    originalStatSync(
+      path.basename(filename) === "virtualDirectory" ? __filename : filename
+    )
+  );
 
   const originalCwd = process.cwd();
   const originalArgv = process.argv;
@@ -79,40 +58,33 @@ async function run(dir, args, options) {
   process.stdout.isTTY = Boolean(options.stdoutIsTTY);
   process.argv = ["path/to/node", "path/to/prettier/bin", ...args];
 
-  jest.resetModules();
-
   // We cannot use `jest.setMock("get-stream", impl)` here, because in the
   // production build everything is bundled into one file so there is no
   // "get-stream" module to mock.
-  jest
-    .spyOn(require(thirdParty), "getStdin")
-    // eslint-disable-next-line require-await
-    .mockImplementation(async () => options.input || "");
-  jest
-    .spyOn(require(thirdParty), "isCI")
-    .mockImplementation(() => Boolean(options.ci));
-  jest
-    .spyOn(require(thirdParty), "cosmiconfig")
-    .mockImplementation((moduleName, options) =>
-      require("cosmiconfig").cosmiconfig(moduleName, {
-        ...options,
-        stopDir: path.join(__dirname, "cli"),
-      })
-    );
-  jest
-    .spyOn(require(thirdParty), "cosmiconfigSync")
-    .mockImplementation((moduleName, options) =>
-      require("cosmiconfig").cosmiconfigSync(moduleName, {
-        ...options,
-        stopDir: path.join(__dirname, "cli"),
-      })
-    );
-  jest
-    .spyOn(require(thirdParty), "findParentDir")
-    .mockImplementation(() => process.cwd());
+  td.replace(require(thirdParty), "getStdin", async () => options.input || "");
+  td.replace(
+    require(thirdParty),
+    "isCI",
+    async () => () => Boolean(options.ci)
+  );
+  td.replace(require(thirdParty), "cosmiconfig", (moduleName, options) =>
+    require("cosmiconfig").cosmiconfig(moduleName, {
+      ...options,
+      stopDir: path.join(__dirname, "cli"),
+    })
+  );
+  td.replace(require(thirdParty), "cosmiconfigSync", (moduleName, options) =>
+    require("cosmiconfig").cosmiconfigSync(moduleName, {
+      ...options,
+      stopDir: path.join(__dirname, "cli"),
+    })
+  );
+  td.replace(require(thirdParty), "findParentDir", () => process.cwd());
 
   try {
-    await require(prettierCli);
+    // const { promise } = await import(url.pathToFileURL(prettierCli));
+    const { promise } = require(prettierCli);
+    await promise;
     status = (status === undefined ? process.exitCode : status) || 0;
   } catch (error) {
     status = 1;
@@ -123,7 +95,7 @@ async function run(dir, args, options) {
     process.exitCode = originalExitCode;
     process.stdin.isTTY = originalStdinIsTTY;
     process.stdout.isTTY = originalStdoutIsTTY;
-    jest.restoreAllMocks();
+    td.reset();
   }
 
   return { status, stdout, stderr, write };
@@ -180,7 +152,7 @@ function runPrettier(dir, args = [], options = {}) {
 
   function testResult(testOptions) {
     for (const name of ["status", "stdout", "stderr", "write"]) {
-      test(`(${name})`, async () => {
+      it(`(${name})`, async () => {
         const result = await runCli();
         const value =
           // \r is trimmed from jest snapshots by default;
@@ -193,12 +165,13 @@ function runPrettier(dir, args = [], options = {}) {
             : result[name];
         if (name in testOptions) {
           if (name === "status" && testOptions[name] === "non-zero") {
-            expect(value).not.toBe(0);
+            expect(value).to.not.equal(0);
           } else {
-            expect(value).toEqual(testOptions[name]);
+            expect(value).to.deep.equal(testOptions[name]);
           }
         } else {
-          expect(value).toMatchSnapshot();
+          // console.log({ name, testOptions, result });
+          expect(value).to.matchSnapshot();
         }
       });
     }
