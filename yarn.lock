@@ -3191,10 +3191,10 @@ eslint@8.11.0:
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
 
-esm-utils@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/esm-utils/-/esm-utils-3.0.0.tgz#dacf1b3928da7c651982221c4d59710475cf0b93"
-  integrity sha512-BRGUeZ4BktoVZE8mhA/zVb6YD9Hc7sW6lidTDFgj+a+ugu/e6uDCifKUNAXUv0eEQeIvb6juSVOZ71Rv99bL8w==
+esm-utils@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/esm-utils/-/esm-utils-3.1.1.tgz#5c9a17bb4239fb1a29cd578c56db37c12170ecd7"
+  integrity sha512-NytBLB+N+Y9JNzGilK2WANaEUo3iqxAfhgC5A63m1L7HOzXJ+hr2OePb/Fw2RR/ywunbs7Ewbi+W0d94R+8Uhw==
   dependencies:
     url-or-path "2.1.0"
 
