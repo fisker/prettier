@@ -70,19 +70,10 @@ function runCliWorker(dir, args, options) {
   });
 }
 
-async function run(dir, args, options) {
-  dir = path.resolve(INTEGRATION_TEST_DIRECTORY, dir);
+function run(dir, args, options) {
   args = Array.isArray(args) ? args : [args];
 
-  // Worker doesn't support `chdir`
-  const cwd = process.cwd();
-  process.chdir(dir);
-
-  try {
-    return await runCliWorker(dir, args, options);
-  } finally {
-    process.chdir(cwd);
-  }
+  return runCliWorker(dir, args, options);
 }
 
 let runningCli;

@@ -35,6 +35,7 @@ async function run() {
 
   process.stdin.isTTY = Boolean(options.isTTY);
   process.stdout.isTTY = Boolean(options.stdoutIsTTY);
+  process.cwd = () => dir;
 
   const { default: thirdParty } = await import(
     url.pathToFileURL(thirdPartyModuleFile)
