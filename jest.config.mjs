@@ -33,21 +33,39 @@ if (!isProduction) {
 }
 
 const config = {
+  projects: [
+    {
+      displayName: "Format Test",
+      testMatch: ["<rootDir>/tests/format/**/jsfmt.spec.js"],
+      runner: "jest-light-runner",
+    },
+    {
+      displayName: "Unit Test",
+      testMatch: ["<rootDir>/tests/unit/**/*.js"],
+      runner: "jest-light-runner",
+    },
+    {
+      displayName: "Integration Test",
+      testMatch: ["<rootDir>/tests/integration/__tests__/**/*.js"],
+      runner: "jest-light-runner/in-band",
+    },
+  ].map((projectConfig) => ({
+    ...projectConfig,
+    snapshotSerializers: [
+      "jest-snapshot-serializer-raw",
+      "jest-snapshot-serializer-ansi",
+    ],
+    snapshotFormat: {
+      escapeString: false,
+      printBasicPrototype: false,
+    },
+    testPathIgnorePatterns,
+  })),
   setupFiles: [
     "<rootDir>/tests/config/format-test-setup.js",
     "<rootDir>/tests/integration/integration-test-setup.js",
   ],
-  runner: "jest-light-runner",
-  snapshotSerializers: [
-    "jest-snapshot-serializer-raw",
-    "jest-snapshot-serializer-ansi",
-  ],
-  testMatch: [
-    "<rootDir>/tests/format/**/jsfmt.spec.js",
-    "<rootDir>/tests/integration/__tests__/**/*.js",
-    "<rootDir>/tests/unit/**/*.js",
-  ],
-  testPathIgnorePatterns,
+  testMatch: [],
   collectCoverage: ENABLE_CODE_COVERAGE,
   collectCoverageFrom: ["<rootDir>/src/**/*.js", "<rootDir>/bin/**/*.js"],
   coveragePathIgnorePatterns: [
