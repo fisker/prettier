@@ -414,14 +414,12 @@ function replaceTextEndOfLine(text, replacement = literalline) {
   return join(replacement, text.split("\n"));
 }
 
-function canBreakFn(doc) {
-  if (doc.type === DOC_TYPE_LINE) {
-    return true;
-  }
-}
-
 function canBreak(doc) {
-  return findInDoc(doc, canBreakFn, false);
+  return findInDoc(
+    doc,
+    (doc) => (doc.type === DOC_TYPE_LINE ? true : undefined),
+    false
+  );
 }
 
 function getDocType(doc) {
