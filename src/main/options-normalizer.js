@@ -19,7 +19,6 @@ function normalizeOptions(
     logger = false,
     isCLI = false,
     passThrough = false,
-    levenshteinDistance = null,
     descriptor = vnopts.apiDescriptor,
     FlagSchema
   } = {}
@@ -40,7 +39,6 @@ function normalizeOptions(
 
   const schemas = optionInfosToSchemas(optionInfos, {
     isCLI,
-    levenshteinDistance,
     FlagSchema
   });
   const normalizer = new vnopts.Normalizer(schemas, {
