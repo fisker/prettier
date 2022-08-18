@@ -10,7 +10,7 @@ let hasDeprecationWarned;
 /**
  * @param {*} options
  * @param {*} optionInfos
- * @param {{ logger?: false; isCLI?: boolean; passThrough?: boolean; colorsModule?: any; levenshteinDistance?: any }} param2
+ * @param {{ logger?: false; isCLI?: boolean; passThrough?: boolean; levenshteinDistance?: any }} param2
  */
 function normalizeOptions(
   options,
@@ -19,7 +19,6 @@ function normalizeOptions(
     logger = false,
     isCLI = false,
     passThrough = false,
-    colorsModule = null,
     levenshteinDistance = null,
     descriptor = vnopts.apiDescriptor,
     FlagSchema
@@ -41,7 +40,6 @@ function normalizeOptions(
 
   const schemas = optionInfosToSchemas(optionInfos, {
     isCLI,
-    colorsModule,
     levenshteinDistance,
     FlagSchema
   });
@@ -65,16 +63,12 @@ function normalizeOptions(
     hasDeprecationWarned = normalizer._hasDeprecationWarned;
   }
 
-  if (isCLI && normalized["plugin-search"] === false) {
-    normalized["plugin-search-dir"] = false;
-  }
-
   return normalized;
 }
 
 function optionInfosToSchemas(
   optionInfos,
-  { isCLI, colorsModule, levenshteinDistance, FlagSchema }
+  { isCLI, levenshteinDistance, FlagSchema }
 ) {
   const schemas = [];
 
@@ -87,7 +81,6 @@ function optionInfosToSchemas(
       optionInfoToSchema(optionInfo, {
         isCLI,
         optionInfos,
-        colorsModule,
         levenshteinDistance,
         FlagSchema,
       })
@@ -114,7 +107,7 @@ function optionInfosToSchemas(
  */
 function optionInfoToSchema(
   optionInfo,
-  { isCLI, optionInfos, colorsModule, levenshteinDistance, FlagSchema }
+  { isCLI, optionInfos, levenshteinDistance, FlagSchema }
 ) {
   const { name } = optionInfo;
 
@@ -245,9 +238,6 @@ function normalizeApiOptions(options, optionInfos, opts) {
 function normalizeCliOptions(options, optionInfos, opts) {
   /* istanbul ignore next */
   if (process.env.NODE_ENV !== "production") {
-    if (!opts.colorsModule) {
-      throw new Error("'colorsModule' option is required.");
-    }
 
     if (!opts.levenshteinDistance) {
       throw new Error("'levenshteinDistance' option is required.");
