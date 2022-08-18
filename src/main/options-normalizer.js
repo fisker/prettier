@@ -10,7 +10,7 @@ let hasDeprecationWarned;
 /**
  * @param {*} options
  * @param {*} optionInfos
- * @param {{ logger?: false; isCLI?: boolean; passThrough?: boolean; levenshteinDistance?: any }} param2
+ * @param {{ logger?: false; isCLI?: boolean; passThrough?: boolean }} param2
  */
 function normalizeOptions(
   options,
@@ -68,7 +68,7 @@ function normalizeOptions(
 
 function optionInfosToSchemas(
   optionInfos,
-  { isCLI, levenshteinDistance, FlagSchema }
+  { isCLI, FlagSchema }
 ) {
   const schemas = [];
 
@@ -81,7 +81,6 @@ function optionInfosToSchemas(
       optionInfoToSchema(optionInfo, {
         isCLI,
         optionInfos,
-        levenshteinDistance,
         FlagSchema,
       })
     );
@@ -107,7 +106,7 @@ function optionInfosToSchemas(
  */
 function optionInfoToSchema(
   optionInfo,
-  { isCLI, optionInfos, levenshteinDistance, FlagSchema }
+  { isCLI, optionInfos, FlagSchema }
 ) {
   const { name } = optionInfo;
 
@@ -238,10 +237,6 @@ function normalizeApiOptions(options, optionInfos, opts) {
 function normalizeCliOptions(options, optionInfos, opts) {
   /* istanbul ignore next */
   if (process.env.NODE_ENV !== "production") {
-
-    if (!opts.levenshteinDistance) {
-      throw new Error("'levenshteinDistance' option is required.");
-    }
 
     if (!opts.descriptor) {
       throw new Error("'descriptor' option is required.");

@@ -56,7 +56,6 @@ class FlagSchema extends vnopts.ChoiceSchema {
 
 function normalizeCliOptions(options, optionInfos, opts) {
   const normalized = prettierNormalizeCliOptions(options, optionInfos, {
-    levenshteinDistance: leven,
     descriptor: cliDescriptor,
     FlagSchema,
     ...opts,
