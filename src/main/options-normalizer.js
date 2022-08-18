@@ -20,7 +20,8 @@ function normalizeOptions(
     isCLI = false,
     passThrough = false,
     descriptor = vnopts.apiDescriptor,
-    FlagSchema
+    FlagSchema,
+    extraSchemas = [],
   } = {}
 ) {
   const unknown = !passThrough
@@ -37,10 +38,13 @@ function normalizeOptions(
         !passThrough.includes(key) ? undefined : { [key]: value }
     : (key, value) => ({ [key]: value });
 
-  const schemas = optionInfosToSchemas(optionInfos, {
+  const schemas = [
+...extraSchemas,
+    ...optionInfosToSchemas(optionInfos, {
     isCLI,
     FlagSchema
-  });
+  })
+  ];
   const normalizer = new vnopts.Normalizer(schemas, {
     logger,
     unknown,
@@ -69,10 +73,6 @@ function optionInfosToSchemas(
   { isCLI, FlagSchema }
 ) {
   const schemas = [];
-
-  if (isCLI) {
-    schemas.push(vnopts.AnySchema.create({ name: "_" }));
-  }
 
   for (const optionInfo of optionInfos) {
     schemas.push(
@@ -242,6 +242,10 @@ function normalizeCliOptions(options, optionInfos, opts) {
 
     if (!opts.FlagSchema) {
       throw new Error("'FlagSchema' option is required.");
+    }
+
+    if (!opts.extraSchemas) {
+      throw new Error("'extraSchemas' option is required.");
     }
   }
 

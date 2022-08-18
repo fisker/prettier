@@ -58,6 +58,9 @@ function normalizeCliOptions(options, optionInfos, opts) {
   const normalized = prettierNormalizeCliOptions(options, optionInfos, {
     descriptor: cliDescriptor,
     FlagSchema,
+    extraSchemas: [
+      vnopts.AnySchema.create({ name: "_" })
+    ],
     ...opts,
   });
 
