@@ -55,13 +55,19 @@ class FlagSchema extends vnopts.ChoiceSchema {
 };
 
 function normalizeCliOptions(options, optionInfos, opts) {
-  return prettierNormalizeCliOptions(options, optionInfos, {
+  const normalized = prettierNormalizeCliOptions(options, optionInfos, {
     colorsModule: chalk,
     levenshteinDistance: leven,
     descriptor: cliDescriptor,
     FlagSchema,
     ...opts,
   });
+
+  if (normalized["plugin-search"] === false) {
+    normalized["plugin-search-dir"] = false;
+  }
+
+  return normalized
 }
 
 export default normalizeCliOptions;
