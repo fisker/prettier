@@ -3,7 +3,6 @@ import leven from "leven";
 import vnopts from "vnopts";
 import { normalizeCliOptions as prettierNormalizeCliOptions } from "../prettier-internal.js";
 
-
 const cliDescriptor = {
   key: (key) => (key.length === 1 ? `-${key}` : `--${key}`),
   value: (value) => vnopts.apiDescriptor.value(value),
