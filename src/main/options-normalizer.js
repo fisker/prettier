@@ -21,7 +21,6 @@ function normalizeOptions(
     passThrough = false,
     descriptor = vnopts.apiDescriptor,
     FlagSchema,
-    extraSchemas = [],
   } = {}
 ) {
   const unknown = !passThrough
@@ -38,13 +37,10 @@ function normalizeOptions(
         !passThrough.includes(key) ? undefined : { [key]: value }
     : (key, value) => ({ [key]: value });
 
-  const schemas = [
-...extraSchemas,
-    ...optionInfosToSchemas(optionInfos, {
+  const schemas = optionInfosToSchemas(optionInfos, {
     isCLI,
-    FlagSchema
-  })
-  ];
+    FlagSchema,
+  });
   const normalizer = new vnopts.Normalizer(schemas, {
     logger,
     unknown,
@@ -68,11 +64,12 @@ function normalizeOptions(
   return normalized;
 }
 
-function optionInfosToSchemas(
-  optionInfos,
-  { isCLI, FlagSchema }
-) {
+function optionInfosToSchemas(optionInfos, { isCLI, FlagSchema }) {
   const schemas = [];
+
+  if (isCLI) {
+    schemas.push(vnopts.AnySchema.create({ name: "_" }));
+  }
 
   for (const optionInfo of optionInfos) {
     schemas.push(
@@ -102,10 +99,7 @@ function optionInfosToSchemas(
  * @param {any} param1
  * @returns
  */
-function optionInfoToSchema(
-  optionInfo,
-  { isCLI, optionInfos, FlagSchema }
-) {
+function optionInfoToSchema(optionInfo, { isCLI, optionInfos, FlagSchema }) {
   const { name } = optionInfo;
 
   if (name === "plugin-search-dir" || name === "pluginSearchDirs") {
@@ -228,28 +222,4 @@ function optionInfoToSchema(
     : SchemaConstructor.create({ ...parameters, ...handlers });
 }
 
-function normalizeApiOptions(options, optionInfos, opts) {
-  return normalizeOptions(options, optionInfos, opts);
-}
-
-function normalizeCliOptions(options, optionInfos, opts) {
-  /* istanbul ignore next */
-  if (process.env.NODE_ENV !== "production") {
-
-    if (!opts.descriptor) {
-      throw new Error("'descriptor' option is required.");
-    }
-
-    if (!opts.FlagSchema) {
-      throw new Error("'FlagSchema' option is required.");
-    }
-
-    if (!opts.extraSchemas) {
-      throw new Error("'extraSchemas' option is required.");
-    }
-  }
-
-  return normalizeOptions(options, optionInfos, { isCLI: true, ...opts });
-}
-
-export { normalizeApiOptions, normalizeCliOptions };
+export default normalizeOptions

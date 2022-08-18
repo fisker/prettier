@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import leven from "leven";
 import vnopts from "vnopts";
-import { normalizeCliOptions as prettierNormalizeCliOptions } from "../prettier-internal.js";
+import { normalizeOptions } from "../prettier-internal.js";
 
 const cliDescriptor = {
   key: (key) => (key.length === 1 ? `-${key}` : `--${key}`),
@@ -55,12 +55,9 @@ class FlagSchema extends vnopts.ChoiceSchema {
 };
 
 function normalizeCliOptions(options, optionInfos, opts) {
-  const normalized = prettierNormalizeCliOptions(options, optionInfos, {
+  const normalized = normalizeOptions(options, optionInfos, {
     descriptor: cliDescriptor,
     FlagSchema,
-    extraSchemas: [
-      vnopts.AnySchema.create({ name: "_" })
-    ],
     ...opts,
   });
 
