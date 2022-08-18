@@ -5,58 +5,6 @@ import getLast from "../utils/get-last.js";
  * @typedef {import("./support").NamedOptionInfo} NamedOptionInfo
  */
 
-const cliDescriptor = {
-  key: (key) => (key.length === 1 ? `-${key}` : `--${key}`),
-  value: (value) => vnopts.apiDescriptor.value(value),
-  pair: ({ key, value }) =>
-    value === false
-      ? `--no-${key}`
-      : value === true
-      ? cliDescriptor.key(key)
-      : value === ""
-      ? `${cliDescriptor.key(key)} without an argument`
-      : `${cliDescriptor.key(key)}=${value}`,
-};
-
-// To prevent `chalk` and `leven` module from being included in the `standalone.js` bundle, it will take that as an argument if needed.
-const getFlagSchema = ({ colorsModule, levenshteinDistance }) =>
-  class FlagSchema extends vnopts.ChoiceSchema {
-    #flags = [];
-
-    constructor({ name, flags }) {
-      super({ name, choices: flags });
-      this.#flags = [...flags].sort();
-    }
-    preprocess(value, utils) {
-      if (
-        typeof value === "string" &&
-        value.length > 0 &&
-        !this.#flags.includes(value)
-      ) {
-        const suggestion = this.#flags.find(
-          (flag) => levenshteinDistance(flag, value) < 3
-        );
-        if (suggestion) {
-          utils.logger.warn(
-            [
-              `Unknown flag ${colorsModule.yellow(
-                utils.descriptor.value(value)
-              )},`,
-              `did you mean ${colorsModule.blue(
-                utils.descriptor.value(suggestion)
-              )}?`,
-            ].join(" ")
-          );
-          return suggestion;
-        }
-      }
-      return value;
-    }
-    expected() {
-      return "a flag";
-    }
-  };
-
 let hasDeprecationWarned;
 
 /**
@@ -73,6 +21,8 @@ function normalizeOptions(
     passThrough = false,
     colorsModule = null,
     levenshteinDistance = null,
+    descriptor = vnopts.apiDescriptor,
+    FlagSchema
   } = {}
 ) {
   const unknown = !passThrough
@@ -89,11 +39,11 @@ function normalizeOptions(
         !passThrough.includes(key) ? undefined : { [key]: value }
     : (key, value) => ({ [key]: value });
 
-  const descriptor = isCLI ? cliDescriptor : vnopts.apiDescriptor;
   const schemas = optionInfosToSchemas(optionInfos, {
     isCLI,
     colorsModule,
     levenshteinDistance,
+    FlagSchema
   });
   const normalizer = new vnopts.Normalizer(schemas, {
     logger,
@@ -124,7 +74,7 @@ function normalizeOptions(
 
 function optionInfosToSchemas(
   optionInfos,
-  { isCLI, colorsModule, levenshteinDistance }
+  { isCLI, colorsModule, levenshteinDistance, FlagSchema }
 ) {
   const schemas = [];
 
@@ -139,6 +89,7 @@ function optionInfosToSchemas(
         optionInfos,
         colorsModule,
         levenshteinDistance,
+        FlagSchema,
       })
     );
 
@@ -163,7 +114,7 @@ function optionInfosToSchemas(
  */
 function optionInfoToSchema(
   optionInfo,
-  { isCLI, optionInfos, colorsModule, levenshteinDistance }
+  { isCLI, optionInfos, colorsModule, levenshteinDistance, FlagSchema }
 ) {
   const { name } = optionInfo;
 
@@ -224,7 +175,7 @@ function optionInfoToSchema(
       SchemaConstructor = vnopts.BooleanSchema;
       break;
     case "flag":
-      SchemaConstructor = getFlagSchema({ colorsModule, levenshteinDistance });
+      SchemaConstructor = FlagSchema;
       parameters.flags = optionInfos.flatMap((optionInfo) =>
         [
           optionInfo.alias,
@@ -300,6 +251,14 @@ function normalizeCliOptions(options, optionInfos, opts) {
 
     if (!opts.levenshteinDistance) {
       throw new Error("'levenshteinDistance' option is required.");
+    }
+
+    if (!opts.descriptor) {
+      throw new Error("'descriptor' option is required.");
+    }
+
+    if (!opts.FlagSchema) {
+      throw new Error("'FlagSchema' option is required.");
     }
   }
 
