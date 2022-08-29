@@ -33,21 +33,40 @@ if (!isProduction) {
 }
 
 const config = {
+  projects: [
+    {
+      displayName: "Format Test",
+      testMatch: ["<rootDir>/tests/format/**/jsfmt.spec.js"],
+      runner: "jest-light-runner",
+    },
+    {
+      displayName: "Unit Test",
+      testMatch: ["<rootDir>/tests/unit/**/*.js"],
+      runner: "jest-light-runner",
+    },
+    {
+      displayName: "Integration Test",
+      testMatch: ["<rootDir>/tests/integration/__tests__/**/*.js"],
+      runner: "jest-light-runner/in-band",
+    },
+  ].map((projectConfig) => ({
+    snapshotSerializers: [
+      "jest-snapshot-serializer-raw",
+      "jest-snapshot-serializer-ansi",
+    ],
+    testPathIgnorePatterns,
+    modulePathIgnorePatterns: [
+      "<rootDir>/dist",
+      "<rootDir>/website",
+      "<rootDir>/scripts/release",
+    ],
   setupFiles: [
     "<rootDir>/tests/config/format-test-setup.js",
     "<rootDir>/tests/integration/integration-test-setup.js",
   ],
-  runner: "jest-light-runner",
-  snapshotSerializers: [
-    "jest-snapshot-serializer-raw",
-    "jest-snapshot-serializer-ansi",
-  ],
-  testMatch: [
-    "<rootDir>/tests/format/**/jsfmt.spec.js",
-    "<rootDir>/tests/integration/__tests__/**/*.js",
-    "<rootDir>/tests/unit/**/*.js",
-  ],
-  testPathIgnorePatterns,
+    ...projectConfig,
+  })),
+  testMatch: [],
   collectCoverage: ENABLE_CODE_COVERAGE,
   collectCoverageFrom: ["<rootDir>/src/**/*.js", "<rootDir>/bin/**/*.js"],
   coveragePathIgnorePatterns: [
@@ -55,15 +74,6 @@ const config = {
     "<rootDir>/src/document/debug.js",
   ],
   coverageReporters: ["text", "lcov"],
-  moduleNameMapper: {
-    "prettier-local": "<rootDir>/tests/config/prettier-entry.js",
-    "prettier-standalone": "<rootDir>/tests/config/require-standalone.cjs",
-  },
-  modulePathIgnorePatterns: [
-    "<rootDir>/dist",
-    "<rootDir>/website",
-    "<rootDir>/scripts/release",
-  ],
   transform: {},
   watchPlugins: [
     "jest-watch-typeahead/filename",
