@@ -38,6 +38,9 @@ const config = {
       displayName: "Format Test",
       testMatch: ["<rootDir>/tests/format/**/jsfmt.spec.js"],
       runner: "jest-light-runner",
+  setupFiles: [
+    "<rootDir>/tests/config/format-test-setup.js",
+  ],
     },
     {
       displayName: "Unit Test",
@@ -48,28 +51,23 @@ const config = {
       displayName: "Integration Test",
       testMatch: ["<rootDir>/tests/integration/__tests__/**/*.js"],
       runner: "jest-light-runner/in-band",
+  setupFiles: [
+    "<rootDir>/tests/integration/integration-test-setup.js",
+  ],
     },
   ].map((projectConfig) => ({
-    ...projectConfig,
     snapshotSerializers: [
       "jest-snapshot-serializer-raw",
       "jest-snapshot-serializer-ansi",
     ],
-    snapshotFormat: {
-      escapeString: false,
-      printBasicPrototype: false,
-    },
     testPathIgnorePatterns,
     modulePathIgnorePatterns: [
       "<rootDir>/dist",
       "<rootDir>/website",
       "<rootDir>/scripts/release",
     ],
+    ...projectConfig,
   })),
-  setupFiles: [
-    "<rootDir>/tests/config/format-test-setup.js",
-    "<rootDir>/tests/integration/integration-test-setup.js",
-  ],
   testMatch: [],
   collectCoverage: ENABLE_CODE_COVERAGE,
   collectCoverageFrom: ["<rootDir>/src/**/*.js", "<rootDir>/bin/**/*.js"],
