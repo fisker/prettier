@@ -5,8 +5,14 @@ import url from "node:url";
 import { cosmiconfig } from "cosmiconfig";
 import { prettierCli, thirdParty as thirdPartyModuleFile } from "./env.js";
 
+const INTEGRATION_TEST_DIRECTORY = url.fileURLToPath(
+  new URL("./", import.meta.url)
+);
+
 async function run() {
-  const { options } = workerData;
+  let { dir, options } = workerData;
+
+  dir = path.resolve(INTEGRATION_TEST_DIRECTORY, dir);
 
   Date.now = () => 0;
   // eslint-disable-next-line require-await
@@ -36,6 +42,9 @@ async function run() {
   process.stdin.isTTY = Boolean(options.isTTY);
   process.stdout.isTTY = Boolean(options.stdoutIsTTY);
   process.cwd = () => dir;
+  process.chdir = () => {
+    throw new Error("Can't call `process.chdir()` in worker.")
+  };
 
   const { default: thirdParty } = await import(
     url.pathToFileURL(thirdPartyModuleFile)

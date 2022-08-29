@@ -1,11 +1,6 @@
-import path from "node:path";
-import url from "node:url";
 import { Worker } from "node:worker_threads";
 
 const CLI_WORKER_FILE = new URL("./cli-worker.js", import.meta.url);
-const INTEGRATION_TEST_DIRECTORY = url.fileURLToPath(
-  new URL("./", import.meta.url)
-);
 
 const streamToString = (stream) =>
   new Promise((resolve, reject) => {
