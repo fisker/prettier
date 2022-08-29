@@ -38,9 +38,6 @@ const config = {
       displayName: "Format Test",
       testMatch: ["<rootDir>/tests/format/**/jsfmt.spec.js"],
       runner: "jest-light-runner",
-  setupFiles: [
-    "<rootDir>/tests/config/format-test-setup.js",
-  ],
     },
     {
       displayName: "Unit Test",
@@ -51,9 +48,6 @@ const config = {
       displayName: "Integration Test",
       testMatch: ["<rootDir>/tests/integration/__tests__/**/*.js"],
       runner: "jest-light-runner/in-band",
-  setupFiles: [
-    "<rootDir>/tests/integration/integration-test-setup.js",
-  ],
     },
   ].map((projectConfig) => ({
     snapshotSerializers: [
@@ -66,6 +60,10 @@ const config = {
       "<rootDir>/website",
       "<rootDir>/scripts/release",
     ],
+  setupFiles: [
+    "<rootDir>/tests/config/format-test-setup.js",
+    "<rootDir>/tests/integration/integration-test-setup.js",
+  ],
     ...projectConfig,
   })),
   testMatch: [],
