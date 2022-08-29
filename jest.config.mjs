@@ -60,6 +60,11 @@ const config = {
       printBasicPrototype: false,
     },
     testPathIgnorePatterns,
+    modulePathIgnorePatterns: [
+      "<rootDir>/dist",
+      "<rootDir>/website",
+      "<rootDir>/scripts/release",
+    ],
   })),
   setupFiles: [
     "<rootDir>/tests/config/format-test-setup.js",
@@ -73,15 +78,6 @@ const config = {
     "<rootDir>/src/document/debug.js",
   ],
   coverageReporters: ["text", "lcov"],
-  moduleNameMapper: {
-    "prettier-local": "<rootDir>/tests/config/prettier-entry.js",
-    "prettier-standalone": "<rootDir>/tests/config/require-standalone.cjs",
-  },
-  modulePathIgnorePatterns: [
-    "<rootDir>/dist",
-    "<rootDir>/website",
-    "<rootDir>/scripts/release",
-  ],
   transform: {},
   watchPlugins: [
     "jest-watch-typeahead/filename",
