@@ -19,6 +19,12 @@
     },
     "./*": "./"
   },
+  "workspaces": [
+    "website",
+    "scripts/release",
+    "scripts/tools/bundle-test",
+    "scripts/tools/eslint-plugin-prettier-internal-rules"
+  ],
   "engines": {
     "node": ">=16"
   },
