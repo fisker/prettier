@@ -108,11 +108,6 @@ function isVarFunctionNode(node) {
   return node.type === "value-func" && node.value.toLowerCase() === "var";
 }
 
-function isLastNode(path, node) {
-  const nodes = path.parent?.nodes;
-  return nodes && nodes.indexOf(node) === nodes.length - 1;
-}
-
 function isDetachedRulesetDeclarationNode(node) {
   const { selector } = node;
   // If a Less file ends up being parsed with the SCSS parser, Less
@@ -393,7 +388,6 @@ export {
   insideURLFunctionInImportAtRuleNode,
   isKeyframeAtRuleKeywords,
   isWideKeywords,
-  isLastNode,
   isSCSSControlDirectiveNode,
   isDetachedRulesetDeclarationNode,
   isRelationalOperatorNode,

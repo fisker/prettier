@@ -35,9 +35,6 @@ function genericPrint(path, options, print) {
     case "front-matter":
       return replaceEndOfLine(node.raw);
     case "root":
-      if (options.__onHtmlRoot) {
-        options.__onHtmlRoot(node);
-      }
       return [group(printChildren(path, options, print)), hardline];
     case "element":
     case "ieConditionalComment":

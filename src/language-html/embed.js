@@ -42,7 +42,7 @@ async function printEmbeddedAttributeValue(node, htmlTextToDoc, options) {
 
   let shouldHug = false;
 
-  const __onHtmlBindingRoot = (root, options) => {
+  const onParsed = (root, options) => {
     const rootNode =
       root.type === "NGRoot"
         ? root.node.type === "NGMicrosyntax" &&
@@ -72,7 +72,7 @@ async function printEmbeddedAttributeValue(node, htmlTextToDoc, options) {
 
   const attributeTextToDoc = (code, opts) =>
     htmlTextToDoc(code, {
-      __onHtmlBindingRoot,
+      onParsed,
       __embeddedInHtml: true,
       ...opts,
     });

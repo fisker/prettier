@@ -35,7 +35,7 @@ async function embedHtmlLike(parser, textToDoc, print, path, options) {
   let topLevelCount = 0;
   const doc = await textToDoc(text, {
     parser,
-    __onHtmlRoot(root) {
+    onParsed(root) {
       topLevelCount = root.children.length;
     },
   });

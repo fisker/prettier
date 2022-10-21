@@ -36,7 +36,6 @@ import {
   insideURLFunctionInImportAtRuleNode,
   isKeyframeAtRuleKeywords,
   isWideKeywords,
-  isLastNode,
   isSCSSControlDirectiveNode,
   isDetachedRulesetDeclarationNode,
   isRelationalOperatorNode,
@@ -183,7 +182,7 @@ function genericPrint(path, options, print) {
             !parentNode.raws.semicolon &&
             options.originalText[locEnd(node) - 1] !== ";"
           ? ""
-          : options.__isHTMLStyleAttribute && isLastNode(path, node)
+          : options.__isHTMLStyleAttribute && path.isLast
           ? ifBreak(";")
           : ";",
       ];
@@ -323,7 +322,7 @@ function genericPrint(path, options, print) {
     case "media-query":
       return [
         join(" ", path.map(print, "nodes")),
-        isLastNode(path, node) ? "" : ",",
+        path.isLast ? "" : ",",
       ];
 
     case "media-type":
@@ -440,7 +439,7 @@ function genericPrint(path, options, print) {
             ? ""
             : line;
 
-        return [leading, node.value, isLastNode(path, node) ? "" : " "];
+        return [leading, node.value, path.isLast ? "" : " "];
       }
 
       const leading = node.value.trim().startsWith("(") ? line : "";
