@@ -11,11 +11,8 @@ import {
 } from "../document/builders.js";
 import { replaceEndOfLine } from "../document/utils.js";
 import { isPreviousLineEmpty } from "../common/util.js";
-import createGetVisitorKeys from "../utils/create-get-visitor-keys.js";
 import UnexpectedNodeError from "../utils/unexpected-node-error.js";
-import { insertPragma, isPragma } from "./pragma.js";
 import { locStart } from "./loc.js";
-import embed from "./embed.js";
 import {
   getFlowScalarLineContents,
   getLastDescendantNode,
@@ -28,8 +25,6 @@ import {
   isNode,
   isInlineNode,
 } from "./utils.js";
-import visitorKeys from "./visitor-keys.js";
-import preprocess from "./print-preprocess.js";
 import {
   alignWithSpaces,
   printNextEmptyLine,
@@ -41,8 +36,6 @@ import {
 } from "./print/flow-mapping-sequence.js";
 import printMappingItem from "./print/mapping-item.js";
 import printBlock from "./print/block.js";
-
-const getVisitorKeys = createGetVisitorKeys(visitorKeys);
 
 function genericPrint(path, options, print) {
   const { node } = path;
@@ -405,31 +398,4 @@ function printFlowScalarContent(nodeType, content, options) {
   );
 }
 
-function clean(node, newNode /*, parent */) {
-  if (isNode(newNode)) {
-    delete newNode.position;
-    switch (newNode.type) {
-      case "comment":
-        // insert pragma
-        if (isPragma(newNode.value)) {
-          return null;
-        }
-        break;
-      case "quoteDouble":
-      case "quoteSingle":
-        newNode.type = "quote";
-        break;
-    }
-  }
-}
-
-const printer = {
-  preprocess,
-  embed,
-  print: genericPrint,
-  massageAstNode: clean,
-  insertPragma,
-  getVisitorKeys,
-};
-
-export default printer;
+export default genericPrint;
