@@ -203,15 +203,12 @@ async function parseNestedValue(node, options) {
 }
 
 async function parseValue(value, options) {
-  const Parser = await import("postcss-values-parser/lib/parser.js").then(
-    (m) => m.default
-  );
-  const valueParser = (source, options) => new Parser(source, options);
+  const { parse } = await import("postcss-values-parser/lib/index.js");
 
   let result = null;
 
   try {
-    result = valueParser(value, { loose: true }).parse();
+    result = parse(value, { loose: true });
   } catch {
     return {
       type: "value-unknown",

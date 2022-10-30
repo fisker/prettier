@@ -44,6 +44,10 @@ const visitorKeys = {
   "value-atword": [],
   "value-unicode-range": [],
   "value-unknown": [],
+
+  "value-numeric": [],
+  "value-punctuation": [],
+  "value-quoted": [],
 };
 
 export default visitorKeys;

@@ -851,6 +851,7 @@ function genericPrint(path, options, print) {
       if (didBreak) {
         parts.unshift(hardline);
       }
+      console.log(node);
 
       if (isControlDirective) {
         return group(indent(parts));
@@ -980,17 +981,19 @@ function genericPrint(path, options, print) {
     }
     case "value-func":
       return [
-        node.value,
+        node.name,
+        node.params,
         insideAtRuleNode(path, "supports") && isMediaAndSupportsKeywords(node)
           ? " "
           : "",
-        print("group"),
+        // print("group"),
       ];
 
     case "value-paren":
       return node.value;
 
     case "value-number":
+    case "value-numeric":
       return [printCssNumber(node.value), printUnit(node.unit)];
 
     case "value-operator":
@@ -1020,10 +1023,8 @@ function genericPrint(path, options, print) {
       ];
     }
     case "value-string":
-      return printString(
-        node.raws.quote + node.value + node.raws.quote,
-        options
-      );
+    case "value-quoted":
+      return printString(node.value, options);
 
     case "value-atword":
       return ["@", node.value];
@@ -1032,6 +1033,9 @@ function genericPrint(path, options, print) {
       return node.value;
 
     case "value-unknown":
+      return node.value;
+
+    case "value-punctuation":
       return node.value;
 
     case "value-comma": // Handled in `value-comma_group`
