@@ -111,8 +111,14 @@ function getLeftSidePathName(node) {
 }
 
 function createTypeCheckFunction(types) {
-  types = new Set(types);
-  return (node) => types.has(node?.type);
+  let set;
+  return (node) => {
+    if (!set) {
+      set = new Set(types);
+    }
+
+    return set.has(node?.type);
+  };
 }
 
 /**
