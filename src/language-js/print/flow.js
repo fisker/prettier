@@ -11,7 +11,6 @@ import {
 } from "../utils/index.js";
 import { printClass } from "./class.js";
 import {
-  printOpaqueType,
   printTypeAlias,
   printIntersectionType,
   printUnionType,
@@ -34,6 +33,7 @@ import {
 } from "./enum.js";
 import { printBigInt } from "./literal.js";
 import { printFunctionType } from "./function-type.js";
+import { printOpaqueType } from "./opaque-type.js";
 import {
   printOptionalToken,
   printRestSpread,
