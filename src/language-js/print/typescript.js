@@ -44,7 +44,6 @@ import {
   printTypeAlias,
   printIntersectionType,
   printUnionType,
-  printFunctionType,
   printIndexedAccessType,
   printJSDocType,
   printRestType,
@@ -53,6 +52,7 @@ import {
   printTypeAnnotationProperty,
 } from "./type-annotation.js";
 import { printEnumDeclaration, printEnumMember } from "./enum.js";
+import { printFunctionType } from "./function-type.js";
 import { printDeclareToken } from "./misc.js";
 
 function printTypescript(path, options, print) {

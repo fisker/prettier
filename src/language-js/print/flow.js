@@ -15,7 +15,6 @@ import {
   printTypeAlias,
   printIntersectionType,
   printUnionType,
-  printFunctionType,
   printIndexedAccessType,
   printRestType,
   printNamedTupleMember,
@@ -34,6 +33,7 @@ import {
   printEnumMember,
 } from "./enum.js";
 import { printBigInt } from "./literal.js";
+import { printFunctionType } from "./function-type.js";
 import {
   printOptionalToken,
   printRestSpread,
