@@ -1,5 +1,4 @@
-
-import {  printDeclareToken } from "./misc.js";
+import { printDeclareToken } from "./misc.js";
 
 /*
 - `DeclareOpaqueType`(flow)
@@ -28,4 +27,4 @@ function printOpaqueType(path, options, print) {
   return parts;
 }
 
-export {printOpaqueType }
+export { printOpaqueType };
