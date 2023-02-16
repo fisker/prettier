@@ -32,13 +32,13 @@ function createParse() {
 
   return async (text) => {
     const { frontMatter, content } = parseFrontMatter(text);
+    const ast = await processor.run(processor.parse(content));
+
     if (frontMatter) {
-      const ast = await processor.run(processor.parse(content));
       ast.children.unshift(frontMatter);
-      return ast;
     }
 
-    return processor.run(processor.parse(text));
+    return ast;
   };
 }
 
