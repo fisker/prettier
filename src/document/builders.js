@@ -29,8 +29,9 @@ import { assertDoc, assertDocArray } from "./utils/assert-doc.js";
  */
 
 /**
+ * @typedef {{type: DOC_TYPE_INDENT, contents: Doc}} DocCommandIndent
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocCommandIndent}
  */
 function indent(contents) {
   assertDoc(contents);
@@ -39,37 +40,51 @@ function indent(contents) {
 }
 
 /**
- * @param {number | string} widthOrString
+ * @typedef {number | string | {type: 'root'}} AlignOption
+ * @typedef {{type: DOC_TYPE_ALIGN, contents: Doc, n: AlignOption}} DocCommandAlign
+ * @param {AlignOption} alignOption
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocCommandAlign}
  */
-function align(widthOrString, contents) {
+function align(alignOption, contents) {
   assertDoc(contents);
 
-  return { type: DOC_TYPE_ALIGN, contents, n: widthOrString };
+  return { type: DOC_TYPE_ALIGN, contents, n: alignOption };
 }
 
 /**
+ * @typedef {{
+ *   type: DOC_TYPE_GROUP,
+ *   id?: string | symbol,
+ *   contents: Doc,
+ *   break?: boolean,
+ *   expandedStates?: Doc[],
+ * }} DocCommandGroup
+ * @typedef {{
+ *   id?: string | symbol,
+ *   shouldBreak?: boolean,
+ *   expandedStates?: Doc[],
+ * }} DocCommandGroupOptions
  * @param {Doc} contents
- * @param {object} [opts] - TBD ???
- * @returns Doc
+ * @param {DocCommandGroupOptions=} options
+ * @returns {DocCommandGroup}
  */
-function group(contents, opts = {}) {
+function group(contents, options = {}) {
   assertDoc(contents);
-  assertDocArray(opts.expandedStates, /* optional */ true);
+  assertDocArray(options.expandedStates, /* optional */ true);
 
   return {
     type: DOC_TYPE_GROUP,
-    id: opts.id,
+    id: options.id,
     contents,
-    break: Boolean(opts.shouldBreak),
-    expandedStates: opts.expandedStates,
+    break: Boolean(options.shouldBreak),
+    expandedStates: options.expandedStates,
   };
 }
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocCommandAlign}
  */
 function dedentToRoot(contents) {
   return align(Number.NEGATIVE_INFINITY, contents);
@@ -77,16 +92,15 @@ function dedentToRoot(contents) {
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocCommandAlign}
  */
 function markAsRoot(contents) {
-  // @ts-expect-error - TBD ???:
   return align({ type: "root" }, contents);
 }
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocCommandAlign}
  */
 function dedent(contents) {
   return align(-1, contents);
@@ -94,16 +108,17 @@ function dedent(contents) {
 
 /**
  * @param {Doc[]} states
- * @param {object} [opts] - TBD ???
- * @returns Doc
+ * @param {DocCommandGroupOptions} [options]
+ * @returns {DocCommandGroup}
  */
-function conditionalGroup(states, opts) {
-  return group(states[0], { ...opts, expandedStates: states });
+function conditionalGroup(states, options) {
+  return group(states[0], { ...options, expandedStates: states });
 }
 
 /**
+ * @typedef {{type: DOC_TYPE_FILL, parts: Doc[]}} DocCommandFill
  * @param {Doc[]} parts
- * @returns Doc
+ * @returns {DocCommandFill}
  */
 function fill(parts) {
   assertDocArray(parts);
@@ -112,12 +127,14 @@ function fill(parts) {
 }
 
 /**
+ * @typedef {{groupId?: symbol}} DocCommandIfBreakOption
+ * @typedef {{type: DOC_TYPE_IF_BREAK, breakContents: Doc, flatContents: Doc, options?: symbol}} DocCommandIfBreak
  * @param {Doc} breakContents
  * @param {Doc} [flatContents]
- * @param {object} [opts] - TBD ???
- * @returns Doc
+ * @param {DocCommandIfBreakOption=} options
+ * @returns {DocCommandIfBreak}
  */
-function ifBreak(breakContents, flatContents = "", opts = {}) {
+function ifBreak(breakContents, flatContents = "", options = {}) {
   assertDoc(breakContents);
   if (flatContents !== "") {
     assertDoc(flatContents);
@@ -127,7 +144,7 @@ function ifBreak(breakContents, flatContents = "", opts = {}) {
     type: DOC_TYPE_IF_BREAK,
     breakContents,
     flatContents,
-    groupId: opts.groupId,
+    groupId: options.groupId,
   };
 }
 
