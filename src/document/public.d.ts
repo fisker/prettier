@@ -238,7 +238,6 @@ export namespace utils {
   function propagateBreaks(doc: builders.Doc): void;
   function removeLines(doc: builders.Doc): builders.Doc;
   function stripTrailingHardline(doc: builders.Doc): builders.Doc;
-  function cleanDoc(doc: builders.Doc): builders.Doc;
   function replaceEndOfLine(
     doc: builders.Doc,
     replacement?: builders.Doc
