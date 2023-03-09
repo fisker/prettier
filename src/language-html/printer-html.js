@@ -5,12 +5,9 @@
 import { fill, group, hardline } from "../document/builders.js";
 import { cleanDoc, replaceEndOfLine } from "../document/utils.js";
 import UnexpectedNodeError from "../utils/unexpected-node-error.js";
+import countCharacters from "../utils/count-characters.js";
 import clean from "./clean.js";
-import {
-  countChars,
-  unescapeQuoteEntities,
-  getTextValueParts,
-} from "./utils/index.js";
+import { unescapeQuoteEntities, getTextValueParts } from "./utils/index.js";
 import preprocess from "./print-preprocess.js";
 import { insertPragma } from "./pragma.js";
 import { locStart, locEnd } from "./loc.js";
@@ -95,8 +92,11 @@ function genericPrint(path, options, print) {
         return node.rawName;
       }
       const value = unescapeQuoteEntities(node.value);
-      const singleQuoteCount = countChars(value, "'");
-      const doubleQuoteCount = countChars(value, '"');
+      const { '"': doubleQuoteCount, "'": singleQuoteCount } = countCharacters(
+        value,
+        "'\""
+      );
+
       const quote = singleQuoteCount < doubleQuoteCount ? "'" : '"';
       return [
         node.rawName,
