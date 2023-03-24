@@ -50,22 +50,40 @@ if (SKIP_TESTS_WITH_NEW_SYNTAX) {
 }
 
 const config = {
-  setupFiles: [
-    "<rootDir>/tests/config/format-test-setup.js",
-    "<rootDir>/tests/integration/integration-test-setup.js",
-  ],
-  runner: "jest-light-runner",
-  snapshotSerializers: [
-    "jest-snapshot-serializer-raw",
-    "jest-snapshot-serializer-ansi",
-  ],
-  testMatch: [
-    "<rootDir>/tests/format/**/jsfmt.spec.js",
-    "<rootDir>/tests/integration/__tests__/**/*.js",
-    "<rootDir>/tests/unit/**/*.js",
-    "<rootDir>/tests/dts/unit/**/*.js",
-  ],
-  testPathIgnorePatterns,
+  projects: [
+    {
+      displayName: "Format",
+      setupFiles: ["<rootDir>/tests/config/format-test-setup.js"],
+      testMatch: ["<rootDir>/tests/format/**/jsfmt.spec.js"],
+    },
+    {
+      displayName: "Integration",
+      runner: "./scripts/tools/in-band-jest-light-runner/index.js",
+      setupFiles: ["<rootDir>/tests/integration/integration-test-setup.js"],
+      testMatch: ["<rootDir>/tests/integration/__tests__/**/*.js"],
+    },
+    {
+      displayName: "Unit",
+      testMatch: ["<rootDir>/tests/unit/**/*.js"],
+    },
+    {
+      displayName: "Types",
+      testMatch: ["<rootDir>/tests/dts/unit/**/*.js"],
+    },
+  ].map((project) => ({
+    runner: "jest-light-runner",
+    snapshotSerializers: [
+      "jest-snapshot-serializer-raw",
+      "jest-snapshot-serializer-ansi",
+    ],
+    testPathIgnorePatterns,
+    modulePathIgnorePatterns: [
+      "<rootDir>/dist",
+      "<rootDir>/website",
+      "<rootDir>/scripts/release",
+    ],
+    ...project,
+  })),
   // collectCoverage: ENABLE_CODE_COVERAGE,
   collectCoverageFrom: ["<rootDir>/src/**/*.js", "<rootDir>/bin/**/*.js"],
   coveragePathIgnorePatterns: [
@@ -77,11 +95,6 @@ const config = {
     "prettier-local": "<rootDir>/tests/config/prettier-entry.js",
     "prettier-standalone": "<rootDir>/tests/config/require-standalone.cjs",
   },
-  modulePathIgnorePatterns: [
-    "<rootDir>/dist",
-    "<rootDir>/website",
-    "<rootDir>/scripts/release",
-  ],
   transform: {},
   watchPlugins: [
     "jest-watch-typeahead/filename",
