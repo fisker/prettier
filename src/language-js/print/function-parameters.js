@@ -14,7 +14,6 @@ import {
   iterateFunctionParametersPath,
   isSimpleType,
   isTestCall,
-  isTypeAnnotationAFunction,
   isObjectType,
   isObjectTypePropertyAFunction,
   hasRestParameter,
@@ -24,7 +23,7 @@ import {
   isArrayOrTupleExpression,
   isObjectOrRecordExpression,
 } from "../utils/index.js";
-import { locEnd } from "../loc.js";
+import { locEnd, hasSameLocStart } from "../loc.js";
 import { ArgExpansionBailout } from "../../common/errors.js";
 import { printFunctionTypeParameters } from "./misc.js";
 
@@ -284,6 +283,18 @@ function shouldBreakFunctionParameters(functionNode) {
   return (
     parameters.length > 1 &&
     parameters.some((parameter) => parameter.type === "TSParameterProperty")
+  );
+}
+
+// Hack to differentiate between the following two which have the same ast
+// declare function f(a): void;
+// var f: (a) => void;
+function isTypeAnnotationAFunction(node) {
+  return (
+    node.type === "TypeAnnotation" &&
+    node.typeAnnotation.type === "FunctionTypeAnnotation" &&
+    !node.static &&
+    !hasSameLocStart(node, node.typeAnnotation)
   );
 }
 

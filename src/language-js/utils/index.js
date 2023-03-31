@@ -271,18 +271,6 @@ function isObjectTypePropertyAFunction(node) {
   );
 }
 
-// Hack to differentiate between the following two which have the same ast
-// declare function f(a): void;
-// var f: (a) => void;
-function isTypeAnnotationAFunction(node) {
-  return (
-    (node.type === "TypeAnnotation" || node.type === "TSTypeAnnotation") &&
-    node.typeAnnotation.type === "FunctionTypeAnnotation" &&
-    !node.static &&
-    !hasSameLocStart(node, node.typeAnnotation)
-  );
-}
-
 /**
  * @param {Node} node
  * @returns {boolean}
@@ -1166,7 +1154,6 @@ export {
   isTemplateOnItsOwnLine,
   isTestCall,
   isTSXFile,
-  isTypeAnnotationAFunction,
   isNextLineEmpty,
   needsHardlineAfterDanglingComment,
   rawText,
