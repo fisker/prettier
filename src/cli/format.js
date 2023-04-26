@@ -355,7 +355,7 @@ async function formatFiles(context) {
 
     let input;
     try {
-      input = await fs.readFile(filename, "utf8");
+      input = await fs.readFile(path.join(process.cwd(), filename), "utf8");
     } catch (error) {
       // Add newline to split errors from filename line.
       /* c8 ignore start */
