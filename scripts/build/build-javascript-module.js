@@ -3,7 +3,8 @@ import { createRequire } from "node:module";
 import createEsmUtils from "esm-utils";
 import esbuild from "esbuild";
 import { nodeModulesPolyfillPlugin as esbuildPluginNodeModulePolyfills } from "esbuild-plugins-node-modules-polyfill";
-import browserslistToEsbuild from "browserslist-to-esbuild";
+import { resolveToEsbuildTarget } from "esbuild-plugin-browserslist";
+import browserslist from "browserslist";
 import { PROJECT_ROOT, DIST_DIR } from "../utils/index.js";
 import esbuildPluginEvaluate from "./esbuild-plugins/evaluate.js";
 import esbuildPluginReplaceModule from "./esbuild-plugins/replace-module.js";
@@ -21,7 +22,10 @@ import { getPackageFile } from "./utils.js";
 const { dirname, readJsonSync, require } = createEsmUtils(import.meta);
 const packageJson = readJsonSync("../../package.json");
 
-const universalTarget = browserslistToEsbuild(packageJson.browserslist);
+const universalTarget = resolveToEsbuildTarget(
+  browserslist(packageJson.browserslist),
+  { printUnknownTargets: false },
+);
 const getRelativePath = (from, to) => {
   const relativePath = path.posix.relative(path.dirname(`/${from}`), `/${to}`);
   if (!relativePath.startsWith(".")) {
