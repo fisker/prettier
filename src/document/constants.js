@@ -14,6 +14,33 @@ export const DOC_TYPE_LINE = "line";
 export const DOC_TYPE_LABEL = "label";
 export const DOC_TYPE_BREAK_PARENT = "break-parent";
 
+/**
+ * @typedef {(
+ *  | typeof DOC_TYPE_CURSOR
+ *  | typeof DOC_TYPE_INDENT
+ *  | typeof DOC_TYPE_ALIGN
+ *  | typeof DOC_TYPE_TRIM
+ *  | typeof DOC_TYPE_GROUP
+ *  | typeof DOC_TYPE_FILL
+ *  | typeof DOC_TYPE_IF_BREAK
+ *  | typeof DOC_TYPE_INDENT_IF_BREAK
+ *  | typeof DOC_TYPE_LINE_SUFFIX
+ *  | typeof DOC_TYPE_LINE_SUFFIX_BOUNDARY
+ *  | typeof DOC_TYPE_LINE
+ *  | typeof DOC_TYPE_LABEL
+ *  | typeof DOC_TYPE_BREAK_PARENT
+ * )} ObjectDocTypes
+ */
+
+/**
+ * @typedef {(
+ *  | typeof DOC_TYPE_STRING
+ *  | typeof DOC_TYPE_ARRAY
+ *  | ObjectDocTypes
+ * )} DocTypes
+ */
+
+/** @type Set<ObjectDocTypes> */
 export const VALID_OBJECT_DOC_TYPES = new Set([
   DOC_TYPE_CURSOR,
   DOC_TYPE_INDENT,

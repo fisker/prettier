@@ -7,12 +7,12 @@ const assertDoc =
     ? noop
     : function (doc) {
         traverseDoc(doc, (doc) => {
-          if (checked.has(doc)) {
-            return false;
-          }
-
           if (typeof doc !== "string") {
             checked.add(doc);
+
+            if (checked.has(doc)) {
+              return false;
+            }
           }
         });
       };

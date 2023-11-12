@@ -16,21 +16,49 @@ import {
 import { assertDoc, assertDocArray } from "./utils/assert-doc.js";
 
 /**
- * TBD properly tagged union for Doc object type is needed here.
+ * @typedef {string | number | {type: "root"}} DocAlignType
+ * @typedef {string | symbol} DocGroupId
  *
- * @typedef {object} DocObject
- * @property {string} type
- * @property {boolean} [hard]
- * @property {boolean} [literal]
+ * @typedef {{type: DOC_TYPE_CURSOR}} DocCursor
+ * @typedef {{type: DOC_TYPE_INDENT, contents: Doc}} DocIndent
+ * @typedef {{type: DOC_TYPE_ALIGN, contents: Doc, n: DocAlignType}} DocAlign
+ * @typedef {{type: DOC_TYPE_TRIM}} DocTrim
+ * @typedef {{type: DOC_TYPE_GROUP, id: DocGroupId, contents: Doc, break: Boolean, expandedStates: Doc[]}} DocGroup
+ * @typedef {{type: DOC_TYPE_FILL, parts: Doc[]}} DocFill
+ * @typedef {{type: DOC_TYPE_IF_BREAK, breakContents: Doc, flatContents: Doc, groupId: DocGroupId}} DocIfBreak
+ * @typedef {{type: DOC_TYPE_INDENT_IF_BREAK, contents: Doc, groupId: DocGroupId, negate: boolean}} DocIndentIfBreak
+ * @typedef {{type: DOC_TYPE_LINE_SUFFIX, contents: Doc}} DocLineSuffix
+ * @typedef {{type: DOC_TYPE_LINE_SUFFIX_BOUNDARY}} DocLineSuffixBoundary
+ * @typedef {{type: DOC_TYPE_LINE, hard?: boolean, soft?: boolean, literal?: boolean}} DocLine
+ * @typedef {{type: DOC_TYPE_LABEL, label: any, contents: Doc}} DocLabel
+ * @typedef {{type: DOC_TYPE_BREAK_PARENT}} DocBreakParent
+ *
+ * @typedef {(
+ *  | DocCursor
+ *  | DocIndent
+ *  | DocAlign
+ *  | DocTrim
+ *  | DocGroup
+ *  | DocFill
+ *  | DocIfBreak
+ *  | DocIndentIfBreak
+ *  | DocLineSuffix
+ *  | DocLineSuffixBoundary
+ *  | DocLine
+ *  | DocLabel
+ *  | DocBreakParent
+ * )} DocObject
  *
  * @typedef {Doc[]} DocArray
  *
  * @typedef {string | DocObject | DocArray} Doc
+ *
+ * @typedef {import("./constants.js").ObjectDocTypes} ObjectDocTypes
  */
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocIndent}
  */
 function indent(contents) {
   assertDoc(contents);
@@ -39,9 +67,9 @@ function indent(contents) {
 }
 
 /**
- * @param {number | string} widthOrString
+ * @param {DocAlignType} widthOrString
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocAlign}
  */
 function align(widthOrString, contents) {
   assertDoc(contents);
@@ -52,7 +80,7 @@ function align(widthOrString, contents) {
 /**
  * @param {Doc} contents
  * @param {object} [opts] - TBD ???
- * @returns Doc
+ * @returns {DocGroup}
  */
 function group(contents, opts = {}) {
   assertDoc(contents);
@@ -69,7 +97,7 @@ function group(contents, opts = {}) {
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocAlign}
  */
 function dedentToRoot(contents) {
   return align(Number.NEGATIVE_INFINITY, contents);
@@ -77,16 +105,15 @@ function dedentToRoot(contents) {
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocAlign}
  */
 function markAsRoot(contents) {
-  // @ts-expect-error - TBD ???:
   return align({ type: "root" }, contents);
 }
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocAlign}
  */
 function dedent(contents) {
   return align(-1, contents);
@@ -95,7 +122,7 @@ function dedent(contents) {
 /**
  * @param {Doc[]} states
  * @param {object} [opts] - TBD ???
- * @returns Doc
+ * @returns {DocGroup}
  */
 function conditionalGroup(states, opts) {
   return group(states[0], { ...opts, expandedStates: states });
@@ -103,7 +130,7 @@ function conditionalGroup(states, opts) {
 
 /**
  * @param {Doc[]} parts
- * @returns Doc
+ * @returns {DocFill}
  */
 function fill(parts) {
   assertDocArray(parts);
@@ -115,7 +142,7 @@ function fill(parts) {
  * @param {Doc} breakContents
  * @param {Doc} [flatContents]
  * @param {object} [opts] - TBD ???
- * @returns Doc
+ * @returns {DocIfBreak}
  */
 function ifBreak(breakContents, flatContents = "", opts = {}) {
   assertDoc(breakContents);
@@ -135,7 +162,7 @@ function ifBreak(breakContents, flatContents = "", opts = {}) {
  * Optimized version of `ifBreak(indent(doc), doc, { groupId: ... })`
  * @param {Doc} contents
  * @param {{ groupId: symbol, negate?: boolean }} opts
- * @returns Doc
+ * @returns {DocIndentIfBreak}
  */
 function indentIfBreak(contents, opts) {
   assertDoc(contents);
@@ -150,7 +177,7 @@ function indentIfBreak(contents, opts) {
 
 /**
  * @param {Doc} contents
- * @returns Doc
+ * @returns {DocLineSuffix}
  */
 function lineSuffix(contents) {
   assertDoc(contents);
@@ -158,28 +185,35 @@ function lineSuffix(contents) {
   return { type: DOC_TYPE_LINE_SUFFIX, contents };
 }
 
+/** @type {DocLineSuffixBoundary}  */
 const lineSuffixBoundary = { type: DOC_TYPE_LINE_SUFFIX_BOUNDARY };
+/** @type {DocBreakParent}  */
 const breakParent = { type: DOC_TYPE_BREAK_PARENT };
+/** @type {DocTrim} */
 const trim = { type: DOC_TYPE_TRIM };
 
+/** @type {DocLine} */
 const hardlineWithoutBreakParent = { type: DOC_TYPE_LINE, hard: true };
+/** @type {DocLine} */
 const literallineWithoutBreakParent = {
   type: DOC_TYPE_LINE,
   hard: true,
   literal: true,
 };
-
+/** @type {DocLine} */
 const line = { type: DOC_TYPE_LINE };
+/** @type {DocLine} */
 const softline = { type: DOC_TYPE_LINE, soft: true };
 const hardline = [hardlineWithoutBreakParent, breakParent];
 const literalline = [literallineWithoutBreakParent, breakParent];
 
+/** @type {DocCursor} */
 const cursor = { type: DOC_TYPE_CURSOR };
 
 /**
  * @param {Doc} separator
  * @param {Doc[]} docs
- * @returns Doc
+ * @returns {Doc[]}
  */
 function join(separator, docs) {
   assertDoc(separator);
@@ -202,6 +236,7 @@ function join(separator, docs) {
  * @param {Doc} doc
  * @param {number} size
  * @param {number} tabWidth
+ * @returns {Doc}
  */
 function addAlignmentToDoc(doc, size, tabWidth) {
   assertDoc(doc);
@@ -223,8 +258,10 @@ function addAlignmentToDoc(doc, size, tabWidth) {
 
 /**
  * Mark a doc with an arbitrary truthy value. This doesn't affect how the doc is printed, but can be useful for heuristics based on doc introspection.
+ * @template {Doc} T
  * @param {any} label If falsy, the `contents` doc is returned as is.
- * @param {Doc} contents
+ * @param {T} contents
+ * @returns {DocLabel | T}
  */
 function label(label, contents) {
   assertDoc(contents);

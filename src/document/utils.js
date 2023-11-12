@@ -20,6 +20,10 @@ import getDocType from "./utils/get-doc-type.js";
 import traverseDoc from "./utils/traverse-doc.js";
 import InvalidDocError from "./invalid-doc-error.js";
 
+/**
+ * @typedef {import("./builders.js").Doc} Doc
+ */
+
 const getDocParts = (doc) => {
   if (Array.isArray(doc)) {
     return doc;
@@ -404,6 +408,11 @@ function normalizeDoc(doc) {
   });
 }
 
+/**
+ * @param {Doc} doc
+ * @param {Doc} replacement
+ * @returns
+ */
 function replaceEndOfLine(doc, replacement = literalline) {
   return mapDoc(doc, (currentDoc) =>
     typeof currentDoc === "string"

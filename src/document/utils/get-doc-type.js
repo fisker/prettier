@@ -4,6 +4,15 @@ import {
   VALID_OBJECT_DOC_TYPES,
 } from "../constants.js";
 
+/**
+ * @typedef {import("../builders.js").Doc} Doc
+ * @typedef {import("../constants.js").DocTypes} DocTypes
+ */
+
+/**
+ * @param {Doc} doc
+ * @returns {DocTypes | void}
+ */
 function getDocType(doc) {
   if (typeof doc === "string") {
     return DOC_TYPE_STRING;
