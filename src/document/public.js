@@ -36,6 +36,13 @@ import {
   canBreak,
 } from "./utils.js";
 
+const legacyTraverseDoc = (
+  doc,
+  onEnter,
+  onExit,
+  shouldTraverseConditionalGroups,
+) => traverseDoc(doc, { onEnter, onExit, shouldTraverseConditionalGroups });
+
 export const builders = {
   join,
   line,
@@ -67,7 +74,7 @@ export const builders = {
 export const printer = { printDocToString };
 export const utils = {
   willBreak,
-  traverseDoc,
+  traverseDoc: legacyTraverseDoc,
   findInDoc,
   mapDoc,
   removeLines,

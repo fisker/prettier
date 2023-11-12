@@ -156,32 +156,30 @@ function breakParentGroup(groupStack) {
 function propagateBreaks(doc) {
   const alreadyVisitedSet = new Set();
   const groupStack = [];
-  function propagateBreaksOnEnterFn(doc) {
-    if (doc.type === DOC_TYPE_BREAK_PARENT) {
-      breakParentGroup(groupStack);
-    }
-    if (doc.type === DOC_TYPE_GROUP) {
-      groupStack.push(doc);
-      if (alreadyVisitedSet.has(doc)) {
-        return false;
-      }
-      alreadyVisitedSet.add(doc);
-    }
-  }
-  function propagateBreaksOnExitFn(doc) {
-    if (doc.type === DOC_TYPE_GROUP) {
-      const group = groupStack.pop();
-      if (group.break) {
+
+  traverseDoc(doc, {
+    onEnter(doc) {
+      if (doc.type === DOC_TYPE_BREAK_PARENT) {
         breakParentGroup(groupStack);
       }
-    }
-  }
-  traverseDoc(
-    doc,
-    propagateBreaksOnEnterFn,
-    propagateBreaksOnExitFn,
-    /* shouldTraverseConditionalGroups */ true,
-  );
+      if (doc.type === DOC_TYPE_GROUP) {
+        groupStack.push(doc);
+        if (alreadyVisitedSet.has(doc)) {
+          return false;
+        }
+        alreadyVisitedSet.add(doc);
+      }
+    },
+    onExit(doc) {
+      if (doc.type === DOC_TYPE_GROUP) {
+        const group = groupStack.pop();
+        if (group.break) {
+          breakParentGroup(groupStack);
+        }
+      }
+    },
+    shouldTraverseConditionalGroups: true,
+  });
 }
 
 function removeLinesFn(doc) {

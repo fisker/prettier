@@ -21,7 +21,28 @@ import getDocType from "./get-doc-type.js";
 // Using a unique object to compare by reference.
 const traverseDocOnExitStackMarker = {};
 
-function traverseDoc(doc, onEnter, onExit, shouldTraverseConditionalGroups) {
+/**
+ * @typedef {import("../builders.js").Doc} Doc
+ * @typedef {(doc: Doc) => void | boolean} OnEnter
+ * @typedef {(doc: Doc) => void} OnExit
+ */
+
+/**
+ * @param {Doc} doc
+ * @param {OnEnter | {
+ *   onEnter?: OnEnter,
+ *   onExit?: OnExit,
+ *   shouldTraverseConditionalGroups?: boolean
+ * }} [options]
+ * @returns {void}
+ */
+function traverseDoc(doc, options) {
+  if (typeof options === "function") {
+    options = { onEnter: options };
+  }
+
+  const { onEnter, onExit, shouldTraverseConditionalGroups = false } = options;
+
   const docsStack = [doc];
 
   while (docsStack.length > 0) {
@@ -32,13 +53,13 @@ function traverseDoc(doc, onEnter, onExit, shouldTraverseConditionalGroups) {
       continue;
     }
 
-    if (onExit) {
-      docsStack.push(doc, traverseDocOnExitStackMarker);
-    }
-
     const docType = getDocType(doc);
     if (!docType) {
       throw new InvalidDocError(doc);
+    }
+
+    if (onExit) {
+      docsStack.push(doc, traverseDocOnExitStackMarker);
     }
 
     // Should Recurse
