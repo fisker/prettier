@@ -6,11 +6,11 @@ import partition from "../utils/partition.js";
 import mockable from "../common/mockable.js";
 import loadEditorConfigWithoutCache from "./resolve-editorconfig.js";
 
-const { createConfigExplorer, clearConfigExplorerCache } = mockable;
+const { loadConfig, searchConfig, clearConfigCache } = mockable;
 
 const memoizedLoadEditorConfig = mem(loadEditorConfigWithoutCache);
 function clearCache() {
-  clearConfigExplorerCache();
+  clearConfigCache();
   memClear(memoizedLoadEditorConfig);
 }
 
@@ -26,18 +26,17 @@ function loadEditorConfig(filePath, options) {
 
 function loadPrettierConfig(filePath, options) {
   const { useCache, config: configPath } = options;
-  const explorer = createConfigExplorer({ cache: useCache });
+  const resolutionOptions = { cache: useCache };
 
   if (configPath) {
-    return explorer.load(configPath);
+    return loadConfig(configPath, resolutionOptions);
   }
 
-  if (!filePath) {
-    return explorer.search();
-  }
+  const dirname = filePath
+    ? path.dirname(path.resolve(filePath))
+    : process.cwd();
 
-  const dirname = path.dirname(path.resolve(filePath));
-  return explorer.search(dirname);
+  return searchConfig(dirname, resolutionOptions);
 }
 
 async function resolveConfig(fileUrlOrPath, options) {
@@ -72,8 +71,12 @@ async function resolveConfig(fileUrlOrPath, options) {
 async function resolveConfigFile(fileUrlOrPath) {
   const directory = fileUrlOrPath
     ? path.dirname(path.resolve(toPath(fileUrlOrPath)))
-    : undefined;
-  const result = await createConfigExplorer({ cache: false }).search(directory);
+    : process.cwd();
+
+  const result = await searchConfig(directory, {
+    cache: false,
+  });
+
   return result?.configFile ?? null;
 }
 

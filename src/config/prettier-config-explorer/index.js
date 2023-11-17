@@ -1,58 +1,54 @@
 import path from "node:path";
-import { createCachedFunction } from "./common.js";
-import loadConfigWithoutCache from "./load-config.js";
-import Searcher from "./search-config.js";
+import loader from "./load-config.js";
+import Resolver from "./resolver.js";
 
-const EXPLORER_CACHE = new Map();
-function clearCache() {
-  EXPLORER_CACHE.clear();
+const resolver = new Resolver({
+  loader
+});
+
+/**
+ * @typedef {Object} ConfigResult
+ * @property {Object?} config - The loaded configuration.
+ * @property {string} configFile - The path to the configuration file.
+ */
+
+/**
+ * Loads the configuration from the specified file.
+ *
+ * @param {string} configFile - The path to the configuration file.
+ * @param {{ cache?: boolean }} options - Additional options for loading the configuration (optional).
+ * @returns {Promise<ConfigResult>} - A promise that resolves to an object containing the loaded configuration and the path to the configuration file.
+ */
+async function load(configFile, options) {
+  configFile = path.resolve(configFile);
+
+  const config = await resolver.load(configFile, options);
+  return { config, configFile };
 }
 
 /**
- * @typedef { {config?: any, configFile: string} } Result
- * @typedef {(configFile: string) => Promise<Result>} Load
- * @typedef {(directory: string) => Promise<Result | void>} Search
+ * Searches for a configuration file in the specified directory.
+ * 
+ * @param {string} directory - The directory to search in.
+ * @param {Object} options - The search options.
+ * @returns {Promise<ConfigResult | undefined>} - A promise that resolves to an object containing the loaded configuration and the path to the configuration file.
  */
+async function search(directory, options) {
+  const configFile = await resolver.search(directory, options);
 
-/**
- * @param {{cache?: boolean, stopDirectory?: string}} param0
- * @returns {{load: Load, search: Search}}
- */
-function createExplorer({ cache = true, stopDirectory } = {}) {
-  stopDirectory = stopDirectory ? path.resolve(stopDirectory) : undefined;
-
-  const explorerCacheKey = JSON.stringify({ cache, stopDirectory });
-  if (EXPLORER_CACHE.has(explorerCacheKey)) {
-    return EXPLORER_CACHE.get(explorerCacheKey);
+  if (!configFile) {
+    return;
   }
 
-  const loadConfig = cache
-    ? createCachedFunction(loadConfigWithoutCache)
-    : loadConfigWithoutCache;
-  const searcher = new Searcher({ stopDirectory, cache });
-
-  const explorer = {
-    async load(configFile) {
-      configFile = path.resolve(configFile);
-      const config = await loadConfig(configFile);
-      return { config, configFile };
-    },
-    async search(directory) {
-      directory = directory ? path.resolve(directory) : process.cwd();
-      const configFile = await searcher.search(directory);
-
-      if (!configFile) {
-        return;
-      }
-
-      const config = await loadConfig(configFile);
-      return { config, configFile };
-    },
-  };
-
-  EXPLORER_CACHE.set(explorerCacheKey, explorer);
-
-  return explorer;
+  const config = await resolver.load(configFile, options);
+  return { config, configFile };
 }
 
-export { createExplorer, clearCache };
+/**
+ * Clears the cache used by the searcher.
+ */
+function clearCache() {
+  resolver.clearCache();
+}
+
+export { load, search, clearCache };

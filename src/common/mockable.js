@@ -2,7 +2,8 @@ import fs from "node:fs/promises";
 import getStdin from "get-stdin";
 import { isCI } from "ci-info";
 import {
-  createExplorer,
+  load,
+  search,
   clearCache,
 } from "../config/prettier-config-explorer/index.js";
 
@@ -11,8 +12,9 @@ function writeFormattedFile(file, data) {
 }
 
 const mockable = {
-  createConfigExplorer: createExplorer,
-  clearConfigExplorerCache: clearCache,
+  loadConfig: load,
+  searchConfig: search,
+  clearConfigCache: clearCache,
   getStdin,
   isCI: () => isCI,
   writeFormattedFile,
