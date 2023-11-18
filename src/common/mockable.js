@@ -12,9 +12,9 @@ function writeFormattedFile(file, data) {
 }
 
 const mockable = {
-  loadConfig: load,
-  searchConfig: search,
-  clearConfigCache: clearCache,
+  loadPrettierConfig: load,
+  searchPrettierConfig: search,
+  clearPrettierConfigCache: clearCache,
   getStdin,
   isCI: () => isCI,
   writeFormattedFile,

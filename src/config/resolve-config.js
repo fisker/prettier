@@ -6,11 +6,15 @@ import partition from "../utils/partition.js";
 import mockable from "../common/mockable.js";
 import loadEditorConfigWithoutCache from "./resolve-editorconfig.js";
 
-const { loadConfig, searchConfig, clearConfigCache } = mockable;
+const {
+  loadPrettierConfig: loadPrettierConfigInternal,
+  searchPrettierConfig,
+  clearPrettierConfigCache,
+} = mockable;
 
 const memoizedLoadEditorConfig = mem(loadEditorConfigWithoutCache);
 function clearCache() {
-  clearConfigCache();
+  clearPrettierConfigCache();
   memClear(memoizedLoadEditorConfig);
 }
 
@@ -29,14 +33,14 @@ function loadPrettierConfig(filePath, options) {
   const resolutionOptions = { cache: useCache };
 
   if (configPath) {
-    return loadConfig(configPath, resolutionOptions);
+    return loadPrettierConfigInternal(configPath, resolutionOptions);
   }
 
   const dirname = filePath
     ? path.dirname(path.resolve(filePath))
     : process.cwd();
 
-  return searchConfig(dirname, resolutionOptions);
+  return searchPrettierConfig(dirname, resolutionOptions);
 }
 
 async function resolveConfig(fileUrlOrPath, options) {
@@ -73,7 +77,7 @@ async function resolveConfigFile(fileUrlOrPath) {
     ? path.dirname(path.resolve(toPath(fileUrlOrPath)))
     : process.cwd();
 
-  const result = await searchConfig(directory, {
+  const result = await searchPrettierConfig(directory, {
     cache: false,
   });
 

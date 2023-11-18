@@ -65,9 +65,9 @@ async function run() {
   // eslint-disable-next-line require-await
   mockable.getStdin = async () => options.input || "";
   mockable.isCI = () => Boolean(options.ci);
-  const { searchConfig } = mockable;
-  mockable.searchConfig = (directory, options) =>
-    searchConfig(directory, {
+  const { searchPrettierConfig } = mockable;
+  mockable.searchPrettierConfig = (directory, options) =>
+    searchPrettierConfig(directory, {
       ...options,
       stopDirectory: url.fileURLToPath(new URL("./cli", import.meta.url)),
     });
