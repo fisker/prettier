@@ -1,156 +1,143 @@
-import path from "node:path";
 import fs from "node:fs/promises";
-import { temporaryDirectory } from "tempy";
 import Resolver from "../../src/config/prettier-config-explorer/resolver.js";
 
 const NOOP_LOADER = () => {};
 
-/** A tempory directory empty directory used to search config. */
-let stopDirectory;
+let statSpy = jest.spyOn(fs, "stat");
+let readFileSpy = jest.spyOn(fs, "readFile");
 
-beforeAll(() => {
-  stopDirectory = temporaryDirectory();
-});
-
-/** Clear all the mocks between each test. */
 beforeEach(() => {
-  jest.clearAllMocks();
+  statSpy = jest.spyOn(fs, "stat");
+  readFileSpy = jest.spyOn(fs, "readFile");
 });
 
-// const statSpy = jest.spyOn(fs, "stat");
-// const readFileSpy = jest.spyOn(fs, "readFile");
+// Restore the original implementation.
+afterEach(() => {
+  statSpy.mockRestore();
+  readFileSpy.mockRestore();
+});
 
-// function mockFileSystem(files) {
-//   statSpy.mockImplementation((filePath) => {
-//     if (files[filePath]) {
-//       return {
-//         isFile: () => true,
-//       };
-//     }
+/**
+ * Naive file system mock for testing purposes.
+ * @param {Object} files - An object representing the files in the file system.
+ */
+function mockFileSystem(files) {
+  const fileMap = new Map(Object.entries(files));
 
-//     throw new Error("ENOENT");
-//   });
+  statSpy.mockImplementation((filename) => {
+    if (fileMap.has(filename)) {
+      return Promise.resolve({
+        isFile: () => true,
+      });
+    }
 
-//   readFileSpy.mockImplementation((filePath) => {
-//     if (files[filePath]) {
-//       return files[filePath];
-//     }
+    return Promise.reject(new Error("ENOENT"));
+  });
 
-//     throw new Error("ENOENT");
-//   });
-// }
+  readFileSpy.mockImplementation((filename) => {
+    if (fileMap.has(filename)) {
+      return fileMap.get(filename);
+    }
+
+    return Promise.reject(new Error("ENOENT"));
+  });
+}
 
 describe("Resolver.search", () => {
-  it("resolve config from the given directory", async () => {
-    const statSpy = jest.spyOn(fs, "stat");
-
-    const searchPlaces = [".prettierrc"];
-    const actualConfigFile = path.resolve(stopDirectory, ".prettierrc");
-
-    statSpy.mockImplementation((filePath) => {
-      if (filePath === actualConfigFile) {
-        return {
-          isFile: () => true,
-        };
-      }
-
-      throw new Error("ENOENT");
-    });
-
-    const resolver = new Resolver({
-      searchPlaces,
-      loader: NOOP_LOADER,
-    });
-
-    const expectedConfigFile = await resolver.search(stopDirectory);
-    expect(expectedConfigFile).toEqual(actualConfigFile);
-  });
-
-  it("resolved config from the given directory and its parents", async () => {
-    const statSpy = jest.spyOn(fs, "stat");
-
-    const searchPlaces = [".prettierrc"];
-
-    const startDirectory = path.resolve(stopDirectory, "./foo/bar/baz");
-    const actualConfigFile = path.resolve(stopDirectory, ".prettierrc");
-
-    statSpy.mockImplementation((filePath) => {
-      if (filePath === actualConfigFile) {
-        return {
-          isFile: () => true,
-        };
-      }
-
-      throw new Error("ENOENT");
-    });
-
-    const resolver = new Resolver({
-      searchPlaces,
-      loader: NOOP_LOADER,
-    });
-
-    const expectedConfigFile = await resolver.search(startDirectory);
-    expect(expectedConfigFile).toEqual(actualConfigFile);
-  });
-
-  it("returns null if no config is found", async () => {
-    jest.spyOn(fs, "stat");
-    const searchPlaces = [".__SOME_RANDOM_FILE__"];
-
-    const resolver = new Resolver({
-      searchPlaces,
-      loader: NOOP_LOADER,
-    });
-
-    const configFile = await resolver.search(stopDirectory);
-    expect(configFile).toBeNull();
-  });
-
-  describe("config resolution order", () => {
-    it("searches for config in the given directory in the right order", async () => {
-      const statSpy = jest.spyOn(fs, "stat");
-      const searchPlaces = [".prettierrc", "prettierrc.json"];
+  describe("config file resolution", () => {
+    it("returns null if no config is found", async () => {
+      mockFileSystem({});
 
       const resolver = new Resolver({
-        searchPlaces,
+        searchPlaces: [".prettierrc"],
         loader: NOOP_LOADER,
       });
 
-      await resolver.search(stopDirectory, { stopDirectory });
+      const configFile = await resolver.search("/");
+      expect(configFile).toBeNull();
+    });
 
+    it("resolve config from the given directory", async () => {
+      const configFile = "/.prettierrc";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
+
+      const resolver = new Resolver({
+        searchPlaces: [".prettierrc"],
+        loader: NOOP_LOADER,
+      });
+
+      const result = await resolver.search("/");
+      expect(result).toEqual(configFile);
+    });
+
+    it("resolved config from the given directory and its parents", async () => {
+      const configFile = "/.prettierrc";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
+
+      const resolver = new Resolver({
+        searchPlaces: [".prettierrc"],
+        loader: NOOP_LOADER,
+      });
+
+      const result = await resolver.search("/nested");
+      expect(result).toEqual(configFile);
+    });
+
+    it("searches for config in the given directory in order", async () => {
+      const searchPlaces = [".prettierrc", "prettierrc.json"];
+      const configFile = "/prettierrc.json";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
+
+      const resolver = new Resolver({
+        searchPlaces: [".prettierrc", "prettierrc.json"],
+        loader: NOOP_LOADER,
+      });
+
+      const result = await resolver.search("/");
+
+      expect(result).toEqual(configFile);
       expect(statSpy.mock.calls).toEqual(
-        searchPlaces.map((file) => [path.resolve(stopDirectory, file)]),
+        searchPlaces.map((filename) => [`/${filename}`]),
       );
     });
 
-    it("searches for config in the given directory and its parents in the right order", async () => {
-      const statSpy = jest.spyOn(fs, "stat");
-      const startDirectory = path.resolve(stopDirectory, "./foo");
+    it("searches for config in the given directory and its parents in order", async () => {
       const searchPlaces = [".prettierrc", "prettierrc.json"];
+      const configFile = "/prettierrc.json";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
 
       const resolver = new Resolver({
         searchPlaces,
         loader: NOOP_LOADER,
       });
 
-      await resolver.search(startDirectory, {
-        stopDirectory,
-      });
+      const result = await resolver.search("/nested");
 
+      expect(result).toEqual(configFile);
       expect(statSpy.mock.calls).toEqual([
-        ...searchPlaces.map((file) => [path.resolve(startDirectory, file)]),
-        ...searchPlaces.map((file) => [
-          path.resolve(startDirectory, "..", file),
-        ]),
+        ...searchPlaces.map((filename) => [`/nested/${filename}`]),
+        ...searchPlaces.map((filename) => [`/${filename}`]),
       ]);
     });
 
     it("stops searching when a config is found", async () => {
-      const statSpy = jest.spyOn(fs, "stat");
       const searchPlaces = [".prettierrc", "prettierrc.json"];
+      const configFile = "/nested/prettierrc.json";
 
-      statSpy.mockResolvedValueOnce({
-        isFile: () => true,
+      mockFileSystem({
+        [configFile]: "",
       });
 
       const resolver = new Resolver({
@@ -158,120 +145,290 @@ describe("Resolver.search", () => {
         loader: NOOP_LOADER,
       });
 
-      const configFile = await resolver.search(stopDirectory, {
-        stopDirectory,
+      const result = await resolver.search("/nested");
+
+      expect(result).toEqual(configFile);
+      expect(statSpy.mock.calls).toEqual(
+        searchPlaces.map((filename) => [`/nested/${filename}`]),
+      );
+    });
+
+    it("should resolve package.json files with a prettier config", async () => {
+      const rootPackageJson = "/package.json";
+      const nestedPackageJson = "/nested/package.json";
+
+      mockFileSystem({
+        [rootPackageJson]: '{ "prettier": {} }',
+        [nestedPackageJson]: "{}",
       });
 
-      expect(configFile).toEqual(path.resolve(stopDirectory, searchPlaces[0]));
+      const resolver = new Resolver({
+        searchPlaces: ["package.json"],
+        loader: NOOP_LOADER,
+      });
 
-      expect(statSpy).toHaveBeenCalledTimes(1);
-      expect(statSpy).toHaveBeenCalledWith(
-        path.resolve(stopDirectory, searchPlaces[0]),
-      );
+      const result = await resolver.search("/nested");
+      
+      expect(result).toEqual(rootPackageJson);
+      expect(statSpy.mock.calls).toEqual([
+        [nestedPackageJson],
+        [rootPackageJson],
+      ]);
     });
   });
 
   describe("stopDirectory option", () => {
-    it("should climb up the directory tree until it reaches the stop directory", async () => {
-      jest.spyOn(fs, "stat");
-
-      const searchPlaces = [".prettierrc"];
-      const startDirectory = path.resolve(stopDirectory, "./foo/bar/baz");
+    it("should climb up the directory tree until it reaches the stopDirectory", async () => {
+      mockFileSystem({});
 
       const resolver = new Resolver({
-        searchPlaces,
+        searchPlaces: [".prettierrc"],
         loader: NOOP_LOADER,
       });
 
-      await resolver.search(startDirectory, { stopDirectory });
-
-      expect(fs.stat).toHaveBeenCalledTimes(4);
-    });
-
-    it("should go all the way to the file system root if no stop directory is given", async () => {
-      jest.spyOn(fs, "stat");
-
-      const searchPlaces = [".__SOME_RANDOM_FILE__"];
-      const startDirectory = path.resolve(stopDirectory, "./foo/bar/baz");
-
-      const resolver = new Resolver({
-        searchPlaces,
-        loader: NOOP_LOADER,
+      const actualConfigFile = await resolver.search("/deeply/nested/directory", {
+        stopDirectory: "/deeply/nested",
       });
 
-      await resolver.search(startDirectory);
-
-      const directoryDepth = startDirectory.split(path.sep).length;
-      expect(fs.stat).toHaveBeenCalledTimes(directoryDepth);
+      expect(actualConfigFile).toBeNull();
+      expect(statSpy.mock.calls).toEqual([
+        ["/deeply/nested/directory/.prettierrc"],
+        ["/deeply/nested/.prettierrc"],
+      ]);
     });
   });
 
   describe("cache option", () => {
-    it("should cache the resolved config for the same directory when cache is set to true", async () => {
-      const searchPlaces = [".prettierrc"];
-      const startDirectory = stopDirectory;
+    it("should return cached config if cache is set to true", async () => {
+      const configFile = "/.prettierrc";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
 
       const resolver = new Resolver({
-        searchPlaces,
+        searchPlaces: [".prettierrc"],
         loader: NOOP_LOADER,
       });
 
-      await resolver.search(startDirectory, { cache: true, stopDirectory });
-      await resolver.search(startDirectory, { cache: true, stopDirectory });
+      let result = await resolver.search("/", { cache: true });
+      expect(result).toEqual(result);
+      expect(statSpy).toHaveBeenCalledTimes(1);
 
-      expect(fs.stat).toHaveBeenCalledTimes(1);
+      statSpy.mockClear();
+
+      result = await resolver.search("/", { cache: true });
+      expect(result).toEqual(configFile);
+      expect(statSpy).toHaveBeenCalledTimes(0);
     });
 
-    it("should not cache the resolved config for the same directory when cache is set to false", async () => {
-      const searchPlaces = [".prettierrc"];
-      const startDirectory = stopDirectory;
+    it("should previously ignored cached config when cache is set to false", async () => {
+      const configFile = "/.prettierrc";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
 
       const resolver = new Resolver({
-        searchPlaces,
+        searchPlaces: [".prettierrc"],
         loader: NOOP_LOADER,
       });
 
-      await resolver.search(startDirectory, { cache: false, stopDirectory });
-      await resolver.search(startDirectory, { cache: false, stopDirectory });
+      await resolver.search("/", { cache: true });
+      statSpy.mockClear();
 
-      expect(fs.stat).toHaveBeenCalledTimes(2);
+      const result = await resolver.search("/", { cache: false });
+      expect(result).toEqual(configFile);
+      expect(statSpy).toHaveBeenCalledTimes(1);
     });
 
-    it("should ignore previously cached config when cache is set to false", async () => {
-      const searchPlaces = [".prettierrc"];
-      const startDirectory = stopDirectory;
+    it("should resolve nested config even if parent is cached", async () => {
+      const rootConfigFile = "/.prettierrc";
+      const nestedConfigFile = "/nested/.prettierrc";
+
+      mockFileSystem({
+        [rootConfigFile]: "",
+        [nestedConfigFile]: "",
+      });
 
       const resolver = new Resolver({
-        searchPlaces,
+        searchPlaces: [".prettierrc"],
         loader: NOOP_LOADER,
       });
 
-      await resolver.search(startDirectory, { cache: true, stopDirectory });
-      await resolver.search(startDirectory, { cache: false, stopDirectory });
+      const rootResult = await resolver.search("/", { cache: true });
+      expect(rootResult).toEqual(rootConfigFile);
+      
+      statSpy.mockClear();
 
-      expect(fs.stat).toHaveBeenCalledTimes(2);
+      const nestedResult = await resolver.search("/nested", { cache: true });
+      expect(nestedResult).toEqual(nestedConfigFile);
+    });
+
+    it("should only lookup config in directories that are not cached", async () => {
+      const configFile = "/.prettierrc";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
+
+      const resolver = new Resolver({
+        searchPlaces: [".prettierrc"],
+        loader: NOOP_LOADER,
+      });
+
+      // Prime cache and clear the stat spy.
+      await resolver.search("/", { cache: true });
+      statSpy.mockClear();
+
+      const result = await resolver.search("/nested", {
+        cache: true,
+      });
+      expect(result).toEqual(configFile);
+      expect(statSpy.mock.calls).toEqual([
+        ["/nested/.prettierrc"],
+      ]);
+    });
+
+    it("should lookup for uncached config when stopDirectory changes", async () => {
+      const configFile = "/.prettierrc";
+
+      mockFileSystem({
+        [configFile]: "",
+      });
+
+      const resolver = new Resolver({
+        searchPlaces: [".prettierrc"],
+        loader: NOOP_LOADER,
+      });
+
+      // Should resolve config because it resides the parent directory compared to the stopDirectory.
+      const nonMatchingSearchResult = await resolver.search("/deeply/nested", {
+        cache: true,
+        stopDirectory: "/deeply",
+      });
+
+      expect(nonMatchingSearchResult).toBeNull();
+      expect(statSpy.mock.calls).toEqual([
+        ["/deeply/nested/.prettierrc"],
+        ["/deeply/.prettierrc"],
+      ]);
+
+      statSpy.mockClear();
+
+      // Should resolve config, but only lookup in the parent directory because it is cached.
+      const matchingSearchResult = await resolver.search("/deeply/nested", {
+        cache: true,
+        stopDirectory: "/",
+      });
+
+      expect(matchingSearchResult).toBe(configFile);
+      expect(statSpy.mock.calls).toEqual([
+        ["/.prettierrc"],
+      ]);
     });
   });
 });
 
-describe("Resolver.clearCache", () => {
-  it("should clear the internal cache and force a new search", async () => {
-    const statSpy = jest.spyOn(fs, "stat");
-
-    const searchPlaces = [".prettierrc"];
-    const startDirectory = stopDirectory;
+describe("Resolver.load", () => {
+  it("should invoke the loader with the config file name", async () => {
+    const configFile = "/test/.prettierrc";
+    const loader = jest.fn(() => Promise.resolve({}));
 
     const resolver = new Resolver({
-      searchPlaces,
+      searchPlaces: [],
+      loader,
+    });
+
+    const result = await resolver.load(configFile);
+
+    expect(loader).toHaveBeenCalledTimes(1);
+    expect(loader).toHaveBeenCalledWith(configFile);
+    expect(result).toEqual({});
+  });
+
+  it("should cache the loaded config when cache is set to true", async () => {
+    const configFile = "/test/.prettierrc";
+    const loader = jest.fn(() => Promise.resolve({}));
+
+    const resolver = new Resolver({
+      searchPlaces: [],
+      loader,
+    });
+
+    const result = await resolver.load(configFile, { cache: true });
+    expect(result).toEqual({});
+    expect(loader).toHaveBeenCalledTimes(1);
+
+    loader.mockClear();
+
+    const cachedResult = await resolver.load(configFile, { cache: true });
+    expect(result).toEqual(cachedResult);
+    expect(loader).toHaveBeenCalledTimes(0);
+  });
+
+  it("should not cache the loaded config when cache is set to false", async () => {
+    const configFile = "/test/.prettierrc";
+    const loader = jest.fn(() => Promise.resolve({}));
+
+    const resolver = new Resolver({
+      searchPlaces: [],
+      loader,
+    });
+
+    const result = await resolver.load(configFile, { cache: true });
+    expect(result).toEqual({});
+    expect(loader).toHaveBeenCalledTimes(1);
+
+    loader.mockClear();
+
+    const uncachedResult = await resolver.load(configFile, { cache: false });
+    expect(uncachedResult).toEqual({});
+    expect(loader).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("Resolver.clearCache", () => {
+  it("should clear the search cache and force a new search", async () => {
+    const configFile = "/.prettierrc";
+
+    mockFileSystem({
+      [configFile]: "",
+    });
+
+    const resolver = new Resolver({
+      searchPlaces: [".prettierrc"],
       loader: NOOP_LOADER,
     });
 
-    await resolver.search(startDirectory, { cache: true, stopDirectory });
+    let result = await resolver.search("/", { cache: true });
+    expect(result).toEqual(configFile);
     expect(statSpy).toHaveBeenCalledTimes(1);
 
     resolver.clearCache();
+    statSpy.mockClear();
 
-    await resolver.search(startDirectory, { cache: true, stopDirectory });
-    expect(statSpy).toHaveBeenCalledTimes(2);
+    result = await resolver.search("/", { cache: true });
+    expect(result).toEqual(configFile);
+    expect(statSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("should clear the load cache and force a new load", async () => {
+    const configFile = "/test/.prettierrc";
+    const loader = jest.fn(() => Promise.resolve({}));
+
+    const resolver = new Resolver({
+      searchPlaces: [],
+      loader,
+    });
+
+    await resolver.load(configFile, { cache: true });
+    expect(loader).toHaveBeenCalledTimes(1);
+
+    resolver.clearCache();
+    loader.mockClear();
+
+    await resolver.load(configFile, { cache: true });
+    expect(loader).toHaveBeenCalledTimes(1);
   });
 });

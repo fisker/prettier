@@ -26,10 +26,11 @@ async function searchConfigInDirectory(directory, configFileNames) {
   for (const fileName of configFileNames) {
     const file = path.join(directory, fileName);
 
+    
     if (!(await fileExists(file))) {
       continue;
     }
-
+    
     if (
       fileName !== "package.json" ||
       (await isPackageJsonFileWithPrettierConfig(file))
@@ -48,7 +49,7 @@ class Resolver {
   /** @type {(configFile: string) => Promise<any>} */
   #loader;
 
-  /** @type {Map<string, string>} */
+  /** @type {Map<string, string | null>} */
   #searchCache = new Map();
 
   /** @type {Map<string, Promise<any>>} */
@@ -70,27 +71,28 @@ class Resolver {
     const { cache, stopDirectory } = options;
 
     let configFile = null;
-    const visitedDirectories = new Set();
 
     for (const directory of iterateDirectoryUp(startDirectory, stopDirectory)) {
-      // If cache is enabled and the directory is cached, return the cached result.
+      // If cache is enabled and the directory is cached, use the cached result.
       if (cache && this.#searchCache.has(directory)) {
         configFile = this.#searchCache.get(directory);
-        break;
-      }
 
-      visitedDirectories.add(directory);
+        // If the cached result is null, continue searching.
+        if (configFile) {
+          break;
+        } else {
+          continue;
+        }
+      }
 
       configFile = await searchConfigInDirectory(directory, this.#searchPlaces);
+
+      if (cache) {
+        this.#searchCache.set(directory, configFile);
+      }
+      
       if (configFile) {
         break;
-      }
-    }
-
-    // If cache is enabled, cache the result for all visited directories.
-    if (cache) {
-      for (const directory of visitedDirectories) {
-        this.#searchCache.set(directory, configFile);
       }
     }
 
