@@ -1,10 +1,7 @@
 import path from "node:path";
 import iterateDirectoryUp from "iterate-directory-up";
-import {
-  CONFIG_FILE_NAMES,
-  fileExists,
-} from "./common.js";
 import { readJson } from "./loaders.js";
+import { fileExists } from "./common.js";
 
 async function isPackageJsonFileWithPrettierConfig(file) {
   let packageJson;
@@ -20,12 +17,13 @@ async function isPackageJsonFileWithPrettierConfig(file) {
 
 /**
  * Searches for a configuration file in the specified directory.
- * 
+ *
  * @param {string} directory - The directory to search in.
- * @returns {Promise<string|undefined>} - The path of the configuration file if found, otherwise undefined.
+ * @param {string[]} configFileNames - The names of the configuration files to search for.
+ * @returns {Promise<string|null>} - The path of the configuration file if found, otherwise null.
  */
-async function searchConfigInDirectory(directory) {
-  for (const fileName of CONFIG_FILE_NAMES) {
+async function searchConfigInDirectory(directory, configFileNames) {
+  for (const fileName of configFileNames) {
     const file = path.join(directory, fileName);
 
     if (!(await fileExists(file))) {
@@ -39,39 +37,42 @@ async function searchConfigInDirectory(directory) {
       return file;
     }
   }
+
+  return null;
 }
 
 class Resolver {
+  /** @type {string[]} */
+  #searchPlaces;
+
+  /** @type {(configFile: string) => Promise<any>} */
+  #loader;
+
   /** @type {Map<string, string>} */
   #searchCache = new Map();
 
   /** @type {Map<string, Promise<any>>} */
   #loadCache = new Map();
 
-  /** @type {(configFile: string) => Promise<any>} */
-  #loader;
-
-  constructor({ loader }) {
+  constructor({ loader, searchPlaces }) {
     this.#loader = loader;
+    this.#searchPlaces = searchPlaces;
   }
 
   /**
    * Searches for a configuration file starting from a specified directory.
-   * 
+   *
    * @param {string} startDirectory - The directory to start the search from.
    * @param {{cache?: boolean, stopDirectory?: string}} [options={}] - The options to use.
-   * @returns {Promise<string|undefined>} - A promise that resolves to the path of the found configuration file, or null if not found.
+   * @returns {Promise<string|null>} - A promise that resolves to the path of the found configuration file, or null if not found.
    */
   async search(startDirectory, options = {}) {
     const { cache, stopDirectory } = options;
 
-    let configFile;
+    let configFile = null;
     const visitedDirectories = new Set();
-    
-    for (const directory of iterateDirectoryUp(
-      startDirectory,
-      stopDirectory,
-    )) {
+
+    for (const directory of iterateDirectoryUp(startDirectory, stopDirectory)) {
       // If cache is enabled and the directory is cached, return the cached result.
       if (cache && this.#searchCache.has(directory)) {
         configFile = this.#searchCache.get(directory);
@@ -80,7 +81,7 @@ class Resolver {
 
       visitedDirectories.add(directory);
 
-      configFile = await searchConfigInDirectory(directory);
+      configFile = await searchConfigInDirectory(directory, this.#searchPlaces);
       if (configFile) {
         break;
       }
@@ -98,7 +99,7 @@ class Resolver {
 
   /**
    * Loads the specified config file and returns a promise that resolves to the loaded file.
-   * 
+   *
    * @param {string} configFile - The path to the config file.
    * @param {{ cache?: boolean }} [options={}] - The options object.
    * @returns {Promise<any>} A promise that resolves to the loaded file.

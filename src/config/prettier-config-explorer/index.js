@@ -1,9 +1,11 @@
 import path from "node:path";
 import loader from "./load-config.js";
 import Resolver from "./resolver.js";
+import { CONFIG_FILE_NAMES } from "./common.js";
 
 const resolver = new Resolver({
-  loader
+  loader,
+  searchPlaces: CONFIG_FILE_NAMES,
 });
 
 /**
