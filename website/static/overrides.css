@@ -1,4 +1,18 @@
-html body {
+:root {
+  --ifm-color-primary: #1a2b34;
+  --ifm-navbar-background-color: #1a2b34;
+  --ifm-navbar-link-color: hsla(0, 0%, 100%, 0.8);
+  --ifm-navbar-link-hover-color: #fff;
+  --ifm-navbar-height: 50px;
+  --ifm-navbar-item-padding-vertical: 0;
+  --ifm-navbar-padding-horizontal: 20px;
+  --ifm-link-color: #56b3b4;
+  --ifm-link-hover-color: #1a2b34;
+  --ifm-heading-font-weight: 600;
+  --ifm-pre-background: #f0f0f0;
+}
+
+body {
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -11,8 +25,27 @@ html body {
     Droid Sans,
     Helvetica Neue,
     sans-serif;
-
   overflow-x: hidden;
+}
+
+.navbar,
+.navbar__brand {
+  color: #fff;
+}
+
+.navbar__link {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+// `Github` link
+.navbar__link:nth-last-of-type(1) {
+  order: 1;
+}
+
+// `Donation` link
+.navbar__link:nth-last-of-type(2) {
+  order: 1;
 }
 
 em {
@@ -41,11 +74,32 @@ em {
 
 /* Note: CSS on body bg-color for index page is set inside landing.js, not here */
 
-.post p a {
-  text-decoration: underline !important;
+article h1,
+article h2 {
+  font-size: 32px !important;
 }
-.post a {
-  font-weight: 600;
+
+article h2 a {
+  color: #1a2b34;
+}
+
+article.margin-bottom--xl {
+  margin-bottom: 20px !important;
+}
+
+article + article {
+  padding-top: 20px !important;
+  border-top: 1px solid #1b2b35;
+}
+
+/* Blog index page */
+.col--3 + .col--7:last-child {
+  --ifm-col-width: calc(9 / 12 * 100%);
+}
+
+/* Blog post page */
+.container:has(.col--3 + .col--7 + .col--2) {
+  --ifm-container-width: 1400px;
 }
 
 .animatedLogoWrapper > svg {
@@ -484,6 +538,10 @@ a {
   text-decoration: underline !important;
 }
 .post a {
+  font-weight: inherit;
+}
+
+.title_node_modules-\@docusaurus-theme-classic-lib-theme-BlogPostItem-Header-Title-styles-module {
   font-weight: inherit;
 }
 

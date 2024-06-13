@@ -2,9 +2,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode=production && docusaurus-build",
-    "start": "concurrently \"docusaurus-start\" \"webpack --mode=development --watch\"",
-    "update-stable-docs": "rimraf ./versioned_docs ./versions.json && docusaurus-version stable && node ./scripts/replace-version-placeholder.mjs"
+    "build": "webpack --mode=production && docusaurus build",
+    "start": "concurrently \"docusaurus start\" \"webpack --mode=development --watch\"",
+    "update-stable-docs": "rimraf ./versioned_docs ./versions.json && docusaurus version stable && node ./scripts/replace-version-placeholder.mjs"
   },
   "dependencies": {
     "clipboard": "2.0.11",
@@ -17,10 +17,11 @@
   "devDependencies": {
     "@babel/core": "7.24.7",
     "@babel/preset-env": "7.24.7",
+    "@docusaurus/core": "3.4.0",
+    "@docusaurus/preset-classic": "3.4.0",
     "@sandhose/prettier-animated-logo": "1.0.3",
     "babel-loader": "9.1.3",
     "concurrently": "8.2.2",
-    "docusaurus": "1.14.7",
     "js-yaml": "4.1.0",
     "rimraf": "5.0.7",
     "webpack": "5.91.0",

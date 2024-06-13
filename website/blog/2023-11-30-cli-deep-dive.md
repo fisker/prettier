@@ -39,7 +39,7 @@ The goal is to make it close to ~100% backwards compatible, and then just ship i
 ## Overview
 
 <p align="center">
-	<img src="/blog/assets/prettier-architecture.png" width="800px" />
+	<img src="./assets/prettier-architecture.png" width="800px" />
 </p>
 
 Prettier's CLI works roughly like in the diagram above:
@@ -236,7 +236,7 @@ I think the main room for improvement in this area is doing something visually i
 ## Results
 
 <p align="center">
-	<img src="/blog/assets/prettier-bench.png" width="600px" />
+	<img src="./assets/prettier-bench.png" width="600px" />
 </p>
 
 Before we wrap up, here are some numbers I see when checking files in Babel's monorepo, with all files formatted, but 9 erroring files, with various flags, and with the current and new CLI:
