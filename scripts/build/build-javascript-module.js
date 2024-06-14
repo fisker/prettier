@@ -252,7 +252,7 @@ function getEsbuildOptions({ file, files, shouldCollectLicenses, cliOptions }) {
     external: ["pnpapi", ...(buildOptions.external ?? [])],
     // Disable esbuild auto discover `tsconfig.json` file
     tsconfigRaw: JSON.stringify({}),
-    target: [...(buildOptions.target ?? ["node14"])],
+    target: [...(buildOptions.target ?? ["node14.8"])],
     logLevel: "error",
     format: file.output.format,
     outfile: path.join(DIST_DIR, cliOptions.saveAs ?? file.output.file),
