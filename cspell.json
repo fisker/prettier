@@ -78,6 +78,7 @@
         "Ericsburgh",
         "Esben",
         "eslump",
+        "esmify",
         "esproposal",
         "execa",
         "Fabio",
@@ -149,6 +150,7 @@
         "Khatri",
         "Konstantin",
         "l’objectif",
+        "layed",
         "libdef",
         "lintstaged",
         "lintstagedrc",
@@ -351,6 +353,7 @@
         "website/playground/codeSamples.mjs",
         "website/pages/googlefe164a33bda4034b.html",
         "website/static/lib/**",
-        "website/static/playground.js"
+        "website/static/playground.js",
+        "scripts/build/typescript-unused-specifiers.js"
     ]
 }

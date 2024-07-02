@@ -11,12 +11,21 @@ import {
   isBitwiseOperator,
   isCallExpression,
   isMemberExpression,
+  isNullishCoalescing,
   isObjectOrRecordExpression,
   isObjectProperty,
   shouldFlatten,
   startsWithNoLookaheadToken,
 } from "./utils/index.js";
 
+/**
+ * @typedef {import("../common/ast-path.js").default} AstPath
+ */
+
+/**
+ * @param {AstPath} path
+ * @returns {boolean}
+ */
 function needsParens(path, options) {
   if (path.isRoot) {
     return false;
@@ -48,7 +57,7 @@ function needsParens(path, options) {
     //     f((a + b) / 2)  vs  f(a + b / 2)
     if (
       node.extra?.parenthesized &&
-      /^PRETTIER_HTML_PLACEHOLDER_\d+_\d+_IN_JS$/.test(node.name)
+      /^PRETTIER_HTML_PLACEHOLDER_\d+_\d+_IN_JS$/u.test(node.name)
     ) {
       return true;
     }
@@ -366,7 +375,7 @@ function needsParens(path, options) {
           return !isBinaryCastExpression(node);
 
         case "ConditionalExpression":
-          return isBinaryCastExpression(node);
+          return isBinaryCastExpression(node) || isNullishCoalescing(node);
 
         case "CallExpression":
         case "NewExpression":
@@ -1066,6 +1075,10 @@ const isStatement = createTypeCheckFunction([
   "WithStatement",
 ]);
 
+/**
+ * @param {AstPath} path
+ * @returns {boolean}
+ */
 function isPathInForStatementInitializer(path) {
   let i = 0;
   let { node } = path;
@@ -1093,6 +1106,10 @@ function endsWithRightBracket(node) {
   return isObjectOrRecordExpression(node);
 }
 
+/**
+ * @param {AstPath} path
+ * @returns {boolean}
+ */
 function isFollowedByRightBracket(path) {
   const { parent, key } = path;
   switch (parent.type) {
@@ -1126,6 +1143,10 @@ function isFollowedByRightBracket(path) {
   return false;
 }
 
+/**
+ * @param {AstPath} path
+ * @returns {boolean}
+ */
 function shouldWrapFunctionForExportDefault(path, options) {
   const { node, parent } = path;
 
@@ -1170,6 +1191,10 @@ new (a?.b)();
 new (a?.())();
 ```
 */
+/**
+ * @param {AstPath} path
+ * @returns {boolean}
+ */
 function shouldAddParenthesesToChainElement(path) {
   // Babel, this was implemented before #13735, can use `path.match` as estree does
   const { node, parent, grandparent, key } = path;
