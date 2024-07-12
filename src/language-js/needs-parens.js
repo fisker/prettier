@@ -1246,7 +1246,7 @@ function isDecoratorMemberExpression(node) {
 }
 
 // Based on babel implementation
-// https://github.com/nicolo-ribaudo/babel/blob/c4b88a4e5005364255f7e964fe324cf7bfdfb019/packages/babel-generator/src/node/index.ts#L111
+// https://github.com/babel/babel/blob/dc1f486ea52bef2341048c499ca1342d5cab7f8a/packages/babel-generator/src/node/index.ts#L116-L122
 function canDecoratorExpressionUnparenthesized(node) {
   if (node.type === "ChainExpression") {
     node = node.expression;
