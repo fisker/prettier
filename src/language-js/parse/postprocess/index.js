@@ -104,6 +104,15 @@ function postprocess(ast, options) {
           return node.types[0];
         }
         break;
+
+      // TODO: Remove this after babel v8
+      case "TSMappedType":
+        if (node.typeParameter && !node.constraint) {
+          node.key = node.typeParameter.name;
+          node.constraint = node.typeParameter.constraint;
+          delete node.typeParameter;
+        }
+        break;
     }
   });
 

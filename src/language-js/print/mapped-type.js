@@ -59,7 +59,7 @@ function printTypescriptMappedType(path, options, print) {
     options.originalText,
     locStart(node),
     // Ideally, this should be the next token after `{`, but there is no node starts with it.
-    locStart(node.typeParameter),
+    locStart(node.key),
   );
 
   return group(
@@ -68,7 +68,14 @@ function printTypescriptMappedType(path, options, print) {
       indent([
         options.bracketSpacing ? line : softline,
         group([
-          print("typeParameter"),
+          node.readonly
+            ? printTypeScriptMappedTypeModifier(node.readonly, "readonly ")
+            : "",
+          "[",
+          print("key"),
+          node.constraint ? [" in ", print("constraint")] : "",
+          node.nameType ? [" as ", print("nameType")] : "",
+          "]",
           node.optional
             ? printTypeScriptMappedTypeModifier(node.optional, "?")
             : "",
@@ -85,8 +92,4 @@ function printTypescriptMappedType(path, options, print) {
   );
 }
 
-export {
-  printFlowMappedTypeProperty,
-  printTypescriptMappedType,
-  printTypeScriptMappedTypeModifier,
-};
+export { printFlowMappedTypeProperty, printTypescriptMappedType };

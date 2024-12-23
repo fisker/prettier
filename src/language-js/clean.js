@@ -208,12 +208,6 @@ function clean(original, cloned, parent) {
   }
 
   // `@typescript-eslint/typescript-estree` v8
-  if (original.type === "TSMappedType") {
-    delete cloned.key;
-    delete cloned.constraint;
-  }
-
-  // `@typescript-eslint/typescript-estree` v8
   if (original.type === "TSEnumDeclaration") {
     delete cloned.body;
   }
