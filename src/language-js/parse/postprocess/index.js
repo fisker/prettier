@@ -111,6 +111,12 @@ function postprocess(ast, options) {
           node.raw = text.slice(locStart(node), locEnd(node));
         }
         break;
+      // OXC bug?
+      case "JSXNamespacedName":
+        if (parser === "oxc" && !node.name && node.property) {
+          node.name = node.property;
+        }
+        break;
     }
   });
 
