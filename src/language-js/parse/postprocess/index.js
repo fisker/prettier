@@ -104,6 +104,13 @@ function postprocess(ast, options) {
           return node.types[0];
         }
         break;
+
+      // OXC bug?
+      case "JSXText":
+        if (parser === "oxc" && !node.raw) {
+          node.raw = text.slice(locStart(node), locEnd(node));
+        }
+        break;
     }
   });
 

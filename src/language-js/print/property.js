@@ -68,6 +68,7 @@ function isStringKeySafeToUnquote(node, options) {
     node.type !== "ImportAttribute" &&
     (options.parser === "babel" ||
       options.parser === "acorn" ||
+      options.parser === "oxc" ||
       options.parser === "espree" ||
       options.parser === "meriyah" ||
       options.parser === "__babel_estree")
