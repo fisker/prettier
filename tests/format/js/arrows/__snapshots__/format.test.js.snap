@@ -4576,6 +4576,17 @@ exports[`tuple-and-record.js - {"arrowParens":"always"} [meriyah] format 1`] = `
 Cause: [5:3-5:4]: '#' not followed by identifier"
 `;
 
+exports[`tuple-and-record.js - {"arrowParens":"always"} [oxc] format 1`] = `
+"Invalid Character \`{\` (4:5)
+  2 |   ({ foo: bar, bar: baz, baz: foo });
+  3 |
+> 4 | const fn12 = (a) => (b) => (c) => (d) => (e) =>
+    |     ^
+  5 |   (#{ foo: bar, bar: baz, baz: foo });
+  6 |
+  7 | map(() => (["
+`;
+
 exports[`tuple-and-record.js - {"arrowParens":"always"} [typescript] format 1`] = `
 "Invalid character. (5:4)
   3 |
@@ -4691,6 +4702,17 @@ exports[`tuple-and-record.js - {"arrowParens":"avoid"} [meriyah] format 1`] = `
   7 | map(() => ([
   8 |   // comment
 Cause: [5:3-5:4]: '#' not followed by identifier"
+`;
+
+exports[`tuple-and-record.js - {"arrowParens":"avoid"} [oxc] format 1`] = `
+"Invalid Character \`{\` (4:5)
+  2 |   ({ foo: bar, bar: baz, baz: foo });
+  3 |
+> 4 | const fn12 = (a) => (b) => (c) => (d) => (e) =>
+    |     ^
+  5 |   (#{ foo: bar, bar: baz, baz: foo });
+  6 |
+  7 | map(() => (["
 `;
 
 exports[`tuple-and-record.js - {"arrowParens":"avoid"} [typescript] format 1`] = `
