@@ -282,6 +282,17 @@ exports[`tuple-and-record.js [meriyah] format 1`] = `
 Cause: [22:4-22:5]: '#' not followed by identifier"
 `;
 
+exports[`tuple-and-record.js [oxc] format 1`] = `
+"Invalid Character \`{\` (21:6)
+  19 |   searchFilters = null,
+  20 |   title = '',
+> 21 |   items = [],
+     |      ^
+  22 | } = #{}) {
+  23 | }
+  24 |"
+`;
+
 exports[`tuple-and-record.js format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "flow"]
