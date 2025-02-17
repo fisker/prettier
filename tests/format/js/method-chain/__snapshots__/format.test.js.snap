@@ -1609,6 +1609,15 @@ exports[`tuple-and-record.js [meriyah] format 1`] = `
 Cause: [2:14-2:15]: '#' not followed by identifier"
 `;
 
+exports[`tuple-and-record.js [oxc] format 1`] = `
+"Invalid Character \`[\` (1:16)
+> 1 | foo.a().b().c([n, o])
+    |                ^
+  2 | foo.a().b().c(#[n, o])
+  3 |
+  4 | foo.a().b().c({n, o})"
+`;
+
 exports[`tuple-and-record.js [typescript] format 1`] = `
 "Invalid character. (2:15)
   1 | foo.a().b().c([n, o])
