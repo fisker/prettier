@@ -85,7 +85,7 @@ Expects the `docs` argument to be an array of alternating content and line break
 declare function ifBreak(
   breakContents: Doc,
   flatContents?: Doc,
-  options?: { groupId?: symbol },
+  options?: { group?: Group, groupId?: symbol, },
 ): Doc;
 ```
 
@@ -95,7 +95,7 @@ Print something if the current `group` or the current element of `fill` breaks a
 ifBreak(";", " ");
 ```
 
-`groupId` can be used to check another _already printed_ group instead of the current group.
+`group` can be used to check another _already printed_ group instead of the current group.
 
 If a [`hardline`](#hardline) or [`breakParent`](#breakParent) is present within the possible contents, the parent groups will be broken regardless of said content being printed, which might not be desirable. This behaviour is a design limitation. Usually the desired result can be achieved in a different way.
 
@@ -265,15 +265,15 @@ _Added in v2.3.0_
 ```ts
 declare function indentIfBreak(
   doc: Doc,
-  opts: { groupId: symbol; negate?: boolean },
+  options: { groupId?: symbol; group?: Group, negate?: boolean },
 ): Doc;
 ```
 
-An optimized version of `ifBreak(indent(doc), doc, { groupId })`.
+An optimized version of `ifBreak(indent(doc), doc, { group })`.
 
-With `negate: true`, corresponds to `ifBreak(doc, indent(doc), { groupId })`
+With `negate: true`, corresponds to `ifBreak(doc, indent(doc), { group })`
 
-It doesn't make sense to apply `indentIfBreak` to the current group because "indent if the current group is broken" is the normal behavior of `indent`. That's why `groupId` is required.
+It doesn't make sense to apply `indentIfBreak` to the current group because "indent if the current group is broken" is the normal behavior of `indent`. That's why `group`/`groupId` is required.
 
 ### `label`
 

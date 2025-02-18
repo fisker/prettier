@@ -140,7 +140,7 @@ export namespace builders {
   function ifBreak(
     ifBreak: Doc,
     noBreak?: Doc,
-    options?: { groupId?: symbol | undefined },
+    options?: { groupId?: symbol | undefined, group?: Group },
   ): IfBreak;
 
   /** @see [indent](https://github.com/prettier/prettier/blob/main/commands.md#indent) */
@@ -149,7 +149,7 @@ export namespace builders {
   /** @see [indentIfBreak](https://github.com/prettier/prettier/blob/main/commands.md#indentifbreak) */
   function indentIfBreak(
     doc: Doc,
-    opts: { groupId: symbol; negate?: boolean | undefined },
+    options: { groupId?: symbol; group?: Group, negate?: boolean | undefined },
   ): IndentIfBreak;
 
   /** @see [join](https://github.com/prettier/prettier/blob/main/commands.md#join) */
