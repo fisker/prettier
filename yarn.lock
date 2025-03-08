@@ -1341,43 +1341,44 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@glimmer/interfaces@npm:0.94.5":
-  version: 0.94.5
-  resolution: "@glimmer/interfaces@npm:0.94.5"
+"@glimmer/interfaces@npm:0.94.6":
+  version: 0.94.6
+  resolution: "@glimmer/interfaces@npm:0.94.6"
   dependencies:
     "@simple-dom/interface": "npm:^1.4.0"
-  checksum: 10/6f9cbe781f23bd748042699a2adb7444e5084948216112eca52c541bfbb7f76475f44d3b5742a3a9b8316ad3cc3583434116bfd0e3c22f40d4283ef09cc19e9a
+    type-fest: "npm:^4.35.0"
+  checksum: 10/38f7f7367d4de059892779119d60bf254ca0232d290f16b338ea84f1d0e25099c83db016e33073fd02abd854919c13b1b1692e227b22b466a7a25e3fa8f93fd5
   languageName: node
   linkType: hard
 
-"@glimmer/syntax@npm:0.94.7":
-  version: 0.94.7
-  resolution: "@glimmer/syntax@npm:0.94.7"
+"@glimmer/syntax@npm:0.94.8":
+  version: 0.94.8
+  resolution: "@glimmer/syntax@npm:0.94.8"
   dependencies:
-    "@glimmer/interfaces": "npm:0.94.5"
-    "@glimmer/util": "npm:0.94.6"
-    "@glimmer/wire-format": "npm:0.94.6"
+    "@glimmer/interfaces": "npm:0.94.6"
+    "@glimmer/util": "npm:0.94.7"
+    "@glimmer/wire-format": "npm:0.94.7"
     "@handlebars/parser": "npm:~2.0.0"
     simple-html-tokenizer: "npm:^0.5.11"
-  checksum: 10/37e0f0e5b9eafde5843fa11282a361c28d9afb6489847e0f0e16a0de15ba68210a02de6336dfea88691f3979b13a67d21d296cf9c9753d35d0f79d105ee8a677
+  checksum: 10/fc285aa99126277095a3ea968f5fd5f26eea0f8c1507d6b73ac44ecb56237a94a51f3fbf8c8b719587ee1f24ea74bf2d719fa2015e22201d4748d0fbad6e102e
   languageName: node
   linkType: hard
 
-"@glimmer/util@npm:0.94.6":
-  version: 0.94.6
-  resolution: "@glimmer/util@npm:0.94.6"
+"@glimmer/util@npm:0.94.7":
+  version: 0.94.7
+  resolution: "@glimmer/util@npm:0.94.7"
   dependencies:
-    "@glimmer/interfaces": "npm:0.94.5"
-  checksum: 10/6a482d107d921ab78be316fe8842426e7b48abccad551392bb540bcc121b37089675d9cda262ac51963509f622c4e2cf47bc97ed70b81e54b6d2aeb1aa7b1459
+    "@glimmer/interfaces": "npm:0.94.6"
+  checksum: 10/5ad7ea7a46da3b9fd2804d806f7bb2c8582db19c0124cd4074c20082f2dd4fe4ae82e2adaa130ee39015207f376ca1b53743c5dd3a96fae8eb359eb509ef06ca
   languageName: node
   linkType: hard
 
-"@glimmer/wire-format@npm:0.94.6":
-  version: 0.94.6
-  resolution: "@glimmer/wire-format@npm:0.94.6"
+"@glimmer/wire-format@npm:0.94.7":
+  version: 0.94.7
+  resolution: "@glimmer/wire-format@npm:0.94.7"
   dependencies:
-    "@glimmer/interfaces": "npm:0.94.5"
-  checksum: 10/44d0dc69e7455d37db57f73b69d7570d4f1ba08386abceeff155008042538fc017483b383d09ed14f5717694402c43ecb8af21e8c5e70064d45c148a49ba4df5
+    "@glimmer/interfaces": "npm:0.94.6"
+  checksum: 10/0428923152225c6a186aac765735ced5cc46b3a68f7b792f27c6057b2ad6647e45b74691258bb11845fa72132db9f1044f494a04f55de20d380edd8397d5f6de
   languageName: node
   linkType: hard
 
@@ -2282,12 +2283,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:8.14.0, acorn@npm:^8.14.0":
-  version: 8.14.0
-  resolution: "acorn@npm:8.14.0"
+"acorn@npm:8.14.1, acorn@npm:^8.14.0":
+  version: 8.14.1
+  resolution: "acorn@npm:8.14.1"
   bin:
     acorn: bin/acorn
-  checksum: 10/6df29c35556782ca9e632db461a7f97947772c6c1d5438a81f0c873a3da3a792487e83e404d1c6c25f70513e91aa18745f6eafb1fcc3a43ecd1920b21dd173d2
+  checksum: 10/d1379bbee224e8d44c3c3946e6ba6973e999fbdd4e22e41c3455d7f9b6f72f7ce18d3dc218002e1e48eea789539cf1cb6d1430c81838c6744799c712fb557d92
   languageName: node
   linkType: hard
 
@@ -2790,7 +2791,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:5.4.1, chalk@npm:^5.2.0, chalk@npm:^5.3.0, chalk@npm:^5.4.1":
+"chalk@npm:5.4.1, chalk@npm:^5.2.0, chalk@npm:^5.4.1":
   version: 5.4.1
   resolution: "chalk@npm:5.4.1"
   checksum: 10/29df3ffcdf25656fed6e95962e2ef86d14dfe03cd50e7074b06bad9ffbbf6089adbb40f75c00744d843685c8d008adaf3aed31476780312553caf07fa86e5bc7
@@ -2863,13 +2864,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cjk-regex@npm:3.1.0":
-  version: 3.1.0
-  resolution: "cjk-regex@npm:3.1.0"
+"cjk-regex@npm:3.2.1":
+  version: 3.2.1
+  resolution: "cjk-regex@npm:3.2.1"
   dependencies:
-    regexp-util: "npm:^2.0.0"
-    unicode-regex: "npm:^4.0.0"
-  checksum: 10/0e5cd67d227c701b02b98200cecf475af0d36c7906060e21ec2e0143c0f1d0346eca7f37f428e69344be867d43828652b38509ddac62baea9dbcc91ac9238549
+    regexp-util: "npm:^2.0.1"
+    unicode-regex: "npm:^4.1.0"
+  checksum: 10/957d2206332678eb0b7622b2fb151f1de8955eef52f1138c7ecf2e2929bbca148a2815a36e24616fa72e3d25584b48e4ffaf87712a77e54f3499adcd6ca64596
   languageName: node
   linkType: hard
 
@@ -4577,12 +4578,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"has-ansi@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "has-ansi@npm:5.0.1"
+"has-ansi@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "has-ansi@npm:6.0.0"
   dependencies:
     ansi-regex: "npm:^6.0.1"
-  checksum: 10/3edc00033f1b67191a8bf051ae7787bbe609ed08be27aaf58c03f77c68ce4b18c376b8a6901a7beead2d2e0e07358063c87aa4e3e1d47ac614ee940efec2e01a
+  checksum: 10/5f839cceb7d5df380aa07ca059b2281cdf327578d48738ee5e28ca2f062f9a526008e6c67dae1ee9fff86471105aa98858dbaf0620b3def1fa4f4eef8aaa2915
   languageName: node
   linkType: hard
 
@@ -5548,13 +5549,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-snapshot-serializer-ansi@npm:2.1.0":
-  version: 2.1.0
-  resolution: "jest-snapshot-serializer-ansi@npm:2.1.0"
+"jest-snapshot-serializer-ansi@npm:2.1.2":
+  version: 2.1.2
+  resolution: "jest-snapshot-serializer-ansi@npm:2.1.2"
   dependencies:
-    has-ansi: "npm:^5.0.1"
+    has-ansi: "npm:^6.0.0"
     strip-ansi: "npm:^7.1.0"
-  checksum: 10/6f67679c308662c83585bbc3cb443718cc85c1c837d60510dd08fdb21a9cc622be93fa46f72270c8f5583385e0334c6e228279ad1e4005f7341a3abdc2e1c0c7
+  checksum: 10/86205f32132f6b140ffdba3d531d2b27f1791df3dc232433f1586f4b10cfd9c05c70c6f48a9c509b8a67109c2c888a32d53d0bcd3e22fc51e14b327972e90d73
   languageName: node
   linkType: hard
 
@@ -6874,7 +6875,7 @@ __metadata:
     "@babel/types": "npm:7.26.9"
     "@eslint-react/eslint-plugin": "npm:1.27.0"
     "@eslint/js": "npm:9.21.0"
-    "@glimmer/syntax": "npm:0.94.7"
+    "@glimmer/syntax": "npm:0.94.8"
     "@prettier/is-es5-identifier-name": "npm:0.2.0"
     "@prettier/parse-srcset": "npm:3.1.0"
     "@stylistic/eslint-plugin-js": "npm:4.0.1"
@@ -6882,7 +6883,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:8.25.0"
     "@typescript-eslint/typescript-estree": "npm:8.25.0"
     "@typescript-eslint/visitor-keys": "npm:8.25.0"
-    acorn: "npm:8.14.0"
+    acorn: "npm:8.14.1"
     acorn-jsx: "npm:5.3.2"
     angular-estree-parser: "npm:10.2.0"
     angular-html-parser: "npm:8.0.1"
@@ -6892,7 +6893,7 @@ __metadata:
     camelcase: "npm:8.0.0"
     chalk: "npm:5.4.1"
     ci-info: "npm:4.1.0"
-    cjk-regex: "npm:3.1.0"
+    cjk-regex: "npm:3.2.1"
     collapse-white-space: "npm:1.0.6"
     cross-env: "npm:7.0.3"
     cspell: "npm:8.17.2"
@@ -6936,7 +6937,7 @@ __metadata:
     jest: "npm:30.0.0-alpha.7"
     jest-docblock: "npm:30.0.0-alpha.7"
     jest-light-runner: "npm:0.6.0"
-    jest-snapshot-serializer-ansi: "npm:2.1.0"
+    jest-snapshot-serializer-ansi: "npm:2.1.2"
     jest-snapshot-serializer-raw: "npm:2.0.0"
     jest-watch-typeahead: "npm:2.2.2"
     js-yaml: "npm:4.1.0"
@@ -6964,7 +6965,7 @@ __metadata:
     postcss-values-parser: "npm:2.0.1"
     prettier: "npm:3.5.3"
     pretty-bytes: "npm:6.1.1"
-    regexp-util: "npm:2.0.0"
+    regexp-util: "npm:2.0.3"
     remark-footnotes: "npm:2.0.0"
     remark-math: "npm:3.0.1"
     remark-parse: "npm:8.0.3"
@@ -6980,10 +6981,10 @@ __metadata:
     to-fast-properties: "npm:4.0.0"
     ts-expect: "npm:1.3.0"
     typescript: "npm:5.8.2"
-    unicode-regex: "npm:4.0.0"
+    unicode-regex: "npm:4.1.2"
     unified: "npm:9.2.2"
     url-or-path: "npm:2.3.2"
-    vnopts: "npm:2.0.0"
+    vnopts: "npm:2.0.2"
     wcwidth.js: "npm:2.0.0"
     yaml-unist-parser: "npm:2.0.1"
   bin:
@@ -7152,12 +7153,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regexp-util@npm:2.0.0, regexp-util@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "regexp-util@npm:2.0.0"
-  dependencies:
-    tslib: "npm:^2.6.0"
-  checksum: 10/8f273c5760496d2d3dfe7607d982eaf1886d41c128c7376db735c278e7dd92bf1c817893e0f1f20060b32be826224a4fa8757976d294b941e49c013f27d00d97
+"regexp-util@npm:2.0.3, regexp-util@npm:^2.0.1":
+  version: 2.0.3
+  resolution: "regexp-util@npm:2.0.3"
+  checksum: 10/8380aa27dc61013b21a01ce1679d61323e6930ce0d3776171045c1ed73e3ba70c5da1cf02d65d9f1f97d1b944de617ff0d609eadce7832344ed8f096919a55ba
   languageName: node
   linkType: hard
 
@@ -7993,7 +7992,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.6.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
+"tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.6.2, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
@@ -8037,10 +8036,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.6.0, type-fest@npm:^4.7.1":
-  version: 4.35.0
-  resolution: "type-fest@npm:4.35.0"
-  checksum: 10/43aada576d02f2f5230bd46c859e421a1307694312b3405088a48fcc67d65bee12eafbdcd182cffe0577dd72346595cb90a1ab5700626df35bc8935cf02c635b
+"type-fest@npm:^4.35.0, type-fest@npm:^4.6.0, type-fest@npm:^4.7.1":
+  version: 4.37.0
+  resolution: "type-fest@npm:4.37.0"
+  checksum: 10/882cf05374d7c635cbbbc50cb89863dad3d27a77c426d062144ba32b23a44087193213c5bbd64f3ab8be04215005c950286567be06fecca9d09c66abd290ef01
   languageName: node
   linkType: hard
 
@@ -8088,12 +8087,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unicode-regex@npm:4.0.0, unicode-regex@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "unicode-regex@npm:4.0.0"
+"unicode-regex@npm:4.1.2, unicode-regex@npm:^4.1.0":
+  version: 4.1.2
+  resolution: "unicode-regex@npm:4.1.2"
   dependencies:
-    regexp-util: "npm:^2.0.0"
-  checksum: 10/78c7186737897a06f7ad9ae36430c8bffa74833c10aa06849a1e76ef420b9b6860384e93d067e5533de85eafe0cdddc097677dad67e830f0838b79d19d671b3b
+    regexp-util: "npm:^2.0.1"
+  checksum: 10/c2611ab760cd6a76ab775edc47a7d68827a413fd9057f501ea051015f2573322699242b15db83199c28cdabe16428e97927ec874c2567f3bb1065d209ee74e7d
   languageName: node
   linkType: hard
 
@@ -8278,14 +8277,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vnopts@npm:2.0.0":
-  version: 2.0.0
-  resolution: "vnopts@npm:2.0.0"
+"vnopts@npm:2.0.2":
+  version: 2.0.2
+  resolution: "vnopts@npm:2.0.2"
   dependencies:
-    chalk: "npm:^5.3.0"
     leven: "npm:^4.0.0"
-    tslib: "npm:^2.6.0"
-  checksum: 10/005c75ceb49892413a5c1831d7dda1d9c4c3cb48f192efe6840ce3e63121401fe55f8e3ba4edc713653cdeedcd98762437c22ca97eaac25ca53a646304858c7c
+    picocolors: "npm:^1.1.1"
+  checksum: 10/aec69bf34f4cbb4cd426641ec30489945e823ba1e2f20d8cffa08ad82f4b05ebc92c20958c3c88b745d0ee2df588aad81cf14825c6fb77776a76a137564256c8
   languageName: node
   linkType: hard
 
