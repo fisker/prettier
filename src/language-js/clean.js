@@ -7,7 +7,6 @@ import {
 const ignoredProperties = new Set([
   "range",
   "raw",
-  "comments",
   "leadingComments",
   "trailingComments",
   "innerComments",
@@ -29,6 +28,25 @@ const removeTemplateElementsValue = (node) => {
 function clean(original, cloned) {
   if (original.type === "Program") {
     delete cloned.sourceType;
+  }
+
+  if (ast.type === "Line" || ast.type === "CommentLine") {
+    newObj.value = newObj.value.trimEnd();
+  }
+  if (ast.type === "Block" || ast.type === "CommentBlock") {
+    const comment = newObj.value.trim();
+    if (comment === "* @format") {
+      return null;
+      // Flow comment
+    } else if (comment.startsWith("::") || comment === "* @format") {
+      newObj.value = "";
+    } else {
+      const lines = comment
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => line === "* @format");
+      newObj.value = lines.join("\n");
+    }
   }
 
   if (
