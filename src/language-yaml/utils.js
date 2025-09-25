@@ -145,34 +145,7 @@ function hasEndComments(node) {
  * " a   b c   d e   f " -> [" a   b", "c   d", "e   f "]
  */
 function splitWithSingleSpace(text) {
-  const parts = [];
-
-  let lastPart;
-  for (const part of text.split(/( +)/u)) {
-    if (part !== " ") {
-      if (lastPart === " ") {
-        parts.push(part);
-      } else {
-        parts.push((parts.pop() || "") + part);
-      }
-    } else if (lastPart === undefined) {
-      parts.unshift("");
-    }
-
-    lastPart = part;
-  }
-
-  /* c8 ignore next 3 */
-  if (lastPart === " ") {
-    parts.push((parts.pop() || "") + " ");
-  }
-
-  if (parts[0] === "") {
-    parts.shift();
-    parts.unshift(" " + (parts.shift() || ""));
-  }
-
-  return parts;
+  return text ? text.split(/(?<!^| ) (?! |$)/u) : [];
 }
 
 function getFlowScalarLineContents(nodeType, content, options) {
@@ -195,9 +168,7 @@ function getFlowScalarLineContents(nodeType, content, options) {
   }
 
   return rawLineContents
-    .map((lineContent) =>
-      lineContent.length === 0 ? [] : splitWithSingleSpace(lineContent),
-    )
+    .map((lineContent) => splitWithSingleSpace(lineContent))
     .reduce(
       (reduced, lineContentWords, index) =>
         index !== 0 &&
@@ -254,9 +225,7 @@ function getBlockValueLineContents(
 
   return removeUnnecessaryTrailingNewlines(
     rawLineContents
-      .map((lineContent) =>
-        lineContent.length === 0 ? [] : splitWithSingleSpace(lineContent),
-      )
+      .map((lineContent) => splitWithSingleSpace(lineContent))
       .reduce(
         (reduced, lineContentWords, index) =>
           index !== 0 &&
