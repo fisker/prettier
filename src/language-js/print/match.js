@@ -140,7 +140,7 @@ export function printMatchPattern(path, options, print) {
     }
     case "MatchObjectPatternProperty":
       if (node.shorthand) {
-        return print("pattern");
+        return print("key");
       }
       return group([print("key"), ":", indent([line, print("pattern")])]);
     case "MatchRestPattern": {

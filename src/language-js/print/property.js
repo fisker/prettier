@@ -187,7 +187,7 @@ function printPropertyKey(path, options, print) {
 function printProperty(path, options, print) {
   const { node } = path;
   if (node.shorthand) {
-    return print("value");
+    return print("key");
   }
 
   return printAssignment(

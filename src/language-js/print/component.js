@@ -120,7 +120,7 @@ function iterateComponentParametersPath(path, iteratee) {
 function printComponentParameter(path, options, print) {
   const { node } = path;
   if (node.shorthand) {
-    return print("local");
+    return print("name");
   }
 
   return [print("name"), " as ", print("local")];
