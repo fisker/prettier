@@ -77,13 +77,7 @@ function printClass(path, options, print) {
   partsGroup.push(print("typeParameters"));
 
   if (node.superClass) {
-    const printed = [
-      printSuperClass(path, options, print),
-      print(
-        // TODO: Use `superTypeArguments` only when babel align with TS.
-        node.superTypeArguments ? "superTypeArguments" : "superTypeParameters",
-      ),
-    ];
+    const printed = printSuperClass(path, options, print);
     const printedWithComments = path.call(
       () => ["extends ", printComments(path, printed, options)],
       "superClass",
@@ -178,14 +172,22 @@ function printHeritageClauses(path, options, print, listName) {
 }
 
 function printSuperClass(path, options, print) {
+  const { node, parent } = path;
   const printed = print("superClass");
-  const { parent } = path;
+  const typeArgumentsDoc = print(
+    // TODO: Flow using `superTypeParameters` https://github.com/facebook/hermes/issues/1808#issuecomment-3413004377
+    node.superTypeArguments ? "superTypeArguments" : "superTypeParameters",
+  );
+
   if (parent.type === "AssignmentExpression") {
-    return group(
-      ifBreak(["(", indent([softline, printed]), softline, ")"], printed),
-    );
+    return [
+      group(
+        ifBreak(["(", indent([softline, printed]), softline, ")"], printed),
+      ),
+      typeArgumentsDoc,
+    ];
   }
-  return printed;
+  return [printed, typeArgumentsDoc];
 }
 
 function printClassMethod(path, options, print) {
