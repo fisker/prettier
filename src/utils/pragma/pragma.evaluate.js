@@ -36,7 +36,10 @@ export const YAML_IS_PRAGMA_REGEXP = new RegExp(
  * @returns {[RegExp, RegExp]} Tuple of format pragma RegExp and ignore pragma RegExp
  */
 function createPragmaRegExps(createRegExp) {
-  const [formatRegExp, ignoreRegExp] = [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(createRegExp);
+  const [formatRegExp, ignoreRegExp] = [
+    FORMAT_PRAGMAS,
+    FORMAT_IGNORE_PRAGMAS,
+  ].map(createRegExp);
   return [formatRegExp, ignoreRegExp];
 }
 
