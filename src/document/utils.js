@@ -199,8 +199,8 @@ function stripTrailingHardlineFromParts(parts) {
     const secondToLast = parts.at(-2);
     const last = parts.at(-1);
     if (
-      secondToLast.type === DOC_TYPE_LINE &&
-      last.type === DOC_TYPE_BREAK_PARENT
+      secondToLast?.type === DOC_TYPE_LINE &&
+      last?.type === DOC_TYPE_BREAK_PARENT
     ) {
       parts.length -= 2;
     } else {
@@ -277,10 +277,7 @@ function cleanDocFn(doc) {
       }
       // Remove nested only group
       if (
-        doc.contents &&
-        typeof doc.contents === "object" &&
-        !Array.isArray(doc.contents) &&
-        doc.contents.type === DOC_TYPE_GROUP &&
+        doc.contents?.type === DOC_TYPE_GROUP &&
         doc.contents.id === doc.id &&
         doc.contents.break === doc.break &&
         doc.contents.expandedStates === doc.expandedStates
