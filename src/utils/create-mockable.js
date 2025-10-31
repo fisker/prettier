@@ -1,15 +1,15 @@
 /**
-@template {{ [key: string]: any }} T
-@template {keyof T} K
-@param {T} implementations
-@returns {{
-  mocked: T,
-  implementations: T,
-  mockImplementation(functionality: K, implementation: T[K]): void,
-  mockImplementations(overrideImplementations: T): void,
-  mockRestore(): void,
-}}
-*/
+ * @template {{ [key: string]: any }} T
+ * @template {keyof T} K
+ * @param {T} implementations
+ * @returns {{
+ *   mocked: T,
+ *   implementations: T,
+ *   mockImplementation(functionality: K, implementation: T[K]): void,
+ *   mockImplementations(overrideImplementations: T): void,
+ *   mockRestore(): void,
+ * }}
+ */
 function createMockable(implementations) {
   const mocked = { ...implementations };
   const mockImplementation = (functionality, implementation) => {
