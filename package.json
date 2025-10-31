@@ -89,6 +89,7 @@
     "jsonfile": "6.2.0",
     "just-group-by": "2.2.0",
     "just-omit": "2.2.0",
+    "just-partition": "2.2.0",
     "just-pick": "4.2.0",
     "leven": "4.1.0",
     "linguist-languages": "9.0.0",

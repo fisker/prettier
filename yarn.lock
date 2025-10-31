@@ -6203,6 +6203,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"just-partition@npm:2.2.0":
+  version: 2.2.0
+  resolution: "just-partition@npm:2.2.0"
+  checksum: 10/e2c4fcb237d4e6de0372a8eaf3fdc8b6beced1bd53185635390421a8e35803566a7591075bde2769497a43d0305ffdf206abab40c09b186ffbcce403ef876893
+  languageName: node
+  linkType: hard
+
 "just-pick@npm:4.2.0":
   version: 4.2.0
   resolution: "just-pick@npm:4.2.0"
@@ -7363,6 +7370,7 @@ __metadata:
     jsonfile: "npm:6.2.0"
     just-group-by: "npm:2.2.0"
     just-omit: "npm:2.2.0"
+    just-partition: "npm:2.2.0"
     just-pick: "npm:4.2.0"
     knip: "npm:5.66.2"
     leven: "npm:4.1.0"
