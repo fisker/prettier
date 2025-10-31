@@ -1,1 +1,1 @@
-export { default } from "just-partition";
+export { partition as default } from "es-toolkit";

@@ -1,5 +1,5 @@
 import path from "node:path";
-import justPick from "just-pick";
+import { pick } from "es-toolkit";
 import {
   PRODUCTION_MINIMAL_NODE_JS_VERSION,
   PROJECT_ROOT,
@@ -116,7 +116,7 @@ async function buildPrettierPackageJson({ packageConfig, file }) {
 
   await writeJson(
     path.join(distDirectory, file.output.file),
-    Object.assign(justPick(packageJson, keysToKeep), overrides),
+    Object.assign(pick(packageJson, keysToKeep), overrides),
   );
 }
 
@@ -145,7 +145,7 @@ async function buildPluginOxcPackageJson({ packageConfig, file }) {
 
   await writeJson(
     path.join(distDirectory, file.output.file),
-    Object.assign(justPick(packageJson, keysToKeep), overrides),
+    Object.assign(pick(packageJson, keysToKeep), overrides),
   );
 }
 
@@ -168,7 +168,7 @@ async function buildPluginHermesPackageJson({ packageConfig, file }) {
 
   await writeJson(
     path.join(distDirectory, file.output.file),
-    Object.assign(justPick(packageJson, keysToKeep), overrides),
+    Object.assign(pick(packageJson, keysToKeep), overrides),
   );
 }
 

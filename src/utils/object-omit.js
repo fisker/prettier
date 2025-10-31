@@ -1,1 +1,1 @@
-export { default } from "just-omit";
+export { omit as default } from "es-toolkit";

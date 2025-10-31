@@ -3960,6 +3960,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es-toolkit@npm:1.41.0":
+  version: 1.41.0
+  resolution: "es-toolkit@npm:1.41.0"
+  dependenciesMeta:
+    "@trivago/prettier-plugin-sort-imports@4.3.0":
+      unplugged: true
+    prettier-plugin-sort-re-exports@0.0.1:
+      unplugged: true
+  checksum: 10/ff7ba3130c40e8b472813ececf3a46f28e1875592fb35cab08fdcbe2d3e92f92995a95dd35e0922251ca2505fba39467a5d1491dfa51f642a4048e7d78161403
+  languageName: node
+  linkType: hard
+
 "esbuild-plugins-node-modules-polyfill@npm:1.7.1":
   version: 1.7.1
   resolution: "esbuild-plugins-node-modules-polyfill@npm:1.7.1"
@@ -6189,34 +6201,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"just-group-by@npm:2.2.0":
-  version: 2.2.0
-  resolution: "just-group-by@npm:2.2.0"
-  checksum: 10/943664c7310df37031356f0ee2605ea46499880cf5bd9203de19082e9a705e4ef7e01769bcad55e314d7c814e1bb89811e7737a776c6d152e1eb214201a2d9bf
-  languageName: node
-  linkType: hard
-
-"just-omit@npm:2.2.0":
-  version: 2.2.0
-  resolution: "just-omit@npm:2.2.0"
-  checksum: 10/5dcec447ad25ee71cf4adb5c6a59e58ae46ed912a64ad6b3d38e62d8d041e6c7b504cc668e48e3c84a628acbb7ee2dc95d9ca1312aaaf63a2f9f5427f02a4693
-  languageName: node
-  linkType: hard
-
-"just-partition@npm:2.2.0":
-  version: 2.2.0
-  resolution: "just-partition@npm:2.2.0"
-  checksum: 10/e2c4fcb237d4e6de0372a8eaf3fdc8b6beced1bd53185635390421a8e35803566a7591075bde2769497a43d0305ffdf206abab40c09b186ffbcce403ef876893
-  languageName: node
-  linkType: hard
-
-"just-pick@npm:4.2.0":
-  version: 4.2.0
-  resolution: "just-pick@npm:4.2.0"
-  checksum: 10/da848a4ab02ee3581ff0205025d72abb5ddeefb81cd8e7bafa6eda0e59a5fe317060b2747e39d0d2b41131cf284d67da26418d911708e8efa7031f3cc8478992
-  languageName: node
-  linkType: hard
-
 "kasi@npm:^1.1.1":
   version: 1.1.1
   resolution: "kasi@npm:1.1.1"
@@ -7328,6 +7312,7 @@ __metadata:
     editorconfig: "npm:0.15.3"
     emoji-regex: "npm:10.6.0"
     enquirer: "npm:2.4.1"
+    es-toolkit: "npm:1.41.0"
     esbuild: "npm:0.25.11"
     esbuild-plugins-node-modules-polyfill: "npm:1.7.1"
     esbuild-visualizer: "npm:0.7.0"
@@ -7368,10 +7353,6 @@ __metadata:
     jsesc: "npm:3.1.0"
     json5: "npm:2.2.3"
     jsonfile: "npm:6.2.0"
-    just-group-by: "npm:2.2.0"
-    just-omit: "npm:2.2.0"
-    just-partition: "npm:2.2.0"
-    just-pick: "npm:4.2.0"
     knip: "npm:5.66.2"
     leven: "npm:4.1.0"
     linguist-languages: "npm:9.0.0"
