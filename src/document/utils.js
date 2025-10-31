@@ -195,12 +195,17 @@ function removeLines(doc) {
 function stripTrailingHardlineFromParts(parts) {
   parts = [...parts];
 
-  while (
-    parts.length >= 2 &&
-    parts.at(-2).type === DOC_TYPE_LINE &&
-    parts.at(-1).type === DOC_TYPE_BREAK_PARENT
-  ) {
-    parts.length -= 2;
+  while (parts.length >= 2) {
+    const secondToLast = parts.at(-2);
+    const last = parts.at(-1);
+    if (
+      secondToLast.type === DOC_TYPE_LINE &&
+      last.type === DOC_TYPE_BREAK_PARENT
+    ) {
+      parts.length -= 2;
+    } else {
+      break;
+    }
   }
 
   if (parts.length > 0) {
@@ -272,6 +277,9 @@ function cleanDocFn(doc) {
       }
       // Remove nested only group
       if (
+        doc.contents &&
+        typeof doc.contents === "object" &&
+        !Array.isArray(doc.contents) &&
         doc.contents.type === DOC_TYPE_GROUP &&
         doc.contents.id === doc.id &&
         doc.contents.break === doc.break &&
@@ -301,10 +309,8 @@ function cleanDocFn(doc) {
           continue;
         }
         const [currentPart, ...restParts] = Array.isArray(part) ? part : [part];
-        if (
-          typeof currentPart === "string" &&
-          typeof parts.at(-1) === "string"
-        ) {
+        const lastPart = parts.at(-1);
+        if (typeof currentPart === "string" && typeof lastPart === "string") {
           parts[parts.length - 1] += currentPart;
         } else {
           parts.push(currentPart);
@@ -379,18 +385,20 @@ function inheritLabel(doc, fn) {
 function isEmptyDoc(doc) {
   let isEmpty = true;
   traverseDoc(doc, (doc) => {
-    switch (getDocType(doc)) {
-      case DOC_TYPE_STRING:
-        if (doc === "") {
-          break;
-        }
-      // fallthrough
-      case DOC_TYPE_TRIM:
-      case DOC_TYPE_LINE_SUFFIX_BOUNDARY:
-      case DOC_TYPE_LINE:
-      case DOC_TYPE_BREAK_PARENT:
-        isEmpty = false;
-        return false;
+    const docType = getDocType(doc);
+    if (docType === DOC_TYPE_STRING && doc === "") {
+      // Empty strings don't make the doc non-empty
+      return;
+    }
+    if (
+      docType === DOC_TYPE_STRING ||
+      docType === DOC_TYPE_TRIM ||
+      docType === DOC_TYPE_LINE_SUFFIX_BOUNDARY ||
+      docType === DOC_TYPE_LINE ||
+      docType === DOC_TYPE_BREAK_PARENT
+    ) {
+      isEmpty = false;
+      return false;
     }
   });
   return isEmpty;
