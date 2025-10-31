@@ -3960,18 +3960,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-toolkit@npm:1.41.0":
-  version: 1.41.0
-  resolution: "es-toolkit@npm:1.41.0"
-  dependenciesMeta:
-    "@trivago/prettier-plugin-sort-imports@4.3.0":
-      unplugged: true
-    prettier-plugin-sort-re-exports@0.0.1:
-      unplugged: true
-  checksum: 10/ff7ba3130c40e8b472813ececf3a46f28e1875592fb35cab08fdcbe2d3e92f92995a95dd35e0922251ca2505fba39467a5d1491dfa51f642a4048e7d78161403
-  languageName: node
-  linkType: hard
-
 "esbuild-plugins-node-modules-polyfill@npm:1.7.1":
   version: 1.7.1
   resolution: "esbuild-plugins-node-modules-polyfill@npm:1.7.1"
@@ -7312,7 +7300,6 @@ __metadata:
     editorconfig: "npm:0.15.3"
     emoji-regex: "npm:10.6.0"
     enquirer: "npm:2.4.1"
-    es-toolkit: "npm:1.41.0"
     esbuild: "npm:0.25.11"
     esbuild-plugins-node-modules-polyfill: "npm:1.7.1"
     esbuild-visualizer: "npm:0.7.0"

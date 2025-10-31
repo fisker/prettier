@@ -1,9 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import {
-  groupBy as esGroupBy,
-  pick as esPick,
-} from "es-toolkit";
 import sdbm from "sdbm";
 // @ts-expect-error
 import { __internal as sharedWithCli } from "../index.js";
@@ -18,7 +14,21 @@ const printToScreen = console.log.bind(console);
  * @param {(value: Obj) => Key} iteratee
  * @returns {{[p in Key]: T}}
  */
-const groupBy = esGroupBy;
+function groupBy(array, iteratee) {
+  const result = Object.create(null);
+
+  for (const value of array) {
+    const key = iteratee(value);
+
+    if (Array.isArray(result[key])) {
+      result[key].push(value);
+    } else {
+      result[key] = [value];
+    }
+  }
+
+  return result;
+}
 
 /**
  * @template Obj
@@ -27,7 +37,10 @@ const groupBy = esGroupBy;
  * @param {Array<Keys>} keys
  * @returns {{[key in Keys]: Obj[key]}}
  */
-const pick = esPick;
+function pick(object, keys) {
+  const entries = keys.map((key) => [key, object[key]]);
+  return Object.fromEntries(entries);
+}
 
 /**
  * @param {string} source

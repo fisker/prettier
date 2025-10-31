@@ -1,5 +1,4 @@
 import path from "node:path";
-import { pick } from "es-toolkit";
 import {
   PRODUCTION_MINIMAL_NODE_JS_VERSION,
   PROJECT_ROOT,
@@ -169,6 +168,13 @@ async function buildPluginHermesPackageJson({ packageConfig, file }) {
   await writeJson(
     path.join(distDirectory, file.output.file),
     Object.assign(pick(packageJson, keysToKeep), overrides),
+  );
+}
+
+function pick(object, keys) {
+  keys = new Set(keys);
+  return Object.fromEntries(
+    Object.entries(object).filter(([key]) => keys.has(key)),
   );
 }
 
