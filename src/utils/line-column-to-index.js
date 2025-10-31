@@ -5,7 +5,6 @@
  * @param {string} text - The text to search in
  * @returns {number} The absolute character index
  */
-// Super inefficient, needs to be cached.
 function lineColumnToIndex(lineColumn, text) {
   let index = 0;
   for (let i = 0; i < lineColumn.line - 1; ++i) {

@@ -31,90 +31,55 @@ export const YAML_IS_PRAGMA_REGEXP = new RegExp(
 );
 
 /**
- * Regular expression to check for format pragma in YAML comments.
- * @type {RegExp}
+ * Helper function to create a pair of RegExp for format and ignore pragmas.
+ * @param {(pragmas: string[]) => RegExp} createRegExp - Function to create a RegExp from pragmas
+ * @returns {[RegExp, RegExp]} Tuple of format pragma RegExp and ignore pragma RegExp
  */
-export const YAML_HAS_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(
+function createPragmaRegExps(createRegExp) {
+  return /** @type {[RegExp, RegExp]} */ (
+    [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(createRegExp)
+  );
+}
+
+/**
+ * Regular expressions to check for format and ignore pragmas in YAML comments.
+ */
+export const [YAML_HAS_PRAGMA_REGEXP, YAML_HAS_IGNORE_PRAGMA_REGEXP] =
+  createPragmaRegExps(
     (pragmas) =>
       new RegExp(
         String.raw`^\s*#[^\S\n]*@(?:${pragmas.join("|")})\s*?(?:\n|$)`,
         "u",
       ),
-  )[0]
-);
+  );
 
 /**
- * Regular expression to check for ignore pragma in YAML comments.
- * @type {RegExp}
+ * Regular expressions to check for format and ignore pragmas in GraphQL comments.
  */
-export const YAML_HAS_IGNORE_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(
-    (pragmas) =>
-      new RegExp(
-        String.raw`^\s*#[^\S\n]*@(?:${pragmas.join("|")})\s*?(?:\n|$)`,
-        "u",
-      ),
-  )[1]
-);
-
-/**
- * Regular expression to check for format pragma in GraphQL comments.
- * @type {RegExp}
- */
-export const GRAPHQL_HAS_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(
+export const [GRAPHQL_HAS_PRAGMA_REGEXP, GRAPHQL_HAS_IGNORE_PRAGMA_REGEXP] =
+  createPragmaRegExps(
     (pragmas) =>
       new RegExp(
         String.raw`^\s*#[^\S\n]*@(?:${pragmas.join("|")})\s*(?:\n|$)`,
         "u",
       ),
-  )[0]
-);
+  );
 
 /**
- * Regular expression to check for ignore pragma in GraphQL comments.
- * @type {RegExp}
+ * Regular expressions to check for format and ignore pragmas in HTML comments.
  */
-export const GRAPHQL_HAS_IGNORE_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(
-    (pragmas) =>
-      new RegExp(
-        String.raw`^\s*#[^\S\n]*@(?:${pragmas.join("|")})\s*(?:\n|$)`,
-        "u",
-      ),
-  )[1]
-);
-
-/**
- * Regular expression to check for format pragma in HTML comments.
- * @type {RegExp}
- */
-export const HTML_HAS_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(
+export const [HTML_HAS_PRAGMA_REGEXP, HTML_HAS_IGNORE_PRAGMA_REGEXP] =
+  createPragmaRegExps(
     (pragmas) =>
       new RegExp(String.raw`^\s*<!--\s*@(?:${pragmas.join("|")})\s*-->`, "u"),
-  )[0]
-);
+  );
 
 /**
- * Regular expression to check for ignore pragma in HTML comments.
- * @type {RegExp}
- */
-export const HTML_HAS_IGNORE_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map(
-    (pragmas) =>
-      new RegExp(String.raw`^\s*<!--\s*@(?:${pragmas.join("|")})\s*-->`, "u"),
-  )[1]
-);
-
-/**
- * Regular expression to check for format pragma in Markdown comments.
+ * Regular expressions to check for format and ignore pragmas in Markdown comments.
  * Supports HTML comments, JSX-style comments, and multi-line HTML comments.
- * @type {RegExp}
  */
-export const MARKDOWN_HAS_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map((pragmas) => {
+export const [MARKDOWN_HAS_PRAGMA_REGEXP, MARKDOWN_HAS_IGNORE_PRAGMA_REGEXP] =
+  createPragmaRegExps((pragmas) => {
     const pragma = `@(?:${pragmas.join("|")})`;
     return new RegExp(
       [
@@ -124,24 +89,4 @@ export const MARKDOWN_HAS_PRAGMA_REGEXP = /** @type {RegExp} */ (
       ].join("|"),
       "mu",
     );
-  })[0]
-);
-
-/**
- * Regular expression to check for ignore pragma in Markdown comments.
- * Supports HTML comments, JSX-style comments, and multi-line HTML comments.
- * @type {RegExp}
- */
-export const MARKDOWN_HAS_IGNORE_PRAGMA_REGEXP = /** @type {RegExp} */ (
-  [FORMAT_PRAGMAS, FORMAT_IGNORE_PRAGMAS].map((pragmas) => {
-    const pragma = `@(?:${pragmas.join("|")})`;
-    return new RegExp(
-      [
-        String.raw`<!--\s*${pragma}\s*-->`,
-        String.raw`\{\s*\/\*\s*${pragma}\s*\*\/\s*\}`,
-        `<!--.*\r?\n[\\s\\S]*(^|\n)[^\\S\n]*${pragma}[^\\S\n]*($|\n)[\\s\\S]*\n.*-->`,
-      ].join("|"),
-      "mu",
-    );
-  })[1]
-);
+  });
