@@ -7361,6 +7361,7 @@ __metadata:
     semver: "npm:7.7.3"
     serialize-javascript: "npm:7.0.0"
     smol-toml: "npm:1.4.2"
+    string-width: "npm:5.1.2"
     strip-ansi: "npm:7.1.2"
     tempy: "npm:3.1.0"
     tinybench: "npm:5.1.0"
@@ -8041,7 +8042,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:^5.0.1, string-width@npm:^5.1.2":
+"string-width@npm:5.1.2, string-width@npm:^5.0.1, string-width@npm:^5.1.2":
   version: 5.1.2
   resolution: "string-width@npm:5.1.2"
   dependencies:
