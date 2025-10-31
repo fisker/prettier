@@ -15,8 +15,8 @@ import {
 } from "./prettier-internal.js";
 import { normalizeToPosix, statSafe } from "./utils.js";
 
-function diff(a, b) {
-  return createTwoFilesPatch("", "", a, b, "", "", { context: 2 });
+function diff(oldContent, newContent) {
+  return createTwoFilesPatch("", "", oldContent, newContent, "", "", { context: 2 });
 }
 
 class DebugError extends Error {
