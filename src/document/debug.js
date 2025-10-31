@@ -20,19 +20,19 @@ function flattenDoc(doc) {
   }
 
   if (Array.isArray(doc)) {
-    const res = [];
+    const result = [];
     for (const part of doc) {
       if (Array.isArray(part)) {
-        res.push(...flattenDoc(part));
+        result.push(...flattenDoc(part));
       } else {
         const flattened = flattenDoc(part);
         if (flattened !== "") {
-          res.push(flattened);
+          result.push(flattened);
         }
       }
     }
 
-    return res;
+    return result;
   }
 
   if (doc.type === DOC_TYPE_IF_BREAK) {

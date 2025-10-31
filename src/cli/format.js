@@ -99,9 +99,9 @@ async function listDifferent(context, input, options, filename) {
   return true;
 }
 
-async function format(context, input, opt) {
+async function format(context, input, options) {
   if (context.argv.debugPrintDoc) {
-    const doc = await prettier.__debug.printToDoc(input, opt);
+    const doc = await prettier.__debug.printToDoc(input, options);
     return { formatted: (await prettier.__debug.formatDoc(doc)) + "\n" };
   }
 
@@ -109,7 +109,7 @@ async function format(context, input, opt) {
     return {
       formatted: await prettier.format(
         JSON.stringify(
-          (await prettier.formatWithCursor(input, opt)).comments || [],
+          (await prettier.formatWithCursor(input, options)).comments || [],
         ),
         { parser: "json" },
       ),
@@ -117,26 +117,26 @@ async function format(context, input, opt) {
   }
 
   if (context.argv.debugPrintAst) {
-    const { ast } = await prettier.__debug.parse(input, opt);
+    const { ast } = await prettier.__debug.parse(input, options);
     return {
       formatted: JSON.stringify(ast),
     };
   }
 
   if (context.argv.debugCheck) {
-    const pp = await prettier.format(input, opt);
-    const pppp = await prettier.format(pp, opt);
-    if (pp !== pppp) {
+    const formatted = await prettier.format(input, options);
+    const formattedTwice = await prettier.format(formatted, options);
+    if (formatted !== formattedTwice) {
       throw new DebugError(
-        "prettier(input) !== prettier(prettier(input))\n" + diff(pp, pppp),
+        "prettier(input) !== prettier(prettier(input))\n" + diff(formatted, formattedTwice),
       );
     } else {
       const stringify = (obj) => JSON.stringify(obj, null, 2);
       const ast = stringify(
-        (await prettier.__debug.parse(input, opt, { massage: true })).ast,
+        (await prettier.__debug.parse(input, options, { massage: true })).ast,
       );
       const past = stringify(
-        (await prettier.__debug.parse(pp, opt, { massage: true })).ast,
+        (await prettier.__debug.parse(formatted, options, { massage: true })).ast,
       );
 
       /* c8 ignore start */
@@ -150,12 +150,12 @@ async function format(context, input, opt) {
           "ast(input) !== ast(prettier(input))\n" +
             astDiff +
             "\n" +
-            diff(input, pp),
+            diff(input, formatted),
         );
       }
       /* c8 ignore end */
     }
-    return { formatted: pp, filepath: opt.filepath || "(stdin)\n" };
+    return { formatted, filepath: options.filepath || "(stdin)\n" };
   }
 
   const { performanceTestFlag } = context;
@@ -173,7 +173,7 @@ async function format(context, input, opt) {
       "'--debug-benchmark' option found, measuring formatWithCursor with 'tinybench' module.",
     );
     const bench = new Bench();
-    bench.add("Format", () => prettier.formatWithCursor(input, opt));
+    bench.add("Format", () => prettier.formatWithCursor(input, options));
     await bench.run();
 
     const [result] = bench.table();
@@ -188,7 +188,7 @@ async function format(context, input, opt) {
     );
     const start = mockable.getTimestamp();
     for (let i = 0; i < repeat; ++i) {
-      await prettier.formatWithCursor(input, opt);
+      await prettier.formatWithCursor(input, options);
     }
     const averageMs = (mockable.getTimestamp() - start) / repeat;
     const results = {
@@ -207,7 +207,7 @@ async function format(context, input, opt) {
     );
   }
 
-  return prettier.formatWithCursor(input, opt);
+  return prettier.formatWithCursor(input, options);
 }
 
 async function createIsIgnoredFromContextOrDie(context) {

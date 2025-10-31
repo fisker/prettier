@@ -10,13 +10,13 @@ import skipNewline from "./skip-newline.js";
  * @returns {boolean}
  */
 function hasNewline(text, startIndex, options = {}) {
-  const idx = skipSpaces(
+  const index = skipSpaces(
     text,
     options.backwards ? startIndex - 1 : startIndex,
     options,
   );
-  const idx2 = skipNewline(text, idx, options);
-  return idx !== idx2;
+  const indexAfterNewline = skipNewline(text, index, options);
+  return index !== indexAfterNewline;
 }
 
 export default hasNewline;
