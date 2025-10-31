@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import readline from "node:readline";
 import url from "node:url";
+import jsonfile from "jsonfile";
 import spawn from "nano-spawn";
 import styleText from "node-style-text";
 import outdent from "outdent";
@@ -95,11 +96,11 @@ function waitForEnter() {
 }
 
 function readJson(filename) {
-  return JSON.parse(fs.readFileSync(filename));
+  return jsonfile.readFileSync(filename);
 }
 
 function writeJson(file, content) {
-  writeFile(file, JSON.stringify(content, null, 2) + "\n");
+  jsonfile.writeFileSync(file, content, { spaces: 2 });
 }
 
 const toPath = (urlOrPath) =>

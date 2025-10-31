@@ -1,17 +1,16 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import url from "node:url";
+import jsonfile from "jsonfile";
 
 const toPath = (path) => (path instanceof URL ? url.fileURLToPath(path) : path);
 
-async function readJson(file) {
-  const data = await fs.readFile(file);
-  return JSON.parse(data);
+function readJson(file) {
+  return jsonfile.readFile(toPath(file));
 }
 
 function writeJson(file, content) {
-  content = JSON.stringify(content, null, 2) + "\n";
-  return writeFile(file, content);
+  return jsonfile.writeFile(toPath(file), content, { spaces: 2 });
 }
 
 async function copyFile(from, to) {

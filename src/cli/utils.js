@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import justGroupBy from "just-group-by";
+import justPick from "just-pick";
 import sdbm from "sdbm";
 // @ts-expect-error
 import { __internal as sharedWithCli } from "../index.js";
@@ -14,21 +16,7 @@ const printToScreen = console.log.bind(console);
  * @param {(value: Obj) => Key} iteratee
  * @returns {{[p in Key]: T}}
  */
-function groupBy(array, iteratee) {
-  const result = Object.create(null);
-
-  for (const value of array) {
-    const key = iteratee(value);
-
-    if (Array.isArray(result[key])) {
-      result[key].push(value);
-    } else {
-      result[key] = [value];
-    }
-  }
-
-  return result;
-}
+const groupBy = justGroupBy;
 
 /**
  * @template Obj
@@ -37,10 +25,7 @@ function groupBy(array, iteratee) {
  * @param {Array<Keys>} keys
  * @returns {{[key in Keys]: Obj[key]}}
  */
-function pick(object, keys) {
-  const entries = keys.map((key) => [key, object[key]]);
-  return Object.fromEntries(entries);
-}
+const pick = justPick;
 
 /**
  * @param {string} source
