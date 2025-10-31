@@ -5,12 +5,12 @@ import jsonfile from "jsonfile";
 
 const toPath = (path) => (path instanceof URL ? url.fileURLToPath(path) : path);
 
-function readJson(file) {
-  return jsonfile.readFile(toPath(file));
+async function readJson(file) {
+  return await jsonfile.readFile(toPath(file));
 }
 
-function writeJson(file, content) {
-  return jsonfile.writeFile(toPath(file), content, { spaces: 2 });
+async function writeJson(file, content) {
+  return await jsonfile.writeFile(toPath(file), content, { spaces: 2 });
 }
 
 async function copyFile(from, to) {
