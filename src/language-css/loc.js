@@ -139,22 +139,22 @@ function replaceQuotesInInlineComments(text) {
   const inlineCommentsToReplace = [];
 
   for (let i = 0; i < text.length; i++) {
-    const c = text[i];
+    const char = text[i];
 
     switch (state) {
       case "initial":
-        if (c === "'") {
+        if (char === "'") {
           state = "single-quotes";
           continue;
         }
 
-        if (c === '"') {
+        if (char === '"') {
           state = "double-quotes";
           continue;
         }
 
         if (
-          (c === "u" || c === "U") &&
+          (char === "u" || char === "U") &&
           text.slice(i, i + 4).toLowerCase() === "url("
         ) {
           state = "url";
@@ -162,12 +162,12 @@ function replaceQuotesInInlineComments(text) {
           continue;
         }
 
-        if (c === "*" && text[i - 1] === "/") {
+        if (char === "*" && text[i - 1] === "/") {
           state = "comment-block";
           continue;
         }
 
-        if (c === "/" && text[i - 1] === "/") {
+        if (char === "/" && text[i - 1] === "/") {
           state = "comment-inline";
           inlineCommentStartIndex = i - 1;
           continue;
@@ -176,38 +176,38 @@ function replaceQuotesInInlineComments(text) {
         continue;
 
       case "single-quotes":
-        if (c === "'" && text[i - 1] !== "\\") {
+        if (char === "'" && text[i - 1] !== "\\") {
           state = stateToReturnFromQuotes;
           stateToReturnFromQuotes = "initial";
         }
-        if (c === "\n" || c === "\r") {
+        if (char === "\n" || char === "\r") {
           return text; // invalid input
         }
         continue;
 
       case "double-quotes":
-        if (c === '"' && text[i - 1] !== "\\") {
+        if (char === '"' && text[i - 1] !== "\\") {
           state = stateToReturnFromQuotes;
           stateToReturnFromQuotes = "initial";
         }
-        if (c === "\n" || c === "\r") {
+        if (char === "\n" || char === "\r") {
           return text; // invalid input
         }
         continue;
 
       case "url":
-        if (c === ")") {
+        if (char === ")") {
           state = "initial";
         }
-        if (c === "\n" || c === "\r") {
+        if (char === "\n" || char === "\r") {
           return text; // invalid input
         }
-        if (c === "'") {
+        if (char === "'") {
           state = "single-quotes";
           stateToReturnFromQuotes = "url";
           continue;
         }
-        if (c === '"') {
+        if (char === '"') {
           state = "double-quotes";
           stateToReturnFromQuotes = "url";
           continue;
@@ -215,16 +215,16 @@ function replaceQuotesInInlineComments(text) {
         continue;
 
       case "comment-block":
-        if (c === "/" && text[i - 1] === "*") {
+        if (char === "/" && text[i - 1] === "*") {
           state = "initial";
         }
         continue;
 
       case "comment-inline":
-        if (c === '"' || c === "'" || c === "*") {
+        if (char === '"' || char === "'" || char === "*") {
           inlineCommentContainsQuotes = true;
         }
-        if (c === "\n" || c === "\r") {
+        if (char === "\n" || char === "\r") {
           if (inlineCommentContainsQuotes) {
             inlineCommentsToReplace.push([inlineCommentStartIndex, i]);
           }

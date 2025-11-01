@@ -24,8 +24,8 @@ function mapNode(node, callback, parent) {
   );
 }
 
-function defineShortcut(x, key, getter) {
-  Object.defineProperty(x, key, {
+function defineShortcut(target, key, getter) {
+  Object.defineProperty(target, key, {
     get: getter,
     enumerable: false,
   });

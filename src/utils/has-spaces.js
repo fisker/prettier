@@ -11,12 +11,12 @@ import { skipSpaces } from "./skip.js";
  * @returns {boolean}
  */
 function hasSpaces(text, startIndex, options = {}) {
-  const idx = skipSpaces(
+  const index = skipSpaces(
     text,
     options.backwards ? startIndex - 1 : startIndex,
     options,
   );
-  return idx !== startIndex;
+  return index !== startIndex;
 }
 /* c8 ignore stop */
 

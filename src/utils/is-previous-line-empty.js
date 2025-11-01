@@ -9,12 +9,12 @@ import skipNewline from "./skip-newline.js";
  */
 function isPreviousLineEmpty(text, startIndex) {
   /** @type {number | false} */
-  let idx = startIndex - 1;
-  idx = skipSpaces(text, idx, { backwards: true });
-  idx = skipNewline(text, idx, { backwards: true });
-  idx = skipSpaces(text, idx, { backwards: true });
-  const idx2 = skipNewline(text, idx, { backwards: true });
-  return idx !== idx2;
+  let index = startIndex - 1;
+  index = skipSpaces(text, index, { backwards: true });
+  index = skipNewline(text, index, { backwards: true });
+  index = skipSpaces(text, index, { backwards: true });
+  const indexAfterNewline = skipNewline(text, index, { backwards: true });
+  return index !== indexAfterNewline;
 }
 
 export default isPreviousLineEmpty;

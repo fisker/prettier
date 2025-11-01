@@ -47,24 +47,24 @@ function parseVueVForDirective(value) {
     return;
   }
 
-  const res = { for: inMatch[3].trim() };
-  if (!res.for) {
+  const result = { for: inMatch[3].trim() };
+  if (!result.for) {
     return;
   }
 
   const alias = inMatch[1].trim().replaceAll(stripParensRE, "");
   const iteratorMatch = alias.match(forIteratorRE);
   if (iteratorMatch) {
-    res.alias = alias.replace(forIteratorRE, "");
-    res.iterator1 = iteratorMatch[1].trim();
+    result.alias = alias.replace(forIteratorRE, "");
+    result.iterator1 = iteratorMatch[1].trim();
     if (iteratorMatch[2]) {
-      res.iterator2 = iteratorMatch[2].trim();
+      result.iterator2 = iteratorMatch[2].trim();
     }
   } else {
-    res.alias = alias;
+    result.alias = alias;
   }
 
-  const left = [res.alias, res.iterator1, res.iterator2];
+  const left = [result.alias, result.iterator1, result.iterator2];
   if (
     left.some(
       (part, index) =>
@@ -77,7 +77,7 @@ function parseVueVForDirective(value) {
   return {
     left: left.filter(Boolean).join(","),
     operator: inMatch[2],
-    right: res.for,
+    right: result.for,
   };
 }
 

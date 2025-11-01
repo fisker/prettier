@@ -385,12 +385,12 @@ function printDocToString(doc, options) {
 
             /** @type {Command} */
             const next = { ind, mode: MODE_FLAT, doc: doc.contents };
-            const rem = width - pos;
+            const remaining = width - pos;
             const hasLineSuffix = lineSuffix.length > 0;
 
             if (
               !doc.break &&
-              fits(next, cmds, rem, hasLineSuffix, groupModeMap)
+              fits(next, cmds, remaining, hasLineSuffix, groupModeMap)
             ) {
               cmds.push(next);
             } else {
@@ -418,10 +418,10 @@ function printDocToString(doc, options) {
                     } else {
                       const state = doc.expandedStates[i];
                       /** @type {Command} */
-                      const cmd = { ind, mode: MODE_FLAT, doc: state };
+                      const command = { ind, mode: MODE_FLAT, doc: state };
 
-                      if (fits(cmd, cmds, rem, hasLineSuffix, groupModeMap)) {
-                        cmds.push(cmd);
+                      if (fits(command, cmds, remaining, hasLineSuffix, groupModeMap)) {
+                        cmds.push(command);
 
                         break;
                       }
@@ -462,7 +462,7 @@ function printDocToString(doc, options) {
       // * Neither content item fits on the line without breaking
       //   -> output the first content item and the whitespace with "break".
       case DOC_TYPE_FILL: {
-        const rem = width - pos;
+        const remaining = width - pos;
 
         const offset = doc[DOC_FILL_PRINTED_LENGTH] ?? 0;
         const { parts } = doc;
@@ -480,7 +480,7 @@ function printDocToString(doc, options) {
         const contentFits = fits(
           contentFlatCmd,
           [],
-          rem,
+          remaining,
           lineSuffix.length > 0,
           groupModeMap,
           true,
@@ -527,7 +527,7 @@ function printDocToString(doc, options) {
         const firstAndSecondContentFits = fits(
           firstAndSecondContentFlatCmd,
           [],
-          rem,
+          remaining,
           lineSuffix.length > 0,
           groupModeMap,
           true,
