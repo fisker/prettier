@@ -1,5 +1,8 @@
 import isNonEmptyArray from "../utils/is-non-empty-array.js";
 
+// Regex patterns used in hot paths
+const trailingWhitespaceRegex = /\s$/u;
+
 /**
  * @param {any} value
  * @param {string[]=} types
@@ -257,7 +260,7 @@ function getBlockValueLineContents(
     const words = [];
     for (const word of originalWords) {
       // disallow trailing spaces
-      if (words.length > 0 && /\s$/u.test(words.at(-1))) {
+      if (words.length > 0 && trailingWhitespaceRegex.test(words.at(-1))) {
         words[words.length - 1] += " " + word;
       } else {
         words.push(word);
