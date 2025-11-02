@@ -31,6 +31,7 @@ const MODE_BREAK = Symbol("MODE_BREAK");
 const MODE_FLAT = Symbol("MODE_FLAT");
 
 const CURSOR_PLACEHOLDER = Symbol("cursor");
+const MAX_CURSOR_COUNT = 2;
 
 const DOC_FILL_PRINTED_LENGTH = Symbol("DOC_FILL_PRINTED_LENGTH");
 
@@ -343,7 +344,7 @@ function printDocToString(doc, options) {
         break;
 
       case DOC_TYPE_CURSOR:
-        if (printedCursorCount >= 2) {
+        if (printedCursorCount >= MAX_CURSOR_COUNT) {
           throw new Error("There are too many 'cursor' in doc.");
         }
         out.push(CURSOR_PLACEHOLDER);
@@ -385,12 +386,12 @@ function printDocToString(doc, options) {
 
             /** @type {Command} */
             const next = { ind, mode: MODE_FLAT, doc: doc.contents };
-            const rem = width - pos;
+            const remainingWidth = width - pos;
             const hasLineSuffix = lineSuffix.length > 0;
 
             if (
               !doc.break &&
-              fits(next, cmds, rem, hasLineSuffix, groupModeMap)
+              fits(next, cmds, remainingWidth, hasLineSuffix, groupModeMap)
             ) {
               cmds.push(next);
             } else {
@@ -420,7 +421,15 @@ function printDocToString(doc, options) {
                       /** @type {Command} */
                       const cmd = { ind, mode: MODE_FLAT, doc: state };
 
-                      if (fits(cmd, cmds, rem, hasLineSuffix, groupModeMap)) {
+                      if (
+                        fits(
+                          cmd,
+                          cmds,
+                          remainingWidth,
+                          hasLineSuffix,
+                          groupModeMap,
+                        )
+                      ) {
                         cmds.push(cmd);
 
                         break;
@@ -462,7 +471,7 @@ function printDocToString(doc, options) {
       // * Neither content item fits on the line without breaking
       //   -> output the first content item and the whitespace with "break".
       case DOC_TYPE_FILL: {
-        const rem = width - pos;
+        const remainingWidth = width - pos;
 
         const offset = doc[DOC_FILL_PRINTED_LENGTH] ?? 0;
         const { parts } = doc;
@@ -480,7 +489,7 @@ function printDocToString(doc, options) {
         const contentFits = fits(
           contentFlatCmd,
           [],
-          rem,
+          remainingWidth,
           lineSuffix.length > 0,
           groupModeMap,
           true,
@@ -527,7 +536,7 @@ function printDocToString(doc, options) {
         const firstAndSecondContentFits = fits(
           firstAndSecondContentFlatCmd,
           [],
-          rem,
+          remainingWidth,
           lineSuffix.length > 0,
           groupModeMap,
           true,
