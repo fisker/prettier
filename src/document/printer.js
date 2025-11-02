@@ -208,7 +208,7 @@ function fits(
     return true;
   }
 
-  let restIdx = restCommands.length;
+  let restCommandsIndex = restCommands.length;
   /** @type {Array<Omit<Command, 'ind'>>} */
   const cmds = [next];
   // `out` is only used for width counting because `trim` requires to look
@@ -216,10 +216,10 @@ function fits(
   const out = [];
   while (width >= 0) {
     if (cmds.length === 0) {
-      if (restIdx === 0) {
+      if (restCommandsIndex === 0) {
         return true;
       }
-      cmds.push(restCommands[--restIdx]);
+      cmds.push(restCommands[--restCommandsIndex]);
 
       continue;
     }
@@ -309,7 +309,7 @@ function printDocToString(doc, options) {
 
   const width = options.printWidth;
   const newLine = convertEndOfLineToChars(options.endOfLine);
-  let pos = 0;
+  let position = 0;
   // cmds is basically a stack. We've turned a recursive call into a
   // while loop which is much faster. The while loop below adds new
   // cmds to the array instead of recursively calling `print`.
@@ -332,7 +332,7 @@ function printDocToString(doc, options) {
         out.push(formatted);
         // Plugins may print single string, should skip measure the width
         if (cmds.length > 0) {
-          pos += getStringWidth(formatted);
+          position += getStringWidth(formatted);
         }
         break;
       }
@@ -364,7 +364,7 @@ function printDocToString(doc, options) {
         break;
 
       case DOC_TYPE_TRIM:
-        pos -= trim(out);
+        position -= trim(out);
         break;
 
       case DOC_TYPE_GROUP:
@@ -386,7 +386,7 @@ function printDocToString(doc, options) {
 
             /** @type {Command} */
             const next = { ind, mode: MODE_FLAT, doc: doc.contents };
-            const remainingWidth = width - pos;
+            const remainingWidth = width - position;
             const hasLineSuffix = lineSuffix.length > 0;
 
             if (
@@ -466,7 +466,7 @@ function printDocToString(doc, options) {
       // * Neither content item fits on the line without breaking
       //   -> output the first content item and the whitespace with "break".
       case DOC_TYPE_FILL: {
-        const remainingWidth = width - pos;
+        const remainingWidth = width - position;
 
         const offset = doc[DOC_FILL_PRINTED_LENGTH] ?? 0;
         const { parts } = doc;
@@ -591,7 +591,7 @@ function printDocToString(doc, options) {
               if (!doc.soft) {
                 out.push(" ");
 
-                pos += 1;
+                position += 1;
               }
 
               break;
@@ -616,15 +616,15 @@ function printDocToString(doc, options) {
             if (doc.literal) {
               if (ind.root) {
                 out.push(newLine, ind.root.value);
-                pos = ind.root.length;
+                position = ind.root.length;
               } else {
                 out.push(newLine);
-                pos = 0;
+                position = 0;
               }
             } else {
-              pos -= trim(out);
+              position -= trim(out);
               out.push(newLine + ind.value);
-              pos = ind.length;
+              position = ind.length;
             }
             break;
         }
