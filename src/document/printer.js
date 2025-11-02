@@ -410,27 +410,32 @@ function printDocToString(doc, options) {
                   cmds.push({ ind, mode: MODE_BREAK, doc: mostExpanded });
 
                   break;
-                }
+                } else {
+                  for (let i = 1; i < doc.expandedStates.length + 1; i++) {
+                    if (i >= doc.expandedStates.length) {
+                      cmds.push({ ind, mode: MODE_BREAK, doc: mostExpanded });
 
-                // Try each expanded state to find the first one that fits
-                let foundFittingState = false;
-                for (let i = 1; i < doc.expandedStates.length; i++) {
-                  const state = doc.expandedStates[i];
-                  /** @type {Command} */
-                  const cmd = { ind, mode: MODE_FLAT, doc: state };
+                      break;
+                    } else {
+                      const state = doc.expandedStates[i];
+                      /** @type {Command} */
+                      const cmd = { ind, mode: MODE_FLAT, doc: state };
 
-                  if (
-                    fits(cmd, cmds, remainingWidth, hasLineSuffix, groupModeMap)
-                  ) {
-                    cmds.push(cmd);
-                    foundFittingState = true;
-                    break;
+                      if (
+                        fits(
+                          cmd,
+                          cmds,
+                          remainingWidth,
+                          hasLineSuffix,
+                          groupModeMap,
+                        )
+                      ) {
+                        cmds.push(cmd);
+
+                        break;
+                      }
+                    }
                   }
-                }
-
-                // If no state fits, use the most expanded one
-                if (!foundFittingState) {
-                  cmds.push({ ind, mode: MODE_BREAK, doc: mostExpanded });
                 }
               } else {
                 cmds.push({ ind, mode: MODE_BREAK, doc: doc.contents });
