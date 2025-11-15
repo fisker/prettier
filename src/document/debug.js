@@ -75,7 +75,13 @@ function printDocToDebug(doc) {
     }
 
     if (Array.isArray(doc)) {
-      const printed = doc.map(printDoc).filter(Boolean);
+      const printed = [];
+      for (let i = 0; i < doc.length; i++) {
+        const result = printDoc(doc[i], i, doc);
+        if (result) {
+          printed.push(result);
+        }
+      }
       return printed.length === 1 ? printed[0] : `[${printed.join(", ")}]`;
     }
 
