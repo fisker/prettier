@@ -12,7 +12,7 @@ Key improvements include:
 - Enhanced plugin API with new `printPrettierIgnored()` and `estree` printer support
 - Multiple fixes for Angular, Handlebars, Markdown, and other languages
 
-This release also addresses the inconsistent opening brace print logic of class and interface body. We'd love to hear your thoughts on this change—please share your feedback on [this issue](https://github.com/prettier/prettier/issues/18115).
+This release also addresses the inconsistent opening brace print logic of class and interface body. Note that we plan to align the interface body print with the class body in Prettier v4 unless a better solution is found—see [this issue](https://github.com/prettier/prettier/issues/18115) for details.
 
 We want to thank all the contributors who made this release possible. Your bug reports, pull requests, and feedback help make Prettier better for everyone!
 
