@@ -33,6 +33,30 @@ function shouldInlineNewExpressionCallee(path) {
   return false;
 }
 
+function isSuperClass(path) {
+  let { node: child, ancestors } = path;
+  for (const ancestor of ancestors) {
+    if (
+      !(
+        (isMemberExpression(ancestor) && ancestor.object === child) ||
+        (ancestor.type === "TSNonNullExpression" &&
+          ancestor.expression === child)
+      )
+    ) {
+      return (
+        (ancestor.type === "ClassDeclaration" ||
+          ancestor.type === "ClassExpression" ||
+          ancestor.type === "DeclareClass") &&
+        ancestor.superClass === child
+      );
+    }
+
+    child = ancestor;
+  }
+
+  return false;
+}
+
 function printMemberExpression(path, options, print) {
   const objectDoc = print("object");
   const lookupDoc = printMemberLookup(path, options, print);
@@ -52,6 +76,7 @@ function printMemberExpression(path, options, print) {
         (firstNonMemberParent.type === "AssignmentExpression" &&
           firstNonMemberParent.left.type !== "Identifier"))) ||
     shouldInlineNewExpressionCallee(path) ||
+    isSuperClass(path) ||
     node.computed ||
     (node.object.type === "Identifier" &&
       node.property.type === "Identifier" &&
