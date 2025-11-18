@@ -18,7 +18,6 @@ import {
   CommentCheckFlags,
   createTypeCheckFunction,
   hasComment,
-  isMemberExpression,
 } from "../utils/index.js";
 import { printAssignment } from "./assignment.js";
 import { printClassMemberDecorators } from "./decorators.js";
@@ -72,7 +71,6 @@ function printClass(path, options, print) {
     hasComment(node.id, CommentCheckFlags.Trailing) ||
     hasComment(node.typeParameters, CommentCheckFlags.Trailing) ||
     hasComment(node.superClass) ||
-    hasMemberExpressionInHeritage(node) ||
     hasMultipleHeritage(node);
 
   const partsGroup = [];
@@ -172,29 +170,6 @@ function hasMultipleHeritage(node) {
   return count > 1;
 }
 
-function hasMemberExpressionInHeritage(node) {
-  if (hasMultipleHeritage(node)) {
-    return false;
-  }
-
-  if (node.superClass) {
-    return isMemberExpression(node.superClass);
-  }
-
-  for (const listName of ["extends", "mixins", "implements"]) {
-    const list = node[listName];
-    if (Array.isArray(list) && list.length === 1) {
-      const heritage = list[0];
-      return (
-        isMemberExpression(heritage) ||
-        isMemberExpression(heritage.expression)
-      );
-    }
-  }
-
-  return false;
-}
-
 function printHeritageClauses(path, options, print, listName, groupMode) {
   const { node } = path;
   if (!isNonEmptyArray(node[listName])) {
@@ -209,10 +184,16 @@ function printHeritageClauses(path, options, print, listName, groupMode) {
 
   // Make it print like `superClass`
   if (!hasMultipleHeritage(node)) {
+    const contentDoc = group(
+      ifBreak(
+        ["(", indent([softline, heritageClausesDoc]), softline, ")"],
+        heritageClausesDoc,
+      ),
+    );
     const printed = [
       `${listName} `,
       printedLeadingComments,
-      heritageClausesDoc,
+      contentDoc,
     ];
     if (groupMode) {
       return [line, group(printed)];
@@ -231,13 +212,9 @@ function printHeritageClauses(path, options, print, listName, groupMode) {
 
 function printSuperClass(path, options, print) {
   const printed = print("superClass");
-  const { parent } = path;
-  if (parent.type === "AssignmentExpression") {
-    return group(
-      ifBreak(["(", indent([softline, printed]), softline, ")"], printed),
-    );
-  }
-  return printed;
+  return group(
+    ifBreak(["(", indent([softline, printed]), softline, ")"], printed),
+  );
 }
 
 function printClassMethod(path, options, print) {

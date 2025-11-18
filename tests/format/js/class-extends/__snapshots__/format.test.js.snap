@@ -43,25 +43,33 @@ class loooooooooooooooooooong3 extends class {
 } {}
 
 =====================================output=====================================
-class loooooooooooooooooooong1 extends foooooooo(
-  foooooooo(foooooooo(foooooooo(foooooooo(foooooooo(foooooooo(foooooooo())))))),
+class loooooooooooooooooooong1 extends (
+  foooooooo(
+    foooooooo(
+      foooooooo(foooooooo(foooooooo(foooooooo(foooooooo(foooooooo()))))),
+    ),
+  )
 ) {}
 
-class loooooooooooooooooooong2 extends function (make, model, year, owner) {
-  this.make = make;
-  this.model = model;
-  this.year = year;
-  this.owner = owner;
-} {}
-
-class loooooooooooooooooooong3 extends class {
-  cconstructor(make, model, year, owner) {
+class loooooooooooooooooooong2 extends (
+  function (make, model, year, owner) {
     this.make = make;
     this.model = model;
     this.year = year;
     this.owner = owner;
   }
-} {}
+) {}
+
+class loooooooooooooooooooong3 extends (
+  class {
+    cconstructor(make, model, year, owner) {
+      this.make = make;
+      this.model = model;
+      this.year = year;
+      this.owner = owner;
+    }
+  }
+) {}
 
 ================================================================================
 `;
@@ -221,8 +229,9 @@ foo = class extends aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggg
 // Issue #18246: Prevent ugly breaks in member expressions used as superClass
 
 // Original issue - long class name with member expression superClass
-class EnsureNoDisposablesAreLeakedInTestSuiteSuite
-  extends eslint.Rule.RuleModule {}
+class EnsureNoDisposablesAreLeakedInTestSuiteSuite extends (
+  eslint.Rule.RuleModule
+) {}
 
 // Short case - should stay on one line
 class A extends B.C {}
@@ -234,9 +243,9 @@ class VeryLongClassName extends deeply.nested.member.expression.RuleModule {}
 class LongClassName extends SomeSuperClass {}
 
 // Class expression in assignment
-foo = class
-  extends aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggggg2
-{
+foo = class extends (
+  aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggggg2
+) {
   method() {}
 };
 

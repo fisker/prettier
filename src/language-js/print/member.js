@@ -33,6 +33,61 @@ function shouldInlineNewExpressionCallee(path) {
   return false;
 }
 
+function isSuperClass(path) {
+  let { node: child, ancestors } = path;
+  for (const ancestor of ancestors) {
+    if (
+      !(
+        (isMemberExpression(ancestor) && ancestor.object === child) ||
+        (ancestor.type === "TSNonNullExpression" &&
+          ancestor.expression === child)
+      )
+    ) {
+      if (
+        (ancestor.type === "ClassDeclaration" ||
+          ancestor.type === "ClassExpression" ||
+          ancestor.type === "DeclareClass") &&
+        ancestor.superClass === child
+      ) {
+        return true;
+      }
+
+      if (
+        (ancestor.type === "TSClassImplements" ||
+          ancestor.type === "TSInterfaceHeritage" ||
+          ancestor.type === "ClassImplements") &&
+        ancestor.expression === child
+      ) {
+        return true;
+      }
+
+      if (
+        ancestor.type === "ClassDeclaration" ||
+        ancestor.type === "ClassExpression" ||
+        ancestor.type === "DeclareClass" ||
+        ancestor.type === "TSInterfaceDeclaration" ||
+        ancestor.type === "DeclareInterface" ||
+        ancestor.type === "InterfaceDeclaration"
+      ) {
+        for (const listName of ["extends", "mixins", "implements"]) {
+          if (
+            Array.isArray(ancestor[listName]) &&
+            ancestor[listName].includes(child)
+          ) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    }
+
+    child = ancestor;
+  }
+
+  return false;
+}
+
 function printMemberExpression(path, options, print) {
   const objectDoc = print("object");
   const lookupDoc = printMemberLookup(path, options, print);
@@ -52,6 +107,7 @@ function printMemberExpression(path, options, print) {
         (firstNonMemberParent.type === "AssignmentExpression" &&
           firstNonMemberParent.left.type !== "Identifier"))) ||
     shouldInlineNewExpressionCallee(path) ||
+    isSuperClass(path) ||
     node.computed ||
     (node.object.type === "Identifier" &&
       node.property.type === "Identifier" &&

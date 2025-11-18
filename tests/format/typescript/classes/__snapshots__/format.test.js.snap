@@ -73,9 +73,11 @@ class InMemoryAppender
   extends log4javascript.Appender
   implements ICachedLogMessageProvider {}
 
-class Foo extends Immutable.Record({
-  ipaddress: "",
-}) {
+class Foo extends (
+  Immutable.Record({
+    ipaddress: "",
+  })
+) {
   ipaddress: string;
 }
 
@@ -186,8 +188,9 @@ interface VeryLongInterfaceName extends some.deeply.nested.member.expression.Int
 // Issue #18246: Prevent ugly breaks in member expressions in heritage clauses
 
 // Long class name with member expression in implements
-class EnsureNoDisposablesAreLeakedInTestSuiteSuite
-  implements eslint.Rule.RuleModule {}
+class EnsureNoDisposablesAreLeakedInTestSuiteSuite implements (
+  eslint.Rule.RuleModule
+) {}
 
 // Short case - should stay on one line
 class A implements B.C {}
@@ -202,15 +205,16 @@ class MyClass implements A.B, C.D {}
 class MyLongClass extends Some.Base implements Another.Interface {}
 
 // Class expression in assignment
-bar = class
-  implements aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggggg2
-{
+bar = class implements (
+  aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggggg2
+) {
   method() {}
 };
 
 // Interface with extends
-interface VeryLongInterfaceName
-  extends some.deeply.nested.member.expression.Interface {}
+interface VeryLongInterfaceName extends (
+  some.deeply.nested.member.expression.Interface
+) {}
 
 ================================================================================
 `;
