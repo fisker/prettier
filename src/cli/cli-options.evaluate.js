@@ -152,6 +152,10 @@ const options = {
   debugPrintDoc: {
     type: "boolean",
   },
+  debugPerfProfile: {
+    // Show detailed performance profiling breakdown of formatting phases.
+    type: "boolean",
+  },
   debugRepeat: {
     // Repeat the formatting a few times and measure the average duration.
     default: 0,

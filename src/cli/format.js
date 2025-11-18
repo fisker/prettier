@@ -158,6 +158,25 @@ async function format(context, input, opt) {
     return { formatted: pp, filepath: opt.filepath || "(stdin)\n" };
   }
 
+  if (context.argv.debugPerfProfile) {
+    context.logger.debug(
+      "'--debug-perf-profile' option found, measuring formatting phases.",
+    );
+    const optWithProfile = { ...opt, __perfProfile: true };
+    const result = await prettier.formatWithCursor(input, optWithProfile);
+    if (result.__perfProfile) {
+      const profile = result.__perfProfile;
+      context.logger.debug(
+        "'--debug-perf-profile' measurements:\n" +
+          `  Parse:        ${profile.parseTime.toFixed(3)}ms\n` +
+          `  AST to Doc:   ${profile.astToDocTime.toFixed(3)}ms\n` +
+          `  Print Doc:    ${profile.printDocTime.toFixed(3)}ms\n` +
+          `  Total:        ${profile.totalTime.toFixed(3)}ms`,
+      );
+    }
+    return result;
+  }
+
   const { performanceTestFlag } = context;
   if (performanceTestFlag?.debugBenchmark) {
     let Bench;

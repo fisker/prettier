@@ -29,7 +29,10 @@ async function coreFormat(originalText, opts, addAlignmentSize = 0) {
     return { formatted: "", cursorOffset: -1, comments: [] };
   }
 
+  const perfProfile = opts.__perfProfile;
+  const startParse = perfProfile ? performance.now() : 0;
   const { ast, text } = await parseText(originalText, opts);
+  const parseTime = perfProfile ? performance.now() - startParse : 0;
 
   if (opts.cursorOffset >= 0) {
     opts = {
@@ -38,14 +41,27 @@ async function coreFormat(originalText, opts, addAlignmentSize = 0) {
     };
   }
 
+  const startAstToDoc = perfProfile ? performance.now() : 0;
   let doc = await printAstToDoc(ast, opts, addAlignmentSize);
+  const astToDocTime = perfProfile ? performance.now() - startAstToDoc : 0;
 
   if (addAlignmentSize > 0) {
     // Add a hardline to make the indents take effect, it will be removed later
     doc = addAlignmentToDoc([hardline, doc], addAlignmentSize, opts.tabWidth);
   }
 
+  const startPrintDoc = perfProfile ? performance.now() : 0;
   const result = printDocToStringWithoutNormalizeOptions(doc, opts);
+  const printDocTime = perfProfile ? performance.now() - startPrintDoc : 0;
+
+  if (perfProfile) {
+    result.__perfProfile = {
+      parseTime,
+      astToDocTime,
+      printDocTime,
+      totalTime: parseTime + astToDocTime + printDocTime,
+    };
+  }
 
   // Remove extra leading indentation as well as the added indentation after last newline
   if (addAlignmentSize > 0) {
@@ -173,10 +189,20 @@ async function coreFormat(originalText, opts, addAlignmentSize = 0) {
       }
     }
 
-    return { formatted: result.formatted, cursorOffset, comments };
+    return {
+      formatted: result.formatted,
+      cursorOffset,
+      comments,
+      ...(perfProfile ? { __perfProfile: result.__perfProfile } : {}),
+    };
   }
 
-  return { formatted: result.formatted, cursorOffset: -1, comments };
+  return {
+    formatted: result.formatted,
+    cursorOffset: -1,
+    comments,
+    ...(perfProfile ? { __perfProfile: result.__perfProfile } : {}),
+  };
 }
 
 async function formatRange(originalText, opts) {
