@@ -43,12 +43,46 @@ function isSuperClass(path) {
           ancestor.expression === child)
       )
     ) {
-      return (
+      // Check if it's a superClass
+      if (
         (ancestor.type === "ClassDeclaration" ||
           ancestor.type === "ClassExpression" ||
           ancestor.type === "DeclareClass") &&
         ancestor.superClass === child
-      );
+      ) {
+        return true;
+      }
+      
+      // Check if it's in a heritage clause wrapper (TSClassImplements, TSInterfaceHeritage, ClassImplements)
+      if (
+        (ancestor.type === "TSClassImplements" ||
+          ancestor.type === "TSInterfaceHeritage" ||
+          ancestor.type === "ClassImplements") &&
+        ancestor.expression === child
+      ) {
+        return true;
+      }
+      
+      // Check if it's in implements/extends/mixins arrays
+      if (
+        ancestor.type === "ClassDeclaration" ||
+        ancestor.type === "ClassExpression" ||
+        ancestor.type === "DeclareClass" ||
+        ancestor.type === "TSInterfaceDeclaration" ||
+        ancestor.type === "DeclareInterface" ||
+        ancestor.type === "InterfaceDeclaration"
+      ) {
+        for (const listName of ["extends", "mixins", "implements"]) {
+          if (
+            Array.isArray(ancestor[listName]) &&
+            ancestor[listName].includes(child)
+          ) {
+            return true;
+          }
+        }
+      }
+      
+      return false;
     }
 
     child = ancestor;

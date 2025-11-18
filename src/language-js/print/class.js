@@ -72,7 +72,7 @@ function printClass(path, options, print) {
     hasComment(node.id, CommentCheckFlags.Trailing) ||
     hasComment(node.typeParameters, CommentCheckFlags.Trailing) ||
     hasComment(node.superClass) ||
-    isMemberExpression(node.superClass) ||
+    hasMemberExpressionInHeritage(node) ||
     hasMultipleHeritage(node);
 
   const partsGroup = [];
@@ -170,6 +170,33 @@ function hasMultipleHeritage(node) {
     }
   }
   return count > 1;
+}
+
+function hasMemberExpressionInHeritage(node) {
+  if (isMemberExpression(node.superClass)) {
+    return true;
+  }
+  for (const listName of ["extends", "mixins", "implements"]) {
+    if (Array.isArray(node[listName])) {
+      for (const item of node[listName]) {
+        // Check if item is a member expression directly
+        if (isMemberExpression(item)) {
+          return true;
+        }
+        // Check if item is a heritage wrapper (TSClassImplements, TSInterfaceHeritage, ClassImplements)
+        // with a member expression inside
+        if (
+          (item.type === "TSClassImplements" ||
+            item.type === "TSInterfaceHeritage" ||
+            item.type === "ClassImplements") &&
+          isMemberExpression(item.expression)
+        ) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
 }
 
 function printHeritageClauses(path, options, print, listName, groupMode) {
