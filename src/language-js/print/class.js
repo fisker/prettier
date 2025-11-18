@@ -173,11 +173,20 @@ function hasMultipleHeritage(node) {
 }
 
 function hasMemberExpressionInHeritage(node) {
+  // Only check if there's a single heritage clause
+  // (hasMultipleHeritage handles multiple heritage cases)
+  if (hasMultipleHeritage(node)) {
+    return false;
+  }
+  
+  // Check superClass
   if (isMemberExpression(node.superClass)) {
     return true;
   }
+  
+  // Check heritage lists (extends, mixins, implements)
   for (const listName of ["extends", "mixins", "implements"]) {
-    if (Array.isArray(node[listName])) {
+    if (Array.isArray(node[listName]) && node[listName].length > 0) {
       for (const item of node[listName]) {
         // Check if item is a member expression directly
         if (isMemberExpression(item)) {
@@ -196,6 +205,7 @@ function hasMemberExpressionInHeritage(node) {
       }
     }
   }
+  
   return false;
 }
 
