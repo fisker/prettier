@@ -12,6 +12,8 @@ Key improvements include:
 - Enhanced plugin API with new `printPrettierIgnored()` and `estree` printer support
 - Multiple fixes for Angular, Handlebars, Markdown, and other languages
 
+This release also addresses the inconsistent opening brace print logic of class and interface body. We'd love to hear your thoughts on this change—please share your feedback on [this issue](https://github.com/prettier/prettier/issues/18115).
+
 We want to thank all the contributors who made this release possible. Your bug reports, pull requests, and feedback help make Prettier better for everyone!
 
 If you appreciate Prettier and would like to support our work, please consider sponsoring us directly via [our OpenCollective](https://opencollective.com/prettier) or by sponsoring the projects we depend on. Thank you!
