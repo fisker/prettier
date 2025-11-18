@@ -173,39 +173,25 @@ function hasMultipleHeritage(node) {
 }
 
 function hasMemberExpressionInHeritage(node) {
-  // Only check if there's a single heritage clause
-  // (hasMultipleHeritage handles multiple heritage cases)
   if (hasMultipleHeritage(node)) {
     return false;
   }
-  
-  // Check superClass
-  if (isMemberExpression(node.superClass)) {
-    return true;
+
+  if (node.superClass) {
+    return isMemberExpression(node.superClass);
   }
-  
-  // Check heritage lists (extends, mixins, implements)
+
   for (const listName of ["extends", "mixins", "implements"]) {
-    if (Array.isArray(node[listName]) && node[listName].length > 0) {
-      for (const item of node[listName]) {
-        // Check if item is a member expression directly
-        if (isMemberExpression(item)) {
-          return true;
-        }
-        // Check if item is a heritage wrapper (TSClassImplements, TSInterfaceHeritage, ClassImplements)
-        // with a member expression inside
-        if (
-          (item.type === "TSClassImplements" ||
-            item.type === "TSInterfaceHeritage" ||
-            item.type === "ClassImplements") &&
-          isMemberExpression(item.expression)
-        ) {
-          return true;
-        }
-      }
+    const list = node[listName];
+    if (Array.isArray(list) && list.length === 1) {
+      const heritage = list[0];
+      return (
+        isMemberExpression(heritage) ||
+        isMemberExpression(heritage.expression)
+      );
     }
   }
-  
+
   return false;
 }
 
