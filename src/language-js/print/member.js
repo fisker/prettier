@@ -34,9 +34,10 @@ function shouldInlineNewExpressionCallee(path) {
 }
 
 function printMemberExpression(path, options, print) {
+  const { node } = path;
   const objectDoc = print("object");
   const lookupDoc = printMemberLookup(path, options, print);
-  const { node } = path;
+
   const firstNonMemberParent = path.findAncestor(
     (node) =>
       !(isMemberExpression(node) || node.type === "TSNonNullExpression"),
@@ -45,6 +46,9 @@ function printMemberExpression(path, options, print) {
     (node) =>
       !(node.type === "ChainExpression" || node.type === "TSNonNullExpression"),
   );
+
+  // Cache parent type for multiple checks
+  const parentType = firstNonChainElementWrapperParent.type;
 
   const shouldInline =
     (firstNonMemberParent &&
@@ -56,8 +60,8 @@ function printMemberExpression(path, options, print) {
     (node.object.type === "Identifier" &&
       node.property.type === "Identifier" &&
       !isMemberExpression(firstNonChainElementWrapperParent)) ||
-    ((firstNonChainElementWrapperParent.type === "AssignmentExpression" ||
-      firstNonChainElementWrapperParent.type === "VariableDeclarator") &&
+    ((parentType === "AssignmentExpression" ||
+      parentType === "VariableDeclarator") &&
       (isCallExpressionWithArguments(node.object) ||
         objectDoc.label?.memberChain));
 

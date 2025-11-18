@@ -8,44 +8,51 @@ import printString from "../../utils/print-string.js";
 
 function printLiteral(path, options /* , print*/) {
   const { node } = path;
+  const { type } = node;
 
-  switch (node.type) {
-    case "RegExpLiteral": // Babel 6 Literal split
-      return printRegex(node);
-    case "BigIntLiteral":
-      return printBigInt(node.extra.raw);
+  // Fast path for most common case - generic Literal node
+  if (type === "Literal") {
+    if (node.regex) {
+      return printRegex(node.regex);
+    }
+
+    if (node.bigint) {
+      return printBigInt(node.raw);
+    }
+
+    const { value } = node;
+    const valueType = typeof value;
+
+    // Number literals are very common
+    if (valueType === "number") {
+      return printNumber(node.raw);
+    }
+
+    // String literals are also very common
+    if (valueType === "string") {
+      return isDirective(path)
+        ? printDirective(node.raw, options)
+        : replaceEndOfLine(printString(node.raw, options));
+    }
+    return String(value);
+  }
+
+  // Babel 6 specific literal types (less common in modern code)
+  switch (type) {
     case "NumericLiteral": // Babel 6 Literal split
       return printNumber(node.extra.raw);
     case "StringLiteral": // Babel 6 Literal split
       return replaceEndOfLine(printString(node.extra.raw, options));
-    case "NullLiteral": // Babel 6 Literal split
-      return "null";
     case "BooleanLiteral": // Babel 6 Literal split
       return String(node.value);
+    case "NullLiteral": // Babel 6 Literal split
+      return "null";
+    case "RegExpLiteral": // Babel 6 Literal split
+      return printRegex(node);
+    case "BigIntLiteral":
+      return printBigInt(node.extra.raw);
     case "DirectiveLiteral":
       return printDirective(node.extra.raw, options);
-    case "Literal": {
-      if (node.regex) {
-        return printRegex(node.regex);
-      }
-
-      if (node.bigint) {
-        return printBigInt(node.raw);
-      }
-
-      const { value } = node;
-
-      if (typeof value === "number") {
-        return printNumber(node.raw);
-      }
-
-      if (typeof value === "string") {
-        return isDirective(path)
-          ? printDirective(node.raw, options)
-          : replaceEndOfLine(printString(node.raw, options));
-      }
-      return String(value);
-    }
   }
 }
 
