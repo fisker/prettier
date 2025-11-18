@@ -28,7 +28,14 @@ import printIgnored from "./print-ignored.js";
  * the path to the current node through the Abstract Syntax Tree.
  */
 async function printAstToDoc(ast, options) {
+  const perfProfile = options.__perfProfile;
+  const subProfile = perfProfile ? {} : null;
+
+  const startPrepareToPrint = perfProfile ? performance.now() : 0;
   ({ ast } = await prepareToPrint(ast, options));
+  if (perfProfile) {
+    subProfile.prepareToPrint = performance.now() - startPrepareToPrint;
+  }
 
   const cache = new Map();
   const path = new AstPath(ast);
@@ -36,10 +43,15 @@ async function printAstToDoc(ast, options) {
   const ensurePrintingNode = createPrintPreCheckFunction(options);
   const embeds = new Map();
 
+  const startEmbeds = perfProfile ? performance.now() : 0;
   await printEmbeddedLanguages(path, mainPrint, options, printAstToDoc, embeds);
+  if (perfProfile) {
+    subProfile.embeddedLanguages = performance.now() - startEmbeds;
+  }
 
   // Only the root call of the print method is awaited.
   // This is done to make things simpler for plugins that don't use recursive printing.
+  const startMainPrint = perfProfile ? performance.now() : 0;
   const doc = await callPluginPrintFunction(
     path,
     options,
@@ -47,8 +59,15 @@ async function printAstToDoc(ast, options) {
     undefined,
     embeds,
   );
+  if (perfProfile) {
+    subProfile.mainPrint = performance.now() - startMainPrint;
+  }
 
   ensureAllCommentsPrinted(options);
+
+  if (perfProfile && options.__astToDocProfile) {
+    Object.assign(options.__astToDocProfile, subProfile);
+  }
 
   if (options.cursorOffset >= 0) {
     if (options.nodeAfterCursor && !options.nodeBeforeCursor) {
@@ -138,18 +157,33 @@ function callPluginPrintFunction(path, options, printPath, args, embeds) {
 }
 
 async function prepareToPrint(ast, options) {
+  const perfProfile = options.__perfProfile;
+  const subProfile = perfProfile && options.__astToDocProfile ? {} : null;
+
   const comments = ast.comments ?? [];
   options[Symbol.for("comments")] = comments;
   // For JS printer to ignore attached comments
   options[Symbol.for("printedComments")] = new Set();
 
+  const startAttachComments = perfProfile ? performance.now() : 0;
   attachComments(ast, options);
+  if (subProfile) {
+    subProfile.attachComments = performance.now() - startAttachComments;
+  }
 
   const {
     printer: { preprocess },
   } = options;
 
+  const startPreprocess = perfProfile ? performance.now() : 0;
   ast = preprocess ? await preprocess(ast, options) : ast;
+  if (subProfile) {
+    subProfile.preprocess = performance.now() - startPreprocess;
+  }
+
+  if (subProfile) {
+    Object.assign(options.__astToDocProfile, subProfile);
+  }
 
   return { ast, comments };
 }

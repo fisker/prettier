@@ -42,6 +42,9 @@ async function coreFormat(originalText, opts, addAlignmentSize = 0) {
   }
 
   const startAstToDoc = perfProfile ? performance.now() : 0;
+  if (perfProfile) {
+    opts.__astToDocProfile = {};
+  }
   let doc = await printAstToDoc(ast, opts, addAlignmentSize);
   const astToDocTime = perfProfile ? performance.now() - startAstToDoc : 0;
 
@@ -60,6 +63,7 @@ async function coreFormat(originalText, opts, addAlignmentSize = 0) {
       astToDocTime,
       printDocTime,
       totalTime: parseTime + astToDocTime + printDocTime,
+      astToDocBreakdown: opts.__astToDocProfile || {},
     };
   }
 
