@@ -143,6 +143,10 @@ const options = {
     // Run the formatting once again on the formatted output, throw if different.
     type: "boolean",
   },
+  debugPerfProfile: {
+    // Show detailed performance profiling breakdown of formatting phases.
+    type: "boolean",
+  },
   debugPrintAst: {
     type: "boolean",
   },
@@ -150,10 +154,6 @@ const options = {
     type: "boolean",
   },
   debugPrintDoc: {
-    type: "boolean",
-  },
-  debugPerfProfile: {
-    // Show detailed performance profiling breakdown of formatting phases.
     type: "boolean",
   },
   debugRepeat: {
