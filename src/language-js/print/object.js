@@ -63,9 +63,10 @@ const isPrintingFlowEnumBody = createTypeCheckFunction([
 */
 function printObject(path, options, print) {
   const { node, parent } = path;
+  const nodeType = node.type;
 
   const isFlowEnumBody = isPrintingFlowEnumBody(node);
-  const isEnumBody = node.type === "TSEnumBody" || isFlowEnumBody;
+  const isEnumBody = nodeType === "TSEnumBody" || isFlowEnumBody;
   const isImportAttributes = isPrintingImportAttributes(node);
   const hasUnknownMembers = isFlowEnumBody && node.hasUnknownMembers;
 
@@ -76,24 +77,28 @@ function printObject(path, options, print) {
       : "properties";
   const children = node[property];
 
+  // Cache parent type for multiple checks - optimize hot path
+  const parentType = parent.type;
+  const isObjectPattern = nodeType === "ObjectPattern";
+
   const shouldBreak =
     isEnumBody ||
-    (node.type === "ObjectPattern" &&
-      parent.type !== "FunctionDeclaration" &&
-      parent.type !== "FunctionExpression" &&
-      parent.type !== "ArrowFunctionExpression" &&
-      parent.type !== "ObjectMethod" &&
-      parent.type !== "ClassMethod" &&
-      parent.type !== "ClassPrivateMethod" &&
-      parent.type !== "AssignmentPattern" &&
-      parent.type !== "CatchClause" &&
+    (isObjectPattern &&
+      parentType !== "FunctionDeclaration" &&
+      parentType !== "FunctionExpression" &&
+      parentType !== "ArrowFunctionExpression" &&
+      parentType !== "ObjectMethod" &&
+      parentType !== "ClassMethod" &&
+      parentType !== "ClassPrivateMethod" &&
+      parentType !== "AssignmentPattern" &&
+      parentType !== "CatchClause" &&
       node.properties.some(
         (property) =>
           property.value &&
           (property.value.type === "ObjectPattern" ||
             property.value.type === "ArrayPattern"),
       )) ||
-    (node.type !== "ObjectPattern" &&
+    (!isObjectPattern &&
       options.objectWrap === "preserve" &&
       children.length > 0 &&
       hasNewLineAfterOpeningBrace(node, children[0], options));

@@ -92,7 +92,7 @@ async function normalizeFormatOptions(options, opts = {}) {
   }
 
   return normalizeOptions(rawOptions, supportOptions, {
-    passThrough: Object.keys(formatOptionsHiddenDefaults),
+    passThrough: [...Object.keys(formatOptionsHiddenDefaults), "__perfProfile"],
     ...opts,
   });
 }
