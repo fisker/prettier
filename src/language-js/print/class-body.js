@@ -7,18 +7,17 @@ import {
   softline,
 } from "../../document/index.js";
 import { printDanglingComments } from "../../main/comments/print.js";
-import hasNewline from "../../utils/has-newline.js";
 import hasNewlineInRange from "../../utils/has-newline-in-range.js";
-import { locEnd, locStart } from "../loc.js";
+import { locStart } from "../loc.js";
 import {
   CommentCheckFlags,
   createTypeCheckFunction,
-  getComments,
   hasComment,
   isNextLineEmpty,
   shouldPrintComma,
 } from "../utils/index.js";
 import { shouldHugTheOnlyParameter } from "./function-parameters.js";
+import { printInexactSpread } from "./misc.js";
 
 /*
 - `ClassBody`
@@ -68,26 +67,17 @@ function printClassBody(path, options, print) {
     }
   });
 
-  if (hasComment(node, CommentCheckFlags.Dangling)) {
+  const isInexact = node.type === "ObjectTypeAnnotation" && node.inexact;
+
+  if (hasComment(node, CommentCheckFlags.Dangling) && !isInexact) {
     parts.push(printDanglingComments(path, options));
   }
 
-  // TODO: this part can unify with the similar part in `printObject`
-  if (node.type === "ObjectTypeAnnotation" && node.inexact) {
-    let printed;
-    if (hasComment(node, CommentCheckFlags.Dangling)) {
-      const hasLineComments = hasComment(node, CommentCheckFlags.Line);
-      printed = [
-        hasLineComments ||
-        hasNewline(options.originalText, locEnd(getComments(node).at(-1)))
-          ? hardline
-          : line,
-        "...",
-      ];
-    } else {
-      printed = [firstMember ? line : "", "..."];
-    }
-    parts.push(printed);
+  if (isInexact) {
+    const printed = printInexactSpread(path, options);
+    // Add spacing before "..." if there are members
+    const hasMembers = firstMember !== undefined;
+    parts.push(hasMembers ? [line, ...printed] : printed);
   }
 
   if (isObjectType) {
