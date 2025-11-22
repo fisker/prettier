@@ -1032,18 +1032,84 @@ async function f() {
 for (a in b) 0;
 
 =====================================output=====================================
-for ((x in a); ; ) {}
-for (a = (a in b); ; ) {}
-for (let a = (b in c); ; );
-for (a && (b in c); ; );
-for ((a) => (b in c); ; );
+for ((x in a); ;) {}
+for (a = (a in b); ;) {}
+for (let a = (b in c); ;);
+for (a && (b in c); ;);
+for ((a) => (b in c); ;);
 function* g() {
-  for (yield (a in b); ; );
+  for (yield (a in b); ;);
 }
 async function f() {
-  for (await (a in b); ; );
+  for (await (a in b); ;);
 }
 for (a in b) 0;
+
+================================================================================
+`;
+
+exports[`missing-update.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+// Issue #18144 - should not add extra empty line when update is missing
+for (
+  let i = 0, j = 0, len = allMatches.length, lenJ = selections.length;
+  i < len;
+) {}
+
+// With update for comparison
+for (
+  let i = 0, j = 0, len = allMatches.length, lenJ = selections.length;
+  i < len;
+  i++
+) {}
+
+// Short form without update
+for (var i = 0; i < 10;) {}
+
+// All parts missing
+for (;;) {}
+
+// Only init present
+for (var i = 0;;) {}
+
+// Only test present
+for (; i < 10;) {}
+
+// Only update present
+for (;; i++) {}
+
+=====================================output=====================================
+// Issue #18144 - should not add extra empty line when update is missing
+for (
+  let i = 0, j = 0, len = allMatches.length, lenJ = selections.length;
+  i < len;
+) {}
+
+// With update for comparison
+for (
+  let i = 0, j = 0, len = allMatches.length, lenJ = selections.length;
+  i < len;
+  i++
+) {}
+
+// Short form without update
+for (var i = 0; i < 10;) {}
+
+// All parts missing
+for (;;) {}
+
+// Only init present
+for (var i = 0; ;) {}
+
+// Only test present
+for (; i < 10;) {}
+
+// Only update present
+for (; ; i++) {}
 
 ================================================================================
 `;
@@ -1118,23 +1184,22 @@ for (;a = function (x = b in c) {};);
 =====================================output=====================================
 // https://github.com/babel/babel/blob/HEAD/packages/babel-generator/test/fixtures/parentheses/in-inside-for/input.js
 
-for (var a = (b in c); ; );
-for (var a = 1 || (b in c); ; );
-for (var a = 1 + (2 || (b in c)); ; );
-for (var a = () => (b in c); ; );
-for (var a = 1 || (() => (b in c)); ; );
+for (var a = (b in c); ;);
+for (var a = 1 || (b in c); ;);
+for (var a = 1 + (2 || (b in c)); ;);
+for (var a = () => (b in c); ;);
+for (var a = 1 || (() => (b in c)); ;);
 for (
   var a = () => {
     (b in c);
   };
   ;
-
 );
-for (var a = [(b in c)]; ; );
-for (var a = { b: (b in c) }; ; );
-for (var a = (x = (b in c)) => {}; ; );
-for (var a = class extends (b in c) {}; ; );
-for (var a = function (x = (b in c)) {}; ; );
+for (var a = [(b in c)]; ;);
+for (var a = { b: (b in c) }; ;);
+for (var a = (x = (b in c)) => {}; ;);
+for (var a = class extends (b in c) {}; ;);
+for (var a = function (x = (b in c)) {}; ;);
 
 for (var a in b in c);
 for (var a in 1 || b in c);
@@ -1150,23 +1215,22 @@ for (var a in (x = b in c) => {});
 for (var a in class extends (b in c) {});
 for (var a in function (x = b in c) {});
 
-for (; (a = b in c); );
-for (; (a = 1 || b in c); );
-for (; (a = 1 + (2 || b in c)); );
-for (; (a = () => b in c); );
-for (; (a = 1 || (() => b in c)); );
+for (; (a = b in c););
+for (; (a = 1 || b in c););
+for (; (a = 1 + (2 || b in c)););
+for (; (a = () => b in c););
+for (; (a = 1 || (() => b in c)););
 for (
   ;
   (a = () => {
     b in c;
   });
-
 );
-for (; (a = [b in c]); );
-for (; (a = { b: b in c }); );
-for (; (a = (x = b in c) => {}); );
-for (; (a = class extends (b in c) {}); );
-for (; (a = function (x = b in c) {}); );
+for (; (a = [b in c]););
+for (; (a = { b: b in c }););
+for (; (a = (x = b in c) => {}););
+for (; (a = class extends (b in c) {}););
+for (; (a = function (x = b in c) {}););
 
 ================================================================================
 `;
