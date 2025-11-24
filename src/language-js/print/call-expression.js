@@ -25,13 +25,14 @@ import { printOptionalToken } from "./misc.js";
 */
 function printCallExpression(path, options, print) {
   const { node } = path;
-  const isNewExpression = node.type === "NewExpression";
+  const nodeType = node.type;
+  const isNewExpression = nodeType === "NewExpression";
 
   const optional = printOptionalToken(path);
   const args = getCallArguments(node);
   // `TSImportType.typeArguments` is after `qualifier`, not before the "arguments"
   const typeArgumentsDoc =
-    node.type !== "TSImportType" && node.typeArguments
+    nodeType !== "TSImportType" && node.typeArguments
       ? print("typeArguments")
       : "";
 
@@ -69,9 +70,9 @@ function printCallExpression(path, options, print) {
   }
 
   const isDynamicImportLike =
-    node.type === "ImportExpression" ||
-    node.type === "TSImportType" ||
-    node.type === "TSExternalModuleReference";
+    nodeType === "ImportExpression" ||
+    nodeType === "TSImportType" ||
+    nodeType === "TSExternalModuleReference";
 
   // We detect calls on member lookups and possibly print them in a
   // special chain format. See `printMemberChain` for more info.
@@ -107,12 +108,14 @@ function printCallExpression(path, options, print) {
 
 function printCallee(path, print) {
   const { node } = path;
+  const { type } = node;
 
-  if (node.type === "ImportExpression" || node.type === "TSImportType") {
+  // Fast path for common case
+  if (type === "ImportExpression" || type === "TSImportType") {
     return `import${node.phase ? `.${node.phase}` : ""}`;
   }
 
-  if (node.type === "TSExternalModuleReference") {
+  if (type === "TSExternalModuleReference") {
     return "require";
   }
 

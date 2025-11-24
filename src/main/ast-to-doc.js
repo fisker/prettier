@@ -28,7 +28,14 @@ import printIgnored from "./print-ignored.js";
  * the path to the current node through the Abstract Syntax Tree.
  */
 async function printAstToDoc(ast, options) {
+  const perfProfile = options.__perfProfile;
+  const subProfile = perfProfile ? {} : null;
+
+  const startPrepareToPrint = perfProfile ? performance.now() : 0;
   ({ ast } = await prepareToPrint(ast, options));
+  if (perfProfile) {
+    subProfile.prepareToPrint = performance.now() - startPrepareToPrint;
+  }
 
   const cache = new Map();
   const path = new AstPath(ast);
@@ -36,10 +43,15 @@ async function printAstToDoc(ast, options) {
   const ensurePrintingNode = createPrintPreCheckFunction(options);
   const embeds = new Map();
 
+  const startEmbeds = perfProfile ? performance.now() : 0;
   await printEmbeddedLanguages(path, mainPrint, options, printAstToDoc, embeds);
+  if (perfProfile) {
+    subProfile.embeddedLanguages = performance.now() - startEmbeds;
+  }
 
   // Only the root call of the print method is awaited.
   // This is done to make things simpler for plugins that don't use recursive printing.
+  const startMainPrint = perfProfile ? performance.now() : 0;
   const doc = await callPluginPrintFunction(
     path,
     options,
@@ -47,8 +59,15 @@ async function printAstToDoc(ast, options) {
     undefined,
     embeds,
   );
+  if (perfProfile) {
+    subProfile.mainPrint = performance.now() - startMainPrint;
+  }
 
   ensureAllCommentsPrinted(options);
+
+  if (perfProfile && options.__astToDocProfile) {
+    Object.assign(options.__astToDocProfile, subProfile);
+  }
 
   if (options.cursorOffset >= 0) {
     if (options.nodeAfterCursor && !options.nodeBeforeCursor) {
@@ -62,14 +81,17 @@ async function printAstToDoc(ast, options) {
   return doc;
 
   function mainPrint(selector, args) {
-    if (selector === undefined || selector === path) {
+    // Fast path: undefined or path object (most common case)
+    if (!selector || selector === path) {
       return mainPrintInternal(args);
     }
 
+    // Array path (e.g., ["body", 0])
     if (Array.isArray(selector)) {
       return path.call(() => mainPrintInternal(args), ...selector);
     }
 
+    // String path (e.g., "body")
     return path.call(() => mainPrintInternal(args), selector);
   }
 
@@ -78,24 +100,25 @@ async function printAstToDoc(ast, options) {
 
     const value = path.node;
 
-    if (value === undefined || value === null) {
+    // Fast path for null/undefined - most common early return
+    if (!value) {
       return "";
     }
 
-    const shouldCache =
-      value && typeof value === "object" && args === undefined;
+    // Optimize cache check - avoid redundant type check since we already know value is truthy
+    // and cache only works for objects without args
+    if (args === undefined && typeof value === "object") {
+      const cached = cache.get(value);
+      if (cached !== undefined) {
+        return cached;
+      }
 
-    if (shouldCache && cache.has(value)) {
-      return cache.get(value);
-    }
-
-    const doc = callPluginPrintFunction(path, options, mainPrint, args, embeds);
-
-    if (shouldCache) {
+      const doc = callPluginPrintFunction(path, options, mainPrint, args, embeds);
       cache.set(value, doc);
+      return doc;
     }
 
-    return doc;
+    return callPluginPrintFunction(path, options, mainPrint, args, embeds);
   }
 }
 
@@ -103,31 +126,30 @@ function callPluginPrintFunction(path, options, printPath, args, embeds) {
   const { node } = path;
   const { printer } = options;
 
+  // Fast path: Most nodes don't have prettier-ignore, embeds, or cursor handling
+  // Check embeds first as it's a simple Map lookup (common for JSX)
   let doc;
-
-  // Escape hatch
-  if (printer.hasPrettierIgnore?.(path)) {
-    doc = printIgnored(path, options, printPath, args);
-  } else if (embeds.has(node)) {
+  if (embeds.has(node)) {
     doc = embeds.get(node);
+  } else if (printer.hasPrettierIgnore?.(path)) {
+    // Escape hatch - rare case
+    doc = printIgnored(path, options, printPath, args);
   } else {
+    // Hot path - direct printer call
     doc = printer.print(path, options, printPath, args);
   }
 
-  switch (node) {
-    case options.cursorNode:
-      doc = inheritLabel(doc, (doc) => [cursor, doc, cursor]);
-      break;
-    case options.nodeBeforeCursor:
-      doc = inheritLabel(doc, (doc) => [doc, cursor]);
-      break;
-    case options.nodeAfterCursor:
-      doc = inheritLabel(doc, (doc) => [cursor, doc]);
-      break;
+  // Cursor handling - only happens during cursor offset calculation (rare)
+  // eslint-disable-next-line unicorn/prefer-switch -- Performance: if-else is faster than switch for 3 cases
+  if (node === options.cursorNode) {
+    doc = inheritLabel(doc, (doc) => [cursor, doc, cursor]);
+  } else if (node === options.nodeBeforeCursor) {
+    doc = inheritLabel(doc, (doc) => [doc, cursor]);
+  } else if (node === options.nodeAfterCursor) {
+    doc = inheritLabel(doc, (doc) => [cursor, doc]);
   }
 
-  // We let JSXElement print its comments itself because it adds () around
-  // UnionTypeAnnotation has to align the child without the comments
+  // Comment printing - check printComment first as it's more common than willPrintOwnComments
   if (printer.printComment && !printer.willPrintOwnComments?.(path, options)) {
     // printComments will call the plugin print function and check for
     // comments to print
@@ -138,18 +160,33 @@ function callPluginPrintFunction(path, options, printPath, args, embeds) {
 }
 
 async function prepareToPrint(ast, options) {
+  const perfProfile = options.__perfProfile;
+  const subProfile = perfProfile && options.__astToDocProfile ? {} : null;
+
   const comments = ast.comments ?? [];
   options[Symbol.for("comments")] = comments;
   // For JS printer to ignore attached comments
   options[Symbol.for("printedComments")] = new Set();
 
+  const startAttachComments = perfProfile ? performance.now() : 0;
   attachComments(ast, options);
+  if (subProfile) {
+    subProfile.attachComments = performance.now() - startAttachComments;
+  }
 
   const {
     printer: { preprocess },
   } = options;
 
+  const startPreprocess = perfProfile ? performance.now() : 0;
   ast = preprocess ? await preprocess(ast, options) : ast;
+  if (subProfile) {
+    subProfile.preprocess = performance.now() - startPreprocess;
+  }
+
+  if (subProfile) {
+    Object.assign(options.__astToDocProfile, subProfile);
+  }
 
   return { ast, comments };
 }

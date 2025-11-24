@@ -62,36 +62,45 @@ function print(path, options, print, args) {
 
   const { node } = path;
 
+  // Fast path check for ignored nodes first (less common)
   const doc = isIgnored(path)
     ? options.originalText.slice(locStart(node), locEnd(node))
     : printWithoutParentheses(path, options, print, args);
+
   if (!doc) {
     return "";
   }
 
+  // Fast path: if node should print directly (most common for class members)
   if (shouldPrintDirectly(node)) {
     return doc;
   }
 
+  // Optimize: Check decorators and compute values needed for multiple checks
   const hasDecorators = isNonEmptyArray(node.decorators);
-  const decoratorsDoc = printDecorators(path, options, print);
-  const isClassExpression = node.type === "ClassExpression";
-  // Nodes (except `ClassExpression`) with decorators can't have parentheses and don't need leading semicolons
-  if (hasDecorators && !isClassExpression) {
+
+  // Early return for nodes with decorators (except ClassExpression)
+  if (hasDecorators && node.type !== "ClassExpression") {
+    const decoratorsDoc = printDecorators(path, options, print);
     return inheritLabel(doc, (doc) => group([decoratorsDoc, doc]));
   }
 
   const needsParens = pathNeedsParens(path, options);
   const needsSemi = shouldPrintLeadingSemicolon(path, options);
 
-  if (!decoratorsDoc && !needsParens && !needsSemi) {
+  // Fast path: no decorators, parens, or semi needed (most common case)
+  if (!hasDecorators && !needsParens && !needsSemi) {
     return doc;
   }
 
+  // Compute decorators doc only if needed
+  const decoratorsDoc = hasDecorators ? printDecorators(path, options, print) : "";
+
+  // Handle remaining cases with parens/semi
   return inheritLabel(doc, (doc) => [
     needsSemi ? ";" : "",
     needsParens ? "(" : "",
-    needsParens && isClassExpression && hasDecorators
+    needsParens && node.type === "ClassExpression" && hasDecorators
       ? [indent([line, decoratorsDoc, doc]), line]
       : [decoratorsDoc, doc],
     needsParens ? ")" : "",

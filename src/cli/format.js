@@ -158,6 +158,47 @@ async function format(context, input, opt) {
     return { formatted: pp, filepath: opt.filepath || "(stdin)\n" };
   }
 
+  if (context.argv.debugPerfProfile) {
+    context.logger.debug(
+      "'--debug-perf-profile' option found, measuring formatting phases.",
+    );
+    const optWithProfile = { ...opt, __perfProfile: true };
+    const result = await prettier.formatWithCursor(input, optWithProfile);
+    if (result.__perfProfile) {
+      const profile = result.__perfProfile;
+      let output =
+        "'--debug-perf-profile' measurements:\n" +
+        `  Parse:        ${profile.parseTime.toFixed(3)}ms\n` +
+        `  AST to Doc:   ${profile.astToDocTime.toFixed(3)}ms\n` +
+        `  Print Doc:    ${profile.printDocTime.toFixed(3)}ms\n` +
+        `  Total:        ${profile.totalTime.toFixed(3)}ms`;
+
+      // Add detailed breakdown if available
+      if (profile.astToDocBreakdown && Object.keys(profile.astToDocBreakdown).length > 0) {
+        const breakdown = profile.astToDocBreakdown;
+        output += "\n\n  AST to Doc breakdown:";
+        if (breakdown.attachComments !== undefined) {
+          output += `\n    Attach comments:  ${breakdown.attachComments.toFixed(3)}ms`;
+        }
+        if (breakdown.preprocess !== undefined) {
+          output += `\n    Preprocess:       ${breakdown.preprocess.toFixed(3)}ms`;
+        }
+        if (breakdown.prepareToPrint !== undefined) {
+          output += `\n    Prepare to print: ${breakdown.prepareToPrint.toFixed(3)}ms`;
+        }
+        if (breakdown.embeddedLanguages !== undefined) {
+          output += `\n    Embedded langs:   ${breakdown.embeddedLanguages.toFixed(3)}ms`;
+        }
+        if (breakdown.mainPrint !== undefined) {
+          output += `\n    Main print:       ${breakdown.mainPrint.toFixed(3)}ms`;
+        }
+      }
+
+      context.logger.debug(output);
+    }
+    return result;
+  }
+
   const { performanceTestFlag } = context;
   if (performanceTestFlag?.debugBenchmark) {
     let Bench;
