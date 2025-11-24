@@ -84,7 +84,7 @@ async function buildOxcWasmParser() {
 
     await fs.writeFile(
       entry,
-      `export {parseSync as parse} from '${PACKAGE_NAME}/browser-bundle.js'`,
+      `export {parseSync} from '${PACKAGE_NAME}/browser-bundle.js'`,
     );
 
     await inlineWasmBinary(directory);

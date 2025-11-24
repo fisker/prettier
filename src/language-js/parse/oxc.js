@@ -1,7 +1,7 @@
 import indexToPosition from "index-to-position";
-import { parse as oxcParse } from "oxc-parser";
+import { parseSync as oxcParse } from "oxc-parser";
 import createError from "../../common/parser-create-error.js";
-import { tryCombinations } from "../../utils/try-combinations.js";
+import { tryCombinationsSync } from "../../utils/try-combinations.js";
 import postprocess from "./postprocess/index.js";
 import createParser from "./utils/create-parser.js";
 import jsxRegexp from "./utils/jsx-regexp.evaluate.js";
@@ -38,10 +38,10 @@ function createParseError(error, { text }) {
 @param {string} filepath
 @param {string} text
 @param {ParserOptions} options
-@returns {Promise<ParseResult>}
+@returns {ParseResult}
 */
-async function parseWithOptions(filepath, text, options) {
-  const result = await oxcParse(filepath, text, {
+function parseWithOptions(filepath, text, options) {
+  const result = oxcParse(filepath, text, {
     preserveParens: true,
     showSemanticErrors: false,
     ...options,
@@ -63,11 +63,11 @@ async function parseWithOptions(filepath, text, options) {
   return result;
 }
 
-async function parseJs(text, options) {
+function parseJs(text, options) {
   const filepath = options?.filepath;
   const sourceType = getSourceType(filepath);
 
-  const { program: ast, comments } = await parseWithOptions(
+  const { program: ast, comments } = parseWithOptions(
     typeof filepath === "string" ? filepath : "prettier.jsx",
     text,
     {
@@ -102,7 +102,7 @@ function getLanguageCombinations(text, options) {
   return shouldEnableJsx ? ["tsx", "ts", "dts"] : ["ts", "tsx", "dts"];
 }
 
-async function parseTs(text, options) {
+function parseTs(text, options) {
   let filepath = options?.filepath;
   const sourceType = getSourceType(filepath);
   const languageCombinations = getLanguageCombinations(text, options);
@@ -113,7 +113,7 @@ async function parseTs(text, options) {
 
   let result;
   try {
-    result = await tryCombinations(
+    result = tryCombinationsSync(
       languageCombinations.map(
         (language) => () =>
           parseWithOptions(filepath, text, {
