@@ -1,7 +1,11 @@
-import { indent, line } from "../../document/index.js";
+import { hardline, indent, line } from "../../document/index.js";
+import { printDanglingComments } from "../../main/comments/print.js";
+import hasNewline from "../../utils/has-newline.js";
+import { locEnd } from "../loc.js";
 import {
   CommentCheckFlags,
   createTypeCheckFunction,
+  getComments,
   hasComment,
   isCallExpression,
   isMemberExpression,
@@ -122,12 +126,38 @@ function printTypeScriptAccessibilityToken(node) {
   return node.accessibility ? node.accessibility + " " : "";
 }
 
+/**
+ * Print "..." for inexact objects or unknown enum members with proper spacing and comments
+ * @param {AstPath} path
+ * @param {*} options
+ * @returns {Doc[]}
+ */
+function printInexactSpread(path, options) {
+  const { node } = path;
+  const hasDanglingComments = hasComment(node, CommentCheckFlags.Dangling);
+
+  if (!hasDanglingComments) {
+    return ["..."];
+  }
+
+  const hasLineComments = hasComment(node, CommentCheckFlags.Line);
+  const printedDanglingComments = printDanglingComments(path, options);
+  const spacing =
+    hasLineComments ||
+    hasNewline(options.originalText, locEnd(getComments(node).at(-1)))
+      ? hardline
+      : line;
+
+  return [printedDanglingComments, spacing, "..."];
+}
+
 export {
   adjustClause,
   printAbstractToken,
   printBindExpressionCallee,
   printDeclareToken,
   printDefiniteToken,
+  printInexactSpread,
   printOptionalToken,
   printRestSpread,
   printTypeScriptAccessibilityToken,
