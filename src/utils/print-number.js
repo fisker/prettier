@@ -1,3 +1,8 @@
+/**
+ * Normalizes the string representation of a number by removing unnecessary characters.
+ * @param {string} rawNumber - The raw number string to normalize
+ * @returns {string} The normalized number string
+ */
 function printNumber(rawNumber) {
   if (rawNumber.length === 1) {
     return rawNumber;
