@@ -74,9 +74,7 @@ foo = class extends bar {
   }
 };
 
-aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggggg2 = class extends (
-  bar
-) {
+aaaaaaaa.bbbbbbbb.cccccccc.dddddddd.eeeeeeee.ffffffff.gggggggg2 = class extends bar {
   method() {
     console.log("foo");
   }

@@ -237,10 +237,24 @@ function printHeritageClauses(path, options, print, listName) {
 
   // Make it print like `superClass`
   if (!hasMultipleHeritage(node)) {
+    const list = node[listName];
+    const hasMemberExpression =
+      list.length === 1 &&
+      (isMemberExpression(list[0]) || isMemberExpression(list[0].expression));
+    
+    const contentDoc = hasMemberExpression
+      ? group(
+          ifBreak(
+            ["(", indent([softline, heritageClausesDoc]), softline, ")"],
+            heritageClausesDoc,
+          ),
+        )
+      : heritageClausesDoc;
+    
     const printed = [
       `${listName} `,
       printedLeadingComments,
-      heritageClausesDoc,
+      contentDoc,
     ];
     if (shouldPrintClassInGroupMode(path)) {
       return [line, group(printed)];
@@ -259,8 +273,8 @@ function printHeritageClauses(path, options, print, listName) {
 
 function printSuperClass(path, options, print) {
   const printed = print("superClass");
-  const { parent } = path;
-  if (parent.type === "AssignmentExpression") {
+  const { node } = path;
+  if (isMemberExpression(node.superClass)) {
     return group(
       ifBreak(["(", indent([softline, printed]), softline, ")"], printed),
     );
