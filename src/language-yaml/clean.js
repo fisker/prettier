@@ -12,6 +12,14 @@ function clean(original, cloned /* , parent */) {
     case "quoteSingle":
       cloned.type = "quote";
       break;
+    case "blockLiteral":
+    case "blockFolded":
+      // Remove trailing whitespace from each line
+      cloned.value = cloned.value
+        .split("\n")
+        .map((line) => line.replace(/[ \t]+$/u, ""))
+        .join("\n");
+      break;
     case "document":
       // We may insert explicit marks
       if (!cloned.directivesEndMarker) {
