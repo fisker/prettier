@@ -1,12 +1,16 @@
 import http from "node:http";
 import path from "node:path";
 import fs from "node:fs";
+import { pathToFileURL } from "node:url";
 import puppeteer from "puppeteer";
 import createEsmUtils from "esm-utils";
-import fastGlob from "fast-glob";
 
 const { dirname, __dirname: PROJECT_ROOT } = createEsmUtils(import.meta);
 const distDirectory = process.env.PRETTIER_DIR;
+
+// Import Prettier from dist for Node.js comparison
+let prettier;
+let prettierPlugins;
 
 // Sample of format tests to run in browser
 // Cover major parsers and file types
@@ -72,6 +76,36 @@ describe("Browser Format Tests", () => {
   const formatTestsDir = path.join(PROJECT_ROOT, "..", "..", "format");
 
   beforeAll(async () => {
+    // Load Prettier for Node.js (from dist)
+    const standalonePath = path.join(distDirectory, "standalone.mjs");
+    const prettierModule = await import(pathToFileURL(standalonePath));
+    prettier = prettierModule.default || prettierModule;
+
+    // Load plugins for Node.js
+    const pluginsToLoad = [
+      "babel",
+      "estree",
+      "typescript",
+      "flow",
+      "html",
+      "markdown",
+      "postcss",
+      "yaml",
+      "graphql",
+      "angular",
+      "glimmer",
+    ];
+    prettierPlugins = {};
+    for (const pluginName of pluginsToLoad) {
+      const pluginPath = path.join(
+        distDirectory,
+        "plugins",
+        `${pluginName}.mjs`,
+      );
+      const plugin = await import(pathToFileURL(pluginPath));
+      prettierPlugins[pluginName] = plugin.default || plugin;
+    }
+
     // Launch puppeteer browser
     browser = await puppeteer.launch({
       headless: true,
@@ -184,8 +218,37 @@ describe("Browser Format Tests", () => {
       // Read the input code
       const inputCode = fs.readFileSync(testFilePath, "utf8");
 
+      // Map parser to required plugins
+      const parserPluginMap = {
+        babel: ["babel", "estree"],
+        flow: ["flow", "estree"],
+        typescript: ["typescript", "estree"],
+        json: ["babel", "estree"],
+        css: ["postcss"],
+        less: ["postcss"],
+        scss: ["postcss"],
+        html: ["html"],
+        markdown: ["markdown"],
+        yaml: ["yaml"],
+        graphql: ["graphql"],
+      };
+
+      const requiredPluginNames =
+        parserPluginMap[testConfig.parser] || [testConfig.parser];
+      const nodePlugins = requiredPluginNames.map(
+        (name) => prettierPlugins[name],
+      );
+
+      // Format in Node.js (expected output)
+      const nodeFormatOptions = {
+        parser: testConfig.parser,
+        ...testConfig.options,
+        plugins: nodePlugins,
+      };
+      const nodeOutput = await prettier.format(inputCode, nodeFormatOptions);
+
       // Format in browser
-      const result = await page.evaluate(
+      const browserResult = await page.evaluate(
         async (code, parser, options) => {
           return await window.prettierFormatTestRunner.format(code, {
             parser,
@@ -197,46 +260,53 @@ describe("Browser Format Tests", () => {
         testConfig.options,
       );
 
-      // Check for errors
-      if (result.error) {
-        throw new Error(
-          `Format failed: ${result.error.message}\n${result.error.stack}`,
-        );
-      }
+      // Assertions done in Node.js
+      expect(browserResult.error).toBeNull();
+      expect(browserResult.formatted).toBeDefined();
+      expect(typeof browserResult.formatted).toBe("string");
 
-      // Verify the output
-      expect(result.formatted).toBeDefined();
-      expect(typeof result.formatted).toBe("string");
+      // The browser output should match the Node.js output exactly
+      expect(browserResult.formatted).toBe(nodeOutput);
 
-      // The most important check: verify that formatting is idempotent
-      // This ensures the browser format produces stable output
-      const secondFormatResult = await page.evaluate(
+      // Verify idempotency in browser: format twice should give same result
+      const browserSecondResult = await page.evaluate(
         async (code, parser, options) => {
           return await window.prettierFormatTestRunner.format(code, {
             parser,
             ...options,
           });
         },
-        result.formatted,
+        browserResult.formatted,
         testConfig.parser,
         testConfig.options,
       );
 
-      expect(secondFormatResult.error).toBeNull();
-      expect(secondFormatResult.formatted).toBe(result.formatted);
+      expect(browserSecondResult.error).toBeNull();
+      expect(browserSecondResult.formatted).toBe(browserResult.formatted);
     });
   }
 
   test("should handle format errors gracefully in browser", async () => {
     const invalidCode = "function test( { invalid syntax";
-    const result = await page.evaluate(async (code) => {
+
+    // Call browser format (which should fail)
+    const browserResult = await page.evaluate(async (code) => {
       return await window.prettierFormatTestRunner.format(code, {
         parser: "babel",
       });
     }, invalidCode);
 
-    expect(result.error).not.toBeNull();
-    expect(result.error.message).toBeTruthy();
-    expect(result.formatted).toBeNull();
+    // Assertions done in Node.js
+    expect(browserResult.error).not.toBeNull();
+    expect(browserResult.error.message).toBeTruthy();
+    expect(browserResult.formatted).toBeNull();
+
+    // Verify Node.js also errors on this code (behavior should match)
+    await expect(
+      prettier.format(invalidCode, {
+        parser: "babel",
+        plugins: [prettierPlugins.babel, prettierPlugins.estree],
+      }),
+    ).rejects.toThrow();
   });
 });
