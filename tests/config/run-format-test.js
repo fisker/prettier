@@ -8,11 +8,17 @@ import consistentEndOfLine from "./utilities/consistent-end-of-line.js";
 import createSnapshot from "./utilities/create-snapshot.js";
 import stringifyOptionsForTitle from "./utilities/stringify-options-for-title.js";
 import visualizeEndOfLine from "./utilities/visualize-end-of-line.js";
+import {
+  formatInBrowser,
+  setupBrowserTest,
+  teardownBrowserTest,
+} from "./run-format-test-browser.js";
 
 const { __dirname } = createEsmUtils(import.meta);
 
-const { FULL_TEST, TEST_STANDALONE, NODE_ENV } = process.env;
+const { FULL_TEST, TEST_STANDALONE, NODE_ENV, TEST_BROWSER } = process.env;
 const isProduction = NODE_ENV === "production";
+const shouldTestBrowser = TEST_BROWSER === "true" && TEST_STANDALONE && isProduction;
 const BOM = "\uFEFF";
 
 const CURSOR_PLACEHOLDER = "<|>";
@@ -346,6 +352,34 @@ function runFormatTest(fixtures, parsers, options) {
           });
         });
       }
+
+      // Add browser test for the main parser
+      if (shouldTestBrowser && !shouldThrowOnMainParserFormat) {
+        test("[browser] format", async () => {
+          const result = await formatInBrowser(code, formatOptions);
+
+          // Browser should match Node.js output
+          if (result.nodeError) {
+            // If Node.js threw an error, browser should too
+            expect(result.browserError).not.toBeNull();
+          } else {
+            // If Node.js succeeded, browser should produce same output
+            expect(result.browserError).toBeNull();
+            expect(result.browserOutput).toBe(result.nodeOutput);
+          }
+        });
+      }
+    });
+  }
+
+  // Setup and teardown browser for all tests
+  if (shouldTestBrowser) {
+    beforeAll(async () => {
+      await setupBrowserTest();
+    }, 30000); // 30 second timeout for browser setup
+
+    afterAll(async () => {
+      await teardownBrowserTest();
     });
   }
 }

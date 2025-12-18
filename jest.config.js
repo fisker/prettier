@@ -38,11 +38,6 @@ if (isProduction) {
   testPathIgnorePatterns.push(
     "<rootDir>/tests/integration/__tests__/bundle.js",
   );
-  // Browser tests only run in production mode (needs built bundles)
-  testPathIgnorePatterns.push(
-    "<rootDir>/tests/integration/__tests__/browser.test.js",
-    "<rootDir>/tests/integration/__tests__/browser-format.test.js",
-  );
 }
 
 if (nodejsMajorVersion <= 18) {
