@@ -40,3 +40,6 @@ package-lock.json
 
 # For Node.js builtin cpu profile file
 *.cpuprofile
+
+# Puppeteer browser downloads
+.cache/puppeteer
