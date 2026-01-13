@@ -658,14 +658,8 @@ function handleCommentInEmptyParens({ comment, enclosingNode, options }) {
     return true;
   }
 
-  // This condition should be removed, but excluded for function parameters in #18615 to make PRs smaller
-  if (comment.placement !== "remaining") {
-    return false;
-  }
-
   // Only add dangling comments to fix the case when no params are present,
   // i.e. a function without any argument.
-
   const functionNode = isRealFunctionLikeNode(enclosingNode)
     ? enclosingNode
     : enclosingNode.type === "MethodDefinition" ||
