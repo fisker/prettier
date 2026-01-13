@@ -670,7 +670,7 @@ function handleCommentInEmptyParens({ comment, enclosingNode, options }) {
   if (
     functionNode &&
     getFunctionParameters(functionNode).length === 0 &&
-    isInArgumentOrParameterParentheses(enclosingNode, comment, options)
+    isInArgumentOrParameterParentheses(functionNode, comment, options)
   ) {
     addDanglingComment(functionNode, comment);
     return true;
