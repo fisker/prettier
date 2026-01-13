@@ -42,7 +42,7 @@ array = [/* array */];
 object = {/* object */};
 call = call(/* call argument */);
 // TODO[@fisker]: fix this
-fn = function () /* function parameter */ {};
+fn = function (/* function parameter */) {};
 newFoo = new Foo(/* new argument */);
 
 array = [
