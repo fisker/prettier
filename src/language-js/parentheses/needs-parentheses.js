@@ -830,12 +830,12 @@ function needsParentheses(path, options) {
     case "OptionalMemberExpression":
     case "OptionalCallExpression":
     case "ChainExpression":
+    case "TSNonNullExpression":
       if (shouldAddParenthesesToChainElement(path)) {
         return true;
       }
 
     // fallthrough
-    case "TSNonNullExpression":
     case "CallExpression":
     case "MemberExpression":
     case "TaggedTemplateExpression":
