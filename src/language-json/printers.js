@@ -1,3 +1,4 @@
+import { estree as estreeBase } from "../language-js/printers.js";
 import { getFormatRanges } from "./get-format-ranges.js";
 import getVisitorKeys from "./get-visitor-keys.js";
 import { massageAstNode } from "./massage-ast/index.js";
@@ -12,5 +13,13 @@ const estreeJsonPrinter = {
   getVisitorKeys,
 };
 
-export { estreeJsonPrinter as "estree-json" };
-export { estree } from "../language-js/printers.js";
+// Wrap the estree printer to add JSON-specific range handling feature
+const estree = {
+  ...estreeBase,
+  features: {
+    ...estreeBase.features,
+    experimental_getRangeNodes: getFormatRanges,
+  },
+};
+
+export { estree,estreeJsonPrinter as "estree-json" };

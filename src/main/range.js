@@ -250,18 +250,6 @@ function calculateRange(text, opts, ast) {
     } else {
       [startNode, endNode] = rangeResult.value;
     }
-  } else if (ast.type === "JsonRoot") {
-    // Fallback for JSON parsers that use the estree printer
-    // Find common ancestor for JSON AST types
-    const endNodeSet = new Set(endNodeAndAncestors);
-    const commonAncestor = startNodeAndAncestors.find(
-      (node) => jsonSourceElements.has(node.type) && endNodeSet.has(node),
-    );
-    if (!commonAncestor) {
-      return;
-    }
-    startNode = commonAncestor;
-    endNode = commonAncestor;
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
