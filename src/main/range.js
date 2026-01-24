@@ -1,8 +1,4 @@
 import * as assert from "#universal/assert";
-import {
-  getFormatRanges as getJsonFormatRanges,
-  isJsonSourceElement,
-} from "../language-json/get-format-ranges.js";
 import { childNodesCache } from "./comments/attach.js";
 import getSortedChildNodes from "./utilities/get-sorted-child-nodes.js";
 
@@ -119,6 +115,17 @@ function isJsSourceElement(type, parentType) {
   );
 }
 
+const jsonSourceElements = new Set([
+  "JsonRoot",
+  "ObjectExpression",
+  "ArrayExpression",
+  "StringLiteral",
+  "NumericLiteral",
+  "BooleanLiteral",
+  "NullLiteral",
+  "UnaryExpression",
+  "TemplateLiteral",
+]);
 const graphqlSourceElements = new Set([
   "OperationDefinition",
   "FragmentDefinition",
@@ -160,7 +167,7 @@ function isSourceElement(opts, node, parentNode) {
     case "json5":
     case "jsonc":
     case "json-stringify":
-      return isJsonSourceElement(node);
+      return jsonSourceElements.has(node.type);
     case "graphql":
       return graphqlSourceElements.has(node.kind);
     case "vue":
@@ -222,19 +229,45 @@ function calculateRange(text, opts, ast) {
   let startNode;
   let endNode;
 
-  // Delegate to language-specific range calculation
-  if (ast.type === "JsonRoot") {
-    // Use JSON-specific format range calculation
-    const rangeIterator = getJsonFormatRanges(
+  // Delegate to language-specific range calculation if available
+  const getRangeNodes = opts.printer.features?.experimental_getRangeNodes;
+  if (getRangeNodes) {
+    // Use language-specific format range calculation from printer feature
+    const rangeIterator = getRangeNodes(
       startNodeAndAncestors,
       endNodeAndAncestors,
       ast,
     );
     const rangeResult = rangeIterator.next();
     if (rangeResult.done || !rangeResult.value) {
+      // Feature didn't yield a result, fall back to default behavior
+      [startNode, endNode] = findSiblingAncestors(
+        startNodeAndAncestors,
+        endNodeAndAncestors,
+        opts,
+      );
+    } else {
+      [startNode, endNode] = rangeResult.value;
+    }
+  } else if (ast.type === "JsonRoot") {
+    // Fallback for JSON parsers that don't use the estree-json printer
+    // This handles json/json5/jsonc parsers which use the estree printer
+    // We need to dynamically load and use the JSON-specific logic
+    const findCommonAncestor = (startNodes, endNodes) => {
+      const endNodeSet = new Set(endNodes);
+      return startNodes.find(
+        (node) => jsonSourceElements.has(node.type) && endNodeSet.has(node),
+      );
+    };
+    const commonAncestor = findCommonAncestor(
+      startNodeAndAncestors,
+      endNodeAndAncestors,
+    );
+    if (!commonAncestor) {
       return;
     }
-    [startNode, endNode] = rangeResult.value;
+    startNode = commonAncestor;
+    endNode = commonAncestor;
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
