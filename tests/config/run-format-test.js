@@ -299,12 +299,14 @@ function runFormatTest(fixtures, parsers, options) {
       }
     }
 
-    if (
-      parsers.includes("flow") &&
-      !parsers.includes("hermes") &&
-      !hermesDisabledTests.has(dirname)
-    ) {
-      allParsers.push("hermes");
+    if (parsers.includes("flow") || parsers.includes("hermes")) {
+      if (!parsers.includes("hermes") && !hermesDisabledTests.has(dirname)) {
+        allParsers.push("hermes");
+      }
+
+      if (!parsers.includes("__hermes_babel")) {
+        allParsers.push("__hermes_babel");
+      }
     }
 
     if (parsers.includes("babel") && !parsers.includes("__babel_estree")) {

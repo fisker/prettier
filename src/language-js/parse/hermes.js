@@ -36,15 +36,25 @@ const parseOptions = {
   allowReturnOutsideFunction: true,
 };
 
-async function parse(text /* , options*/) {
-  let ast;
-  try {
-    ast = await hermesParse(text, parseOptions);
-  } catch (error) {
-    throw createParseError(error);
-  }
+/**
+@param {"hermes" | "hermes-babel"} astType
+*/
+function createParse(parseOptions, astType = "hermes") {
+  return async (text /* , options*/) => {
+    let ast;
+    try {
+      ast = await hermesParse(text, parseOptions);
+    } catch (error) {
+      throw createParseError(error);
+    }
 
-  return postprocess(ast, { text, astType: "hermes" });
+    return postprocess(ast, { text, astType });
+  };
 }
 
-export const hermes = /* @__PURE__ */ createParser(parse);
+const hermes = /* @__PURE__ */ createParser(createParse(parseOptions));
+const hermesBabel = /* @__PURE__ */ createParser(
+  createParse({ ...parseOptions, babel: true }, "hermes-babel"),
+);
+
+export { hermes, hermesBabel as "__hermes_babel" };

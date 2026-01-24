@@ -58,6 +58,7 @@ export const plugins = /* @__PURE__ */ toLazyLoadPlugins(
     languages: jsLanguages,
     parsers: [
       "__babel_estree",
+      "__hermes_babel",
       "__js_expression",
       "__ng_action",
       "__ng_binding",

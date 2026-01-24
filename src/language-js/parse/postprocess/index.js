@@ -33,7 +33,7 @@ const isNodeWithRaw = createTypeCheckFunction([
 /**
  * @param {{
  *   text: string,
- *   astType?: "espree" | "flow" | "hermes" | "meriyah" | "oxc-js" | "oxc-ts" | "typescript",
+ *   astType?: "espree" | "flow" | "hermes" | "hermes-babel" | "meriyah" | "oxc-js" | "oxc-ts" | "typescript",
  * }} options
  */
 function postprocess(ast, options) {
