@@ -1,14 +1,10 @@
 import * as assert from "#universal/assert";
+import {
+  getFormatRanges as getJsonFormatRanges,
+  isJsonSourceElement,
+} from "../language-json/get-format-ranges.js";
 import { childNodesCache } from "./comments/attach.js";
 import getSortedChildNodes from "./utilities/get-sorted-child-nodes.js";
-
-function findCommonAncestor(startNodeAndAncestors, endNodeAndAncestors) {
-  endNodeAndAncestors = new Set(endNodeAndAncestors);
-  return startNodeAndAncestors.find(
-    (node) =>
-      jsonSourceElements.has(node.type) && endNodeAndAncestors.has(node),
-  );
-}
 
 function dropRootParents(parents) {
   const index = parents.findLastIndex(
@@ -123,17 +119,6 @@ function isJsSourceElement(type, parentType) {
   );
 }
 
-const jsonSourceElements = new Set([
-  "JsonRoot",
-  "ObjectExpression",
-  "ArrayExpression",
-  "StringLiteral",
-  "NumericLiteral",
-  "BooleanLiteral",
-  "NullLiteral",
-  "UnaryExpression",
-  "TemplateLiteral",
-]);
 const graphqlSourceElements = new Set([
   "OperationDefinition",
   "FragmentDefinition",
@@ -175,7 +160,7 @@ function isSourceElement(opts, node, parentNode) {
     case "json5":
     case "jsonc":
     case "json-stringify":
-      return jsonSourceElements.has(node.type);
+      return isJsonSourceElement(node);
     case "graphql":
       return graphqlSourceElements.has(node.kind);
     case "vue":
@@ -236,13 +221,20 @@ function calculateRange(text, opts, ast) {
 
   let startNode;
   let endNode;
+
+  // Delegate to language-specific range calculation
   if (ast.type === "JsonRoot") {
-    const commonAncestor = findCommonAncestor(
+    // Use JSON-specific format range calculation
+    const ranges = [...getJsonFormatRanges(
       startNodeAndAncestors,
       endNodeAndAncestors,
-    );
-    startNode = commonAncestor;
-    endNode = commonAncestor;
+      ast,
+    )];
+    if (ranges.length > 0) {
+      [startNode, endNode] = ranges[0];
+    } else {
+      return;
+    }
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
