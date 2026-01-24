@@ -1,4 +1,8 @@
 import * as assert from "#universal/assert";
+import {
+  getFormatRanges as getJsonFormatRanges,
+  isJsonSourceElement,
+} from "../language-json/get-format-ranges.js";
 import { childNodesCache } from "./comments/attach.js";
 import getSortedChildNodes from "./utilities/get-sorted-child-nodes.js";
 
@@ -115,17 +119,6 @@ function isJsSourceElement(type, parentType) {
   );
 }
 
-const jsonSourceElements = new Set([
-  "JsonRoot",
-  "ObjectExpression",
-  "ArrayExpression",
-  "StringLiteral",
-  "NumericLiteral",
-  "BooleanLiteral",
-  "NullLiteral",
-  "UnaryExpression",
-  "TemplateLiteral",
-]);
 const graphqlSourceElements = new Set([
   "OperationDefinition",
   "FragmentDefinition",
@@ -167,7 +160,7 @@ function isSourceElement(opts, node, parentNode) {
     case "json5":
     case "jsonc":
     case "json-stringify":
-      return jsonSourceElements.has(node.type);
+      return isJsonSourceElement(node);
     case "graphql":
       return graphqlSourceElements.has(node.kind);
     case "vue":
@@ -252,22 +245,16 @@ function calculateRange(text, opts, ast) {
   } else if (ast.type === "JsonRoot") {
     // Fallback for JSON parsers that don't use the estree-json printer
     // This handles json/json5/jsonc parsers which use the estree printer
-    // We need to dynamically load and use the JSON-specific logic
-    const findCommonAncestor = (startNodes, endNodes) => {
-      const endNodeSet = new Set(endNodes);
-      return startNodes.find(
-        (node) => jsonSourceElements.has(node.type) && endNodeSet.has(node),
-      );
-    };
-    const commonAncestor = findCommonAncestor(
+    const rangeIterator = getJsonFormatRanges(
       startNodeAndAncestors,
       endNodeAndAncestors,
+      ast,
     );
-    if (!commonAncestor) {
+    const rangeResult = rangeIterator.next();
+    if (rangeResult.done || !rangeResult.value) {
       return;
     }
-    startNode = commonAncestor;
-    endNode = commonAncestor;
+    [startNode, endNode] = rangeResult.value;
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
