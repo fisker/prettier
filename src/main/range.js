@@ -1,8 +1,4 @@
 import * as assert from "#universal/assert";
-import {
-  getFormatRanges as getJsonFormatRanges,
-  isJsonSourceElement,
-} from "../language-json/get-format-ranges.js";
 import { childNodesCache } from "./comments/attach.js";
 import getSortedChildNodes from "./utilities/get-sorted-child-nodes.js";
 
@@ -119,6 +115,17 @@ function isJsSourceElement(type, parentType) {
   );
 }
 
+const jsonSourceElements = new Set([
+  "JsonRoot",
+  "ObjectExpression",
+  "ArrayExpression",
+  "StringLiteral",
+  "NumericLiteral",
+  "BooleanLiteral",
+  "NullLiteral",
+  "UnaryExpression",
+  "TemplateLiteral",
+]);
 const graphqlSourceElements = new Set([
   "OperationDefinition",
   "FragmentDefinition",
@@ -142,6 +149,13 @@ function isSourceElement(opts, node, parentNode) {
   if (!node) {
     return false;
   }
+
+  // Check if printer has custom isSourceElement feature
+  const customIsSourceElement = opts.printer.features?.experimental_isSourceElement;
+  if (customIsSourceElement) {
+    return customIsSourceElement(node, parentNode);
+  }
+
   switch (opts.parser) {
     case "flow":
     case "hermes":
@@ -160,7 +174,8 @@ function isSourceElement(opts, node, parentNode) {
     case "json5":
     case "jsonc":
     case "json-stringify":
-      return isJsonSourceElement(node);
+      // Fallback for JSON parsers without the feature
+      return jsonSourceElements.has(node.type);
     case "graphql":
       return graphqlSourceElements.has(node.kind);
     case "vue":
@@ -243,18 +258,17 @@ function calculateRange(text, opts, ast) {
       [startNode, endNode] = rangeResult.value;
     }
   } else if (ast.type === "JsonRoot") {
-    // Fallback for JSON parsers that don't use the estree-json printer
-    // This handles json/json5/jsonc parsers which use the estree printer
-    const rangeIterator = getJsonFormatRanges(
-      startNodeAndAncestors,
-      endNodeAndAncestors,
-      ast,
+    // Fallback for JSON parsers that use the estree printer
+    // Find common ancestor for JSON AST types
+    const endNodeSet = new Set(endNodeAndAncestors);
+    const commonAncestor = startNodeAndAncestors.find(
+      (node) => jsonSourceElements.has(node.type) && endNodeSet.has(node),
     );
-    const rangeResult = rangeIterator.next();
-    if (rangeResult.done || !rangeResult.value) {
+    if (!commonAncestor) {
       return;
     }
-    [startNode, endNode] = rangeResult.value;
+    startNode = commonAncestor;
+    endNode = commonAncestor;
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
