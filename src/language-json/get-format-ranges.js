@@ -36,23 +36,27 @@ function findCommonAncestor(startNodeAndAncestors, endNodeAndAncestors) {
 }
 
 /**
- * Calculate format ranges for JSON based on AstPath
- * This function is called when formatting a JSON range
+ * Calculate format ranges for JSON based on AST paths
+ * This generator function yields format ranges for JSON documents.
+ * It only handles JsonRoot AST types and yields a single range.
  *
- * @param {object} startNodeAndAncestors - Start node and ancestors
- * @param {object} endNodeAndAncestors - End node and ancestors
+ * @param {object[]} startNodeAndAncestors - Start node and ancestors
+ * @param {object[]} endNodeAndAncestors - End node and ancestors
  * @param {object} ast - The root AST node
  * @yields {[object, object]} Tuple of [startNode, endNode] to format
  */
 function* getFormatRanges(startNodeAndAncestors, endNodeAndAncestors, ast) {
-  if (ast.type === "JsonRoot") {
-    const commonAncestor = findCommonAncestor(
-      startNodeAndAncestors,
-      endNodeAndAncestors,
-    );
-    if (commonAncestor) {
-      yield [commonAncestor, commonAncestor];
-    }
+  // Only handle JsonRoot AST types - for JSON, we format the common ancestor
+  if (ast.type !== "JsonRoot") {
+    return;
+  }
+
+  const commonAncestor = findCommonAncestor(
+    startNodeAndAncestors,
+    endNodeAndAncestors,
+  );
+  if (commonAncestor) {
+    yield [commonAncestor, commonAncestor];
   }
 }
 

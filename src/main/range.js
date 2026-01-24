@@ -225,16 +225,16 @@ function calculateRange(text, opts, ast) {
   // Delegate to language-specific range calculation
   if (ast.type === "JsonRoot") {
     // Use JSON-specific format range calculation
-    const ranges = [...getJsonFormatRanges(
+    const rangeIterator = getJsonFormatRanges(
       startNodeAndAncestors,
       endNodeAndAncestors,
       ast,
-    )];
-    if (ranges.length > 0) {
-      [startNode, endNode] = ranges[0];
-    } else {
+    );
+    const rangeResult = rangeIterator.next();
+    if (rangeResult.done || !rangeResult.value) {
       return;
     }
+    [startNode, endNode] = rangeResult.value;
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
