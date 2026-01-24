@@ -150,12 +150,6 @@ function isSourceElement(opts, node, parentNode) {
     return false;
   }
 
-  // Check if printer has custom isSourceElement feature
-  const customIsSourceElement = opts.printer.features?.experimental_isSourceElement;
-  if (customIsSourceElement) {
-    return customIsSourceElement(node, parentNode);
-  }
-
   switch (opts.parser) {
     case "flow":
     case "hermes":
@@ -174,7 +168,6 @@ function isSourceElement(opts, node, parentNode) {
     case "json5":
     case "jsonc":
     case "json-stringify":
-      // Fallback for JSON parsers without the feature
       return jsonSourceElements.has(node.type);
     case "graphql":
       return graphqlSourceElements.has(node.kind);
