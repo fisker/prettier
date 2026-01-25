@@ -12,8 +12,11 @@ function getBrowserType(browserName) {
   if (browserName === "webkit" || browserName === "safari") {
     return "webkit";
   }
+  if (browserName === "msedge" || browserName === "edge") {
+    return "msedge";
+  }
   throw new Error(
-    `Unsupported browser: ${browserName}. Supported browsers: chrome, firefox, webkit (safari)`,
+    `Unsupported browser: ${browserName}. Supported browsers: chrome, firefox, webkit (safari), msedge (edge)`,
   );
 }
 
@@ -29,7 +32,25 @@ function getPlaywrightBrowser(browserName) {
   if (browserType === "webkit") {
     return webkit;
   }
+  if (browserType === "msedge") {
+    return chromium; // Edge uses chromium with channel option
+  }
   throw new Error(`Unknown browser type: ${browserType}`);
+}
+
+// Get launch options for browser
+function getLaunchOptions(browserName) {
+  const browserType = getBrowserType(browserName);
+  const options = {
+    headless: true,
+  };
+  
+  // Edge requires the channel option
+  if (browserType === "msedge") {
+    options.channel = "msedge";
+  }
+  
+  return options;
 }
 
 async function isBrowserInstalled({ browser: browserName }) {
@@ -46,16 +67,21 @@ async function isBrowserInstalled({ browser: browserName }) {
 
 async function launchBrowser({ browser: browserName }) {
   const browserType = getPlaywrightBrowser(browserName);
+  const launchOptions = getLaunchOptions(browserName);
 
   let browser;
   try {
-    browser = await browserType.launch({
-      headless: true,
-    });
+    browser = await browserType.launch(launchOptions);
   } catch (error) {
     // Provide helpful error message if browser is not installed
     if (error.message?.includes("Executable doesn't exist")) {
       const playwrightBrowserName = getBrowserType(browserName);
+      // For Edge, users need to install Edge browser separately (not via npx playwright install)
+      if (playwrightBrowserName === "msedge") {
+        throw new Error(
+          `Microsoft Edge not found. Please install Microsoft Edge from https://www.microsoft.com/edge`,
+        );
+      }
       throw new Error(
         `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
       );
@@ -82,6 +108,12 @@ async function installBrowser({ browser }) {
   }
 
   const playwrightBrowserName = getBrowserType(browser);
+  // Edge uses the system-installed Edge browser, not installed via playwright
+  if (playwrightBrowserName === "msedge") {
+    throw new Error(
+      `Microsoft Edge not found. Please install Microsoft Edge from https://www.microsoft.com/edge`,
+    );
+  }
   throw new Error(
     `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
   );

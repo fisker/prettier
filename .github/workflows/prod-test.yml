@@ -160,6 +160,7 @@ jobs:
           - "chrome"
           - "firefox"
           - "webkit"
+          - "edge"
         include:
           # It's slow on firefox
           - os: "ubuntu-latest"
@@ -172,6 +173,9 @@ jobs:
           # Webkit requires system dependencies on Linux
           - os: "ubuntu-latest"
             browser: "webkit"
+          # Edge is not available on Linux
+          - os: "ubuntu-latest"
+            browser: "edge"
     env:
       FULL_TEST: ${{ matrix.FULL_TEST }}
       TEST_RUNTIME_BROWSER: ${{ matrix.browser }}
