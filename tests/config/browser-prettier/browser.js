@@ -41,12 +41,9 @@ async function launchBrowser({ browser: browserName }) {
 
   try {
     const version = await browser.version();
-    // Playwright reports chromium version for chrome
-    const expectedPrefix = browserName === "chrome" ? "chromium/" : `${browserName}/`;
-    assert.ok(
-      version.toLowerCase().startsWith(expectedPrefix) ||
-        version.toLowerCase().startsWith(browserName)
-    );
+    // Playwright returns just the version number (e.g., "131.0.6778.33" or "132.0")
+    // Just verify that we got a version string
+    assert.ok(version && typeof version === "string" && version.length > 0);
   } catch (error) {
     await browser.close();
     throw error;

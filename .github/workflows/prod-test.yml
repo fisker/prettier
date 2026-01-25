@@ -183,10 +183,10 @@ jobs:
         with:
           cache: "yarn"
 
-      - name: Puppeteer cache
+      - name: Playwright cache
         uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
-          path: .tmp/puppeteer/
+          path: .tmp/playwright/
           key: v1
 
       # https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md
