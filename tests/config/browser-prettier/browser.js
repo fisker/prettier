@@ -104,6 +104,7 @@ async function isBrowserInstalled({ browser: browserName }) {
 async function launchBrowser({ browser: browserName }) {
   const browserType = getPlaywrightBrowser(browserName);
   const launchOptions = getLaunchOptions(browserName);
+  const playwrightBrowserName = getBrowserType(browserName);
 
   let browser;
   try {
@@ -111,8 +112,6 @@ async function launchBrowser({ browser: browserName }) {
   } catch (error) {
     // Provide helpful error message if browser is not installed
     if (error.message?.includes("Executable doesn't exist")) {
-      const playwrightBrowserName = getBrowserType(browserName);
-      
       // Channel-based browsers need system installation
       const channelBrowsers = [
         "chrome",
@@ -153,6 +152,17 @@ async function launchBrowser({ browser: browserName }) {
     // Playwright returns just the version number (e.g., "131.0.6778.33" or "132.0")
     // Just verify that we got a version string
     assert.ok(version && typeof version === "string" && version.length > 0);
+    
+    // Attach browser metadata for assertions
+    browser._browserInfo = {
+      name: browserName,
+      type: playwrightBrowserName,
+      version,
+      // Determine browser family for easier assertions
+      family: playwrightBrowserName === "firefox" ? "firefox" 
+            : playwrightBrowserName === "webkit" ? "webkit"
+            : "chromium", // All Chrome/Edge variants are chromium-based
+    };
   } catch (error) {
     await browser.close();
     throw error;
@@ -206,4 +216,15 @@ async function downloadBrowser({ browser }) {
   await installBrowser({ browser });
 }
 
-export { downloadBrowser, installBrowser, isBrowserInstalled, launchBrowser };
+// Get browser information from a launched browser instance
+function getBrowserInfo(browser) {
+  return browser._browserInfo || null;
+}
+
+export {
+  downloadBrowser,
+  installBrowser,
+  isBrowserInstalled,
+  launchBrowser,
+  getBrowserInfo,
+};

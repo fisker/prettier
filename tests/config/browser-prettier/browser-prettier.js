@@ -1,4 +1,4 @@
-import { launchBrowser } from "./browser.js";
+import { launchBrowser, getBrowserInfo } from "./browser.js";
 import { startServer } from "./server.js";
 import { requestFromNode } from "./utilities.js";
 
@@ -7,8 +7,11 @@ const browserName = process.env.TEST_RUNTIME_BROWSER ?? "chrome";
 /** @type {"esm" | "umd"} */
 const prettierBundleFormat = process.env.TEST_BUNDLE_FORMAT ?? "esm";
 
+let browserInstance;
+
 async function init() {
   const browser = await launchBrowser({ browser: browserName });
+  browserInstance = browser;
 
   process.once("exit", async () => {
     await browser.close();
@@ -51,6 +54,15 @@ const proxyFunction = (accessPath, optionsIndex = 1) =>
       optionsIndex,
     },
   );
+
+// Expose browser information for tests
+export function getBrowser() {
+  return browserInstance;
+}
+
+export function getBrowserInformation() {
+  return browserInstance ? getBrowserInfo(browserInstance) : null;
+}
 
 export const formatWithCursor = proxyFunction("formatWithCursor");
 export const getSupportInfo = proxyFunction(
