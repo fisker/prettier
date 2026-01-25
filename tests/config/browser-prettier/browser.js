@@ -3,7 +3,8 @@ import { chromium, firefox, webkit } from "playwright";
 
 // Map test browser names to Playwright browser types
 function getBrowserType(browserName) {
-  if (browserName === "chrome") {
+  // Playwright-installed browsers
+  if (browserName === "chromium") {
     return "chromium";
   }
   if (browserName === "firefox") {
@@ -12,30 +13,54 @@ function getBrowserType(browserName) {
   if (browserName === "webkit" || browserName === "safari") {
     return "webkit";
   }
+  
+  // System-installed Chrome variants (via channel)
+  if (browserName === "chrome") {
+    return "chrome";
+  }
+  if (browserName === "chrome-beta") {
+    return "chrome-beta";
+  }
+  if (browserName === "chrome-dev") {
+    return "chrome-dev";
+  }
+  if (browserName === "chrome-canary") {
+    return "chrome-canary";
+  }
+  
+  // System-installed Edge variants (via channel)
   if (browserName === "msedge" || browserName === "edge") {
     return "msedge";
   }
+  if (browserName === "msedge-beta") {
+    return "msedge-beta";
+  }
+  if (browserName === "msedge-dev") {
+    return "msedge-dev";
+  }
+  if (browserName === "msedge-canary") {
+    return "msedge-canary";
+  }
+  
   throw new Error(
-    `Unsupported browser: ${browserName}. Supported browsers: chrome, firefox, webkit (safari), msedge (edge)`,
+    `Unsupported browser: ${browserName}. Supported browsers: chromium, firefox, webkit, chrome, chrome-beta, chrome-dev, chrome-canary, msedge, msedge-beta, msedge-dev, msedge-canary`,
   );
 }
 
 // Get Playwright browser instance for launching
 function getPlaywrightBrowser(browserName) {
   const browserType = getBrowserType(browserName);
-  if (browserType === "chromium") {
-    return chromium;
-  }
+  
+  // Firefox and WebKit use their own browser types
   if (browserType === "firefox") {
     return firefox;
   }
   if (browserType === "webkit") {
     return webkit;
   }
-  if (browserType === "msedge") {
-    return chromium; // Edge uses chromium with channel option
-  }
-  throw new Error(`Unknown browser type: ${browserType}`);
+  
+  // All Chromium-based browsers (including Chrome and Edge channels) use chromium
+  return chromium;
 }
 
 // Get launch options for browser
@@ -45,9 +70,20 @@ function getLaunchOptions(browserName) {
     headless: true,
   };
   
-  // Edge requires the channel option
-  if (browserType === "msedge") {
-    options.channel = "msedge";
+  // Channel-based browsers (Chrome and Edge variants)
+  const channelBrowsers = [
+    "chrome",
+    "chrome-beta",
+    "chrome-dev",
+    "chrome-canary",
+    "msedge",
+    "msedge-beta",
+    "msedge-dev",
+    "msedge-canary",
+  ];
+  
+  if (channelBrowsers.includes(browserType)) {
+    options.channel = browserType;
   }
   
   return options;
@@ -76,12 +112,35 @@ async function launchBrowser({ browser: browserName }) {
     // Provide helpful error message if browser is not installed
     if (error.message?.includes("Executable doesn't exist")) {
       const playwrightBrowserName = getBrowserType(browserName);
-      // For Edge, users need to install Edge browser separately (not via npx playwright install)
-      if (playwrightBrowserName === "msedge") {
+      
+      // Channel-based browsers need system installation
+      const channelBrowsers = [
+        "chrome",
+        "chrome-beta",
+        "chrome-dev",
+        "chrome-canary",
+        "msedge",
+        "msedge-beta",
+        "msedge-dev",
+        "msedge-canary",
+      ];
+      
+      if (channelBrowsers.includes(playwrightBrowserName)) {
+        const installUrls = {
+          chrome: "https://www.google.com/chrome",
+          "chrome-beta": "https://www.google.com/chrome/beta",
+          "chrome-dev": "https://www.google.com/chrome/dev",
+          "chrome-canary": "https://www.google.com/chrome/canary",
+          msedge: "https://www.microsoft.com/edge",
+          "msedge-beta": "https://www.microsoft.com/edge/download/insider",
+          "msedge-dev": "https://www.microsoft.com/edge/download/insider",
+          "msedge-canary": "https://www.microsoft.com/edge/download/insider",
+        };
         throw new Error(
-          `Microsoft Edge not found. Please install Microsoft Edge from https://www.microsoft.com/edge`,
+          `${playwrightBrowserName} not found. Please install from ${installUrls[playwrightBrowserName]}`,
         );
       }
+      
       throw new Error(
         `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
       );
@@ -108,12 +167,35 @@ async function installBrowser({ browser }) {
   }
 
   const playwrightBrowserName = getBrowserType(browser);
-  // Edge uses the system-installed Edge browser, not installed via playwright
-  if (playwrightBrowserName === "msedge") {
+  
+  // Channel-based browsers need system installation
+  const channelBrowsers = [
+    "chrome",
+    "chrome-beta",
+    "chrome-dev",
+    "chrome-canary",
+    "msedge",
+    "msedge-beta",
+    "msedge-dev",
+    "msedge-canary",
+  ];
+  
+  if (channelBrowsers.includes(playwrightBrowserName)) {
+    const installUrls = {
+      chrome: "https://www.google.com/chrome",
+      "chrome-beta": "https://www.google.com/chrome/beta",
+      "chrome-dev": "https://www.google.com/chrome/dev",
+      "chrome-canary": "https://www.google.com/chrome/canary",
+      msedge: "https://www.microsoft.com/edge",
+      "msedge-beta": "https://www.microsoft.com/edge/download/insider",
+      "msedge-dev": "https://www.microsoft.com/edge/download/insider",
+      "msedge-canary": "https://www.microsoft.com/edge/download/insider",
+    };
     throw new Error(
-      `Microsoft Edge not found. Please install Microsoft Edge from https://www.microsoft.com/edge`,
+      `${playwrightBrowserName} not found. Please install from ${installUrls[playwrightBrowserName]}`,
     );
   }
+  
   throw new Error(
     `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
   );
