@@ -1,8 +1,6 @@
 import assert from "node:assert/strict";
 import { chromium, firefox } from "playwright";
 
-const playwrightBrowsers = ["chrome", "firefox"];
-
 async function downloadBrowser({ browser }) {
   // Playwright's install command
   const { execSync } = await import("node:child_process");
