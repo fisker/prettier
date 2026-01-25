@@ -3,9 +3,12 @@ import { chromium, firefox, webkit } from "playwright";
 
 // Map test browser names to Playwright browser types
 function getBrowserType(browserName) {
-  // Playwright-installed browsers
+  // Playwright-installed browsers (via npx playwright install)
   if (browserName === "chromium") {
     return "chromium";
+  }
+  if (browserName === "chrome-for-testing") {
+    return "chrome-for-testing";
   }
   if (browserName === "firefox") {
     return "firefox";
@@ -14,7 +17,7 @@ function getBrowserType(browserName) {
     return "webkit";
   }
   
-  // System-installed Chrome variants (via channel)
+  // System-installed Chrome channel variants
   if (browserName === "chrome") {
     return "chrome";
   }
@@ -28,7 +31,7 @@ function getBrowserType(browserName) {
     return "chrome-canary";
   }
   
-  // System-installed Edge variants (via channel)
+  // System-installed Edge channel variants
   if (browserName === "msedge" || browserName === "edge") {
     return "msedge";
   }
@@ -42,8 +45,13 @@ function getBrowserType(browserName) {
     return "msedge-canary";
   }
   
+  // System-installed Firefox channel variants
+  if (browserName === "firefox-beta") {
+    return "firefox-beta";
+  }
+  
   throw new Error(
-    `Unsupported browser: ${browserName}. Supported browsers: chromium, firefox, webkit, chrome, chrome-beta, chrome-dev, chrome-canary, msedge, msedge-beta, msedge-dev, msedge-canary`,
+    `Unsupported browser: ${browserName}. Supported browsers: chromium, chrome-for-testing, firefox, firefox-beta, webkit, chrome, chrome-beta, chrome-dev, chrome-canary, msedge, msedge-beta, msedge-dev, msedge-canary`,
   );
 }
 
@@ -52,14 +60,14 @@ function getPlaywrightBrowser(browserName) {
   const browserType = getBrowserType(browserName);
   
   // Firefox and WebKit use their own browser types
-  if (browserType === "firefox") {
+  if (browserType === "firefox" || browserType === "firefox-beta") {
     return firefox;
   }
   if (browserType === "webkit") {
     return webkit;
   }
   
-  // All Chromium-based browsers (including Chrome and Edge channels) use chromium
+  // All Chromium-based browsers (including Chrome, Edge channels, and chrome-for-testing) use chromium
   return chromium;
 }
 
@@ -70,7 +78,7 @@ function getLaunchOptions(browserName) {
     headless: true,
   };
   
-  // Channel-based browsers (Chrome and Edge variants)
+  // Channel-based browsers (Chrome, Edge, and Firefox variants)
   const channelBrowsers = [
     "chrome",
     "chrome-beta",
@@ -80,6 +88,7 @@ function getLaunchOptions(browserName) {
     "msedge-beta",
     "msedge-dev",
     "msedge-canary",
+    "firefox-beta",
   ];
   
   if (channelBrowsers.includes(browserType)) {
@@ -122,6 +131,7 @@ async function launchBrowser({ browser: browserName }) {
         "msedge-beta",
         "msedge-dev",
         "msedge-canary",
+        "firefox-beta",
       ];
       
       if (channelBrowsers.includes(playwrightBrowserName)) {
@@ -134,6 +144,7 @@ async function launchBrowser({ browser: browserName }) {
           "msedge-beta": "https://www.microsoft.com/edge/download/insider",
           "msedge-dev": "https://www.microsoft.com/edge/download/insider",
           "msedge-canary": "https://www.microsoft.com/edge/download/insider",
+          "firefox-beta": "https://www.mozilla.org/firefox/channel/desktop/#beta",
         };
         throw new Error(
           `${playwrightBrowserName} not found. Please install from ${installUrls[playwrightBrowserName]}`,
@@ -159,7 +170,7 @@ async function launchBrowser({ browser: browserName }) {
       type: playwrightBrowserName,
       version,
       // Determine browser family for easier assertions
-      family: playwrightBrowserName === "firefox" ? "firefox" 
+      family: playwrightBrowserName === "firefox" || playwrightBrowserName === "firefox-beta" ? "firefox" 
             : playwrightBrowserName === "webkit" ? "webkit"
             : "chromium", // All Chrome/Edge variants are chromium-based
     };
@@ -188,6 +199,7 @@ async function installBrowser({ browser }) {
     "msedge-beta",
     "msedge-dev",
     "msedge-canary",
+    "firefox-beta",
   ];
   
   if (channelBrowsers.includes(playwrightBrowserName)) {
@@ -200,6 +212,7 @@ async function installBrowser({ browser }) {
       "msedge-beta": "https://www.microsoft.com/edge/download/insider",
       "msedge-dev": "https://www.microsoft.com/edge/download/insider",
       "msedge-canary": "https://www.microsoft.com/edge/download/insider",
+      "firefox-beta": "https://www.mozilla.org/firefox/channel/desktop/#beta",
     };
     throw new Error(
       `${playwrightBrowserName} not found. Please install from ${installUrls[playwrightBrowserName]}`,
