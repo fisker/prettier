@@ -1,26 +1,23 @@
 import assert from "node:assert/strict";
 import { chromium, firefox } from "playwright";
 
-async function downloadBrowser({ browser }) {
-  // Playwright's install command
-  const { execSync } = await import("node:child_process");
-  const browserType = browser === "chrome" ? "chromium" : browser;
-  
-  // Validate browser type to prevent command injection
-  const allowedBrowsers = ["chromium", "firefox"];
-  if (!allowedBrowsers.includes(browserType)) {
-    throw new Error(`Unsupported browser: ${browser}. Supported browsers: chrome, firefox`);
+// Map test browser names to Playwright browser types
+function getBrowserType(browserName) {
+  if (browserName === "chrome") {
+    return "chromium";
   }
-  
-  try {
-    execSync(`npx playwright install ${browserType}`, {
-      stdio: "inherit",
-      env: { ...process.env, npm_config_loglevel: "silent" },
-    });
-  } catch (error) {
-    console.error(`Failed to install ${browserType}:`, error.message);
-    throw error;
+  if (browserName === "firefox") {
+    return "firefox";
   }
+  throw new Error(
+    `Unsupported browser: ${browserName}. Supported browsers: chrome, firefox`,
+  );
+}
+
+// Get Playwright browser instance for launching
+function getPlaywrightBrowser(browserName) {
+  const browserType = getBrowserType(browserName);
+  return browserType === "chromium" ? chromium : firefox;
 }
 
 async function isBrowserInstalled({ browser: browserName }) {
@@ -36,19 +33,23 @@ async function isBrowserInstalled({ browser: browserName }) {
 }
 
 async function launchBrowser({ browser: browserName }) {
-  // Map browser names to Playwright browser types
-  let browserType;
-  if (browserName === "chrome") {
-    browserType = chromium;
-  } else if (browserName === "firefox") {
-    browserType = firefox;
-  } else {
-    throw new Error(`Unsupported browser: ${browserName}. Supported browsers: chrome, firefox`);
+  const browserType = getPlaywrightBrowser(browserName);
+
+  let browser;
+  try {
+    browser = await browserType.launch({
+      headless: true,
+    });
+  } catch (error) {
+    // Provide helpful error message if browser is not installed
+    if (error.message?.includes("Executable doesn't exist")) {
+      const playwrightBrowserName = getBrowserType(browserName);
+      throw new Error(
+        `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
+      );
+    }
+    throw error;
   }
-  
-  const browser = await browserType.launch({
-    headless: true,
-  });
 
   try {
     const version = await browser.version();
@@ -68,7 +69,15 @@ async function installBrowser({ browser }) {
     return;
   }
 
-  await downloadBrowser({ browser });
+  const playwrightBrowserName = getBrowserType(browser);
+  throw new Error(
+    `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
+  );
+}
+
+// Deprecated: kept for compatibility but no longer downloads browsers
+async function downloadBrowser({ browser }) {
+  await installBrowser({ browser });
 }
 
 export { downloadBrowser, installBrowser, isBrowserInstalled, launchBrowser };
