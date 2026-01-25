@@ -160,7 +160,7 @@ async function launchBrowser({ browser: browserName }) {
   }
 
   try {
-    const version = await browser.version();
+    const version = browser.version();
     // Playwright returns just the version number (e.g., "131.0.6778.33" or "132.0")
     // Just verify that we got a version string
     assert.ok(version && typeof version === "string" && version.length > 0);
