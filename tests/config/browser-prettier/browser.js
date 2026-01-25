@@ -6,6 +6,12 @@ async function downloadBrowser({ browser }) {
   const { execSync } = await import("node:child_process");
   const browserType = browser === "chrome" ? "chromium" : browser;
   
+  // Validate browser type to prevent command injection
+  const allowedBrowsers = ["chromium", "firefox"];
+  if (!allowedBrowsers.includes(browserType)) {
+    throw new Error(`Unsupported browser: ${browser}. Supported browsers: chrome, firefox`);
+  }
+  
   try {
     execSync(`npx playwright install ${browserType}`, {
       stdio: "inherit",
@@ -31,7 +37,14 @@ async function isBrowserInstalled({ browser: browserName }) {
 
 async function launchBrowser({ browser: browserName }) {
   // Map browser names to Playwright browser types
-  const browserType = browserName === "chrome" ? chromium : firefox;
+  let browserType;
+  if (browserName === "chrome") {
+    browserType = chromium;
+  } else if (browserName === "firefox") {
+    browserType = firefox;
+  } else {
+    throw new Error(`Unsupported browser: ${browserName}. Supported browsers: chrome, firefox`);
+  }
   
   const browser = await browserType.launch({
     headless: true,
