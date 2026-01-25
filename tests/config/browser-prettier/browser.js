@@ -1,11 +1,6 @@
 import assert from "node:assert/strict";
 import { chromium, firefox, webkit } from "playwright";
-import { createRequire } from "node:module";
-
-// Access Playwright's browser installation API
-// Use the properly exported registry module from playwright-core
-const require = createRequire(import.meta.url);
-const { Registry, installBrowsersForNpmInstall } = require("playwright-core/lib/server/registry/index");
+import { registry } from "playwright-core/lib/server/registry/index";
 
 // Map test browser names to Playwright browser types
 function getBrowserType(browserName) {
@@ -234,9 +229,39 @@ async function installBrowser({ browser }) {
 async function downloadBrowser({ browser }) {
   const playwrightBrowserName = getBrowserType(browser);
   
-  // Use Playwright's exported installBrowsersForNpmInstall function
-  // This installs browsers without spawning child processes
-  await installBrowsersForNpmInstall([playwrightBrowserName]);
+  // Check if download is skipped
+  if (process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD === "1") {
+    console.log("Skipping browser download because PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD is set");
+    return;
+  }
+  
+  // Use registry API directly to install the browser
+  // This is what installBrowsersForNpmInstall does internally
+  const executable = registry.findExecutable(playwrightBrowserName);
+  if (!executable || executable.installType === "none") {
+    throw new Error(`Cannot install ${playwrightBrowserName}`);
+  }
+  
+  const executables = [executable];
+  
+  // Chromium needs chromium-headless-shell
+  if (playwrightBrowserName === "chromium") {
+    const headlessShell = registry.findExecutable("chromium-headless-shell");
+    if (headlessShell) {
+      executables.push(headlessShell);
+    }
+  }
+  
+  // Add winldd on Windows
+  if (process.platform === "win32") {
+    const winldd = registry.findExecutable("winldd");
+    if (winldd) {
+      executables.push(winldd);
+    }
+  }
+  
+  // Install browsers without spawning child processes
+  await registry.install(executables, false);
 }
 
 // Get browser information from a launched browser instance
