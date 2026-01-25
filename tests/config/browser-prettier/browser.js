@@ -1,36 +1,21 @@
 import assert from "node:assert/strict";
-import puppeteer from "puppeteer";
+import { chromium, firefox } from "playwright";
 
-const puppeteerBrowsers = ["chrome", "chrome-headless-shell", "firefox"];
+const playwrightBrowsers = ["chrome", "firefox"];
 
 async function downloadBrowser({ browser }) {
-  const { downloadBrowsers } =
-    await import("puppeteer/internal/node/install.js");
-  const originalEnv = { ...process.env };
-
-  const envOverrides = {
-    npm_config_loglevel: "silent",
-    PUPPETEER_SKIP_DOWNLOAD: JSON.stringify(false),
-    ...Object.fromEntries(
-      puppeteerBrowsers.map((name) => [
-        `PUPPETEER_${name.replaceAll("-", "_").toUpperCase()}_SKIP_DOWNLOAD`,
-        JSON.stringify(name !== browser),
-      ]),
-    ),
-  };
-
-  Object.assign(process.env, envOverrides);
-
+  // Playwright's install command
+  const { execSync } = await import("node:child_process");
+  const browserType = browser === "chrome" ? "chromium" : browser;
+  
   try {
-    await downloadBrowsers();
-  } finally {
-    for (const env of Object.keys(envOverrides)) {
-      if (Object.hasOwn(originalEnv)) {
-        process.env[env] = originalEnv[env];
-      } else {
-        delete process.env[env];
-      }
-    }
+    execSync(`npx playwright install ${browserType}`, {
+      stdio: "inherit",
+      env: { ...process.env, npm_config_loglevel: "silent" },
+    });
+  } catch (error) {
+    console.error(`Failed to install ${browserType}:`, error.message);
+    throw error;
   }
 }
 
@@ -47,15 +32,21 @@ async function isBrowserInstalled({ browser: browserName }) {
 }
 
 async function launchBrowser({ browser: browserName }) {
-  const browser = await puppeteer.launch({
-    browser: browserName,
-    enableExtensions: false,
-    waitForInitialPage: false,
+  // Map browser names to Playwright browser types
+  const browserType = browserName === "chrome" ? chromium : firefox;
+  
+  const browser = await browserType.launch({
+    headless: true,
   });
 
   try {
     const version = await browser.version();
-    assert.ok(version.toLowerCase().startsWith(`${browserName}/`));
+    // Playwright reports chromium version for chrome
+    const expectedPrefix = browserName === "chrome" ? "chromium/" : `${browserName}/`;
+    assert.ok(
+      version.toLowerCase().startsWith(expectedPrefix) ||
+        version.toLowerCase().startsWith(browserName)
+    );
   } catch (error) {
     await browser.close();
     throw error;
