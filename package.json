@@ -179,7 +179,7 @@
     "node-style-text": "2.1.2",
     "npm-run-all2": "8.0.4",
     "open-editor": "6.0.0",
-    "playwright": "1.49.1",
+    "playwright": "1.55.1",
     "prettier": "3.8.1",
     "pretty-bytes": "7.1.0",
     "pretty-ms": "9.3.0",
