@@ -159,6 +159,7 @@ jobs:
         browser:
           - "chrome"
           - "firefox"
+          - "webkit"
         include:
           # It's slow on firefox
           - os: "ubuntu-latest"
@@ -168,6 +169,9 @@ jobs:
           # Hangs https://github.com/prettier/prettier/pull/18716
           - os: "windows-latest"
             browser: "chrome"
+          # Webkit requires system dependencies on Linux
+          - os: "ubuntu-latest"
+            browser: "webkit"
     env:
       FULL_TEST: ${{ matrix.FULL_TEST }}
       TEST_RUNTIME_BROWSER: ${{ matrix.browser }}
@@ -197,7 +201,12 @@ jobs:
         run: yarn install --immutable
 
       - name: Install Playwright Browsers
-        run: npx playwright install chromium firefox
+        run: npx playwright install chromium firefox webkit
+        
+      # Install webkit system dependencies on Linux (optional, webkit tests excluded on Linux by default)
+      - name: Install webkit dependencies
+        run: npx playwright install-deps webkit
+        if: matrix.os == 'ubuntu-latest' && matrix.browser == 'webkit'
 
       - name: Download Artifact
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0

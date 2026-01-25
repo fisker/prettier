@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { chromium, firefox } from "playwright";
+import { chromium, firefox, webkit } from "playwright";
 
 // Map test browser names to Playwright browser types
 function getBrowserType(browserName) {
@@ -9,15 +9,27 @@ function getBrowserType(browserName) {
   if (browserName === "firefox") {
     return "firefox";
   }
+  if (browserName === "webkit" || browserName === "safari") {
+    return "webkit";
+  }
   throw new Error(
-    `Unsupported browser: ${browserName}. Supported browsers: chrome, firefox`,
+    `Unsupported browser: ${browserName}. Supported browsers: chrome, firefox, webkit (safari)`,
   );
 }
 
 // Get Playwright browser instance for launching
 function getPlaywrightBrowser(browserName) {
   const browserType = getBrowserType(browserName);
-  return browserType === "chromium" ? chromium : firefox;
+  if (browserType === "chromium") {
+    return chromium;
+  }
+  if (browserType === "firefox") {
+    return firefox;
+  }
+  if (browserType === "webkit") {
+    return webkit;
+  }
+  throw new Error(`Unknown browser type: ${browserType}`);
 }
 
 async function isBrowserInstalled({ browser: browserName }) {
