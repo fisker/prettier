@@ -1,5 +1,27 @@
 import assert from "node:assert/strict";
 import { chromium, firefox, webkit } from "playwright";
+import { pathToFileURL } from "node:url";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+// Access Playwright's internal browser installation API
+// This is the same approach @playwright/test uses
+// We need to use createRequire to load CommonJS modules in ESM context
+const require = createRequire(import.meta.url);
+let installBrowsersForNpmInstall;
+
+try {
+  // Try to load the internal API
+  const playwrightCorePath = require.resolve("playwright-core");
+  const playwrightCoreDir = dirname(playwrightCorePath);
+  const serverIndexPath = join(playwrightCoreDir, "lib", "server", "index.js");
+  const serverIndex = require(serverIndexPath);
+  installBrowsersForNpmInstall = serverIndex.installBrowsersForNpmInstall;
+} catch (error) {
+  // Fallback if internal API not available
+  console.warn("Could not load Playwright internal installation API:", error.message);
+}
 
 // Map test browser names to Playwright browser types
 function getBrowserType(browserName) {
@@ -219,14 +241,24 @@ async function installBrowser({ browser }) {
     );
   }
   
-  throw new Error(
-    `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
-  );
+  // Use Playwright's internal installation API (same as @playwright/test)
+  // This downloads browsers without using child_process
+  await downloadBrowser({ browser });
 }
 
-// Deprecated: kept for compatibility but no longer downloads browsers
+// Download browser using Playwright's internal API
 async function downloadBrowser({ browser }) {
-  await installBrowser({ browser });
+  const playwrightBrowserName = getBrowserType(browser);
+  
+  if (!installBrowsersForNpmInstall) {
+    throw new Error(
+      `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
+    );
+  }
+  
+  // Use the same internal API that @playwright/test uses
+  // This installs browsers without spawning child processes
+  await installBrowsersForNpmInstall([playwrightBrowserName]);
 }
 
 // Get browser information from a launched browser instance
