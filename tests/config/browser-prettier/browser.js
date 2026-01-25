@@ -165,16 +165,10 @@ async function launchBrowser({ browser: browserName }) {
     // Just verify that we got a version string
     assert.ok(version && typeof version === "string" && version.length > 0);
     
-    // Attach browser metadata for assertions
-    browser._browserInfo = {
-      name: browserName,
-      type: playwrightBrowserName,
-      version,
-      // Determine browser family for easier assertions
-      family: playwrightBrowserName === "firefox" || playwrightBrowserName === "firefox-beta" ? "firefox" 
-            : playwrightBrowserName === "webkit" ? "webkit"
-            : "chromium", // All Chrome/Edge variants are chromium-based
-    };
+    // Store the original browser name for reference
+    // Playwright's APIs (browser.version() and browser.browserType().name()) 
+    // will be used to get actual browser information
+    browser._requestedBrowserName = browserName;
   } catch (error) {
     await browser.close();
     throw error;
@@ -264,9 +258,33 @@ async function downloadBrowser({ browser }) {
   await registry.install(executables, false);
 }
 
-// Get browser information from a launched browser instance
+// Get browser information from a launched browser instance using Playwright's APIs
 function getBrowserInfo(browser) {
-  return browser._browserInfo || null;
+  if (!browser) {
+    return null;
+  }
+  
+  // Use Playwright's actual APIs instead of storing fake information
+  const browserTypeName = browser.browserType().name();
+  const version = browser.version();
+  const requestedName = browser._requestedBrowserName || browserTypeName;
+  
+  // Determine browser family based on actual browser type
+  let family;
+  if (browserTypeName === "firefox") {
+    family = "firefox";
+  } else if (browserTypeName === "webkit") {
+    family = "webkit";
+  } else {
+    family = "chromium"; // chromium and all Chrome/Edge variants
+  }
+  
+  return {
+    name: requestedName, // The browser name that was requested (e.g., "chrome", "firefox", "edge")
+    type: browserTypeName, // Playwright's actual browser type (e.g., "chromium", "firefox", "webkit")
+    version, // Actual version from browser.version()
+    family, // Browser family for easier assertions
+  };
 }
 
 export {
