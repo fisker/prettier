@@ -1,27 +1,11 @@
 import assert from "node:assert/strict";
 import { chromium, firefox, webkit } from "playwright";
-import { pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 
-// Access Playwright's internal browser installation API
-// This is the same approach @playwright/test uses
-// We need to use createRequire to load CommonJS modules in ESM context
+// Access Playwright's browser installation API
+// Use the properly exported registry module from playwright-core
 const require = createRequire(import.meta.url);
-let installBrowsersForNpmInstall;
-
-try {
-  // Try to load the internal API
-  const playwrightCorePath = require.resolve("playwright-core");
-  const playwrightCoreDir = dirname(playwrightCorePath);
-  const serverIndexPath = join(playwrightCoreDir, "lib", "server", "index.js");
-  const serverIndex = require(serverIndexPath);
-  installBrowsersForNpmInstall = serverIndex.installBrowsersForNpmInstall;
-} catch (error) {
-  // Fallback if internal API not available
-  console.warn("Could not load Playwright internal installation API:", error.message);
-}
+const { Registry, installBrowsersForNpmInstall } = require("playwright-core/lib/server/registry/index");
 
 // Map test browser names to Playwright browser types
 function getBrowserType(browserName) {
@@ -246,17 +230,11 @@ async function installBrowser({ browser }) {
   await downloadBrowser({ browser });
 }
 
-// Download browser using Playwright's internal API
+// Download browser using Playwright's registry API
 async function downloadBrowser({ browser }) {
   const playwrightBrowserName = getBrowserType(browser);
   
-  if (!installBrowsersForNpmInstall) {
-    throw new Error(
-      `Browser not installed. Please run: npx playwright install ${playwrightBrowserName}`,
-    );
-  }
-  
-  // Use the same internal API that @playwright/test uses
+  // Use Playwright's exported installBrowsersForNpmInstall function
   // This installs browsers without spawning child processes
   await installBrowsersForNpmInstall([playwrightBrowserName]);
 }
