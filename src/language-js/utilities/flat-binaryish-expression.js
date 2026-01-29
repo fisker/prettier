@@ -10,7 +10,7 @@ function* flatBinaryishExpression(node, selectors = []) {
     ) {
       yield* flatBinaryishExpression(child, childSelectors);
     } else {
-      yield { node: child, selectors: childSelectors };
+      yield childSelectors;
     }
   }
 }
