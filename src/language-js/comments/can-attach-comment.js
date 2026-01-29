@@ -5,6 +5,7 @@ import { isTsAsConstExpression } from "../utilities/is-as-const-expression.js";
 import { isMeaningfulEmptyStatement } from "../utilities/is-meaningful-empty-statement.js";
 import { isMethod } from "../utilities/is-method.js";
 import { isShorthandSpecifier } from "../utilities/is-shorthand-specifier.js";
+import { shouldFlatten } from "../utilities/should-flatten.js";
 
 /**
 @import {Node} from "../types/estree.js";
@@ -145,6 +146,16 @@ function canAttachComment(node, ancestors) {
     ancestors[0].type === "TSPropertySignature"
   ) {
     return false;
+  }
+
+  if (node.type === "BinaryExpression" || node.type === "LogicalExpression") {
+    const parent = ancestors[0];
+    if (
+      parent.type === node.type &&
+      shouldFlatten(parent.operator, node.operator)
+    ) {
+      return false;
+    }
   }
 
   return true;
