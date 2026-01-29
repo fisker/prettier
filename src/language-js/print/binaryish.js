@@ -265,17 +265,27 @@ function printBinaryishExpressions(
       continue;
     }
 
+    // Get the operator from the parent node of this part
+    const parentSelectors = selectors.slice(0, -1);
+    const currentOperator = parentSelectors.length === 0
+      ? (node.type === "NGPipeExpression" ? "|" : node.operator)
+      : path.call((path) => {
+          const parentNode = path.node;
+          return parentNode.type === "NGPipeExpression" ? "|" : parentNode.operator;
+        }, ...parentSelectors);
+
     let right;
     if (shouldInline) {
       right = [
-        operator,
+        " ",
+        currentOperator,
         hasLeadingOwnLineComment(options.originalText, rightNodeToCheckComments)
           ? indent([line, print(selectors), rightSuffix])
           : [" ", print(selectors), rightSuffix],
       ];
     } else {
       const isHackPipeline =
-        operator === "|>" && path.root.extra?.__isUsingHackPipeline;
+        currentOperator === "|>" && path.root.extra?.__isUsingHackPipeline;
       const rightContent = isHackPipeline
         ? path.call(
             () =>
@@ -301,11 +311,12 @@ function printBinaryishExpressions(
               break;
           }
         }
-        right = [line, comment, operator, " ", rightContent, rightSuffix];
+        right = [line, comment, currentOperator, " ", rightContent, rightSuffix];
       } else {
         right = [
+          lineBeforeOperator ? "" : " ",
           lineBeforeOperator ? line : "",
-          operator,
+          currentOperator,
           lineBeforeOperator ? " " : line,
           rightContent,
           rightSuffix,
@@ -340,7 +351,7 @@ function printBinaryishExpressions(
   if (options.experimentalOperatorPosition === "start") {
     parts.push(shouldInline || commentBeforeOperator ? " " : "", right);
   } else {
-    parts.push(lineBeforeOperator ? "" : " ", right);
+    parts.push(right);
   }
 
   // The root comments are already printed, but we need to manually print
