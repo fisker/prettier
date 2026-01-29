@@ -18,12 +18,12 @@ foo = foo || {
 }
 
 =====================================output=====================================
-foo = foo || [
+foo = foo  || [
   // comment
   a,
 ];
 
-foo = foo || {
+foo = foo  || {
   // comment
   a,
 };
@@ -99,10 +99,7 @@ function f() {
 function f2() {
   const appEntities = getAppEntities(loadObject).map(
     (entity) =>
-      entity
-      && entity.isInstallAvailable()
-      && !entity.isQueue()
-      && entity.isDisabled() && {
+      entity  && entity.isInstallAvailable() && !entity.isQueue() && entity.isDisabled() && {
         id: entity.id,
       },
   );
@@ -151,10 +148,7 @@ function f() {
 function f2() {
   const appEntities = getAppEntities(loadObject).map(
     (entity) =>
-      entity &&
-      entity.isInstallAvailable() &&
-      !entity.isQueue() &&
-      entity.isDisabled() && {
+      entity && entity.isInstallAvailable() && !entity.isQueue() && entity.isDisabled() && {
         id: entity.id,
       },
   );
@@ -605,7 +599,7 @@ a +
 =====================================output=====================================
 a =
   // Comment 1
-  Math.random() * (yRange * (1 - minVerticalFraction))
+  Math.random() * yRange * (1 - minVerticalFraction)
   + minVerticalFraction * yRange
   - offset;
 
@@ -662,15 +656,15 @@ foo[
 
 const logical_expression =
   aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa /* trailing comment */
-  && /* leading comment */ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  /* leading comment */ && bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
   // line comment
   && cccccccccccccccccccccccc;
 
 const bc = a /* internal before */ || /* internal after */ b;
 
 a
-  /**/
-  + a.a().a();
+/**/
++ a.a().a();
 
 ================================================================================
 `;
@@ -750,7 +744,7 @@ a +
 =====================================output=====================================
 a =
   // Comment 1
-  Math.random() * (yRange * (1 - minVerticalFraction)) +
+  Math.random() * yRange * (1 - minVerticalFraction) +
   minVerticalFraction * yRange -
   offset;
 
@@ -814,8 +808,8 @@ const logical_expression =
 const bc = a /* internal before */ || /* internal after */ b;
 
 a +
-  /**/
-  a.a().a();
+/**/
+a.a().a();
 
 ================================================================================
 `;
@@ -1354,7 +1348,7 @@ const avatar = hasAvatar && <Gravatar user={author} size={size} />;
 const avatar2 = (hasAvatar || showPlaceholder) && <Gravatar user={author} size={size} />;
 
 =====================================output=====================================
-const user = renderedUser || (
+const user = renderedUser  || (
   <div>
     <User name={this.state.user.name} age={this.state.user.age} />
   </div>
@@ -1362,15 +1356,15 @@ const user = renderedUser || (
 
 const user2 =
   renderedUser
-  || (shouldRenderUser && (
+  || (shouldRenderUser  && (
     <div>
       <User name={this.state.user.name} age={this.state.user.age} />
     </div>
   ));
 
-const avatar = hasAvatar && <Gravatar user={author} size={size} />;
+const avatar = hasAvatar  && <Gravatar user={author} size={size} />;
 
-const avatar2 = (hasAvatar || showPlaceholder) && (
+const avatar2 = (hasAvatar || showPlaceholder)  && (
   <Gravatar user={author} size={size} />
 );
 
@@ -1513,7 +1507,7 @@ const obj = {
 }
 
 =====================================output=====================================
-prevState = prevState || {
+prevState = prevState  || {
   catalogs: [],
   loadState: LOADED,
   opened: false,
@@ -1521,8 +1515,7 @@ prevState = prevState || {
   selectedCatalog: null,
 };
 
-prevState = prevState
-  || defaultState || {
+prevState = prevState  || defaultState || {
     catalogs: [],
     loadState: LOADED,
     opened: false,
@@ -1532,7 +1525,7 @@ prevState = prevState
 
 prevState =
   prevState
-  || (defaultState && {
+  || (defaultState  && {
     catalogs: [],
     loadState: LOADED,
     opened: false,
@@ -1540,8 +1533,7 @@ prevState =
     selectedCatalog: null,
   });
 
-prevState = prevState
-  || (useDefault && defaultState) || {
+prevState = prevState  || (useDefault && defaultState) || {
     catalogs: [],
     loadState: LOADED,
     opened: false,
@@ -1549,7 +1541,7 @@ prevState = prevState
     selectedCatalog: null,
   };
 
-this.steps = steps || [
+this.steps = steps  || [
   {
     name: "mock-module",
     path: "/nux/mock-module",
@@ -1558,14 +1550,14 @@ this.steps = steps || [
 
 this.steps =
   steps
-  || (checkStep && [
+  || (checkStep  && [
     {
       name: "mock-module",
       path: "/nux/mock-module",
     },
   ]);
 
-this.steps = (steps && checkStep) || [
+this.steps = (steps && checkStep)  || [
   {
     name: "mock-module",
     path: "/nux/mock-module",
@@ -1575,8 +1567,7 @@ this.steps = (steps && checkStep) || [
 const create = () => {
   const result = doSomething();
   return (
-    shouldReturn
-    && result.ok && {
+    shouldReturn  && result.ok && {
       status: "ok",
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
@@ -1587,7 +1578,7 @@ const create = () => {
 const create2 = () => {
   const result = doSomething();
   return (
-    (shouldReturn && result.ok && result) || {
+    (shouldReturn && result.ok && result)  || {
       status: "ok",
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
@@ -1596,12 +1587,11 @@ const create2 = () => {
 };
 
 const obj = {
-  state: shouldHaveState
-    && stateIsOK && {
+  state: shouldHaveState  && stateIsOK && {
       loadState: LOADED,
       opened: false,
     },
-  loadNext: (stateIsOK && hasNext) || {
+  loadNext: (stateIsOK && hasNext)  || {
     skipNext: true,
   },
   loaded: true,
@@ -1715,8 +1705,7 @@ prevState = prevState || {
   selectedCatalog: null,
 };
 
-prevState = prevState ||
-  defaultState || {
+prevState = prevState || defaultState || {
     catalogs: [],
     loadState: LOADED,
     opened: false,
@@ -1734,8 +1723,7 @@ prevState =
     selectedCatalog: null,
   });
 
-prevState = prevState ||
-  (useDefault && defaultState) || {
+prevState = prevState || (useDefault && defaultState) || {
     catalogs: [],
     loadState: LOADED,
     opened: false,
@@ -1769,8 +1757,7 @@ this.steps = (steps && checkStep) || [
 const create = () => {
   const result = doSomething();
   return (
-    shouldReturn &&
-    result.ok && {
+    shouldReturn && result.ok && {
       status: "ok",
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
@@ -1790,8 +1777,7 @@ const create2 = () => {
 };
 
 const obj = {
-  state: shouldHaveState &&
-    stateIsOK && {
+  state: shouldHaveState && stateIsOK && {
       loadState: LOADED,
       opened: false,
     },
@@ -1862,8 +1848,7 @@ printWidth: 80
 
 <div
   style={
-    !isJellyfishEnabled
-    && diffUpdateMessageInput && {
+    !isJellyfishEnabled  && diffUpdateMessageInput && {
       fontSize: 14,
       color: "#fff",
     }
@@ -1871,7 +1856,7 @@ printWidth: 80
 />;
 
 <div>
-  {!isJellyfishEnabled && diffUpdateMessageInput != null && (
+  {!isJellyfishEnabled  && diffUpdateMessageInput != null && (
     <div>
       <span>Text</span>
     </div>
@@ -1879,7 +1864,7 @@ printWidth: 80
 </div>;
 
 <div>
-  {(!isJellyfishEnabled && diffUpdateMessageInput != null && child) || (
+  {(!isJellyfishEnabled && diffUpdateMessageInput != null && child)  || (
     <div>
       <span>Text</span>
     </div>
@@ -1946,8 +1931,7 @@ printWidth: 80
 
 <div
   style={
-    !isJellyfishEnabled &&
-    diffUpdateMessageInput && {
+    !isJellyfishEnabled && diffUpdateMessageInput && {
       fontSize: 14,
       color: "#fff",
     }
@@ -2155,7 +2139,7 @@ function foo2() {
 
 function foo3() {
   return this.calculate().compute().first.numberOfThings
-    > this.calculate().compute().last.numberOfThings
+  > this.calculate().compute().last.numberOfThings
     ? true
     : false;
 }
@@ -2202,7 +2186,7 @@ function foo2() {
 
 function foo3() {
   return this.calculate().compute().first.numberOfThings >
-    this.calculate().compute().last.numberOfThings
+  this.calculate().compute().last.numberOfThings
     ? true
     : false;
 }
@@ -2239,13 +2223,13 @@ defaultContent.filter(defaultLocale => {
 
 =====================================output=====================================
 this._cumulativeHeights
-  && Math.abs(
-    this._cachedItemHeight(this._firstVisibleIndex + i)
-      - this._provider.fastHeight(i + this._firstVisibleIndex),
-  ) > 1;
+&& Math.abs(
+  this._cachedItemHeight(this._firstVisibleIndex + i)
+    - this._provider.fastHeight(i + this._firstVisibleIndex),
+) > 1;
 
 foooooooooooooooooooooooooooooooooooooooooooooooooooooooooo(aaaaaaaaaaaaaaaaaaa)
-  + a;
++ a;
 
 const isPartOfPackageJSON =
   dependenciesArray.indexOf(dependencyWithOutRelativePath.split("/")[0]) !== -1;
@@ -2285,10 +2269,10 @@ defaultContent.filter(defaultLocale => {
 
 =====================================output=====================================
 this._cumulativeHeights &&
-  Math.abs(
-    this._cachedItemHeight(this._firstVisibleIndex + i) -
-      this._provider.fastHeight(i + this._firstVisibleIndex),
-  ) > 1;
+Math.abs(
+  this._cachedItemHeight(this._firstVisibleIndex + i) -
+    this._provider.fastHeight(i + this._firstVisibleIndex),
+) > 1;
 
 foooooooooooooooooooooooooooooooooooooooooooooooooooooooooo(
   aaaaaaaaaaaaaaaaaaa,

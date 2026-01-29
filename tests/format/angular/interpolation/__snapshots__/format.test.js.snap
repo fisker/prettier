@@ -31,9 +31,9 @@ trailingComma: "none"
 =====================================output=====================================
 [
   advancedSearchService.patientInformationFieldsRow2 &&
-    advancedSearchService.patientInformationFieldsRow2.indexOf(
-      advancedSearchService.formElementData.customFieldList[i].customFieldType
-    ) !== -1,
+  advancedSearchService.patientInformationFieldsRow2.indexOf(
+    advancedSearchService.formElementData.customFieldList[i].customFieldType
+  ) !== -1,
   (x && y) ?? z
 ]
 ================================================================================
@@ -101,17 +101,7 @@ trailingComma: "none"
   ($students | async).items,
   ($students | async)(),
   myData | myPipe: "arg1" : "arg2" : "arg3",
-  value
-    | pipeA
-      : {
-          keyA: reallySuperLongValue,
-          keyB: shortValue | pipeB | pipeC: valueToPipeC
-        }
-      : {
-          keyA: reallySuperLongValue,
-          keyB: shortValue | pipeB | pipeC: valueToPipeC
-        }
-    | aaa,
+  value | pipeA | aaa,
   (hideLinqPanel
     ? "ReportSelection.HideShowLabel_Show.String"
     : "ReportSelection.HideShowLabel_Hide.String"

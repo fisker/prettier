@@ -11,10 +11,6 @@ const multiplicativeOperators = {
   "/": true,
   "%": true,
 };
-const additiveOperators = {
-  "+": true,
-  "-": true,
-};
 const bitshiftOperators = {
   ">>": true,
   ">>>": true,
@@ -51,16 +47,6 @@ function shouldFlatten(parentOp, nodeOp) {
     nodeOp !== parentOp &&
     multiplicativeOperators[nodeOp] &&
     multiplicativeOperators[parentOp]
-  ) {
-    return false;
-  }
-
-  // x + y - z --> (x + y) - z
-  // x - y + z --> (x - y) + z
-  if (
-    nodeOp !== parentOp &&
-    additiveOperators[nodeOp] &&
-    additiveOperators[parentOp]
   ) {
     return false;
   }

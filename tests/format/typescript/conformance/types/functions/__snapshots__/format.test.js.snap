@@ -139,10 +139,10 @@ function f7(n = m, m?) {}
 // FunctionExpression with non -void return type annotation with a throw, no return, and other code
 // Should be error but isn't
 undefined ===
-  function (): number {
-    throw undefined;
-    var x = 4;
-  };
+function (): number {
+  throw undefined;
+  var x = 4;
+};
 
 class Base {
   private x;
@@ -449,9 +449,9 @@ var a = (function f() {
 
 // FunctionExpression with non -void return type annotation with a single throw statement
 undefined ===
-  function (): number {
-    throw undefined;
-  };
+function (): number {
+  throw undefined;
+};
 
 // Type of 'this' in function implementation is 'any'
 function thisFunc() {

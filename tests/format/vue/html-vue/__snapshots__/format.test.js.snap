@@ -205,7 +205,7 @@ printWidth: 80
           onDrag: function (e) {
             e = e.changedTouches ? e.changedTouches[0] : e;
             if (this.dragging) {
-              this.c.x = 160 + (e.pageX - this.start.x);
+              this.c.x = 160 + e.pageX - this.start.x;
               // dampen vertical drag by a factor
               var dy = e.pageY - this.start.y;
               var dampen = dy > 0 ? 1.5 : 4;

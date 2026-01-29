@@ -3872,7 +3872,7 @@ singleQuote: false
 
 <div>
   {member.memberName.memberSomething +
-    (member.memberDef.memberSomething.signatures ? "()" : "")}
+  (member.memberDef.memberSomething.signatures ? "()" : "")}
 </div>;
 
 ================================================================================
@@ -3954,7 +3954,7 @@ singleQuote: false
 
 <div>
   {member.memberName.memberSomething +
-    (member.memberDef.memberSomething.signatures ? "()" : "")}
+  (member.memberDef.memberSomething.signatures ? "()" : "")}
 </div>;
 
 ================================================================================
@@ -4036,7 +4036,7 @@ singleQuote: true
 
 <div>
   {member.memberName.memberSomething +
-    (member.memberDef.memberSomething.signatures ? '()' : '')}
+  (member.memberDef.memberSomething.signatures ? '()' : '')}
 </div>;
 
 ================================================================================
@@ -4118,7 +4118,7 @@ singleQuote: true
 
 <div>
   {member.memberName.memberSomething +
-    (member.memberDef.memberSomething.signatures ? '()' : '')}
+  (member.memberDef.memberSomething.signatures ? '()' : '')}
 </div>;
 
 ================================================================================

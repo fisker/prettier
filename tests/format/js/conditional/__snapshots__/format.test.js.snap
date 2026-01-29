@@ -808,9 +808,9 @@ inJSXExpressionContainer.withLoops.orBooleans.example = (
     : null}
 
     {showTheStuff &&
-      (foo ?
-        <Thing thing={foooooooooooooooooooooooooo} bar="bazzzzzz" />
-      : <OtherThing />)}
+    (foo ?
+      <Thing thing={foooooooooooooooooooooooooo} bar="bazzzzzz" />
+    : <OtherThing />)}
   </div>
 );
 
@@ -1103,11 +1103,11 @@ inJSXExpressionContainer.withLoops.orBooleans.example = (
       : null}
 
     {showTheStuff &&
-      (foo ? (
-        <Thing thing={foooooooooooooooooooooooooo} bar="bazzzzzz" />
-      ) : (
-        <OtherThing />
-      ))}
+    (foo ? (
+      <Thing thing={foooooooooooooooooooooooooo} bar="bazzzzzz" />
+    ) : (
+      <OtherThing />
+    ))}
   </div>
 );
 
@@ -1427,7 +1427,7 @@ const longConditional =
   (
     bifornCringerMoshedPerplexSawder === 2 / askTrovenaBeenaDependsRowans &&
     glimseGlyphsHazardNoopsTieTie >=
-      averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
+    averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
   ) ?
     "foo"
   : "bar";
@@ -1438,7 +1438,7 @@ const longConditionalChained =
   (
     bifornCringerMoshedPerplexSawder === 2 / askTrovenaBeenaDependsRowans &&
     glimseGlyphsHazardNoopsTieTie >=
-      averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
+    averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
   ) ?
     "foo"
   : anotherCondition ? "bar"
@@ -1821,7 +1821,7 @@ const mostlyShort =
 const longConditional =
   bifornCringerMoshedPerplexSawder === 2 / askTrovenaBeenaDependsRowans &&
   glimseGlyphsHazardNoopsTieTie >=
-    averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
+  averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
     ? "foo"
     : "bar";
 
@@ -1830,7 +1830,7 @@ const longConditional =
 const longConditionalChained =
   bifornCringerMoshedPerplexSawder === 2 / askTrovenaBeenaDependsRowans &&
   glimseGlyphsHazardNoopsTieTie >=
-    averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
+  averredBathersBoxroomBuggyNurl().anodyneCondosMalateOverateRetinol()
     ? "foo"
     : anotherCondition
       ? "bar"

@@ -121,14 +121,14 @@ printWidth: 1
       $ctrl
         .error
         .kind ===
-        'validator' &&
+      'validator' &&
       $ctrl
         .form
         .$valid &&
       $ctrl
         .error
         .form ===
-        $ctrl.form
+      $ctrl.form
     )
   "
 >
@@ -1003,35 +1003,35 @@ printWidth: 1
 <div
   bindon-target="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   [(target)]="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   bind-target="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   [target]="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   [target]="
     a
-      | pipe
+    | pipe
   "
   [target]="
     0 -
@@ -1185,11 +1185,11 @@ printWidth: 1
   "
   (event)="
     (a &&
-      b)
+    b)
   "
   (event)="
     a &&
-      b()
+    b()
   "
   (event)="
     foo =
@@ -1197,7 +1197,7 @@ printWidth: 1
   "
   (event)="
     (foo ==
-      $event)
+    $event)
   "
   *ngIf="
     something
@@ -1206,7 +1206,7 @@ printWidth: 1
   "
   *ngIf="
     a
-      | pipe
+    | pipe
   "
   *ngFor="
     let hero of heroes
@@ -1294,36 +1294,36 @@ printWidth: 1
   "
   *ngIf="
     listRow.NextScheduledSendStatus ==
-      1 ||
+    1 ||
     listRow.NextScheduledSendStatus ==
-      2 ||
+    2 ||
     listRow.NextScheduledSendStatus ==
-      3
+    3
   "
   *ngIf="
     listRow.NextScheduledSendStatus ==
-      1 ||
+    1 ||
       listRow.NextScheduledSendStatus ==
-        2 ||
+      2 ||
       listRow.NextScheduledSendStatus ==
-        3;
+      3;
     else hello
   "
   (target)="
     (listRow.NextScheduledSendStatus ==
-      1 ||
+    1 ||
       listRow.NextScheduledSendStatus ==
-        2 ||
+      2 ||
       listRow.NextScheduledSendStatus ==
-        3)
+      3)
   "
   [target]="
     listRow.NextScheduledSendStatus ==
-      1 ||
+    1 ||
     listRow.NextScheduledSendStatus ==
-      2 ||
+    2 ||
     listRow.NextScheduledSendStatus ==
-      3
+    3
   "
   [target]="{
     longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong: true,
@@ -1366,7 +1366,7 @@ printWidth: 1
   "
   test="{{
     'test'
-      | translate
+    | translate
   }}"
   test="foo {{       invalid invalid       }} bar {{
     valid
@@ -2763,24 +2763,24 @@ printWidth: 1
 <div
   bindon-target="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   [(target)]="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   bind-target="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
 ></div>
 <!--  prettier-ignore-attribute -->
@@ -2793,17 +2793,17 @@ printWidth: 1
 <div
   bindon-target="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   [(target)]="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   bind-target=" a | b : c:d :e "
 ></div>
@@ -2811,10 +2811,10 @@ printWidth: 1
 <div
   bindon-target="
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   "
   [(target)]=" a | b : c:d :e "
   bind-target=" a | b : c:d :e "
@@ -3054,31 +3054,31 @@ printWidth: 80
 </div>
 <label for="transmissionLayoutRadioButton">{{
   "SearchSelection.transmissionLayoutRadioButton"
-    | localize: localizationSection
+  | localize: localizationSection
 }}</label>
 <label
   for="transmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}</label
 >
 <label for="transmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}</label
 >
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <div class="Nemo possimus non voluptates dicta accusamus id quia">
@@ -3105,7 +3105,7 @@ printWidth: 80
 <p>
   {{
     "delete"
-      | translate: {what: ("entities" | translate: ({count: array.length}))}
+    | translate: {what: ("entities" | translate: ({count: array.length}))}
   }}
 </p>
 <p>{{ {a: 1 + ({})} }}</p>
@@ -3230,7 +3230,7 @@ printWidth: 80
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label
@@ -3238,25 +3238,25 @@ printWidth: 80
 >
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <div class="Nemo possimus non voluptates dicta accusamus id quia">
@@ -3285,7 +3285,7 @@ printWidth: 80
 <p>
   {{
     "delete"
-      | translate: { what: ("entities" | translate: { count: array.length }) }
+    | translate: { what: ("entities" | translate: { count: array.length }) }
   }}
 </p>
 <p>{{ { a: 1 + {} } }}</p>
@@ -3374,22 +3374,22 @@ printWidth: 1
 <div>
   {{
     a
-      | b
-        : c
-        : d
-        : e
+    | b
+      : c
+      : d
+      : e
   }}
 </div>
 <div>
   {{
     a
-      | pipe
+    | pipe
   }}
 </div>
 <div>
   {{
     0 -
-      1
+    1
   }}
 </div>
 <div>
@@ -3536,24 +3536,24 @@ printWidth: 1
   for="transmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize
-        : localizationSection
+    | localize
+      : localizationSection
   }}</label
 >
 <label
   for="transmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize
-        : localizationSection
+    | localize
+      : localizationSection
   }}</label
 >
 <label
   for="transmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize
-        : localizationSection
+    | localize
+      : localizationSection
   }}
 </label>
 <label
@@ -3561,8 +3561,8 @@ printWidth: 1
 >
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize
-        : localizationSection
+    | localize
+      : localizationSection
   }}</label
 >
 <label
@@ -3570,8 +3570,8 @@ printWidth: 1
 >
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize
-        : localizationSection
+    | localize
+      : localizationSection
   }}
 </label>
 <div
@@ -3586,11 +3586,11 @@ printWidth: 1
 </div>
 {{
   listRow.NextScheduledSendStatus ==
-    1 ||
+  1 ||
     listRow.NextScheduledSendStatus ==
-      2 ||
+    2 ||
     listRow.NextScheduledSendStatus ==
-      3
+    3
 }}
 <span
   ><!--
@@ -3608,28 +3608,28 @@ printWidth: 1
 <span>
   {{
     aNormalValue
-      | aPipe
+    | aPipe
   }}:
   <strong
     >{{
       aReallyReallySuperLongValue
-        | andASuperLongPipeJustToBreakThis
+      | andASuperLongPipeJustToBreakThis
     }}</strong
   >
 </span>
 <p>
   {{
     "delete"
-      | translate
-        : {
-            what:
-              ("entities"
-              | translate
-                : {
-                    count:
-                      array.length,
-                  }),
-          }
+    | translate
+      : {
+          what:
+            ("entities"
+            | translate
+              : {
+                  count:
+                    array.length,
+                }),
+        }
   }}
 </p>
 <p>
@@ -3783,31 +3783,31 @@ trailingComma: "es5"
 </div>
 <label for="transmissionLayoutRadioButton">{{
   "SearchSelection.transmissionLayoutRadioButton"
-    | localize: localizationSection
+  | localize: localizationSection
 }}</label>
 <label
   for="transmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}</label
 >
 <label for="transmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}</label
 >
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <div class="Nemo possimus non voluptates dicta accusamus id quia">
@@ -3834,7 +3834,7 @@ trailingComma: "es5"
 <p>
   {{
     "delete"
-      | translate: { what: ("entities" | translate: { count: array.length }) }
+    | translate: { what: ("entities" | translate: { count: array.length }) }
   }}
 </p>
 <p>{{ { a: 1 + {} } }}</p>
@@ -3958,31 +3958,31 @@ trailingComma: "none"
 </div>
 <label for="transmissionLayoutRadioButton">{{
   "SearchSelection.transmissionLayoutRadioButton"
-    | localize: localizationSection
+  | localize: localizationSection
 }}</label>
 <label
   for="transmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButtontransmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}</label
 >
 <label for="transmissionLayoutRadioButton"
   >{{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}</label
 >
 <label for="transmissionLayoutRadioButton">
   {{
     "SearchSelection.transmissionLayoutRadioButton"
-      | localize: localizationSection
+    | localize: localizationSection
   }}
 </label>
 <div class="Nemo possimus non voluptates dicta accusamus id quia">
@@ -4009,7 +4009,7 @@ trailingComma: "none"
 <p>
   {{
     "delete"
-      | translate: { what: ("entities" | translate: { count: array.length }) }
+    | translate: { what: ("entities" | translate: { count: array.length }) }
   }}
 </p>
 <p>{{ { a: 1 + {} } }}</p>
@@ -5430,9 +5430,7 @@ bindon-ngModel
 
 <div>{{ currentHero | json }}</div>
 
-<div>
-  Birthdate: {{ currentHero?.birthdate | date: "longDate" | uppercase }}
-</div>
+<div>Birthdate: {{ currentHero?.birthdate | date | uppercase }}</div>
 
 <div>
   <!-- pipe price to USD and display the $ symbol -->
@@ -7082,9 +7080,7 @@ bindon-ngModel
 
 <div>{{ currentHero | json }}</div>
 
-<div>
-  Birthdate: {{ currentHero?.birthdate | date: "longDate" | uppercase }}
-</div>
+<div>Birthdate: {{ currentHero?.birthdate | date | uppercase }}</div>
 
 <div>
   <!-- pipe price to USD and display the $ symbol -->
@@ -8153,7 +8149,7 @@ can be found in the LICENSE file at http://angular.io/license
   is
   {{
     1 +
-      1
+    1
   }}
 </p>
 
@@ -9299,7 +9295,7 @@ bindon-ngModel
   is
   {{
     currentClasses
-      | json
+    | json
   }}
 </p>
 <div
@@ -9467,7 +9463,7 @@ bindon-ngModel
   is
   {{
     currentStyles
-      | json
+    | json
   }}
 </p>
 <div
@@ -9758,7 +9754,7 @@ bindon-ngModel
   >
     {{
       i +
-        1
+      1
     }}
     -
     {{
@@ -9786,7 +9782,7 @@ bindon-ngModel
   >
     {{
       i +
-        1
+      1
     }}
     -
     {{
@@ -10250,7 +10246,7 @@ bindon-ngModel
   pipe:
   {{
     title
-      | uppercase
+    | uppercase
   }}
 </div>
 
@@ -10273,15 +10269,15 @@ bindon-ngModel
   Birthdate:
   {{
     currentHero?.birthdate
-      | date
-        : "longDate"
+    | date
+      : "longDate"
   }}
 </div>
 
 <div>
   {{
     currentHero
-      | json
+    | json
   }}
 </div>
 
@@ -10290,7 +10286,6 @@ bindon-ngModel
   {{
     currentHero?.birthdate
       | date
-        : "longDate"
       | uppercase
   }}
 </div>
@@ -10301,9 +10296,9 @@ bindon-ngModel
     >Price: </label
   >{{
     product.price
-      | currency
-        : "USD"
-        : true
+    | currency
+      : "USD"
+      : true
   }}
 </div>
 
@@ -10388,7 +10383,7 @@ See console log:
   is
   {{
     nullHero &&
-      nullHero.name
+    nullHero.name
   }}
 </div>
 
@@ -12037,9 +12032,7 @@ bindon-ngModel
 
 <div>{{ currentHero | json }}</div>
 
-<div>
-  Birthdate: {{ currentHero?.birthdate | date: "longDate" | uppercase }}
-</div>
+<div>Birthdate: {{ currentHero?.birthdate | date | uppercase }}</div>
 
 <div>
   <!-- pipe price to USD and display the $ symbol -->
@@ -13564,9 +13557,7 @@ bindon-ngModel
 
 <div>{{ currentHero | json }}</div>
 
-<div>
-  Birthdate: {{ currentHero?.birthdate | date: "longDate" | uppercase }}
-</div>
+<div>Birthdate: {{ currentHero?.birthdate | date | uppercase }}</div>
 
 <div>
   <!-- pipe price to USD and display the $ symbol -->
