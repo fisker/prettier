@@ -265,14 +265,29 @@ function printBinaryishExpressions(
       continue;
     }
 
-    // Get the operator from the parent node of this part
-    const parentSelectors = selectors.slice(0, -1);
-    const currentOperator = parentSelectors.length === 0
-      ? (node.type === "NGPipeExpression" ? "|" : node.operator)
-      : path.call((path) => {
-          const parentNode = path.node;
-          return parentNode.type === "NGPipeExpression" ? "|" : parentNode.operator;
-        }, ...parentSelectors);
+    // Get the operator from the correct ancestor node
+    // The operator should be from the nearest ancestor binary expression
+    // where this node is in the right subtree (directly or indirectly)
+    let currentOperator;
+    let lastRightIndex = -1;
+    for (let i = 0; i < selectors.length; i++) {
+      if (selectors[i] === 'right') {
+        lastRightIndex = i;
+      }
+    }
+    
+    if (lastRightIndex === -1) {
+      // No 'right' in path, use root operator (shouldn't happen in practice)
+      currentOperator = node.type === "NGPipeExpression" ? "|" : node.operator;
+    } else {
+      const operatorSelectors = selectors.slice(0, lastRightIndex);
+      currentOperator = operatorSelectors.length === 0
+        ? (node.type === "NGPipeExpression" ? "|" : node.operator)
+        : path.call((path) => {
+            const binNode = path.node;
+            return binNode.type === "NGPipeExpression" ? "|" : binNode.operator;
+          }, ...operatorSelectors);
+    }
 
     let right;
     if (shouldInline) {
