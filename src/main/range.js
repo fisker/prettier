@@ -2,14 +2,6 @@ import * as assert from "#universal/assert";
 import { childNodesCache } from "./comments/attach.js";
 import getSortedChildNodes from "./utilities/get-sorted-child-nodes.js";
 
-function findCommonAncestor(startNodeAndAncestors, endNodeAndAncestors) {
-  endNodeAndAncestors = new Set(endNodeAndAncestors);
-  return startNodeAndAncestors.find(
-    (node) =>
-      jsonSourceElements.has(node.type) && endNodeAndAncestors.has(node),
-  );
-}
-
 function dropRootParents(parents) {
   const index = parents.findLastIndex(
     (node) => node.type !== "Program" && node.type !== "File",
@@ -159,6 +151,7 @@ function isSourceElement(opts, node, parentNode) {
   if (!node) {
     return false;
   }
+
   switch (opts.parser) {
     case "flow":
     case "hermes":
@@ -242,13 +235,27 @@ function calculateRange(text, opts, ast) {
 
   let startNode;
   let endNode;
-  if (ast.type === "JsonRoot") {
-    const commonAncestor = findCommonAncestor(
+
+  // Delegate to language-specific range calculation if available
+  const getRangeNodes = opts.printer.features?.experimental_getRangeNodes;
+  if (getRangeNodes) {
+    // Use language-specific format range calculation from printer feature
+    const rangeIterator = getRangeNodes(
       startNodeAndAncestors,
       endNodeAndAncestors,
+      ast,
     );
-    startNode = commonAncestor;
-    endNode = commonAncestor;
+    const rangeResult = rangeIterator.next();
+    if (rangeResult.done || !rangeResult.value) {
+      // Feature didn't yield a result, fall back to default behavior
+      [startNode, endNode] = findSiblingAncestors(
+        startNodeAndAncestors,
+        endNodeAndAncestors,
+        opts,
+      );
+    } else {
+      [startNode, endNode] = rangeResult.value;
+    }
   } else {
     [startNode, endNode] = findSiblingAncestors(
       startNodeAndAncestors,
