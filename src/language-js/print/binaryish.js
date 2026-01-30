@@ -329,8 +329,7 @@ function printBinaryishExpressions(
         right = [line, comment, currentOperator, " ", rightContent, rightSuffix];
       } else {
         right = [
-          lineBeforeOperator ? "" : " ",
-          lineBeforeOperator ? line : "",
+          lineBeforeOperator ? line : " ",
           currentOperator,
           lineBeforeOperator ? " " : line,
           rightContent,
