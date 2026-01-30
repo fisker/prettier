@@ -66,10 +66,10 @@ foo(
 )
 
 a ||
-// comment
-(<T>() =>
-  () =>
-    1)
+  // comment
+  (<T>() =>
+    () =>
+      1)
 
 void (
   // comment
@@ -162,10 +162,10 @@ foo(
 );
 
 a ||
-// comment
-(<T>() =>
-  () =>
-    1);
+  // comment
+  (<T>() =>
+    () =>
+      1);
 
 void (
   // comment

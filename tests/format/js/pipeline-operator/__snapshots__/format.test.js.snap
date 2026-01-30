@@ -272,8 +272,7 @@ foo
 |> % || throw new Error(\`foo \${bar1}\`)
 |> bar2(%, ", ")
 |> bar3(%)
-|> % +
-"!"
+|> % + "!"
 |> new Bar.Foo(%)
 |> (await bar.bar(%))
 |> console.log(%);
@@ -418,7 +417,7 @@ const result2 = [4, 9].map( x => x |> inc |> double )
 =====================================output=====================================
 a |> b |> c;
 
-a |> b |> c;
+a |> (b |> c);
 
 (a |> b) || c;
 a |> b || c;

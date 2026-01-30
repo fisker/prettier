@@ -158,7 +158,7 @@ printWidth: 80
 @let foo = a; // hello
 @let foo =
   "SearchSelection.transmissionLayoutRadioButton"
-  | localize: localizationSection;
+    | localize: localizationSection;
 @let foo = copyTypes[options.copyType];
 @let foo =
   listRow.NextScheduledSendStatus == 1 ||
@@ -170,7 +170,7 @@ printWidth: 80
 @let foo = aReallyReallySuperLongValue | andASuperLongPipeJustToBreakThis;
 @let foo =
   "delete"
-  | translate: { what: ("entities" | translate: { count: array.length }) };
+    | translate: { what: ("entities" | translate: { count: array.length }) };
 @let foo = { a: 1 + {} };
 @let foo = { a: a === {} };
 @let foo = { a: !{} };

@@ -112,7 +112,7 @@ with (foo) {
 
 with (
   foo ?? // 5
-  bar // 52
+    bar // 52
 ) {
 }
 
