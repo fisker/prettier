@@ -1,4 +1,4 @@
-import PostcssSelectorParser from "postcss-selector-parser/dist/processor.js";
+import postcssSelectorParser from "postcss-selector-parser";
 import { addTypePrefix } from "./utilities.js";
 
 function parseSelector(selector) {
@@ -16,9 +16,7 @@ function parseSelector(selector) {
   let result;
 
   try {
-    new PostcssSelectorParser((selectors) => {
-      result = selectors;
-    }).process(selector);
+    result = postcssSelectorParser().astSync(selector);
   } catch {
     // Fail silently. It's better to print it as is than to try and parse it
     // Note: A common failure is for SCSS nested properties. `background:
