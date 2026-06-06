@@ -502,7 +502,9 @@ function genericPrint(path, options, print) {
         const start = locStart(parentNode);
         const end = start + parentNode.raws.selector.length;
         const selector = options.originalText.slice(start, end).trim();
-        return /\[[^\]]*\([^\]]*\)/.test(selector)
+        return selector.includes("[") &&
+          selector.includes("]") &&
+          selector.includes("(")
           ? adjustStrings(selector, options)
           : selector;
       }

@@ -2,13 +2,73 @@ import postcssSelectorParser from "postcss-selector-parser";
 import { addTypePrefix } from "./utilities.js";
 
 function normalizeSelectorForParser(selector) {
-  return selector.replaceAll(/\[([^[\]]+)\]/g, (match, content) => {
-    const normalizedContent = content
-      .replaceAll(/\s*([|~^$*]?=)\s*/g, "$1")
-      .replaceAll(/\s*\|\s*/g, "|")
-      .trim();
-    return normalizedContent ? `[${normalizedContent}]` : match;
-  });
+  let normalizedSelector = "";
+
+  for (let index = 0; index < selector.length; index++) {
+    if (selector[index] !== "[") {
+      normalizedSelector += selector[index];
+      continue;
+    }
+
+    let content = "";
+    let quote;
+    let escaped = false;
+    let closed = false;
+
+    for (index++; index < selector.length; index++) {
+      const character = selector[index];
+
+      if (escaped) {
+        escaped = false;
+        content += character;
+        continue;
+      }
+
+      if (character === "\\") {
+        escaped = true;
+        content += character;
+        continue;
+      }
+
+      if (quote) {
+        if (character === quote) {
+          quote = undefined;
+        }
+        content += character;
+        continue;
+      }
+
+      if (character === "'" || character === '"') {
+        quote = character;
+        content += character;
+        continue;
+      }
+
+      if (character === "]") {
+        closed = true;
+        break;
+      }
+
+      content += character;
+    }
+
+    if (!closed) {
+      normalizedSelector += "[" + content;
+      continue;
+    }
+
+    const normalizedContent =
+      content.includes("'") || content.includes('"')
+        ? content
+        : content
+            .replaceAll(/\s*([|~^$*]?=)\s*/g, "$1")
+            .replaceAll(/\s*\|\s*/g, "|")
+            .trim();
+
+    normalizedSelector += `[${normalizedContent || content}]`;
+  }
+
+  return normalizedSelector;
 }
 
 function parseSelector(selector) {
