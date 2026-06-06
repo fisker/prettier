@@ -397,10 +397,13 @@ function genericPrint(path, options, print) {
       ];
 
     case "selector-id":
-      return ["#", node.value];
+      return ["#", node.raws?.value ?? node.value];
 
     case "selector-class":
-      return [".", adjustNumbers(adjustStrings(node.value, options))];
+      return [
+        ".",
+        adjustNumbers(adjustStrings(node.raws?.value ?? node.value, options)),
+      ];
 
     case "selector-attribute":
       return [
@@ -410,16 +413,20 @@ function genericPrint(path, options, print) {
           : "",
         node.attribute.trim(),
         node.operator ?? "",
-        node.value
+        node.value !== undefined
           ? replaceEndOfLine(
               quoteAttributeValue(
-                adjustStrings(node.value.trim(), options),
+                adjustStrings(node.raws?.value ?? node.value.trim(), options),
                 options,
               ),
               literallineWithoutBreakParent,
             )
           : "",
-        node.insensitive ? " i" : "",
+        node.raws?.insensitiveFlag
+          ? ` ${node.raws.insensitiveFlag}`
+          : node.insensitive
+            ? " i"
+            : "",
         "]",
       ];
 
@@ -482,12 +489,22 @@ function genericPrint(path, options, print) {
         );
       }
 
+      const atRuleAncestorNode = path.findAncestor(
+        (node) => node.type === "css-atrule",
+      );
+      if (atRuleAncestorNode?.name === "extend") {
+        return node.value.replaceAll(/\s+/g, " ").trim();
+      }
+
       // originalText has to be used for Less, see replaceQuotesInInlineComments in loc.js
       const parentNode = path.parent;
       if (parentNode.raws?.selector) {
         const start = locStart(parentNode);
         const end = start + parentNode.raws.selector.length;
-        return options.originalText.slice(start, end).trim();
+        const selector = options.originalText.slice(start, end).trim();
+        return /\[[^\]]*\([^\]]*\)/.test(selector)
+          ? adjustStrings(selector, options)
+          : selector;
       }
 
       // Same reason above
