@@ -53,7 +53,7 @@ function normalizeValueAstNode(node, text) {
           quoted: true,
           raws: {
             ...(node.raws ?? {}),
-            quote: node.quote ?? rawValue?.at(0) ?? node.value.at(0),
+            quote: node.quote ?? rawValue?.at(0) ?? node.value?.at(0),
           },
           sourceIndex,
           type: "string",
@@ -130,8 +130,8 @@ function normalizeValueAstNode(node, text) {
       if (
         rawValue &&
         rawValue.length > 5 &&
-        /^url\([\s\S]*\)$/iu.test(rawValue) &&
-        rawValue.toLowerCase().startsWith("url(")
+        rawValue.toLowerCase().startsWith("url(") &&
+        rawValue.endsWith(")")
       ) {
         const startOffset = sourceIndex ?? 0;
         const endOffset =
