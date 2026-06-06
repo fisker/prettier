@@ -1,4 +1,4 @@
-import PostcssValuesParser from "postcss-values-parser/lib/parser.js";
+import { parse as parsePostcssValue } from "postcss-values-parser";
 import isObject from "../../utilities/is-object.js";
 import getFunctionArgumentsText from "../utilities/get-function-arguments-text.js";
 import getValueRoot from "../utilities/get-value-root.js";
@@ -10,6 +10,208 @@ import { addTypePrefix } from "./utilities.js";
 
 const isClosingParenthesis = (node) =>
   node.type === "paren" && node.value === ")";
+
+function getSourceIndex(node) {
+  return node.source?.start?.offset ?? node.sourceIndex;
+}
+
+function createParenNode(value, sourceIndex) {
+  return {
+    sourceIndex,
+    type: "paren",
+    value,
+  };
+}
+
+function getRawNodeText(node, text) {
+  const start = getSourceIndex(node);
+  const end = node.source?.end?.offset;
+
+  if (typeof start === "number" && typeof end === "number") {
+    return text.slice(start, end);
+  }
+}
+
+function normalizeValueAstNode(node, text) {
+  const sourceIndex = getSourceIndex(node);
+  const rawValue = getRawNodeText(node, text);
+
+  switch (node.type) {
+    case "numeric": {
+      let value = node.value;
+      if (node.unit === "%" && value.endsWith("%")) {
+        value = value.slice(0, -1);
+      }
+
+      return [{ ...node, sourceIndex, type: "number", value }];
+    }
+ 
+    case "quoted":
+      return [
+        {
+          ...node,
+          quoted: true,
+          raws: {
+            ...(node.raws ?? {}),
+            quote: node.quote ?? rawValue?.at(0) ?? node.value.at(0),
+          },
+          sourceIndex,
+          type: "string",
+          value:
+            rawValue?.slice(1, -1) ??
+            node.value.slice(1, -1) ??
+            node.contents ??
+            node.value,
+        },
+      ];
+
+    case "operator":
+      return [
+        {
+          ...node,
+          sourceIndex,
+          type:
+            node.value === ","
+              ? "comma"
+              : node.value === ":"
+                ? "colon"
+                : "operator",
+        },
+      ];
+
+    case "punctuation":
+      return [
+        {
+          ...node,
+          sourceIndex,
+          type:
+            node.value === ","
+              ? "comma"
+              : node.value === ":"
+                ? "colon"
+                : "operator",
+        },
+      ];
+
+    case "unicodeRange":
+      return [{ ...node, sourceIndex, type: "unicode-range" }];
+
+    case "func": {
+      const startOffset = sourceIndex ?? 0;
+      const endOffset =
+        node.source?.end?.offset ?? startOffset + (rawValue ?? "").length;
+      return [
+        {
+          ...node,
+          sourceIndex,
+          type: "func",
+          value: node.name,
+          nodes: [
+            createParenNode("(", startOffset + node.name.length),
+            ...normalizeValueAstNodes(node.nodes, text),
+            createParenNode(")", endOffset - 1),
+          ],
+        },
+      ];
+    }
+
+    case "parentheses": {
+      const startOffset = sourceIndex ?? 0;
+      const endOffset =
+        node.source?.end?.offset ?? startOffset + (rawValue ?? "").length;
+      return [
+        createParenNode("(", startOffset),
+        ...normalizeValueAstNodes(node.nodes, text),
+        createParenNode(")", endOffset - 1),
+      ];
+    }
+
+    case "word":
+      if (
+        rawValue &&
+        rawValue.length > 5 &&
+        /^url\([\s\S]*\)$/iu.test(rawValue) &&
+        rawValue.toLowerCase().startsWith("url(")
+      ) {
+        const startOffset = sourceIndex ?? 0;
+        const endOffset =
+          node.source?.end?.offset ?? startOffset + rawValue.length;
+        const insideText = rawValue.slice(4, -1);
+
+        return [
+          {
+            ...node,
+            sourceIndex,
+            type: "func",
+            value: "url",
+            nodes: [
+              createParenNode("(", startOffset + 3),
+              ...(insideText
+                ? [{ sourceIndex: startOffset + 4, type: "word", value: insideText }]
+                : []),
+              createParenNode(")", endOffset - 1),
+            ],
+          },
+        ];
+      }
+      return [{ ...node, sourceIndex }];
+
+    default:
+      return [{ ...node, sourceIndex }];
+  }
+}
+
+function normalizeValueAstNodes(nodes = [], text) {
+  return nodes.flatMap((node) => normalizeValueAstNode(node, text));
+}
+
+function normalizeValueAst(ast, text) {
+  const sourceIndex = getSourceIndex(ast);
+
+  const normalized = {
+    ...ast,
+    sourceIndex,
+    type: "root",
+    nodes: [
+      {
+        sourceIndex,
+        type: "value",
+        nodes: normalizeValueAstNodes(ast.nodes, text),
+      },
+    ],
+  };
+
+  setParent(normalized);
+
+  return normalized;
+}
+
+function setParent(node, parent = undefined) {
+  if (!isObject(node)) {
+    return;
+  }
+
+  if (parent) {
+    node.parent = parent;
+  } else {
+    delete node.parent;
+  }
+
+  for (const key in node) {
+    if (key === "parent") {
+      continue;
+    }
+
+    const value = node[key];
+    if (Array.isArray(value)) {
+      for (const child of value) {
+        setParent(child, node);
+      }
+    } else if (isObject(value)) {
+      setParent(value, node);
+    }
+  }
+}
 
 function parseValueNode(valueNode, options) {
   const { nodes } = valueNode;
@@ -183,7 +385,7 @@ function parseValue(value, options) {
   let result;
 
   try {
-    result = new PostcssValuesParser(value, { loose: true }).parse();
+    result = normalizeValueAst(parsePostcssValue(value, { loose: true }), value);
   } catch {
     return {
       type: "value-unknown",
