@@ -12,15 +12,6 @@ const isClosingParenthesis = (node) =>
   node.type === "paren" && node.value === ")";
 
 /**
- * Convert a v8 postcss-values-parser node's source offset to a sourceIndex number.
- * @param {*} v8Node
- * @returns {number}
- */
-function getV8SourceIndex(v8Node) {
-  return v8Node.source?.start?.offset ?? 0;
-}
-
-/**
  * Extract a plain source object (without the Input reference) from a v8 node,
  * preserving start/end line and column info for downstream consumers such as
  * the grid-value formatter that checks `node.source.start.line`.
@@ -34,86 +25,130 @@ function v8NodeSource(v8Node) {
 }
 
 /**
+ * Extract `/* ... *​/` comments from a CSS value string and replace each with
+ * an equal number of spaces so that subsequent token offsets are unaffected.
+ * Returns the cleaned string and a sorted list of comment descriptors.
+ */
+function extractValueComments(value) {
+  const comments = [];
+  const cleaned = value.replace(/\/\*[\s\S]*?\*\//g, (match, offset) => {
+    comments.push({ type: "comment", value: match, sourceIndex: offset });
+    return " ".repeat(match.length);
+  });
+  return { cleaned, comments };
+}
+
+/**
  * Normalize postcss-values-parser v8 AST nodes to the v2-compatible format
- * that the rest of the code expects (with `sourceIndex`, v2 type names, etc.).
- * @param {*[]} v8Nodes
- * @param {*} parent - the parent node to set on each result node
+ * that the rest of the code expects (with `sourceIndex`, `raws.before`, v2
+ * type names, etc.).
+ *
+ * @param {*[]} v8Nodes  - array of v8 PostCSS nodes
+ * @param {*}   parent   - parent node to assign to each result node
+ * @param {object} [opts]
+ * @param {number}  [opts.offsetAdjust=0]  - add to every v8 source offset
+ *                                            (used when re-parsing sub-strings)
+ * @param {number}  [opts.startOffset]     - initial prevEndOffset
+ *                                            (default = offsetAdjust, but
+ *                                             func/paren callers set it to
+ *                                             the offset just after `(`)
+ * @param {string}  [opts.fullCss]         - full original value string used
+ *                                            to compute raws.before
+ * @param {*[]}     [opts.comments]        - mutable sorted array of pending
+ *                                            comment nodes; consumed in place
  * @returns {*[]}
  */
-function normalizeV8Nodes(v8Nodes, parent) {
+function normalizeV8Nodes(v8Nodes, parent, opts = {}) {
+  const {
+    offsetAdjust = 0,
+    fullCss = null,
+    comments = null,
+  } = opts;
+  const startOffset = opts.startOffset ?? offsetAdjust;
+
+  // Resolve the CSS string used to compute whitespace gaps (raws.before).
+  const css = fullCss ?? v8Nodes[0]?.source?.input?.css ?? "";
+
   const result = [];
+  let prevEndOffset = startOffset;
+
+  /** Insert any pending comments whose sourceIndex falls in [prevEnd, upTo). */
+  const flushComments = (upTo) => {
+    if (!comments) return;
+    while (
+      comments.length > 0 &&
+      comments[0].sourceIndex < upTo &&
+      comments[0].sourceIndex >= prevEndOffset
+    ) {
+      const c = comments.shift();
+      result.push({
+        type: "comment",
+        value: c.value,
+        inline: false,
+        raws: { before: css.slice(prevEndOffset, c.sourceIndex) },
+        source: { start: { offset: c.sourceIndex } },
+        sourceIndex: c.sourceIndex,
+        parent,
+      });
+      prevEndOffset = c.sourceIndex + c.value.length;
+    }
+  };
 
   for (const v8Node of v8Nodes) {
-    const si = getV8SourceIndex(v8Node);
+    const si = (v8Node.source?.start?.offset ?? 0) + offsetAdjust;
+    const endOffset =
+      (v8Node.source?.end?.offset ??
+        v8Node.source?.start?.offset ??
+        si - offsetAdjust) + offsetAdjust;
 
-    // v8 maps css-tree `Url` nodes to plain `word` nodes whose source span
-    // covers the entire `url(...)` expression. Detect and re-create a func node.
-    if (v8Node.type === "word") {
-      const originalCss = v8Node.source?.input?.css;
-      if (originalCss) {
-        const end = v8Node.source?.end?.offset ?? si;
-        const span = originalCss.slice(si, end);
-        if (/^url\s*\(/i.test(span)) {
-          const parenIdx = span.indexOf("(");
-          const openSi = si + parenIdx;
-          const closeSi = end - 1;
-          const rawContent = span.slice(parenIdx + 1, -1);
-          const trimmedContent = rawContent.trim();
-          const leadingSpace = rawContent.length - rawContent.trimStart().length;
-          const contentSi = openSi + 1 + leadingSpace;
+    // Flush comments that precede this token.
+    flushComments(si);
 
-          let contentNode;
-          if (trimmedContent[0] === '"' || trimmedContent[0] === "'") {
-            const quote = trimmedContent[0];
-            contentNode = {
-              type: "string",
-              value: trimmedContent.slice(1, -1),
-              raws: { quote, before: "", after: "" },
-              sourceIndex: contentSi,
-              parent: null, // set below
-            };
-          } else {
-            contentNode = {
-              type: "word",
-              value: trimmedContent,
-              sourceIndex: contentSi,
-              parent: null, // set below
-            };
-          }
+    const rawsBefore = css.slice(prevEndOffset, si);
 
-          const func = {
-            type: "func",
-            value: "url",
-            sourceIndex: si,
-            parent,
+    // ── Handle opaque (empty-value) word nodes from v8 ──────────────────────
+    // v8 creates word nodes with value="" when it treats a sub-expression as
+    // opaque.  The source span covers the full expression text.
+    if (v8Node.type === "word" && si < endOffset) {
+      const span = css.slice(si, endOffset);
+
+      // url() detection (v8 maps `url(foo)` to an opaque word).
+      if (/^url\s*\(/i.test(span)) {
+        const parenIdx = span.indexOf("(");
+        const openSi = si + parenIdx;
+        const closeSi = endOffset - 1;
+        const rawContent = span.slice(parenIdx + 1, -1);
+        const trimmedContent = rawContent.trim();
+        const leadingSpace =
+          rawContent.length - rawContent.trimStart().length;
+        const contentSi = openSi + 1 + leadingSpace;
+
+        let contentNode;
+        if (trimmedContent[0] === '"' || trimmedContent[0] === "'") {
+          const quote = trimmedContent[0];
+          contentNode = {
+            type: "string",
+            value: trimmedContent.slice(1, -1),
+            raws: { quote, before: "", after: "" },
+            source: { start: { offset: contentSi } },
+            sourceIndex: contentSi,
+            parent: null,
           };
-          const parenOpen = {
-            type: "paren",
-            value: "(",
-            sourceIndex: openSi,
-            parent: func,
+        } else {
+          contentNode = {
+            type: "word",
+            value: trimmedContent,
+            raws: { before: "" },
+            source: { start: { offset: contentSi } },
+            sourceIndex: contentSi,
+            parent: null,
           };
-          const parenClose = {
-            type: "paren",
-            value: ")",
-            sourceIndex: closeSi,
-            parent: func,
-          };
-          contentNode.parent = func;
-          func.nodes = [parenOpen, contentNode, parenClose];
-          result.push(func);
-          continue;
         }
-      }
-    }
 
-    switch (v8Node.type) {
-      case "func": {
-        const openSi = si + v8Node.name.length;
-        const closeSi = (v8Node.source?.end?.offset ?? openSi + 1) - 1;
         const func = {
           type: "func",
-          value: v8Node.name,
+          value: "url",
+          raws: { before: rawsBefore },
           source: v8NodeSource(v8Node),
           sourceIndex: si,
           parent,
@@ -121,32 +156,122 @@ function normalizeV8Nodes(v8Nodes, parent) {
         const parenOpen = {
           type: "paren",
           value: "(",
+          raws: { before: "" },
           sourceIndex: openSi,
           parent: func,
         };
         const parenClose = {
           type: "paren",
           value: ")",
+          raws: { before: "" },
           sourceIndex: closeSi,
           parent: func,
         };
-        const children = normalizeV8Nodes(v8Node.nodes ?? [], func);
+        contentNode.parent = func;
+        func.nodes = [parenOpen, contentNode, parenClose];
+        result.push(func);
+        prevEndOffset = endOffset;
+        continue;
+      }
+
+      if (v8Node.value === "") {
+        if (span.startsWith("[")) {
+          // CSS grid line name like `[main-start]` or `[a b]`.
+          result.push({
+            type: "word",
+            value: span,
+            raws: { before: rawsBefore },
+            source: v8NodeSource(v8Node),
+            sourceIndex: si,
+            parent,
+          });
+        } else {
+          // Opaque fallback (e.g. var() second argument).  Try to re-parse.
+          let pushed = false;
+          try {
+            const subResult = parseV8(span);
+            const subNodes = normalizeV8Nodes(subResult.nodes, parent, {
+              offsetAdjust: si,
+              startOffset: si,
+              fullCss: css,
+              comments,
+            });
+            result.push(...subNodes);
+            pushed = true;
+          } catch {
+            // fall through to single-word fallback below
+          }
+          if (!pushed) {
+            result.push({
+              type: "word",
+              value: span,
+              raws: { before: rawsBefore },
+              source: v8NodeSource(v8Node),
+              sourceIndex: si,
+              parent,
+            });
+          }
+        }
+        prevEndOffset = endOffset;
+        continue;
+      }
+    }
+
+    switch (v8Node.type) {
+      case "func": {
+        const openSi = si + v8Node.name.length;
+        const closeSi = endOffset - 1;
+        const func = {
+          type: "func",
+          value: v8Node.name,
+          raws: { before: rawsBefore },
+          source: v8NodeSource(v8Node),
+          sourceIndex: si,
+          parent,
+        };
+        const parenOpen = {
+          type: "paren",
+          value: "(",
+          raws: { before: "" },
+          sourceIndex: openSi,
+          parent: func,
+        };
+        const parenClose = {
+          type: "paren",
+          value: ")",
+          raws: { before: "" },
+          sourceIndex: closeSi,
+          parent: func,
+        };
+        const children = normalizeV8Nodes(v8Node.nodes ?? [], func, {
+          startOffset: openSi + 1,
+          fullCss: css,
+          comments,
+        });
         func.nodes = [parenOpen, ...children, parenClose];
         result.push(func);
         break;
       }
       case "parentheses": {
-        const closeSi = (v8Node.source?.end?.offset ?? si + 1) - 1;
+        const closeSi = endOffset - 1;
         result.push({
           type: "paren",
           value: "(",
+          raws: { before: rawsBefore },
           sourceIndex: si,
           parent,
         });
-        result.push(...normalizeV8Nodes(v8Node.nodes ?? [], parent));
+        result.push(
+          ...normalizeV8Nodes(v8Node.nodes ?? [], parent, {
+            startOffset: si + 1,
+            fullCss: css,
+            comments,
+          }),
+        );
         result.push({
           type: "paren",
           value: ")",
+          raws: { before: "" },
           sourceIndex: closeSi,
           parent,
         });
@@ -160,6 +285,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
           type: "number",
           value,
           unit: v8Node.unit,
+          raws: { before: rawsBefore },
           source: v8NodeSource(v8Node),
           sourceIndex: si,
           parent,
@@ -172,7 +298,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
         result.push({
           type: "string",
           value: v8Node.value.slice(1, -1),
-          raws: { quote, before: "", after: "" },
+          raws: { quote, before: rawsBefore, after: "" },
           source: v8NodeSource(v8Node),
           sourceIndex: si,
           parent,
@@ -185,6 +311,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
           result.push({
             type: "comma",
             value: ",",
+            raws: { before: rawsBefore },
             source: v8NodeSource(v8Node),
             sourceIndex: si,
             parent,
@@ -193,6 +320,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
           result.push({
             type: "colon",
             value: ":",
+            raws: { before: rawsBefore },
             source: v8NodeSource(v8Node),
             sourceIndex: si,
             parent,
@@ -202,6 +330,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
           result.push({
             type: "operator",
             value: trimmed,
+            raws: { before: rawsBefore },
             source: v8NodeSource(v8Node),
             sourceIndex: si,
             parent,
@@ -213,6 +342,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
         result.push({
           type: "unicode-range",
           value: v8Node.value,
+          raws: { before: rawsBefore },
           source: v8NodeSource(v8Node),
           sourceIndex: si,
           parent,
@@ -227,6 +357,7 @@ function normalizeV8Nodes(v8Nodes, parent) {
           isHex: v8Node.isHex,
           isUrl: v8Node.isUrl,
           isVariable: v8Node.isVariable,
+          raws: { before: rawsBefore },
           source: v8NodeSource(v8Node),
           sourceIndex: si,
           parent,
@@ -234,16 +365,41 @@ function normalizeV8Nodes(v8Nodes, parent) {
         break;
       }
       default: {
-        // Pass through unknown types (e.g. comment, punctuation) with sourceIndex
+        // Pass through unknown types with sourceIndex
         result.push({
           type: v8Node.type,
           value: v8Node.value ?? "",
+          raws: { before: rawsBefore },
           source: v8NodeSource(v8Node),
           sourceIndex: si,
           parent,
         });
         break;
       }
+    }
+
+    prevEndOffset = endOffset;
+  }
+
+  // Flush any trailing comments (after the last token).
+  if (comments) {
+    while (comments.length > 0) {
+      const c = comments[0];
+      if (c.sourceIndex < prevEndOffset) {
+        comments.shift();
+        continue;
+      }
+      comments.shift();
+      result.push({
+        type: "comment",
+        value: c.value,
+        inline: false,
+        raws: { before: css.slice(prevEndOffset, c.sourceIndex) },
+        source: { start: { offset: c.sourceIndex } },
+        sourceIndex: c.sourceIndex,
+        parent,
+      });
+      prevEndOffset = c.sourceIndex + c.value.length;
     }
   }
 
@@ -253,14 +409,19 @@ function normalizeV8Nodes(v8Nodes, parent) {
 /**
  * Wrap a v8 parse result in a v2-compatible root+value structure so that the
  * existing `parseNestedValue` / `addTypePrefix` pipeline works unchanged.
- * @param {*} v8Root - root node returned by postcss-values-parser v8
- * @param {string} text - original CSS value string
- * @returns {*}
  */
-function normalizeV8Result(v8Root, text) {
+function normalizeV8Result(v8Root, text, comments) {
   const normalizedRoot = { type: "root", text };
-  const valueWrapper = { type: "value", sourceIndex: 0, parent: normalizedRoot };
-  valueWrapper.nodes = normalizeV8Nodes(v8Root.nodes ?? [], valueWrapper);
+  const valueWrapper = {
+    type: "value",
+    sourceIndex: 0,
+    parent: normalizedRoot,
+  };
+  valueWrapper.nodes = normalizeV8Nodes(v8Root.nodes ?? [], valueWrapper, {
+    startOffset: 0,
+    fullCss: text,
+    comments,
+  });
   normalizedRoot.nodes = [valueWrapper];
   return normalizedRoot;
 }
@@ -437,7 +598,8 @@ function parseValue(value, options) {
   let result;
 
   try {
-    result = normalizeV8Result(parseV8(value), value);
+    const { cleaned, comments } = extractValueComments(value);
+    result = normalizeV8Result(parseV8(cleaned), value, comments);
   } catch {
     return {
       type: "value-unknown",
