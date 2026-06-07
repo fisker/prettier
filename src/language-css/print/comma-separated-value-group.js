@@ -421,8 +421,8 @@ function printCommaSeparatedValueGroup(path, options, print) {
     // Formatting `grid` property
     if (isGridValue) {
       if (
-        iNode.source &&
-        iNextNode.source &&
+        iNode.source?.start?.line !== undefined &&
+        iNextNode.source?.start?.line !== undefined &&
         iNode.source.start.line !== iNextNode.source.start.line
       ) {
         parts.push(hardline, "");
