@@ -15,6 +15,7 @@ import {
 } from "../../document/index.js";
 import { printComments } from "../../main/comments/print.js";
 import { CommentCheckFlags, hasComment } from "../utilities/comments.js";
+import { flatBinaryishExpression } from "../utilities/flat-binaryish-expression.js";
 import { hasLeadingOwnLineComment } from "../utilities/has-leading-own-line-comment.js";
 import { isBooleanTypeCoercion } from "../utilities/is-boolean-type-coercion.js";
 import { isObjectProperty } from "../utilities/is-object-property.js";
@@ -207,7 +208,7 @@ function printBinaryishExpressions(
   }
 
   /** @type{Doc[]} */
-  let parts = [];
+  const rightParts = [];
 
   // We treat BinaryExpression and LogicalExpression nodes the same.
 
@@ -220,23 +221,6 @@ function printBinaryishExpressions(
   // precedence level and should be treated as a separate group, so
   // print them normally. (This doesn't hold for the `**` operator,
   // which is unique in that it is right-associative.)
-  // @ts-expect-error -- FIXME
-  if (shouldFlatten(node.operator, node.left.operator)) {
-    // Flatten them out by recursively calling this function.
-    parts = path.call(
-      () =>
-        printBinaryishExpressions(
-          path,
-          options,
-          print,
-          /* isNested */ true,
-          isInsideParenthesis,
-        ),
-      "left",
-    );
-  } else {
-    parts.push(group(print("left")));
-  }
 
   const shouldInline = shouldInlineLogicalExpression(node);
   const rightNodeToCheckComments =
@@ -271,52 +255,65 @@ function printBinaryishExpressions(
       : "";
 
   /** @type {Doc} */
-  let right;
-  if (shouldInline) {
-    right = [
-      operator,
-      hasLeadingOwnLineComment(options.originalText, rightNodeToCheckComments)
-        ? indent([line, print("right"), rightSuffix])
-        : [" ", print("right"), rightSuffix],
-    ];
-  } else {
-    const isHackPipeline =
-      operator === "|>" && path.root.extra?.__isUsingHackPipeline;
-    const rightContent = isHackPipeline
-      ? path.call(
-          () =>
-            printBinaryishExpressions(
-              path,
-              options,
-              print,
-              /* isNested */ true,
-              isInsideParenthesis,
-            ),
-          "right",
-        )
-      : print("right");
-    if (options.experimentalOperatorPosition === "start") {
-      let comment = "";
-      if (commentBeforeOperator) {
-        switch (getDocType(rightContent)) {
-          case DOC_TYPE_ARRAY:
-            comment = rightContent.splice(0, 1)[0];
-            break;
-          case DOC_TYPE_LABEL:
-            comment = rightContent.contents.splice(0, 1)[0];
-            break;
-        }
-      }
-      right = [line, comment, operator, " ", rightContent, rightSuffix];
-    } else {
-      right = [
-        lineBeforeOperator ? line : "",
-        operator,
-        lineBeforeOperator ? " " : line,
-        rightContent,
-        rightSuffix,
-      ];
+
+  let left;
+  let index = 0;
+  for (const selectors of flatBinaryishExpression(node)) {
+    if (index === 0) {
+      left = path.call(print, ...selectors);
+      index++;
+      continue;
     }
+
+    let right;
+    if (shouldInline) {
+      right = [
+        operator,
+        hasLeadingOwnLineComment(options.originalText, rightNodeToCheckComments)
+          ? indent([line, print(selectors), rightSuffix])
+          : [" ", print(selectors), rightSuffix],
+      ];
+    } else {
+      const isHackPipeline =
+        operator === "|>" && path.root.extra?.__isUsingHackPipeline;
+      const rightContent = isHackPipeline
+        ? path.call(
+            () =>
+              printBinaryishExpressions(
+                path,
+                options,
+                print,
+                /* isNested */ true,
+                isInsideParenthesis,
+              ),
+            ...selectors,
+          )
+        : print(selectors);
+      if (options.experimentalOperatorPosition === "start") {
+        let comment = "";
+        if (commentBeforeOperator) {
+          switch (getDocType(rightContent)) {
+            case DOC_TYPE_ARRAY:
+              comment = rightContent.splice(0, 1)[0];
+              break;
+            case DOC_TYPE_LABEL:
+              comment = rightContent.contents.splice(0, 1)[0];
+              break;
+          }
+        }
+        right = [line, comment, operator, " ", rightContent, rightSuffix];
+      } else {
+        right = [
+          lineBeforeOperator ? line : "",
+          operator,
+          lineBeforeOperator ? " " : line,
+          rightContent,
+          rightSuffix,
+        ];
+      }
+    }
+
+    rightParts.push(right);
   }
 
   // If there's only a single binary expression, we want to create a group
@@ -332,10 +329,14 @@ function printBinaryishExpressions(
       parent.type !== node.type &&
       node.left.type !== node.type &&
       node.right.type !== node.type);
+
+  /** @type {Doc} */
+  let right = rightParts;
   if (shouldGroup) {
     right = group(right, { shouldBreak });
   }
 
+  const parts = [left];
   if (options.experimentalOperatorPosition === "start") {
     parts.push(shouldInline || commentBeforeOperator ? " " : "", right);
   } else {
