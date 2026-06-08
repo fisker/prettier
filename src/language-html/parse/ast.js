@@ -84,8 +84,8 @@ class Node {
     for (const NODES_KEY in NODES_KEYS) {
       const nodes = this[NODES_KEY];
       if (nodes) {
-        for (let i = 0; i < nodes.length; i++) {
-          nodes[i].walk(fn);
+        for (let nodeIndex = 0; nodeIndex < nodes.length; nodeIndex++) {
+          nodes[nodeIndex].walk(fn);
         }
       }
     }

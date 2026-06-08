@@ -13,10 +13,10 @@ async function printEmbedGraphQL(textToDoc, print, path, options) {
   const expressionDocs = printTemplateExpressions(path, options, print);
   const parts = [];
 
-  for (let i = 0; i < numQuasis; i++) {
-    const templateElement = node.quasis[i];
-    const isFirst = i === 0;
-    const isLast = i === numQuasis - 1;
+  for (let quasiIndex = 0; quasiIndex < numQuasis; quasiIndex++) {
+    const templateElement = node.quasis[quasiIndex];
+    const isFirst = quasiIndex === 0;
+    const isLast = quasiIndex === numQuasis - 1;
     const text = templateElement.value.cooked;
 
     const lines = text.split("\n");
@@ -60,7 +60,7 @@ async function printEmbedGraphQL(textToDoc, print, path, options) {
     }
 
     if (!isLast) {
-      parts.push(expressionDocs[i]);
+      parts.push(expressionDocs[quasiIndex]);
     }
   }
 
@@ -72,14 +72,14 @@ function printGraphqlComments(lines) {
   let seenComment = false;
 
   const array = lines.map((textLine) => textLine.trim());
-  for (const [i, textLine] of array.entries()) {
+  for (const [lineIndex, textLine] of array.entries()) {
     // Lines are either whitespace only, or a comment (with potential whitespace
     // around it). Drop whitespace-only lines.
     if (textLine === "") {
       continue;
     }
 
-    if (array[i - 1] === "" && seenComment) {
+    if (array[lineIndex - 1] === "" && seenComment) {
       // If a non-first comment is preceded by a blank (whitespace only) line,
       // add in a blank line.
       parts.push([hardline, textLine]);

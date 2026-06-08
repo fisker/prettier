@@ -20,8 +20,8 @@ function hasJsxIgnoreComment(path) {
   // Lookup the previous sibling, ignoring any empty JSXText elements
   const { index, siblings } = path;
   let prevSibling;
-  for (let i = index; i > 0; i--) {
-    const candidate = siblings[i - 1];
+  for (let siblingIndex = index; siblingIndex > 0; siblingIndex--) {
+    const candidate = siblings[siblingIndex - 1];
     if (candidate.type === "JSXText" && !isMeaningfulJsxText(candidate)) {
       continue;
     }

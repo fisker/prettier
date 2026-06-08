@@ -86,11 +86,11 @@ function printCommaSeparatedValueGroup(path, options, print) {
   let insideSCSSInterpolationInString = false;
   let didBreak = false;
 
-  for (let i = 0; i < node.groups.length; ++i) {
-    const iPrevNode = node.groups[i - 1];
-    const iNode = node.groups[i];
-    const iNextNode = node.groups[i + 1];
-    const iNextNextNode = node.groups[i + 2];
+  for (let groupIndex = 0; groupIndex < node.groups.length; ++groupIndex) {
+    const iPrevNode = node.groups[groupIndex - 1];
+    const iNode = node.groups[groupIndex];
+    const iNextNode = node.groups[groupIndex + 1];
+    const iNextNextNode = node.groups[groupIndex + 2];
 
     // If the node is comment and last node print it in a line suffix
     if (isInlineValueCommentNode(iNode) && !iNextNode) {
@@ -98,11 +98,11 @@ function printCommaSeparatedValueGroup(path, options, print) {
       // This `lineSuffix` should be done in `value-comment` print
       // But since we add `line` to groups in `value-paren_group`,
       // The format result looks bad for now
-      parts.push([parts.pop(), lineSuffix([" ", printed[i]])]);
+      parts.push([parts.pop(), lineSuffix([" ", printed[groupIndex]])]);
       continue;
     }
 
-    parts.push([parts.pop(), printed[i]]);
+    parts.push([parts.pop(), printed[groupIndex]]);
 
     if (insideURLFunction) {
       if ((iNextNode && isAdditionNode(iNextNode)) || isAdditionNode(iNode)) {
@@ -325,7 +325,7 @@ function printCommaSeparatedValueGroup(path, options, print) {
     // Adjusters with signed numbers (e.g. `color(red l(+20%))`) output as-is.
     const isColorAdjusterNode =
       (isAdditionNode(iNode) || isSubtractionNode(iNode)) &&
-      i === 0 &&
+      groupIndex === 0 &&
       (iNextNode.type === "value-number" || iNextNode.isHex) &&
       parentParentNode &&
       isColorAdjusterFuncNode(parentParentNode) &&
@@ -511,7 +511,9 @@ function printCommaSeparatedValueGroup(path, options, print) {
       !atRuleAncestorNode &&
       iNode.type === "value-comment" &&
       !iNode.inline &&
-      node.groups.slice(0, i).every((group) => group.type === "value-comment")
+      node.groups
+        .slice(0, groupIndex)
+        .every((group) => group.type === "value-comment")
     ) {
       parts.push(dedent(line), "");
       continue;

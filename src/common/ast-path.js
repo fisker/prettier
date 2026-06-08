@@ -110,9 +110,13 @@ class AstPath {
 
   #getNodeStackIndex(count) {
     const { stack } = this;
-    for (let i = stack.length - 1; i >= 0; i -= 2) {
-      if (!Array.isArray(stack[i]) && --count < 0) {
-        return i;
+    for (
+      let stackIndex = stack.length - 1;
+      stackIndex >= 0;
+      stackIndex -= 2
+    ) {
+      if (!Array.isArray(stack[stackIndex]) && --count < 0) {
+        return stackIndex;
       }
     }
     return -1;
@@ -170,9 +174,9 @@ class AstPath {
     }
 
     try {
-      for (let i = 0; i < value.length; ++i) {
-        stack.push(i, value[i]);
-        callback(this, i, value);
+      for (let valueIndex = 0; valueIndex < value.length; ++valueIndex) {
+        stack.push(valueIndex, value[valueIndex]);
+        callback(this, valueIndex, value);
         stack.length -= 2;
       }
     } finally {

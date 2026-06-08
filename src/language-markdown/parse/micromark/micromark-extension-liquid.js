@@ -33,10 +33,10 @@ function liquidFromMarkdown() {
 
   /** @type {Handle} */
   function exitInlineMath(token) {
-    const d = this.resume();
+    const data = this.resume();
     /** @type {any} */
     const node = this.stack.at(-1);
-    node.value = d;
+    node.value = data;
     this.exit(token);
   }
 }

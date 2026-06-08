@@ -15,8 +15,8 @@ import {
 } from "./prettier-internal.js";
 import { normalizeToPosix, statSafe } from "./utilities.js";
 
-function diff(a, b) {
-  return createTwoFilesPatch("", "", a, b, "", "", { context: 2 });
+function diff(oldText, newText) {
+  return createTwoFilesPatch("", "", oldText, newText, "", "", { context: 2 });
 }
 
 class DebugError extends Error {
@@ -187,7 +187,7 @@ async function format(context, input, opt) {
       `'${performanceTestFlag.name}' found, running formatWithCursor ${repeat} times.`,
     );
     const start = mockable.getTimestamp();
-    for (let i = 0; i < repeat; ++i) {
+    for (let repeatIndex = 0; repeatIndex < repeat; ++repeatIndex) {
       await prettier.formatWithCursor(input, opt);
     }
     const averageMs = (mockable.getTimestamp() - start) / repeat;
@@ -216,8 +216,8 @@ async function createIsIgnoredFromContextOrDie(context) {
       context.argv.ignorePath,
       context.argv.withNodeModules,
     );
-  } catch (e) {
-    context.logger.error(e.message);
+  } catch (error) {
+    context.logger.error(error.message);
     process.exit(2);
   }
 }

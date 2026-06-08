@@ -67,13 +67,13 @@ function printArray(path, options, print) {
     const shouldBreak =
       (!options.__inJestEach &&
         elements.length > 1 &&
-        elements.every((element, i, elements) => {
+        elements.every((element, elementIndex, elements) => {
           const elementType = element?.type;
           if (!isArrayExpression(element) && !isObjectExpression(element)) {
             return false;
           }
 
-          const nextElement = elements[i + 1];
+          const nextElement = elements[elementIndex + 1];
           if (nextElement && elementType !== nextElement.type) {
             return false;
           }

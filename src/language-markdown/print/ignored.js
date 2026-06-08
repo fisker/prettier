@@ -21,7 +21,7 @@ function printPrettierIgnored(path, options) {
   switch (path.node.type) {
     case "list":
       if (
-        path.findAncestor((p) => p.type === "blockquote") &&
+        path.findAncestor((ancestor) => ancestor.type === "blockquote") &&
         options.proseWrap !== "always"
       ) {
         return originalText.replace(/\n>\s*$/, "");

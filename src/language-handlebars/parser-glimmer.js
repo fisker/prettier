@@ -20,12 +20,16 @@ import { locEnd, locStart } from "./loc.js";
 function addBackslash(node) {
   const childrenOrBody = node.children ?? node.body;
   if (childrenOrBody) {
-    for (let i = 0; i < childrenOrBody.length - 1; i++) {
+    for (
+      let childIndex = 0;
+      childIndex < childrenOrBody.length - 1;
+      childIndex++
+    ) {
       if (
-        childrenOrBody[i].type === "TextNode" &&
-        childrenOrBody[i + 1].type === "MustacheStatement"
+        childrenOrBody[childIndex].type === "TextNode" &&
+        childrenOrBody[childIndex + 1].type === "MustacheStatement"
       ) {
-        childrenOrBody[i].chars = childrenOrBody[i].chars.replace(
+        childrenOrBody[childIndex].chars = childrenOrBody[childIndex].chars.replace(
           /\\$/,
           "\\\\",
         );

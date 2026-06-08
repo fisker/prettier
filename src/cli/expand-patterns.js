@@ -153,7 +153,9 @@ const errorMessages = {
  * @param {string[]} paths
  */
 function sortPaths(paths) {
-  return paths.sort((a, b) => a.localeCompare(b));
+  return paths.sort((firstPath, secondPath) =>
+    firstPath.localeCompare(secondPath),
+  );
 }
 
 /**

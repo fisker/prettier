@@ -14,8 +14,12 @@ function mergeNestledJsdocComments(comments) {
   }
 
   let followingComment;
-  for (let i = comments.length - 1; i >= 0; i--) {
-    const comment = comments[i];
+  for (
+    let commentIndex = comments.length - 1;
+    commentIndex >= 0;
+    commentIndex--
+  ) {
+    const comment = comments[commentIndex];
 
     if (
       followingComment &&

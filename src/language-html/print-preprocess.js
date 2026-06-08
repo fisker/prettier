@@ -65,8 +65,8 @@ function mergeIfConditionalStartEndCommentIntoElementOpeningTag(
     node.firstChild.sourceSpan.start.offset === node.startSourceSpan.end.offset;
   ast.walk((node) => {
     if (node.children) {
-      for (let i = 0; i < node.children.length; i++) {
-        const child = node.children[i];
+      for (let childIndex = 0; childIndex < node.children.length; childIndex++) {
+        const child = node.children[childIndex];
         if (!isTarget(child)) {
           continue;
         }
@@ -99,8 +99,8 @@ function mergeIfConditionalStartEndCommentIntoElementOpeningTag(
 function mergeNodeIntoText(ast, shouldMerge, getValue) {
   ast.walk((node) => {
     if (node.children) {
-      for (let i = 0; i < node.children.length; i++) {
-        const child = node.children[i];
+      for (let childIndex = 0; childIndex < node.children.length; childIndex++) {
+        const child = node.children[childIndex];
 
         if (child.kind !== "text" && !shouldMerge(child)) {
           continue;
@@ -154,8 +154,8 @@ function mergeSimpleElementIntoText(ast /* , options */) {
     node.next?.kind === "text";
   ast.walk((node) => {
     if (node.children) {
-      for (let i = 0; i < node.children.length; i++) {
-        const child = node.children[i];
+      for (let childIndex = 0; childIndex < node.children.length; childIndex++) {
+        const child = node.children[childIndex];
         if (!isSimpleElement(child)) {
           continue;
         }
@@ -202,11 +202,11 @@ function extractInterpolation(ast, options) {
       let endSourceSpan;
       const components = child.value.split(interpolationRegex);
       for (
-        let i = 0;
-        i < components.length;
-        i++, startSourceSpan = endSourceSpan
+        let componentIndex = 0;
+        componentIndex < components.length;
+        componentIndex++, startSourceSpan = endSourceSpan
       ) {
-        const value = components[i];
+        const value = components[componentIndex];
 
         if (i % 2 === 0) {
           endSourceSpan = startSourceSpan.moveBy(value.length);
@@ -275,8 +275,8 @@ function extractWhitespaces(ast, options) {
     const isIndentationSensitive = isIndentationSensitiveNode(node);
 
     if (!isWhitespaceSensitive) {
-      for (let i = 0; i < children.length; i++) {
-        const child = children[i];
+      for (let childIndex = 0; childIndex < children.length; childIndex++) {
+        const child = children[childIndex];
         if (child.kind !== "text") {
           continue;
         }

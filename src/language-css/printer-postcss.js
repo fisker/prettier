@@ -372,7 +372,7 @@ function genericPrint(path, options, print) {
     case "selector-selector": {
       const shouldIndent = node.nodes.length > 2;
       return group(
-        (shouldIndent ? indent : (x) => x)(path.map(print, "nodes")),
+        (shouldIndent ? indent : (doc) => doc)(path.map(print, "nodes")),
       );
     }
 

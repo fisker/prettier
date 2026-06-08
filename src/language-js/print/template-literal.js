@@ -112,16 +112,16 @@ function printJestEachTemplateLiteral(path, options, print) {
     );
 
     const tableBody = [{ hasLineBreak: false, cells: [] }];
-    for (let i = 1; i < node.quasis.length; i++) {
+    for (let quasiIndex = 1; quasiIndex < node.quasis.length; quasiIndex++) {
       const row = tableBody.at(-1);
-      const correspondingExpression = stringifiedExpressions[i - 1];
+      const correspondingExpression = stringifiedExpressions[quasiIndex - 1];
 
       row.cells.push(correspondingExpression);
       if (correspondingExpression.includes("\n")) {
         row.hasLineBreak = true;
       }
 
-      if (node.quasis[i].value.raw.includes("\n")) {
+      if (node.quasis[quasiIndex].value.raw.includes("\n")) {
         tableBody.push({ hasLineBreak: false, cells: [] });
       }
     }

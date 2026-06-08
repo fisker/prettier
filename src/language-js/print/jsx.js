@@ -139,31 +139,37 @@ function printJsxElementInternal(path, options, print) {
   // content between them.
   // We need to remove empty whitespace and softlines before JSX whitespace
   // to get the correct output.
-  for (let i = children.length - 2; i >= 0; i--) {
-    const isPairOfEmptyStrings = children[i] === "" && children[i + 1] === "";
+  for (
+    let childIndex = children.length - 2;
+    childIndex >= 0;
+    childIndex--
+  ) {
+    const isPairOfEmptyStrings =
+      children[childIndex] === "" && children[childIndex + 1] === "";
     const isPairOfHardlines =
-      children[i] === hardline &&
-      children[i + 1] === "" &&
-      children[i + 2] === hardline;
+      children[childIndex] === hardline &&
+      children[childIndex + 1] === "" &&
+      children[childIndex + 2] === hardline;
     const isLineFollowedByJsxWhitespace =
-      (children[i] === softline || children[i] === hardline) &&
-      children[i + 1] === "" &&
-      children[i + 2] === whitespace;
+      (children[childIndex] === softline || children[childIndex] === hardline) &&
+      children[childIndex + 1] === "" &&
+      children[childIndex + 2] === whitespace;
     const isJsxWhitespaceFollowedByLine =
-      children[i] === whitespace &&
-      children[i + 1] === "" &&
-      (children[i + 2] === softline || children[i + 2] === hardline);
+      children[childIndex] === whitespace &&
+      children[childIndex + 1] === "" &&
+      (children[childIndex + 2] === softline ||
+        children[childIndex + 2] === hardline);
     const isDoubleJsxWhitespace =
-      children[i] === whitespace &&
-      children[i + 1] === "" &&
-      children[i + 2] === whitespace;
+      children[childIndex] === whitespace &&
+      children[childIndex + 1] === "" &&
+      children[childIndex + 2] === whitespace;
     const isPairOfHardOrSoftLines =
-      (children[i] === softline &&
-        children[i + 1] === "" &&
-        children[i + 2] === hardline) ||
-      (children[i] === hardline &&
-        children[i + 1] === "" &&
-        children[i + 2] === softline);
+      (children[childIndex] === softline &&
+        children[childIndex + 1] === "" &&
+        children[childIndex + 2] === hardline) ||
+      (children[childIndex] === hardline &&
+        children[childIndex + 1] === "" &&
+        children[childIndex + 2] === softline);
 
     if (
       (isPairOfHardlines && containsText) ||
@@ -172,9 +178,9 @@ function printJsxElementInternal(path, options, print) {
       isDoubleJsxWhitespace ||
       isPairOfHardOrSoftLines
     ) {
-      children.splice(i, 2);
+      children.splice(childIndex, 2);
     } else if (isJsxWhitespaceFollowedByLine) {
-      children.splice(i + 1, 2);
+      children.splice(childIndex + 1, 2);
     }
   }
 
@@ -204,11 +210,11 @@ function printJsxElementInternal(path, options, print) {
    */
   /** @type {Doc[]} */
   const multilineChildren = [""];
-  for (const [i, child] of children.entries()) {
+  for (const [childIndex, child] of children.entries()) {
     // There are a number of situations where we need to ensure we display
     // whitespace as `{" "}` when outputting this element over multiple lines.
     if (child === whitespace) {
-      if (i === 1 && isEmptyDoc(children[i - 1])) {
+      if (childIndex === 1 && isEmptyDoc(children[childIndex - 1])) {
         if (children.length === 2) {
           // Solitary whitespace
           multilineChildren.push([multilineChildren.pop(), rawJsxWhitespace]);
@@ -217,11 +223,14 @@ function printJsxElementInternal(path, options, print) {
         // Leading whitespace
         multilineChildren.push([rawJsxWhitespace, hardline], "");
         continue;
-      } else if (i === children.length - 1) {
+      } else if (childIndex === children.length - 1) {
         // Trailing whitespace
         multilineChildren.push([multilineChildren.pop(), rawJsxWhitespace]);
         continue;
-      } else if (children[i - 1] === "" && children[i - 2] === hardline) {
+      } else if (
+        children[childIndex - 1] === "" &&
+        children[childIndex - 2] === hardline
+      ) {
         // Whitespace after line break
         multilineChildren.push([multilineChildren.pop(), rawJsxWhitespace]);
         continue;
@@ -231,7 +240,7 @@ function printJsxElementInternal(path, options, print) {
     // Note that children always satisfy the rule of fill() content.
     // - printJsxChildren always returns valid fill() content
     // - we always remove even number (containing zero) of leading items from children.
-    if (i % 2 === 0) {
+    if (childIndex % 2 === 0) {
       // non-line-like
       multilineChildren.push([multilineChildren.pop(), child]);
     } else {
@@ -365,8 +374,8 @@ function printJsxChildren(
           return;
         }
 
-        for (const [i, word] of words.entries()) {
-          if (i % 2 === 1) {
+        for (const [wordIndex, word] of words.entries()) {
+          if (wordIndex % 2 === 1) {
             pushLine(line);
           } else {
             push(word);

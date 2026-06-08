@@ -27,8 +27,8 @@ function parseValueNode(valueNode, options) {
   };
   const commaGroupStack = [commaGroup];
 
-  for (let i = 0; i < nodes.length; ++i) {
-    const node = nodes[i];
+  for (let nodeIndex = 0; nodeIndex < nodes.length; ++nodeIndex) {
+    const node = nodes[nodeIndex];
 
     if (
       options.parser === "scss" &&
@@ -60,8 +60,8 @@ function parseValueNode(valueNode, options) {
 
       // Create a view with any top-level comma groups flattened.
       let groupList = [];
-      for (let i = 0; i < groups.length; i++) {
-        const group = groups[i];
+      for (let groupIndex = 0; groupIndex < groups.length; groupIndex++) {
+        const group = groups[groupIndex];
         if (group.type === "comma_group") {
           groupList = [...groupList, ...group.groups];
         } else {
