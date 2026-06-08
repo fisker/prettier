@@ -187,8 +187,8 @@ function shouldPrecededBySoftline(path) {
  */
 function chunk(array, size) {
   const result = [];
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
+  for (let chunkStartIndex = 0; chunkStartIndex < array.length; chunkStartIndex += size) {
+    result.push(array.slice(chunkStartIndex, chunkStartIndex + size));
   }
   return result;
 }

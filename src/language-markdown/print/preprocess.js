@@ -293,8 +293,8 @@ function transformIndentedCodeblockAndMarkItsParentList(ast, options) {
       node.isIndented = isIndented;
 
       if (isIndented) {
-        for (let i = 0; i < parentStack.length; i++) {
-          const parent = parentStack[i];
+        for (let parentIndex = 0; parentIndex < parentStack.length; parentIndex++) {
+          const parent = parentStack[parentIndex];
 
           // no need to check checked items
           if (parent.hasIndentedCodeblock) {
@@ -379,8 +379,8 @@ function markAlignedList(ast, options) {
   return mapAst(ast, (node, index, parentStack) => {
     if (node.type === "list" && node.children.length > 0) {
       // if one of its parents is not aligned, it's not possible to be aligned in sub-lists
-      for (let i = 0; i < parentStack.length; i++) {
-        const parent = parentStack[i];
+      for (let parentIndex = 0; parentIndex < parentStack.length; parentIndex++) {
+        const parent = parentStack[parentIndex];
         if (parent.type === "list" && !parent.isAligned) {
           node.isAligned = false;
           return node;
@@ -495,8 +495,8 @@ function markAlignedListLegacy(ast, options) {
   return mapAst(ast, (node, index, parentStack) => {
     if (node.type === "list" && node.children.length > 0) {
       // if one of its parents is not aligned, it's not possible to be aligned in sub-lists
-      for (let i = 0; i < parentStack.length; i++) {
-        const parent = parentStack[i];
+      for (let parentIndex = 0; parentIndex < parentStack.length; parentIndex++) {
+        const parent = parentStack[parentIndex];
         if (parent.type === "list" && !parent.isAligned) {
           node.isAligned = false;
           return node;

@@ -63,7 +63,7 @@ function printTable(path, options, print) {
         const middle = isCompact ? "-" : "-".repeat(width - 2);
         return `${first}${middle}${last}`;
       })
-      .filter((x) => x !== null);
+      .filter((tableCell) => tableCell !== null);
   }
 
   function printRow(columns, isCompact) {

@@ -2,8 +2,8 @@ import isObject from "../../utilities/is-object.js";
 
 function getExpressionInnerNodeCount(node, maxCount) {
   let count = 0;
-  for (const k in node) {
-    const prop = node[k];
+  for (const key in node) {
+    const prop = node[key];
 
     if (isObject(prop) && typeof prop.type === "string") {
       count++;

@@ -187,11 +187,11 @@ function printTernary(path, options, print, args) {
   // ConditionalExpression parent.
   let currentParent;
   let previousParent;
-  let i = 0;
+  let parentNodeIndex = 0;
   do {
     previousParent = currentParent || node;
-    currentParent = path.getParentNode(i);
-    i++;
+    currentParent = path.getParentNode(parentNodeIndex);
+    parentNodeIndex++;
   } while (
     currentParent &&
     currentParent.type === node.type &&

@@ -15,12 +15,11 @@ function join(separator, docs) {
 
   const parts = [];
 
-  for (let i = 0; i < docs.length; i++) {
-    if (i !== 0) {
+  for (let docIndex = 0; docIndex < docs.length; docIndex++) {
+    if (docIndex !== 0) {
       parts.push(separator);
     }
-
-    parts.push(docs[i]);
+    parts.push(docs[docIndex]);
   }
 
   return parts;

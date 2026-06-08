@@ -422,76 +422,76 @@ function replaceQuotesInInlineComments(text) {
   let inlineCommentContainsQuotes = false;
   const inlineCommentsToReplace = [];
 
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i];
+  for (let index = 0; index < text.length; index++) {
+    const character = text[index];
 
     switch (state) {
       case "initial":
-        if (c === "'") {
+        if (character === "'") {
           state = "single-quotes";
           continue;
         }
 
-        if (c === '"') {
+        if (character === '"') {
           state = "double-quotes";
           continue;
         }
 
         if (
-          (c === "u" || c === "U") &&
-          text.slice(i, i + 4).toLowerCase() === "url("
+          (character === "u" || character === "U") &&
+          text.slice(index, index + 4).toLowerCase() === "url("
         ) {
           state = "url";
-          i += 3;
+          index += 3;
           continue;
         }
 
-        if (c === "*" && text[i - 1] === "/") {
+        if (character === "*" && text[index - 1] === "/") {
           state = "comment-block";
           continue;
         }
 
-        if (c === "/" && text[i - 1] === "/") {
+        if (character === "/" && text[index - 1] === "/") {
           state = "comment-inline";
-          inlineCommentStartIndex = i - 1;
+          inlineCommentStartIndex = index - 1;
           continue;
         }
 
         continue;
 
       case "single-quotes":
-        if (c === "'" && text[i - 1] !== "\\") {
+        if (character === "'" && text[index - 1] !== "\\") {
           state = stateToReturnFromQuotes;
           stateToReturnFromQuotes = "initial";
         }
-        if (c === "\n" || c === "\r") {
+        if (character === "\n" || character === "\r") {
           return text; // invalid input
         }
         continue;
 
       case "double-quotes":
-        if (c === '"' && text[i - 1] !== "\\") {
+        if (character === '"' && text[index - 1] !== "\\") {
           state = stateToReturnFromQuotes;
           stateToReturnFromQuotes = "initial";
         }
-        if (c === "\n" || c === "\r") {
+        if (character === "\n" || character === "\r") {
           return text; // invalid input
         }
         continue;
 
       case "url":
-        if (c === ")") {
+        if (character === ")") {
           state = "initial";
         }
-        if (c === "\n" || c === "\r") {
+        if (character === "\n" || character === "\r") {
           return text; // invalid input
         }
-        if (c === "'") {
+        if (character === "'") {
           state = "single-quotes";
           stateToReturnFromQuotes = "url";
           continue;
         }
-        if (c === '"') {
+        if (character === '"') {
           state = "double-quotes";
           stateToReturnFromQuotes = "url";
           continue;
@@ -499,18 +499,18 @@ function replaceQuotesInInlineComments(text) {
         continue;
 
       case "comment-block":
-        if (c === "/" && text[i - 1] === "*") {
+        if (character === "/" && text[index - 1] === "*") {
           state = "initial";
         }
         continue;
 
       case "comment-inline":
-        if (c === '"' || c === "'" || c === "*") {
+        if (character === '"' || character === "'" || character === "*") {
           inlineCommentContainsQuotes = true;
         }
-        if (c === "\n" || c === "\r") {
+        if (character === "\n" || character === "\r") {
           if (inlineCommentContainsQuotes) {
-            inlineCommentsToReplace.push([inlineCommentStartIndex, i]);
+            inlineCommentsToReplace.push([inlineCommentStartIndex, index]);
           }
           state = "initial";
           inlineCommentContainsQuotes = false;

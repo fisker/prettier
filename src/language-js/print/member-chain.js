@@ -190,28 +190,28 @@ function printMemberChain(path, options, print) {
   /** @type {PrintedNode[][]} */
   const groups = [];
   let currentGroup = [printedNodes[0]];
-  let i = 1;
-  for (; i < printedNodes.length; ++i) {
+  let nodeIndex = 1;
+  for (; nodeIndex < printedNodes.length; ++nodeIndex) {
     if (
-      printedNodes[i].node.type === "TSNonNullExpression" ||
-      printedNodes[i].node.type === "ChainExpression" ||
-      isCallExpression(printedNodes[i].node) ||
-      (isMemberExpression(printedNodes[i].node) &&
-        printedNodes[i].node.computed &&
-        isNumericLiteral(printedNodes[i].node.property))
+      printedNodes[nodeIndex].node.type === "TSNonNullExpression" ||
+      printedNodes[nodeIndex].node.type === "ChainExpression" ||
+      isCallExpression(printedNodes[nodeIndex].node) ||
+      (isMemberExpression(printedNodes[nodeIndex].node) &&
+        printedNodes[nodeIndex].node.computed &&
+        isNumericLiteral(printedNodes[nodeIndex].node.property))
     ) {
-      currentGroup.push(printedNodes[i]);
+      currentGroup.push(printedNodes[nodeIndex]);
     } else {
       break;
     }
   }
   if (!isCallExpression(printedNodes[0].node)) {
-    for (; i + 1 < printedNodes.length; ++i) {
+    for (; nodeIndex + 1 < printedNodes.length; ++nodeIndex) {
       if (
-        isMemberish(printedNodes[i].node) &&
-        isMemberish(printedNodes[i + 1].node)
+        isMemberish(printedNodes[nodeIndex].node) &&
+        isMemberish(printedNodes[nodeIndex + 1].node)
       ) {
-        currentGroup.push(printedNodes[i]);
+        currentGroup.push(printedNodes[nodeIndex]);
       } else {
         break;
       }
@@ -225,15 +225,15 @@ function printMemberChain(path, options, print) {
   // group until we has seen a CallExpression in the past and reach a
   // MemberExpression
   let hasSeenCallExpression = false;
-  for (; i < printedNodes.length; ++i) {
-    if (hasSeenCallExpression && isMemberish(printedNodes[i].node)) {
+  for (; nodeIndex < printedNodes.length; ++nodeIndex) {
+    if (hasSeenCallExpression && isMemberish(printedNodes[nodeIndex].node)) {
       // [0] should be appended at the end of the group instead of the
       // beginning of the next one
       if (
-        printedNodes[i].node.computed &&
-        isNumericLiteral(printedNodes[i].node.property)
+        printedNodes[nodeIndex].node.computed &&
+        isNumericLiteral(printedNodes[nodeIndex].node.property)
       ) {
-        currentGroup.push(printedNodes[i]);
+        currentGroup.push(printedNodes[nodeIndex]);
         continue;
       }
 
@@ -243,14 +243,14 @@ function printMemberChain(path, options, print) {
     }
 
     if (
-      isCallExpression(printedNodes[i].node) ||
-      printedNodes[i].node.type === "ImportExpression"
+      isCallExpression(printedNodes[nodeIndex].node) ||
+      printedNodes[nodeIndex].node.type === "ImportExpression"
     ) {
       hasSeenCallExpression = true;
     }
-    currentGroup.push(printedNodes[i]);
+    currentGroup.push(printedNodes[nodeIndex]);
 
-    if (hasComment(printedNodes[i].node, CommentCheckFlags.Trailing)) {
+    if (hasComment(printedNodes[nodeIndex].node, CommentCheckFlags.Trailing)) {
       groups.push(currentGroup);
       currentGroup = [];
       hasSeenCallExpression = false;
@@ -347,7 +347,7 @@ function printMemberChain(path, options, print) {
   if (
     groups.length <= cutoff &&
     !nodeHasComment &&
-    !groups.some((g) => g.at(-1).hasTrailingEmptyLine)
+    !groups.some((group) => group.at(-1).hasTrailingEmptyLine)
   ) {
     if (isLongCurriedCallExpression(path)) {
       return oneLine;

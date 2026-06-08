@@ -13,7 +13,7 @@ import { isAutolink } from "../utilities.js";
 function printWord(path) {
   const { node } = path;
   const emphasisOrStrong = path.findAncestor(
-    (p) => p.type === "emphasis" || p.type === "strong",
+    (ancestor) => ancestor.type === "emphasis" || ancestor.type === "strong",
   );
   if (!emphasisOrStrong) {
     return node.value;
@@ -36,7 +36,7 @@ function printWord(path) {
     /(\\+|^|.)(\*+|_+)($|.)/g,
     (match, preceding, delimiterRun, following) => {
       if (
-        [...preceding].every((c) => c === "\\") &&
+        [...preceding].every((character) => character === "\\") &&
         preceding.length % 2 === 1
       ) {
         // already escaped
@@ -118,7 +118,7 @@ function printWordLegacy(path) {
         ].join("|"),
         "gu",
       ),
-      (_, text1, underscore1, underscore2, text2) =>
+      (_match, text1, underscore1, underscore2, text2) =>
         (underscore1
           ? `${text1}${underscore1}`
           : `${underscore2}${text2}`

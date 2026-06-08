@@ -45,7 +45,7 @@ function iterateClassMembersPath(path, iteratee) {
           field,
         ),
       )
-      .sort((a, b) => a.loc - b.loc);
+      .sort((firstMember, secondMember) => firstMember.loc - secondMember.loc);
 
     for (const [index, { node, selector }] of children.entries()) {
       path.call(

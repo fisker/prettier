@@ -52,10 +52,14 @@ async function printEmbedHtmlLike(parser, textToDoc, print, path, options) {
     const parts = [];
 
     const components = doc.split(placeholderRegex);
-    for (let i = 0; i < components.length; i++) {
-      let component = components[i];
+    for (
+      let componentIndex = 0;
+      componentIndex < components.length;
+      componentIndex++
+    ) {
+      let component = components[componentIndex];
 
-      if (i % 2 === 0) {
+      if (componentIndex % 2 === 0) {
         if (component) {
           component = uncookTemplateElementValue(component);
           if (options.__embeddedInHtml) {

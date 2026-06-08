@@ -942,10 +942,10 @@ const isStatement = createTypeCheckFunction([
  * @returns {boolean}
  */
 function isPathInForStatementInitializer(path) {
-  let i = 0;
+  let parentNodeCount = 0;
   let { node } = path;
   while (node) {
-    const parent = path.getParentNode(i++);
+    const parent = path.getParentNode(parentNodeCount++);
     if (parent?.type === "ForStatement" && parent.init === node) {
       return true;
     }

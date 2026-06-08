@@ -422,8 +422,8 @@ function print(path, options, print) {
 
 /* ElementNode print helpers */
 
-function sortByLoc(a, b) {
-  return locStart(a) - locStart(b);
+function sortByLoc(firstNode, secondNode) {
+  return locStart(firstNode) - locStart(secondNode);
 }
 
 function printStartingTag(path, print) {

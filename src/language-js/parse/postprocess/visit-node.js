@@ -10,8 +10,8 @@ function visitNode(node, options) {
     // As of Node.js 16 using raw for loop over Array.entries provides a
     // measurable difference in performance. Array.entries returns an iterator
     // of arrays.
-    for (let i = 0; i < node.length; i++) {
-      node[i] = visitNode(node[i], options);
+    for (let childIndex = 0; childIndex < node.length; childIndex++) {
+      node[childIndex] = visitNode(node[childIndex], options);
     }
     return node;
   }
@@ -27,8 +27,8 @@ function visitNode(node, options) {
   }
 
   const keys = getVisitorKeys(node);
-  for (let i = 0; i < keys.length; i++) {
-    node[keys[i]] = visitNode(node[keys[i]], options);
+  for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+    node[keys[keyIndex]] = visitNode(node[keys[keyIndex]], options);
   }
 
   if (options.onLeave) {

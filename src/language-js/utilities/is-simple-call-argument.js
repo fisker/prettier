@@ -76,7 +76,9 @@ function isSimpleCallArgument(node, depth = 2) {
   }
 
   if (isArrayExpression(node)) {
-    return node.elements.every((x) => x === null || isChildSimple(x));
+    return node.elements.every(
+      (element) => element === null || isChildSimple(element),
+    );
   }
 
   if (isCallLikeExpression(node)) {

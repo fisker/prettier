@@ -39,8 +39,8 @@ function isInSentenceWithCJSpaces({ parent: sentenceNode }) {
     const stats = { " ": 0, "": 0 };
     const { children } = sentenceNode;
 
-    for (let i = 1; i < children.length - 1; ++i) {
-      const node = children[i];
+    for (let childIndex = 1; childIndex < children.length - 1; ++childIndex) {
+      const node = children[childIndex];
       if (
         node.type === "whitespace" &&
         (node.value === " " || node.value === "")

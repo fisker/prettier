@@ -2,13 +2,13 @@ import isNonEmptyArray from "../../utilities/is-non-empty-array.js";
 
 function hasSCSSInterpolation(groupList) {
   if (isNonEmptyArray(groupList)) {
-    for (let i = groupList.length - 1; i > 0; i--) {
+    for (let groupIndex = groupList.length - 1; groupIndex > 0; groupIndex--) {
       // If we find `#{`, return true.
       if (
-        groupList[i].type === "word" &&
-        groupList[i].value === "{" &&
-        groupList[i - 1].type === "word" &&
-        groupList[i - 1].value.endsWith("#")
+        groupList[groupIndex].type === "word" &&
+        groupList[groupIndex].value === "{" &&
+        groupList[groupIndex - 1].type === "word" &&
+        groupList[groupIndex - 1].value.endsWith("#")
       ) {
         return true;
       }

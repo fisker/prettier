@@ -63,11 +63,11 @@ const assertDocFillParts =
           // The trailing empty string is not a problem even if it's a line element.
           parts = parts.slice(0, -1);
         }
-        for (const [i, doc] of parts.entries()) {
-          if (i % 2 === 1 && !isValidSeparator(doc)) {
+        for (const [partIndex, doc] of parts.entries()) {
+          if (partIndex % 2 === 1 && !isValidSeparator(doc)) {
             const type = getDocType(doc);
             throw new Error(
-              `Unexpected non-line-break doc at ${i}. Doc type is ${type}.`,
+              `Unexpected non-line-break doc at ${partIndex}. Doc type is ${type}.`,
             );
           }
         }

@@ -3,7 +3,7 @@ import { format, getSupportInfo } from "../index.js";
 import { omit, printToScreen } from "./utilities.js";
 
 const sortByName = (array) =>
-  array.sort((a, b) => a.name.localeCompare(b.name));
+  array.sort((firstItem, secondItem) => firstItem.name.localeCompare(secondItem.name));
 
 async function printSupportInfo() {
   const { languages, options } = await getSupportInfo();

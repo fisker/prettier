@@ -149,9 +149,12 @@ function splitText(text) {
 
   // Check for `canBeConvertedToSpace` in ./print-whitespace.js etc.
   if (process.env.NODE_ENV !== "production") {
-    for (let i = 1; i < nodes.length; i++) {
+    for (let nodeIndex = 1; nodeIndex < nodes.length; nodeIndex++) {
       assert.ok(
-        !(nodes[i - 1].type === "whitespace" && nodes[i].type === "whitespace"),
+        !(
+          nodes[nodeIndex - 1].type === "whitespace" &&
+          nodes[nodeIndex].type === "whitespace"
+        ),
         "splitText should not create consecutive whitespace nodes",
       );
     }

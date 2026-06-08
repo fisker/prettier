@@ -543,7 +543,7 @@ function printLinkReference(node, options) {
   if (options?.parser === "mdx") {
     return `[${label}]`;
   }
-  const name = label.replaceAll(/[\\[\]]/g, (s) => `\\${s}`);
+  const name = label.replaceAll(/[\\[\]]/g, (matchedCharacter) => `\\${matchedCharacter}`);
   return `[${name}]`;
 }
 

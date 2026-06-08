@@ -67,8 +67,12 @@ function traverseDoc(doc, onEnter, onExit, shouldTraverseConditionalGroups) {
       case DOC_TYPE_ARRAY:
       case DOC_TYPE_FILL: {
         const parts = docType === DOC_TYPE_ARRAY ? doc : doc.parts;
-        for (let ic = parts.length, i = ic - 1; i >= 0; --i) {
-          docsStack.push(parts[i]);
+        for (
+          let partCount = parts.length, partIndex = partCount - 1;
+          partIndex >= 0;
+          --partIndex
+        ) {
+          docsStack.push(parts[partIndex]);
         }
         break;
       }
@@ -79,8 +83,13 @@ function traverseDoc(doc, onEnter, onExit, shouldTraverseConditionalGroups) {
 
       case DOC_TYPE_GROUP:
         if (shouldTraverseConditionalGroups && doc.expandedStates) {
-          for (let ic = doc.expandedStates.length, i = ic - 1; i >= 0; --i) {
-            docsStack.push(doc.expandedStates[i]);
+          for (
+            let expandedStateCount = doc.expandedStates.length,
+              stateIndex = expandedStateCount - 1;
+            stateIndex >= 0;
+            --stateIndex
+          ) {
+            docsStack.push(doc.expandedStates[stateIndex]);
           }
         } else {
           docsStack.push(doc.contents);
