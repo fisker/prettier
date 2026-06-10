@@ -195,6 +195,14 @@ exports[`multi-types.js format[acorn] 1`] = `
 Cause: Duplicate attribute key 'type' (1:51)"
 `;
 
+exports[`multi-types.js format[acorn-ts] 1`] = `
+"Duplicated key in attributes (1:63)
+> 1 | import json from "./foo.json" with { type: "json", type: "bar" };
+    |                                                               ^
+  2 |
+Cause: Duplicated key in attributes (1:62)"
+`;
+
 exports[`multi-types.js format[espree] 1`] = `
 "Duplicate attribute key 'type' (1:52)
 > 1 | import json from "./foo.json" with { type: "json", type: "bar" };

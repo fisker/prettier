@@ -11,6 +11,7 @@ const invalidSyntaxTests = ["no-namespace.js", "no-named.js"];
 runFormatTest(import.meta, ["babel"], {
   errors: {
     acorn: [...importSourceTests, ...invalidSyntaxTests],
+    "acorn-ts": [...importSourceTests, ...invalidSyntaxTests],
     espree: [...importSourceTests, ...invalidSyntaxTests],
     meriyah: invalidSyntaxTests,
     oxc: invalidSyntaxTests,

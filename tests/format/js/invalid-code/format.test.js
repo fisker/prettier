@@ -1,3 +1,3 @@
 runFormatTest(import.meta, ["babel"], {
-  errors: { acorn: true, espree: true },
+  errors: { acorn: true, "acorn-ts": true, espree: true },
 });

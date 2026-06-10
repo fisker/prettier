@@ -74,7 +74,7 @@ function parseWithOptions(parser, text, sourceType) {
   return ast;
 }
 
-function createAcornParser(getParser) {
+function createAcornParser(getParser, astType) {
   /** @type {ReturnType<AcornParser.extend> | undefined} */
   let parser;
 
@@ -93,15 +93,16 @@ function createAcornParser(getParser) {
       throw createParseError(error);
     }
 
-    return postprocess(ast, { text });
+    return postprocess(ast, { text, astType });
   });
 }
 
 const acorn = /* @__PURE__ */ createAcornParser(() =>
   AcornParser.extend(acornJsxPlugin()),
 );
-const acornTs = /* @__PURE__ */ createAcornParser(() =>
-  AcornParser.extend(acornTsPlugin()).extend(acornJsxPlugin()),
+const acornTs = /* @__PURE__ */ createAcornParser(
+  () => AcornParser.extend(acornTsPlugin()).extend(acornJsxPlugin()),
+  "acorn-ts",
 );
 
 export { acorn, acornTs as "acorn-ts" };

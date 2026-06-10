@@ -119,6 +119,14 @@ import json from "./foo.json" assert { type: "json", type: "bar" };
 ================================================================================
 `;
 
+exports[`multi-types.js format[acorn-ts] 1`] = `
+"Duplicated key in attributes (1:65)
+> 1 | import json from "./foo.json" assert { type: "json", type: "bar" };
+    |                                                                 ^
+  2 |
+Cause: Duplicated key in attributes (1:64)"
+`;
+
 exports[`multi-types.js format[babel-ts] 1`] = `
 "Unexpected token (1:58)
 > 1 | import json from "./foo.json" assert { type: "json", type: "bar" };
@@ -181,6 +189,15 @@ import "x";
 assert({ type: "json" });
 
 ================================================================================
+`;
+
+exports[`not-import-assertions.js format[acorn-ts] 1`] = `
+"Unexpected token (2:8)
+  1 | import "x"
+> 2 | assert ({type: 'json'});
+    |        ^
+  3 |
+Cause: Unexpected token (2:7)"
 `;
 
 exports[`re-export.js format 1`] = `

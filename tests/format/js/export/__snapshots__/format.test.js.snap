@@ -357,6 +357,14 @@ exports[`undefined.js - {"bracketSpacing":false} format[acorn] 1`] = `
 Cause: Export 'undefinedExport' is not defined (1:9)"
 `;
 
+exports[`undefined.js - {"bracketSpacing":false} format[acorn-ts] 1`] = `
+"Export 'undefinedExport' is not defined (1:10)
+> 1 | export { undefinedExport };
+    |          ^
+  2 |
+Cause: Export 'undefinedExport' is not defined (1:9)"
+`;
+
 exports[`undefined.js - {"bracketSpacing":false} format[espree] 1`] = `
 "Export 'undefinedExport' is not defined (1:10)
 > 1 | export { undefinedExport };
@@ -379,6 +387,14 @@ export { undefinedExport };
 `;
 
 exports[`undefined.js format[acorn] 1`] = `
+"Export 'undefinedExport' is not defined (1:10)
+> 1 | export { undefinedExport };
+    |          ^
+  2 |
+Cause: Export 'undefinedExport' is not defined (1:9)"
+`;
+
+exports[`undefined.js format[acorn-ts] 1`] = `
 "Export 'undefinedExport' is not defined (1:10)
 > 1 | export { undefinedExport };
     |          ^

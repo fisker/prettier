@@ -139,6 +139,18 @@ exports[`expression.js format[acorn] 1`] = `
 Cause: Unexpected token (5:3)"
 `;
 
+exports[`expression.js format[acorn-ts] 1`] = `
+"Unexpected token (5:5)
+  3 | a = () => ({}).x;
+  4 | ({} && a, b);
+> 5 | ({}::b, 0);
+    |     ^
+  6 | ({}::b()\`\`[''].c++ && 0 ? 0 : 0, 0);
+  7 | ({}(), 0);
+  8 | ({} = 0);
+Cause: Unexpected token (5:4)"
+`;
+
 exports[`expression.js format[espree] 1`] = `
 "Unexpected token : (5:4)
   3 | a = () => ({}).x;

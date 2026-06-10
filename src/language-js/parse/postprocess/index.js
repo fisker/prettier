@@ -55,6 +55,7 @@ const isNodeWithRaw = createTypeCheckFunction([
     | "yuku-js"
     | "yuku-ts"
     | "typescript"
+    | "acorn-ts",
 }} options
 */
 function postprocess(ast, options) {
@@ -192,6 +193,24 @@ function postprocess(ast, options) {
           if (astType === "hermes" && node.assertions && !node.attributes) {
             node.attributes = node.assertions;
             delete node.assertions;
+          }
+          break;
+
+        case "PropertyDefinition":
+          if (astType === "acorn-ts" && node.accessor) {
+            node.type = "AccessorProperty";
+          }
+          break;
+
+        case "ImportExpression":
+          if (
+            astType === "acorn-ts" &&
+            Array.isArray(node.arguments) &&
+            node.arguments.length === 1 &&
+            !node.options
+          ) {
+            node.options = node.arguments[0];
+            delete node.arguments;
           }
           break;
       }

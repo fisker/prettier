@@ -1,6 +1,7 @@
 runFormatTest(import.meta, ["babel", "flow"], {
   errors: {
     acorn: true,
+    "acorn-ts": true,
     espree: true,
     meriyah: true,
     flow: true,

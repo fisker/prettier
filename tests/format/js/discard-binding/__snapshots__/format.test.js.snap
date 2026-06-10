@@ -96,6 +96,18 @@ exports[`array-pattern.js format[acorn] 1`] = `
 Cause: Unexpected keyword 'void' (3:11)"
 `;
 
+exports[`array-pattern.js format[acorn-ts] 1`] = `
+"Unexpected keyword 'void' (3:12)
+  1 | {
+  2 |   // destructuring binding
+> 3 |   const [, void, ] = value;
+    |            ^
+  4 | }
+  5 | {
+  6 |   // for-of destructuring binding
+Cause: Unexpected keyword 'void' (3:11)"
+`;
+
 exports[`array-pattern.js format[espree] 1`] = `
 "Unexpected keyword 'void' (3:12)
   1 | {
@@ -237,6 +249,16 @@ exports[`basic.js format[acorn] 1`] = `
 Cause: Unexpected keyword 'void' (1:7)"
 `;
 
+exports[`basic.js format[acorn-ts] 1`] = `
+"Unexpected keyword 'void' (1:8)
+> 1 | const [void] = [,void] = [void,] = [];
+    |        ^
+  2 |
+  3 | function f(void, { p: void }, [ void ]) {}
+  4 |
+Cause: Unexpected keyword 'void' (1:7)"
+`;
+
 exports[`basic.js format[espree] 1`] = `
 "Unexpected keyword 'void' (1:8)
 > 1 | const [void] = [,void] = [void,] = [];
@@ -346,6 +368,14 @@ exports[`discard-binding-arrow-params.js format[acorn] 1`] = `
 Cause: Unexpected token (1:5)"
 `;
 
+exports[`discard-binding-arrow-params.js format[acorn-ts] 1`] = `
+"Unexpected token (1:6)
+> 1 | (void) => {}
+    |      ^
+  2 |
+Cause: Unexpected token (1:5)"
+`;
+
 exports[`discard-binding-arrow-params.js format[espree] 1`] = `
 "Unexpected token ) (1:6)
 > 1 | (void) => {}
@@ -430,6 +460,14 @@ parsers: ["babel", "flow", "typescript"]
 `;
 
 exports[`discard-binding-assignment.js format[acorn] 1`] = `
+"Unexpected token (1:7)
+> 1 | ([void] = []);
+    |       ^
+  2 |
+Cause: Unexpected token (1:6)"
+`;
+
+exports[`discard-binding-assignment.js format[acorn-ts] 1`] = `
 "Unexpected token (1:7)
 > 1 | ([void] = []);
     |       ^
@@ -528,6 +566,14 @@ exports[`discard-binding-async-arrow-params.js format[acorn] 1`] = `
 Cause: Unexpected token (1:11)"
 `;
 
+exports[`discard-binding-async-arrow-params.js format[acorn-ts] 1`] = `
+"Unexpected token (1:12)
+> 1 | async (void) => {}
+    |            ^
+  2 |
+Cause: Unexpected token (1:11)"
+`;
+
 exports[`discard-binding-async-arrow-params.js format[espree] 1`] = `
 "Unexpected token ) (1:12)
 > 1 | async (void) => {}
@@ -612,6 +658,14 @@ const { p: void } = {};
 `;
 
 exports[`discard-binding-bindings.js format[acorn] 1`] = `
+"Unexpected keyword 'void' (1:12)
+> 1 | const { p: void } = {};
+    |            ^
+  2 |
+Cause: Unexpected keyword 'void' (1:11)"
+`;
+
+exports[`discard-binding-bindings.js format[acorn-ts] 1`] = `
 "Unexpected keyword 'void' (1:12)
 > 1 | const { p: void } = {};
     |            ^
@@ -707,6 +761,16 @@ async () => {
 `;
 
 exports[`discard-binding-for-await-using-binding.js format[acorn] 1`] = `
+"Unexpected keyword 'void' (2:19)
+  1 | async () => {
+> 2 |   for(await using void of []);
+    |                   ^
+  3 | }
+  4 |
+Cause: Unexpected keyword 'void' (2:18)"
+`;
+
+exports[`discard-binding-for-await-using-binding.js format[acorn-ts] 1`] = `
 "Unexpected keyword 'void' (2:19)
   1 | async () => {
 > 2 |   for(await using void of []);
@@ -825,6 +889,14 @@ exports[`discard-binding-for-bindings.js format[acorn] 1`] = `
 Cause: Unexpected keyword 'void' (1:15)"
 `;
 
+exports[`discard-binding-for-bindings.js format[acorn-ts] 1`] = `
+"Unexpected keyword 'void' (1:16)
+> 1 | for(const { p: void } of []);
+    |                ^
+  2 |
+Cause: Unexpected keyword 'void' (1:15)"
+`;
+
 exports[`discard-binding-for-bindings.js format[espree] 1`] = `
 "Unexpected keyword 'void' (1:16)
 > 1 | for(const { p: void } of []);
@@ -909,6 +981,14 @@ for ({ p: void } of []);
 `;
 
 exports[`discard-binding-for-lhs.js format[acorn] 1`] = `
+"Unexpected token (1:15)
+> 1 | for({ p: void } of []);
+    |               ^
+  2 |
+Cause: Unexpected token (1:14)"
+`;
+
+exports[`discard-binding-for-lhs.js format[acorn-ts] 1`] = `
 "Unexpected token (1:15)
 > 1 | for({ p: void } of []);
     |               ^
@@ -1004,6 +1084,16 @@ parsers: ["babel", "flow", "typescript"]
 `;
 
 exports[`discard-binding-for-using-binding.js format[acorn] 1`] = `
+"Unexpected keyword 'void' (2:13)
+  1 | {
+> 2 |   for(using void of []);
+    |             ^
+  3 | }
+  4 |
+Cause: Unexpected keyword 'void' (2:12)"
+`;
+
+exports[`discard-binding-for-using-binding.js format[acorn-ts] 1`] = `
 "Unexpected keyword 'void' (2:13)
   1 | {
 > 2 |   for(using void of []);
@@ -1151,6 +1241,18 @@ parsers: ["babel", "flow", "typescript"]
 `;
 
 exports[`function-parameter.js format[acorn] 1`] = `
+"Unexpected keyword 'void' (3:14)
+  1 | {
+  2 |   // function parameter
+> 3 |   function f(void) {}
+    |              ^
+  4 | }
+  5 | {
+  6 |   // arrow function parameter
+Cause: Unexpected keyword 'void' (3:13)"
+`;
+
+exports[`function-parameter.js format[acorn-ts] 1`] = `
 "Unexpected keyword 'void' (3:14)
   1 | {
   2 |   // function parameter
@@ -1382,6 +1484,18 @@ exports[`object-pattern.js format[acorn] 1`] = `
 Cause: Unexpected keyword 'void' (3:16)"
 `;
 
+exports[`object-pattern.js format[acorn-ts] 1`] = `
+"Unexpected keyword 'void' (3:17)
+  1 | {
+  2 |   // destructuring binding
+> 3 |   const { void: void } = value;
+    |                 ^
+  4 | }
+  5 | {
+  6 |   // for-of destructuring binding
+Cause: Unexpected keyword 'void' (3:16)"
+`;
+
 exports[`object-pattern.js format[espree] 1`] = `
 "Unexpected keyword 'void' (3:17)
   1 | {
@@ -1545,6 +1659,18 @@ exports[`unary-expression-void.js format[acorn] 1`] = `
 Cause: Unexpected token (4:9)"
 `;
 
+exports[`unary-expression-void.js format[acorn-ts] 1`] = `
+"Unexpected token (4:10)
+  2 | void [
+  3 |   // pattern
+> 4 |   [ void ] = [{
+    |          ^
+  5 |     // expr
+  6 |     [ void [] ]:
+  7 |     // pattern
+Cause: Unexpected token (4:9)"
+`;
+
 exports[`unary-expression-void.js format[espree] 1`] = `
 "Unexpected token ] (4:10)
   2 | void [
@@ -1675,6 +1801,17 @@ async (void) => {
 `;
 
 exports[`using.js format[acorn] 1`] = `
+"Unexpected keyword 'void' (2:9)
+  1 | {
+> 2 |   using void = f();
+    |         ^
+  3 | }
+  4 | async (void) => {
+  5 |   await using void = f();
+Cause: Unexpected keyword 'void' (2:8)"
+`;
+
+exports[`using.js format[acorn-ts] 1`] = `
 "Unexpected keyword 'void' (2:9)
   1 | {
 > 2 |   using void = f();
@@ -1866,6 +2003,18 @@ async () => {
 `;
 
 exports[`using-variable-declarator.js format[acorn] 1`] = `
+"Unexpected keyword 'void' (3:9)
+  1 | {
+  2 |   // using 1 declarator
+> 3 |   using void = f();
+    |         ^
+  4 | }
+  5 | {
+  6 |   // using 2 declarators
+Cause: Unexpected keyword 'void' (3:8)"
+`;
+
+exports[`using-variable-declarator.js format[acorn-ts] 1`] = `
 "Unexpected keyword 'void' (3:9)
   1 | {
   2 |   // using 1 declarator

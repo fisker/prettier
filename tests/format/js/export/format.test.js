@@ -1,5 +1,6 @@
 const errors = {
   acorn: ["undefined.js"],
+  "acorn-ts": ["undefined.js"],
   espree: ["undefined.js"],
 };
 

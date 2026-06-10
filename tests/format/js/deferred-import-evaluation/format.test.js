@@ -8,6 +8,7 @@ const importDeferTests = [
 runFormatTest(import.meta, ["babel", "typescript", "flow"], {
   errors: {
     acorn: importDeferTests,
+    "acorn-ts": importDeferTests,
     espree: importDeferTests,
     flow: importDeferTests,
     hermes: importDeferTests,

@@ -7,6 +7,7 @@ runFormatTest(import.meta, ["babel", "flow", "typescript"], {
       "function-declaration-in-while.js",
     ],
     acorn: ["function-declaration-in-while.js"],
+    "acorn-ts": ["function-declaration-in-while.js"],
     espree: ["function-declaration-in-while.js"],
     meriyah: ["function-declaration-in-while.js"],
   },

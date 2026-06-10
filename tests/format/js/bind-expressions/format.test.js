@@ -1,5 +1,6 @@
 const errors = {
   acorn: true,
+  "acorn-ts": true,
   espree: true,
   meriyah: true,
   oxc: true,

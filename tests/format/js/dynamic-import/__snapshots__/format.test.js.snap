@@ -48,6 +48,16 @@ exports[`import-phase.js format[acorn] 1`] = `
 Cause: The only valid meta property for import is 'import.meta' (1:7)"
 `;
 
+exports[`import-phase.js format[acorn-ts] 1`] = `
+"The only valid meta property for import is 'import.meta' (1:8)
+> 1 | import.source(\`data:text/javascript,
+    |        ^
+  2 |     console.log("RUN");
+  3 | \`)
+  4 |
+Cause: The only valid meta property for import is 'import.meta' (1:7)"
+`;
+
 exports[`import-phase.js format[espree] 1`] = `
 "The only valid meta property for import is 'import.meta' (1:8)
 > 1 | import.source(\`data:text/javascript,

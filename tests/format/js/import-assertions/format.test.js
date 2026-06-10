@@ -9,6 +9,7 @@ runFormatTest(import.meta, ["oxc", "yuku", "typescript", "hermes"], {
       "non-type.js",
       "keyword-detect.js",
     ],
+    "acorn-ts": ["multi-types.js", "not-import-assertions.js"],
     hermes: [
       "empty.js",
       "multi-types.js",

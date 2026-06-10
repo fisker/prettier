@@ -1,6 +1,7 @@
 runFormatTest(import.meta, ["babel", "typescript", "flow"], {
   errors: {
     acorn: ["expression.js"],
+    "acorn-ts": ["expression.js"],
     espree: ["expression.js"],
     typescript: ["expression.js"],
     meriyah: ["expression.js"],

@@ -54,6 +54,13 @@ runFormatTest(import.meta, ["babel", "flow", "typescript"], {
       "valid-module-block-top-level-using-binding.js",
       "valid-module-block-top-level-await-using-binding.js",
     ],
+    "acorn-ts": [
+      "invalid-duplicate-using-bindings.js",
+      // "invalid-script-top-level-using-binding.js",
+      "valid-module-block-top-level-using-binding.js",
+      "valid-module-block-top-level-await-using-binding.js",
+      "valid-for-using-binding-of-of.js",
+    ],
     espree: [
       "invalid-duplicate-using-bindings.js",
       // "invalid-script-top-level-using-binding.js",

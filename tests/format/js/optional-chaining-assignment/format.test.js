@@ -21,6 +21,7 @@ const optionalChainingAssignTests = [
 runFormatTest(import.meta, ["babel"], {
   errors: {
     acorn: [...optionalChainingAssignTests, ...invalidSyntaxTests],
+    "acorn-ts": [...optionalChainingAssignTests, ...invalidSyntaxTests],
     espree: [...optionalChainingAssignTests, ...invalidSyntaxTests],
     meriyah: [...optionalChainingAssignTests, ...invalidSyntaxTests],
     oxc: [...optionalChainingAssignTests, ...invalidSyntaxTests],

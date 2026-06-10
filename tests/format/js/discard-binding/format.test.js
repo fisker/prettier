@@ -3,6 +3,7 @@ runFormatTest(import.meta, ["babel", "flow", "typescript"], {
     flow: true,
     typescript: true,
     acorn: true,
+    "acorn-ts": true,
     espree: true,
     meriyah: true,
     oxc: true,

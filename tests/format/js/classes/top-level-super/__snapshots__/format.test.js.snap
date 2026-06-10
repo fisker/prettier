@@ -21,6 +21,14 @@ exports[`example.js format[acorn] 1`] = `
 Cause: super() call outside constructor of a subclass (1:0)"
 `;
 
+exports[`example.js format[acorn-ts] 1`] = `
+"super() call outside constructor of a subclass (1:1)
+> 1 | super();
+    | ^
+  2 |
+Cause: super() call outside constructor of a subclass (1:0)"
+`;
+
 exports[`example.js format[espree] 1`] = `
 "'super' keyword outside a method (1:1)
 > 1 | super();

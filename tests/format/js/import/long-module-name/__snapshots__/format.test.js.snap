@@ -31,6 +31,16 @@ exports[`import-defer.js format[acorn] 1`] = `
 Cause: The only valid meta property for import is 'import.meta' (1:7)"
 `;
 
+exports[`import-defer.js format[acorn-ts] 1`] = `
+"The only valid meta property for import is 'import.meta' (1:8)
+> 1 | import.defer("./a/long/long/long/long/long/long/long/long/long/long/long/long/path/to/module");
+    |        ^
+  2 | import.defer(
+  3 |   // Comment
+  4 |   "./a/long/long/long/long/long/long/long/long/long/long/long/long/path/to/module"
+Cause: The only valid meta property for import is 'import.meta' (1:7)"
+`;
+
 exports[`import-defer.js format[espree] 1`] = `
 "The only valid meta property for import is 'import.meta' (1:8)
 > 1 | import.defer("./a/long/long/long/long/long/long/long/long/long/long/long/long/path/to/module");
@@ -112,6 +122,16 @@ import.source(
 `;
 
 exports[`import-source.js format[acorn] 1`] = `
+"The only valid meta property for import is 'import.meta' (1:8)
+> 1 | import.source("./a/long/long/long/long/long/long/long/long/long/long/long/long/path/to/module");
+    |        ^
+  2 | import.source(
+  3 |   // Comment
+  4 |   "./a/long/long/long/long/long/long/long/long/long/long/long/long/path/to/module"
+Cause: The only valid meta property for import is 'import.meta' (1:7)"
+`;
+
+exports[`import-source.js format[acorn-ts] 1`] = `
 "The only valid meta property for import is 'import.meta' (1:8)
 > 1 | import.source("./a/long/long/long/long/long/long/long/long/long/long/long/long/path/to/module");
     |        ^

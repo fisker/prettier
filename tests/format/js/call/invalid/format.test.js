@@ -3,6 +3,7 @@ runFormatTest(import.meta, ["babel"], {
     babel: true,
     __babel_estree: true,
     acorn: true,
+    "acorn-ts": true,
     espree: true,
     meriyah: true,
     oxc: true,
