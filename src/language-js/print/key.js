@@ -25,7 +25,8 @@ const isTypeScript = ({ parser }) =>
   parser === "typescript" ||
   parser === "babel-ts" ||
   parser === "oxc-ts" ||
-  parser === "yuku-ts";
+  parser === "yuku-ts" ||
+  parser === "acorn-ts";
 
 /**
 @param {Node} node
@@ -111,7 +112,8 @@ function isKeySafeToUnquote(node, options) {
       (parser === "babel-ts" && node.type === "ClassProperty") ||
       ((parser === "typescript" ||
         parser === "oxc-ts" ||
-        parser === "yuku-ts") &&
+        parser === "yuku-ts" ||
+        parser === "acorn-ts") &&
         node.type === "PropertyDefinition")
     ) &&
     isEs5IdentifierName(value)

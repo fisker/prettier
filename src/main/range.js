@@ -165,6 +165,7 @@ function isSourceElement(opts, node, parentNode) {
     case "babel":
     case "babel-flow":
     case "babel-ts":
+    case "acorn-ts":
     case "typescript":
     case "acorn":
     case "espree":

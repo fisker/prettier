@@ -69,6 +69,7 @@ export const plugins = /* @__PURE__ */ toLazyLoadPlugins(
       "__vue_ts_event_binding",
       "__vue_ts_expression",
       "acorn",
+      "acorn-ts",
       "babel",
       "babel-flow",
       "babel-ts",

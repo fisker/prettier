@@ -10,6 +10,7 @@ const languages = [
       "meriyah",
       "babel-flow",
       "babel-ts",
+      "acorn-ts",
       "flow",
       "typescript",
     ],
@@ -68,7 +69,7 @@ const languages = [
     codemirrorMimeType: "text/jsx",
   })),
   createLanguage(linguistLanguages.TypeScript, () => ({
-    parsers: ["typescript", "babel-ts"],
+    parsers: ["typescript", "babel-ts", "acorn-ts"],
     vscodeLanguageIds: ["typescript"],
   })),
   createLanguage(linguistLanguages.TSX, () => ({

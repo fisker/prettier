@@ -23,7 +23,7 @@ export const plugins = /* @__PURE__ */ toLazyLoadPlugins(
   {
     name: "acorn",
     load: () => import("../../../plugins/acorn.js"),
-    parsers: ["acorn", "espree"],
+    parsers: ["acorn", "acorn-ts", "espree"],
   },
   {
     name: "angular",

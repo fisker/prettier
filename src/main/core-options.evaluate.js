@@ -118,6 +118,7 @@ const options = {
       { value: "babel-ts", description: "TypeScript" },
       { value: "typescript", description: "TypeScript" },
       { value: "acorn", description: "JavaScript" },
+      { value: "acorn-ts", description: "TypeScript" },
       { value: "espree", description: "JavaScript" },
       { value: "meriyah", description: "JavaScript" },
       { value: "css", description: "CSS" },

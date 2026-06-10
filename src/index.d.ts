@@ -276,6 +276,7 @@ export type FastPath<T = any> = AstPath<T>;
 export type BuiltInParser = (text: string, options?: any) => AST;
 export type BuiltInParserName =
   | "acorn"
+  | "acorn-ts"
   | "angular"
   | "babel-flow"
   | "babel-ts"

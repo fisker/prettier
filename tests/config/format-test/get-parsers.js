@@ -21,7 +21,7 @@ function getParsers(dirname, parsers) {
   }
 
   if (parsers.includes("typescript")) {
-    addParsers("babel-ts", "oxc-ts", "yuku-ts");
+    addParsers("babel-ts", "oxc-ts", "yuku-ts", "acorn-ts");
   }
 
   if (parsers.includes("flow")) {

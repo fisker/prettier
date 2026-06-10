@@ -1,5 +1,6 @@
+import { tsPlugin as acornTsPlugin } from "@sveltejs/acorn-typescript";
 import { Parser as AcornParser } from "acorn";
-import acornJsx from "acorn-jsx";
+import acornJsxPlugin from "acorn-jsx";
 import createError from "../../common/parser-create-error.js";
 import { tryCombinationsSync } from "../../utilities/try-combinations.js";
 import postprocess from "./postprocess/index.js";
@@ -28,7 +29,8 @@ const parseOptions = {
   allowSuperOutsideMethod: true,
   // allowHashBang: true,
   checkPrivateFields: false,
-  locations: false,
+  // Required by `@sveltejs/acorn-typescript`
+  locations: true,
   ranges: true,
   preserveParens: true,
 };
@@ -51,20 +53,12 @@ function createParseError(error) {
   });
 }
 
-/** @type {ReturnType<AcornParser.extend> | undefined} */
-let parser;
-const getParser = () => {
-  parser ??= AcornParser.extend(acornJsx());
-  return parser;
-};
-
 /**
+@param {ReturnType<AcornParser.extend>} parser
 @param {string} text
 @param {SOURCE_TYPE_MODULE | SOURCE_TYPE_COMMONJS | undefined} sourceType
 */
-function parseWithOptions(text, sourceType) {
-  const parser = getParser();
-
+function parseWithOptions(parser, text, sourceType) {
   const comments = [];
 
   const ast = parser.parse(text, {
@@ -80,20 +74,34 @@ function parseWithOptions(text, sourceType) {
   return ast;
 }
 
-function parse(text, options) {
-  const sourceType = getSourceType(options?.filepath);
-  const combinations = (
-    sourceType ? [sourceType] : SOURCE_TYPE_COMBINATIONS
-  ).map((sourceType) => () => parseWithOptions(text, sourceType));
+function createAcornParser(getParser) {
+  /** @type {ReturnType<AcornParser.extend> | undefined} */
+  let parser;
 
-  let ast;
-  try {
-    ast = tryCombinationsSync(combinations);
-  } catch (/** @type {any} */ { errors: [error] }) {
-    throw createParseError(error);
-  }
+  return createParser((text, options) => {
+    parser ??= getParser();
 
-  return postprocess(ast, { text });
+    const sourceType = getSourceType(options?.filepath);
+    const combinations = (
+      sourceType ? [sourceType] : SOURCE_TYPE_COMBINATIONS
+    ).map((sourceType) => () => parseWithOptions(parser, text, sourceType));
+
+    let ast;
+    try {
+      ast = tryCombinationsSync(combinations);
+    } catch (/** @type {any} */ { errors: [error] }) {
+      throw createParseError(error);
+    }
+
+    return postprocess(ast, { text });
+  });
 }
 
-export const acorn = /* @__PURE__ */ createParser(parse);
+const acorn = /* @__PURE__ */ createAcornParser(() =>
+  AcornParser.extend(acornJsxPlugin()),
+);
+const acornTs = /* @__PURE__ */ createAcornParser(() =>
+  AcornParser.extend(acornTsPlugin()).extend(acornJsxPlugin()),
+);
+
+export { acorn, acornTs as "acorn-ts" };
