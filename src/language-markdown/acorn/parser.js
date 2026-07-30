@@ -57,7 +57,16 @@ const parseExpressionAt = createParse({
     position,
     options,
   }),
-  result: { type: "ThisExpression", isExpressionRoot: true },
+  result:
+    // Bypass AST check
+    // https://github.com/micromark/micromark-extension-mdx-expression/blob/2891b75ff9e985c6df208a47348e76ced05dbfed/packages/micromark-factory-mdx-expression/dev/index.js#L302
+    {
+      type: "ObjectExpression",
+      properties: [
+        { type: "SpreadElement", argument: { type: "Identifier", name: "_" } },
+      ],
+      isExpressionRoot: true,
+    },
   parse: (acorn, { text, position, options }) =>
     acorn.parseExpressionAt(text, position, options),
 });

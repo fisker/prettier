@@ -76,6 +76,10 @@ function embed(path, options) {
         await printJsExpression(textToDoc, print, path, options),
         "}",
       ];
+
+    case "mdxJsxExpressionAttribute":
+      return async (textToDoc, print, path, options) =>
+        printJsExpression(textToDoc, print, path, options);
   }
 }
 
