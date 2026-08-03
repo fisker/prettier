@@ -226,6 +226,7 @@ function postprocess(ast, options) {
           break;
 
         case "TSConstructorType":
+        case "TSMethodSignature":
           if (astType === "acorn-ts") {
             if (Array.isArray(node.parameters) && node.params === undefined) {
               node.params = node.parameters;
