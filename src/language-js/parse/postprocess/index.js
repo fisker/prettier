@@ -213,6 +213,17 @@ function postprocess(ast, options) {
             delete node.arguments;
           }
           break;
+
+        case "TSTypeParameter":
+          if (astType === "acorn-ts" && typeof node.name === "string") {
+            const start = locStart(node);
+            node.name = {
+              type: "Identifier",
+              name: node.name,
+              range: [start, start + node.name.length],
+            };
+          }
+          break;
       }
     },
     onLeave(node) {
