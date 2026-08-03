@@ -224,6 +224,17 @@ function postprocess(ast, options) {
             };
           }
           break;
+
+        case "TSConstructorType":
+          if (astType === "acorn-ts") {
+            if (Array.isArray(node.parameters) && node.params === undefined) {
+              node.params = node.parameters;
+            }
+            if (node.typeAnnotation && node.returnType === undefined) {
+              node.returnType = node.typeAnnotation;
+            }
+          }
+          break;
       }
     },
     onLeave(node) {
