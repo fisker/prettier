@@ -256,6 +256,27 @@ function postprocess(ast, options) {
             delete node.members;
           }
           break;
+
+        case "TSMappedType":
+          if (astType === "acorn-ts" && node.typeParameter) {
+            const { typeParameter } = node;
+            const { name, constraint } = typeParameter;
+
+            node.constraint = constraint;
+
+            const start = locStart(node);
+            node.key =
+              typeof name === "string"
+                ? {
+                    type: "Identifier",
+                    name,
+                    range: [start, start + name.length],
+                  }
+                : name;
+
+            delete node.typeParameter;
+          }
+          break;
       }
     },
     onLeave(node) {
