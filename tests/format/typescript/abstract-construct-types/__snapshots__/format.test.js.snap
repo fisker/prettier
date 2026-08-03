@@ -5,15 +5,15 @@ exports[`abstract-construct-types.ts format 1`] = `
 parsers: ["typescript"]
                                                       printWidth: 80 (default) |
 =====================================input======================================
-type T = abstract new () => void;
-type T = abstract    new () => void;
-type T = abstract
+type T1 = abstract new () => void;
+type T2 = abstract    new () => void;
+type T3 = abstract
   new () => void;
 
 =====================================output=====================================
-type T = abstract new () => void;
-type T = abstract new () => void;
-type T = abstract new () => void;
+type T1 = abstract new () => void;
+type T2 = abstract new () => void;
+type T3 = abstract new () => void;
 
 ================================================================================
 `;

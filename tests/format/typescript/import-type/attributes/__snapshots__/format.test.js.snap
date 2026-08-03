@@ -12,3 +12,11 @@ type A = import("foo", { with: { type: "json" } });
 
 ================================================================================
 `;
+
+exports[`import-type-attributes.ts format[acorn-ts] 1`] = `
+"Unexpected token (1:22)
+> 1 | type A = import("foo", {with: {type: "json"}})
+    |                      ^
+  2 |
+Cause: Unexpected token (1:21)"
+`;

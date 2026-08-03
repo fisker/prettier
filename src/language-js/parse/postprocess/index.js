@@ -227,6 +227,7 @@ function postprocess(ast, options) {
 
         case "TSConstructorType":
         case "TSMethodSignature":
+        case "TSFunctionType":
           if (astType === "acorn-ts") {
             if (
               Array.isArray(node.parameters) &&
@@ -258,7 +259,12 @@ function postprocess(ast, options) {
           break;
 
         case "TSMappedType":
-          if (astType === "acorn-ts" && node.typeParameter) {
+          if (
+            astType === "acorn-ts" &&
+            node.typeParameter &&
+            !Object.hasOwn(node, "key") &&
+            !Object.hasOwn(node, "constraint")
+          ) {
             const { typeParameter } = node;
             const { name, constraint } = typeParameter;
 
