@@ -49,6 +49,12 @@ runFormatTest(
         "return/in-static-block.mjs",
         "return/in-static-block.unknown",
       ],
+      "acorn-ts": [
+        "new-target.mjs",
+        "return/in-static-block.cjs",
+        "return/in-static-block.mjs",
+        "return/in-static-block.unknown",
+      ],
       espree: [
         "return/top-level.mjs",
         "new-target.mjs",

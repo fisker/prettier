@@ -47,6 +47,13 @@ exports[`snippet: new-target.mjs format[acorn] 1`] = `
 Cause: 'new.target' can only be used in functions and class static block (1:0)"
 `;
 
+exports[`snippet: new-target.mjs format[acorn-ts] 1`] = `
+"'new.target' can only be used in functions and class static block (1:1)
+> 1 | new.target
+    | ^
+Cause: 'new.target' can only be used in functions and class static block (1:0)"
+`;
+
 exports[`snippet: new-target.mjs format[espree] 1`] = `
 "'new.target' can only be used in functions and class static block (1:1)
 > 1 | new.target

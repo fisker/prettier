@@ -7009,49 +7009,6 @@ d //comment
 ================================================================================
 `;
 
-exports[`trailing_space.js - {"semi":false} format 1`] = `
-====================================options=====================================
-parsers: ["babel", "flow", "typescript"]
-semi: false
-                                                      printWidth: 80 (default) |
-=====================================input======================================
-#!/there/is-space-here->         
-
-// Do not trim trailing whitespace from this source file!
-
-// There is some space here ->                        
-
-=====================================output=====================================
-#!/there/is-space-here->
-
-// Do not trim trailing whitespace from this source file!
-
-// There is some space here ->
-
-================================================================================
-`;
-
-exports[`trailing_space.js format 1`] = `
-====================================options=====================================
-parsers: ["babel", "flow", "typescript"]
-                                                      printWidth: 80 (default) |
-=====================================input======================================
-#!/there/is-space-here->         
-
-// Do not trim trailing whitespace from this source file!
-
-// There is some space here ->                        
-
-=====================================output=====================================
-#!/there/is-space-here->
-
-// Do not trim trailing whitespace from this source file!
-
-// There is some space here ->
-
-================================================================================
-`;
-
 exports[`trailing-jsdocs.js - {"semi":false} format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "flow", "typescript"]
@@ -7161,6 +7118,49 @@ const CONNECTION_STATUS = (exports.CONNECTION_STATUS = {
  */ /**
  * A single unit of data exchanged between the peers of a \`ReactiveSocket\`.
  */
+
+================================================================================
+`;
+
+exports[`trailing-space.js - {"semi":false} format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+semi: false
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+#!/there/is-space-here->         
+
+// Do not trim trailing whitespace from this source file!
+
+// There is some space here ->                        
+
+=====================================output=====================================
+#!/there/is-space-here->
+
+// Do not trim trailing whitespace from this source file!
+
+// There is some space here ->
+
+================================================================================
+`;
+
+exports[`trailing-space.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+#!/there/is-space-here->         
+
+// Do not trim trailing whitespace from this source file!
+
+// There is some space here ->                        
+
+=====================================output=====================================
+#!/there/is-space-here->
+
+// Do not trim trailing whitespace from this source file!
+
+// There is some space here ->
 
 ================================================================================
 `;

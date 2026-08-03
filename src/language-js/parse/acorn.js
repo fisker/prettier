@@ -5,6 +5,7 @@ import createError from "../../common/parser-create-error.js";
 import { tryCombinationsSync } from "../../utilities/try-combinations.js";
 import postprocess from "./postprocess/index.js";
 import createParser from "./utilities/create-parser.js";
+import replaceHashbang from "./utilities/replace-hashbang.js";
 import {
   getSourceType,
   SOURCE_TYPE_COMBINATIONS,
@@ -81,10 +82,13 @@ function createAcornParser(getParser, astType) {
   return createParser((text, options) => {
     parser ??= getParser();
 
+    const textToParse = astType === "acorn-ts" ? replaceHashbang(text) : text;
     const sourceType = getSourceType(options?.filepath);
     const combinations = (
       sourceType ? [sourceType] : SOURCE_TYPE_COMBINATIONS
-    ).map((sourceType) => () => parseWithOptions(parser, text, sourceType));
+    ).map(
+      (sourceType) => () => parseWithOptions(parser, textToParse, sourceType),
+    );
 
     let ast;
     try {
