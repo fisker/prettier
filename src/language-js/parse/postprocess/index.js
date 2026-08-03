@@ -228,12 +228,32 @@ function postprocess(ast, options) {
         case "TSConstructorType":
         case "TSMethodSignature":
           if (astType === "acorn-ts") {
-            if (Array.isArray(node.parameters) && node.params === undefined) {
+            if (
+              Array.isArray(node.parameters) &&
+              !Object.hasOwn(node, "params")
+            ) {
               node.params = node.parameters;
+              delete node.parameters;
             }
-            if (node.typeAnnotation && node.returnType === undefined) {
+            if (node.typeAnnotation && !Object.hasOwn(node, "returnType")) {
               node.returnType = node.typeAnnotation;
+              delete node.typeAnnotation;
             }
+          }
+          break;
+
+        case "TSEnumDeclaration":
+          if (
+            astType === "acorn-ts" &&
+            Array.isArray(node.members) &&
+            !Object.hasOwn(node, "body")
+          ) {
+            node.body = {
+              type: "TSEnumBody",
+              members: node.members,
+              range: [locStart(node.members[0]), locEnd(node.members.at(-1))],
+            };
+            delete node.members;
           }
           break;
       }
