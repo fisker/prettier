@@ -298,10 +298,13 @@ function postprocess(ast, options) {
         case "TSModuleDeclaration":
           if (astType === "acorn-ts" && !Object.hasOwn(node, "kind")) {
             const start = locStart(node);
-            node.kind =
-              text.slice(start, start + 6) === "module"
-                ? "module"
-                : "namespace";
+            const nodeText = stripComments({
+              [commentsPropertyInOptions]: comments,
+              originalText: text,
+            })
+              .slice(node.declare ? start + "declare".length : start)
+              .trimStart();
+            node.kind = nodeText.startsWith("module") ? "module" : "namespace";
           }
       }
     },
