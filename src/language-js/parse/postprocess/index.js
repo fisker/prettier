@@ -260,10 +260,14 @@ function postprocess(ast, options) {
             Array.isArray(node.members) &&
             !Object.hasOwn(node, "body")
           ) {
+            const range =
+              node.members.length > 0
+                ? [locStart(node.members[0]), locEnd(node.members.at(-1))]
+                : [locEnd(node.id), locEnd(node)];
             node.body = {
               type: "TSEnumBody",
               members: node.members,
-              range: [locStart(node.members[0]), locEnd(node.members.at(-1))],
+              range,
             };
             delete node.members;
           }

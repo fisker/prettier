@@ -1,3 +1,3 @@
 runFormatTest(import.meta, ["typescript"], {
-  errors: { "babel-ts": true, "oxc-ts": true },
+  errors: { "babel-ts": true, "oxc-ts": true, "acorn-ts": true },
 });

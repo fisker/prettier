@@ -5,32 +5,32 @@ exports[`type-member-get-set.ts format 1`] = `
 parsers: ["typescript"]
                                                       printWidth: 80 (default) |
 =====================================input======================================
-interface Foo {
+interface Foo1 {
   get foo(): string;
   set bar(v);
 }
 
-type Foo = {
+type Foo2 = {
   get foo(): string;
   set bar(v);
 }
 
-interface Foo {
+interface Foo3 {
   set bar(foo: string);
 }
 
 =====================================output=====================================
-interface Foo {
+interface Foo1 {
   get foo(): string;
   set bar(v);
 }
 
-type Foo = {
+type Foo2 = {
   get foo(): string;
   set bar(v);
 };
 
-interface Foo {
+interface Foo3 {
   set bar(foo: string);
 }
 
