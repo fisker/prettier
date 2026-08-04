@@ -294,6 +294,15 @@ function postprocess(ast, options) {
             delete node.typeParameter;
           }
           break;
+
+        case "TSModuleDeclaration":
+          if (astType === "acorn-ts" && !Object.hasOwn(node, "kind")) {
+            const start = locStart(node);
+            node.kind =
+              text.slice(start, start + 6) === "module"
+                ? "module"
+                : "namespace";
+          }
       }
     },
     onLeave(node) {

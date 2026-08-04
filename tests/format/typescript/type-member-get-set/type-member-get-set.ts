@@ -1,13 +1,13 @@
-interface Foo {
+interface Foo1 {
   get foo(): string;
   set bar(v);
 }
 
-type Foo = {
+type Foo2 = {
   get foo(): string;
   set bar(v);
 }
 
-interface Foo {
+interface Foo3 {
   set bar(foo: string);
 }
