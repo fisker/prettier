@@ -207,10 +207,21 @@ function postprocess(ast, options) {
             astType === "acorn-ts" &&
             Array.isArray(node.arguments) &&
             node.arguments.length === 1 &&
-            !node.options
+            !Object.hasOwn(node, "options")
           ) {
             node.options = node.arguments[0];
             delete node.arguments;
+          }
+          break;
+
+        case "ClassDeclaration":
+          if (
+            astType === "acorn-ts" &&
+            node.superTypeParameters &&
+            !Object.hasOwn(node, "superTypeArguments")
+          ) {
+            node.superTypeArguments = node.superTypeParameters;
+            delete node.superTypeParameters;
           }
           break;
 
