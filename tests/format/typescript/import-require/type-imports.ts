@@ -1,4 +1,4 @@
-import type A = require("foo");
+import type A1 = require("foo");
 export import type = require("A");
 
 import type

@@ -51,7 +51,7 @@ exports[`type-imports.ts format 1`] = `
 parsers: ["typescript"]
                                                       printWidth: 80 (default) |
 =====================================input======================================
-import type A = require("foo");
+import type A1 = require("foo");
 export import type = require("A");
 
 import type
@@ -71,7 +71,7 @@ type
 b = require("b");
 
 =====================================output=====================================
-import type A = require("foo");
+import type A1 = require("foo");
 export import type = require("A");
 
 import type A = require("A");
