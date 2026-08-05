@@ -226,10 +226,20 @@ function postprocess(ast, options) {
             }
 
             if (Array.isArray(node.implements)) {
-              for (const implementNode of node.implements) {
-                if (implementNode.type === "TSExpressionWithTypeArguments") {
-                  implementNode.type = "TSClassImplements";
+              for (const child of node.implements) {
+                if (child.type === "TSExpressionWithTypeArguments") {
+                  child.type = "TSClassImplements";
                 }
+              }
+            }
+          }
+          break;
+
+        case "TSInterfaceDeclaration":
+          if (astType === "acorn-ts" && Array.isArray(node.extends)) {
+            for (const child of node.extends) {
+              if (child.type === "TSExpressionWithTypeArguments") {
+                child.type = "TSInterfaceHeritage";
               }
             }
           }
