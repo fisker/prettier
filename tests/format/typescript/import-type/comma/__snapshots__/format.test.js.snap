@@ -34,3 +34,13 @@ type A = import("foo", {
 
 ================================================================================
 `;
+
+exports[`comma.ts format[acorn-ts] 1`] = `
+"Unexpected token (1:22)
+> 1 | type A = import("foo", {
+    |                      ^
+  2 |   with: {
+  3 |   type: "json",}})
+  4 | type A = import("foo", {
+Cause: Unexpected token (1:21)"
+`;

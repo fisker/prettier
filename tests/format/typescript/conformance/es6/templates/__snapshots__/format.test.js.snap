@@ -14,3 +14,12 @@ var x = \`abc\${<any>(10 + 10)}def\`;
 
 ================================================================================
 `;
+
+exports[`templateStringWithEmbeddedTypeAssertionOnAdditionES6.ts format[acorn-ts] 1`] = `
+"Unexpected token \`}\`. Did you mean \`&rbrace;\` or \`{"}"}\`? (2:31)
+  1 | // @target: ES6
+> 2 | var x = \`abc\${ <any>(10 + 10) }def\`;
+    |                               ^
+  3 |
+Cause: Unexpected token \`}\`. Did you mean \`&rbrace;\` or \`{"}"}\`? (2:30)"
+`;

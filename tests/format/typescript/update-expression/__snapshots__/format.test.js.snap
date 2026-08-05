@@ -42,3 +42,14 @@ class F {
 
 ================================================================================
 `;
+
+exports[`update-expressions.ts format[acorn-ts] 1`] = `
+"Unexpected token \`}\`. Did you mean \`&rbrace;\` or \`{"}"}\`? (15:3)
+  13 |     (this.#a as number)++;
+  14 |     this.#a!++;
+> 15 |   }
+     |   ^
+  16 | }
+  17 |
+Cause: Unexpected token \`}\`. Did you mean \`&rbrace;\` or \`{"}"}\`? (15:2)"
+`;

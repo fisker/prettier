@@ -24,3 +24,13 @@ interface I {
 
 ================================================================================
 `;
+
+exports[`newKeyword.ts format[acorn-ts] 1`] = `
+"Unexpected token (1:17)
+> 1 | var x: { y: new <T, U> () => [T, U] };
+    |                 ^
+  2 |
+  3 | interface I {
+  4 |     new <T>(x: string);
+Cause: Unexpected token (1:16)"
+`;

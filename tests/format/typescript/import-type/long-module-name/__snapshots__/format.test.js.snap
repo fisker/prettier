@@ -15,6 +15,8 @@ export default plugin as typeof import("@babel/plugin-transform-react-jsx").defa
 ================================================================================
 `;
 
+exports[`long-module-name.ts format[acorn-ts] 1`] = `"Cannot read properties of undefined (reading 'type')"`;
+
 exports[`long-module-name2.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
@@ -35,6 +37,8 @@ export default plugin as typeof import(
 ================================================================================
 `;
 
+exports[`long-module-name2.ts format[acorn-ts] 1`] = `"Cannot read properties of undefined (reading 'type')"`;
+
 exports[`long-module-name3.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
@@ -47,6 +51,8 @@ declare const bit: import("../../../../scripts/babel-plugin-bit-decorator/types.
 
 ================================================================================
 `;
+
+exports[`long-module-name3.ts format[acorn-ts] 1`] = `"Cannot read properties of undefined (reading 'type')"`;
 
 exports[`long-module-name4.ts format 1`] = `
 ====================================options=====================================
@@ -118,6 +124,8 @@ interface RuleMap {
 ================================================================================
 `;
 
+exports[`long-module-name4.ts format[acorn-ts] 1`] = `"Cannot read properties of undefined (reading 'type')"`;
+
 exports[`long-module-name5.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
@@ -153,4 +161,15 @@ type D = import(
 );
 
 ================================================================================
+`;
+
+exports[`long-module-name5.ts format[acorn-ts] 1`] = `
+"Unexpected token (2:85)
+  1 | type A = import("./long/long/long/long/long/long/long/long/long/long/path/to/module")
+> 2 | type B = import("./long/long/long/long/long/long/long/long/long/long/path/to/module",{with:{type:'json'}})
+    |                                                                                     ^
+  3 | type C = import("./long/long/long/long/long/long/long/long/long/long/path/to/module",{with:{
+  4 | type:'json'}})
+  5 | type D = import("./long/long/long/long/long/long/long/long/long/long/path/to/module",{
+Cause: Unexpected token (2:84)"
 `;
