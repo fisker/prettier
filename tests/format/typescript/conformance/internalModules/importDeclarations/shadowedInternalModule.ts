@@ -6,7 +6,7 @@ module A {
         x: number;
         y: number;
     }
-} 
+}
 
 module B {
     var A = { x: 0, y: 0 };
@@ -29,5 +29,5 @@ module X {
 module Z {
     import Y = X.Y;
 
-    var Y = 12;
+    var Z = 12;
 }

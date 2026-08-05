@@ -1,26 +1,26 @@
 const {
-  foo,
+  foo11,
   // bar
   // baz
 }: Foo = expr;
 
 const {
-  foo1,
+  foo21,
   // bar
-  foo2,
+  foo22,
   // baz
 }: Foo = expr;
 
 const [
-  foo,
+  foo12,
   // bar
   // baz
 ]: Foo = expr;
 
 const [
-  foo1,
+  foo31,
   // bar
-  foo2,
+  foo32,
   // baz
 ]: Foo = expr;
 

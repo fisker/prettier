@@ -413,6 +413,18 @@ class Thing3 extends Thing2 {
 ================================================================================
 `;
 
+exports[`mixinClassesAnnotated.ts format[acorn-ts] 1`] = `
+"Unexpected token (15:41)
+  13 | }
+  14 |
+> 15 | const Printable = <T extends Constructor<Base>>(superClass: T): Constructor<Printable> & { message: string } & T =>
+     |                                         ^
+  16 |     class extends superClass {
+  17 |         static message = "hello";
+  18 |         print() {
+Cause: Unexpected token (15:40)"
+`;
+
 exports[`mixinClassesAnonymous.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
@@ -558,6 +570,18 @@ const Timestamped = <CT extends Constructor<object>>(Base: CT) => {
 };
 
 ================================================================================
+`;
+
+exports[`mixinClassesAnonymous.ts format[acorn-ts] 1`] = `
+"Unexpected token (13:41)
+  11 | }
+  12 |
+> 13 | const Printable = <T extends Constructor<Base>>(superClass: T) => class extends superClass {
+     |                                         ^
+  14 |     static message = "hello";
+  15 |     print() {
+  16 |         const output = this.x + "," + this.y;
+Cause: Unexpected token (13:40)"
 `;
 
 exports[`mixinClassesMembers.ts format 1`] = `

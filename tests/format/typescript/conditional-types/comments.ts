@@ -1,16 +1,16 @@
-type A = B extends T
+type A1 = B extends T
   ? // comment
     foo
   : bar;
 
-type A = B extends test /* comment
+type A2 = B extends test /* comment
   comment
       comment
 */
   ? foo
   : bar;
 
-type T = test extends B
+type T1 = test extends B
   ? /* comment
           comment
     comment
@@ -19,7 +19,7 @@ type T = test extends B
     foo
   : bar;
 
-type T = test extends B
+type T2 = test extends B
   ? /* comment
        comment
        comment
@@ -33,12 +33,12 @@ type T = test extends B
     foo
   : bar;
 
-type T = test extends B
+type T3 = test extends B
   ? /* comment */
     foo
   : bar;
 
-type T = test extends B
+type T4 = test extends B
   ? foo
   : /* comment
          comment
@@ -47,7 +47,7 @@ type T = test extends B
     */
   bar;
 
-type T = test extends B
+type T5 = test extends B
   ? foo
   : /* comment
          comment
@@ -62,15 +62,15 @@ type T = test extends B
    */
     bar;
 
-type T = test extends B
+type T6 = test extends B
   ? foo
   : /* comment */
   bar;
 
-type T = test extends B ? test extends B /* c
+type T7 = test extends B ? test extends B /* c
 c */? foo : bar : bar;
 
-type T = any extends B
+type T8 = any extends B
     // Comment
     // Multiline comment
     ? B | C
@@ -86,7 +86,7 @@ T = any instanceof B
     // Multiline comment
     : B | C;
 
-type T = any extends B
+type T9 = any extends B
     // Comment
     ? B | C
     : D;
@@ -95,7 +95,7 @@ T = any instanceof B
     ? B | C
     : D;
 
-type T = any extends B
+type T10 = any extends B
   /**
   * Comment
   */
@@ -107,7 +107,7 @@ T = any instanceof B
   */
     ? B | C
     : D;
-type T = any extends B
+type T11 = any extends B
   ?/* Comment */
      B | C
     : D;
