@@ -140,6 +140,8 @@ function parseTs(text, options) {
     throw createParseError(error);
   }
 
+  console.log(ast.body[0]);
+
   return postprocess(ast, { text, astType: "acorn-ts" });
 }
 

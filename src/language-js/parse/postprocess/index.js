@@ -324,6 +324,20 @@ function postprocess(ast, options) {
               .trimStart();
             node.kind = nodeText.startsWith("module") ? "module" : "namespace";
           }
+          break;
+
+        case "TSImportEqualsDeclaration":
+          if (astType === "acorn-ts" && node.isExport) {
+            delete node.isExport;
+
+            return {
+              type: "ExportNamedDeclaration",
+              declaration: node,
+              specifiers: [],
+              exportKind: "value",
+              range: [locStart(node), locEnd(node)],
+            };
+          }
       }
     },
     onLeave(node) {
