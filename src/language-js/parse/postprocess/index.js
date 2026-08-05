@@ -226,6 +226,17 @@ function postprocess(ast, options) {
           }
           break;
 
+        case "TSImportType":
+          if (
+            astType === "acorn-ts" &&
+            node.argument &&
+            !Object.hasOwn(node, "source")
+          ) {
+            node.source = node.argument;
+            delete node.argument;
+          }
+          break;
+
         case "TSTypeParameter":
           if (astType === "acorn-ts" && typeof node.name === "string") {
             const start = locStart(node);
