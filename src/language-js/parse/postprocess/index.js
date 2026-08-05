@@ -216,13 +216,22 @@ function postprocess(ast, options) {
           break;
 
         case "ClassDeclaration":
-          if (
-            astType === "acorn-ts" &&
-            node.superTypeParameters &&
-            !Object.hasOwn(node, "superTypeArguments")
-          ) {
-            node.superTypeArguments = node.superTypeParameters;
-            delete node.superTypeParameters;
+          if (astType === "acorn-ts") {
+            if (
+              node.superTypeParameters &&
+              !Object.hasOwn(node, "superTypeArguments")
+            ) {
+              node.superTypeArguments = node.superTypeParameters;
+              delete node.superTypeParameters;
+            }
+
+            if (Array.isArray(node.implements)) {
+              for (const implementNode of node.implements) {
+                if (implementNode.type === "TSExpressionWithTypeArguments") {
+                  implementNode.type = "TSClassImplements";
+                }
+              }
+            }
           }
           break;
 
