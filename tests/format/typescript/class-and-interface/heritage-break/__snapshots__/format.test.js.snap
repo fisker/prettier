@@ -14,11 +14,11 @@ class Short
 class A_long_long_long_long_long_long_long_long_name12
   extends eslint.Rule?.RuleModule {}
 
-class A_long_long_long_long_long_long_long_long_name12
+class A_long_long_long_long_long_long_long_long_name13
   extends eslint.Rule.RuleModule! {}
-class A_long_long_long_long_long_long_long_long_name12
+class A_long_long_long_long_long_long_long_long_name14
   extends eslint?.Rule.RuleModule! {}
-class A_long_long_long_long_long_long_long_long_name12
+class A_long_long_long_long_long_long_long_long_name15
   extends eslint.Rule.RuleModule!! {}
 
 interface A_long_long_long_long_long_long_long_long_name2
@@ -40,11 +40,11 @@ class Short extends eslint.Rule.RuleModule {}
 class A_long_long_long_long_long_long_long_long_name12
   extends eslint.Rule?.RuleModule {}
 
-class A_long_long_long_long_long_long_long_long_name12
+class A_long_long_long_long_long_long_long_long_name13
   extends eslint.Rule.RuleModule! {}
-class A_long_long_long_long_long_long_long_long_name12
+class A_long_long_long_long_long_long_long_long_name14
   extends eslint?.Rule.RuleModule! {}
-class A_long_long_long_long_long_long_long_long_name12
+class A_long_long_long_long_long_long_long_long_name15
   extends eslint.Rule.RuleModule!! {}
 
 interface A_long_long_long_long_long_long_long_long_name2
@@ -70,12 +70,12 @@ class CommentBox extends React.Component<
   CommentData
 > {}
 
-interface CommentBox extends React.Component<
+interface CommentBox2 extends React.Component<
   { url: string; pollInterval: number },
   CommentData
 > {}
 
-declare class CommentBox implements React.Component<
+declare class CommentBox3 implements React.Component<
   { url: string; pollInterval: number },
   CommentData
 > {}
@@ -86,12 +86,12 @@ class CommentBox extends React.Component<
   CommentData
 > {}
 
-interface CommentBox extends React.Component<
+interface CommentBox2 extends React.Component<
   { url: string; pollInterval: number },
   CommentData
 > {}
 
-declare class CommentBox implements React.Component<
+declare class CommentBox3 implements React.Component<
   { url: string; pollInterval: number },
   CommentData
 > {}

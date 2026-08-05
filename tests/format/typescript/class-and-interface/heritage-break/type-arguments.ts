@@ -3,12 +3,12 @@ class CommentBox extends React.Component<
   CommentData
 > {}
 
-interface CommentBox extends React.Component<
+interface CommentBox2 extends React.Component<
   { url: string; pollInterval: number },
   CommentData
 > {}
 
-declare class CommentBox implements React.Component<
+declare class CommentBox3 implements React.Component<
   { url: string; pollInterval: number },
   CommentData
 > {}
