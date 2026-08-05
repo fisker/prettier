@@ -240,6 +240,8 @@ function postprocess(ast, options) {
         case "TSConstructorType":
         case "TSMethodSignature":
         case "TSFunctionType":
+        case "TSConstructSignatureDeclaration":
+        case "TSCallSignatureDeclaration":
           if (astType === "acorn-ts") {
             if (
               Array.isArray(node.parameters) &&

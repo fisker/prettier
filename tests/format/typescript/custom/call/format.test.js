@@ -1,5 +1,1 @@
-runFormatTest(import.meta, ["typescript"], {
-  errors: {
-    "acorn-ts": ["callSignature.ts"],
-  },
-});
+runFormatTest(import.meta, ["typescript"]);

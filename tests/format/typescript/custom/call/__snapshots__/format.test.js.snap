@@ -26,15 +26,3 @@ Promise.all<void>([]);
 
 ================================================================================
 `;
-
-exports[`callSignature.ts format[acorn-ts] 1`] = `
-"Unexpected token (4:5)
-  2 |     ();
-  3 |     (): void;
-> 4 |     <T, U>(arg: T);
-    |     ^
-  5 |     <T, U>(arg: T): U;
-  6 | }
-  7 |
-Cause: Unexpected token (4:4)"
-`;

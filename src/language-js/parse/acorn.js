@@ -118,7 +118,7 @@ function parseTs(text, options) {
   const filepath = options?.filepath;
 
   const typescriptPluginOptionCombinations =
-    typeof filepath === "string" && /\.(?:jsx|tsx)$/i.test(filepath)
+    typeof filepath === "string" && filepath.toLowerCase().endsWith(".d.ts")
       ? [{ dts: true }]
       : [{ dts: false }, { dts: true }];
 
