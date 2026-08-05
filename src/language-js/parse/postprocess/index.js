@@ -55,6 +55,7 @@ const isNodeWithRaw = createTypeCheckFunction([
     | "yuku-js"
     | "yuku-ts"
     | "typescript"
+    | "acorn-js"
     | "acorn-ts",
 }} options
 */
