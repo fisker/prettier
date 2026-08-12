@@ -229,6 +229,8 @@ function postprocess(ast, options) {
               for (const child of node.implements) {
                 if (child.type === "TSExpressionWithTypeArguments") {
                   child.type = "TSClassImplements";
+                  child.typeArguments = child.typeParameters;
+                  delete child.typeParameters;
                 }
               }
             }
@@ -240,6 +242,8 @@ function postprocess(ast, options) {
             for (const child of node.extends) {
               if (child.type === "TSExpressionWithTypeArguments") {
                 child.type = "TSInterfaceHeritage";
+                child.typeArguments = child.typeParameters;
+                delete child.typeParameters;
               }
             }
           }
