@@ -110,3 +110,15 @@ class D extends C {
 
 ================================================================================
 `;
+
+exports[`callWithSpreadES6.ts format[acorn-ts] 1`] = `
+"Unexpected token (34:55)
+  32 |
+  33 | class C {
+> 34 |     constructor(x: number, y: number, ...z: string[]) {
+     |                                                       ^
+  35 |         this.foo(x, y);
+  36 |         this.foo(x, y, ...z);
+  37 |     }
+Cause: Unexpected token (34:54)"
+`;
