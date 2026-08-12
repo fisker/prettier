@@ -22,7 +22,6 @@ const errors = {
     "with-semicolon-2.js",
     "comments.js",
   ],
-  "acorn-ts": ["static-computed.js", "static-private.js", "static.js"],
 };
 runFormatTest(import.meta, parsers, { errors });
 runFormatTest(import.meta, parsers, { errors, semi: false });

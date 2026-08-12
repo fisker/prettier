@@ -410,16 +410,6 @@ exports[`static.js - {"semi":false} format[acorn] 1`] = `
 Cause: Unexpected token (2:18)"
 `;
 
-exports[`static.js - {"semi":false} format[acorn-ts] 1`] = `
-"'accessor' modifier cannot be used with 'static' modifier. (1:10)
-> 1 | class Foo {
-    |          ^
-  2 |   static accessor bar;
-  3 | }
-  4 |
-Cause: 'accessor' modifier cannot be used with 'static' modifier. (1:9)"
-`;
-
 exports[`static.js - {"semi":false} format[espree] 1`] = `
 "Unexpected token bar (2:19)
   1 | class Foo {
@@ -455,16 +445,6 @@ exports[`static.js format[acorn] 1`] = `
   3 | }
   4 |
 Cause: Unexpected token (2:18)"
-`;
-
-exports[`static.js format[acorn-ts] 1`] = `
-"'accessor' modifier cannot be used with 'static' modifier. (1:10)
-> 1 | class Foo {
-    |          ^
-  2 |   static accessor bar;
-  3 | }
-  4 |
-Cause: 'accessor' modifier cannot be used with 'static' modifier. (1:9)"
 `;
 
 exports[`static.js format[espree] 1`] = `
@@ -505,16 +485,6 @@ exports[`static-computed.js - {"semi":false} format[acorn] 1`] = `
 Cause: Unexpected token (2:18)"
 `;
 
-exports[`static-computed.js - {"semi":false} format[acorn-ts] 1`] = `
-"'accessor' modifier cannot be used with 'static' modifier. (1:10)
-> 1 | class Foo {
-    |          ^
-  2 |   static accessor ["bar"];
-  3 | }
-  4 |
-Cause: 'accessor' modifier cannot be used with 'static' modifier. (1:9)"
-`;
-
 exports[`static-computed.js - {"semi":false} format[espree] 1`] = `
 "Unexpected token [ (2:19)
   1 | class Foo {
@@ -550,16 +520,6 @@ exports[`static-computed.js format[acorn] 1`] = `
   3 | }
   4 |
 Cause: Unexpected token (2:18)"
-`;
-
-exports[`static-computed.js format[acorn-ts] 1`] = `
-"'accessor' modifier cannot be used with 'static' modifier. (1:10)
-> 1 | class Foo {
-    |          ^
-  2 |   static accessor ["bar"];
-  3 | }
-  4 |
-Cause: 'accessor' modifier cannot be used with 'static' modifier. (1:9)"
 `;
 
 exports[`static-computed.js format[espree] 1`] = `
@@ -600,16 +560,6 @@ exports[`static-private.js - {"semi":false} format[acorn] 1`] = `
 Cause: Unexpected token (2:18)"
 `;
 
-exports[`static-private.js - {"semi":false} format[acorn-ts] 1`] = `
-"'accessor' modifier cannot be used with 'static' modifier. (1:10)
-> 1 | class Foo {
-    |          ^
-  2 |   static accessor #bar;
-  3 | }
-  4 |
-Cause: 'accessor' modifier cannot be used with 'static' modifier. (1:9)"
-`;
-
 exports[`static-private.js - {"semi":false} format[espree] 1`] = `
 "Unexpected token #bar (2:19)
   1 | class Foo {
@@ -645,16 +595,6 @@ exports[`static-private.js format[acorn] 1`] = `
   3 | }
   4 |
 Cause: Unexpected token (2:18)"
-`;
-
-exports[`static-private.js format[acorn-ts] 1`] = `
-"'accessor' modifier cannot be used with 'static' modifier. (1:10)
-> 1 | class Foo {
-    |          ^
-  2 |   static accessor #bar;
-  3 | }
-  4 |
-Cause: 'accessor' modifier cannot be used with 'static' modifier. (1:9)"
 `;
 
 exports[`static-private.js format[espree] 1`] = `
