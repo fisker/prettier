@@ -2511,12 +2511,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/acorn-typescript@npm:1.0.11":
-  version: 1.0.11
-  resolution: "@sveltejs/acorn-typescript@npm:1.0.11"
+"@sveltejs/acorn-typescript@npm:1.0.12":
+  version: 1.0.12
+  resolution: "@sveltejs/acorn-typescript@npm:1.0.12"
   peerDependencies:
     acorn: ^8.9.0
-  checksum: 10/b04fa3b461966cfcc9e795d6c320c3f0c592b7d0458ad9e74029b5098181ae2c915e23de5551e991c58a53be81ff6f390a79777dcac59f4ba4d15517ef90e870
+  checksum: 10/8fd6f2e560fcc2df335b566b602e37b39414f77699a788e21e977f07665a34d952bee3d3c1361c933fc9005e41b76258dc86e9c35c92a5b230f1c46212546aa8
   languageName: node
   linkType: hard
 
@@ -8362,7 +8362,7 @@ __metadata:
     "@prettier/html-tags": "npm:2.2.0"
     "@prettier/parse-srcset": "npm:3.1.0"
     "@stylistic/eslint-plugin": "npm:5.10.0"
-    "@sveltejs/acorn-typescript": "npm:1.0.11"
+    "@sveltejs/acorn-typescript": "npm:1.0.12"
     "@types/jsesc": "npm:3.0.3"
     "@typescript-eslint/eslint-plugin": "npm:8.67.0"
     "@typescript-eslint/parser": "npm:8.67.0"
