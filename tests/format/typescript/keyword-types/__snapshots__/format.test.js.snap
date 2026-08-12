@@ -38,85 +38,85 @@ exports[`keyword-types-with-parens-comments.ts format 1`] = `
 parsers: ["typescript"]
                                                       printWidth: 80 (default) |
 =====================================input======================================
-let foo: (
+let foo1: (
     // comment
     any
 );
-let foo: (
+let foo2: (
     // comment
     null
 );
-let foo: (
+let foo3: (
     // comment
     this
 );
-let foo: (
+let foo4: (
     // comment
     number
 );
-let foo: (
+let foo5: (
     // comment
     void
 );
-let foo: (
+let foo6: (
     // comment
     boolean
 );
-let foo: (
+let foo7: (
     // comment
     bigint
 );
-let foo: (
+let foo8: (
     // comment
     symbol
 );
-let foo: (
+let foo9: (
     // comment
     string
 );
-let foo: (
+let foo10: (
     // comment
     never
 );
-let foo: (
+let foo11: (
     // comment
     object
 );
-let foo: (
+let foo12: (
     // comment
     undefined
 );
-let foo: (
+let foo13: (
     // comment
     unknown
 );
 
 =====================================output=====================================
-let foo: // comment
+let foo1: // comment
 any;
-let foo: // comment
+let foo2: // comment
 null;
-let foo: // comment
+let foo3: // comment
 this;
-let foo: // comment
+let foo4: // comment
 number;
-let foo: // comment
+let foo5: // comment
 void;
-let foo: // comment
+let foo6: // comment
 boolean;
-let foo: // comment
+let foo7: // comment
 bigint;
-let foo: // comment
+let foo8: // comment
 symbol;
-let foo: // comment
+let foo9: // comment
 string;
-let foo: // comment
+let foo10: // comment
 never;
-let foo: // comment
+let foo11: // comment
 object;
-let foo: // comment
+let foo12: // comment
 undefined;
-let foo: // comment
+let foo13: // comment
 unknown;
 
 ================================================================================

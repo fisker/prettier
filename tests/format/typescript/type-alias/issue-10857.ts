@@ -1,4 +1,4 @@
-type FieldLayoutWith<
+type FieldLayoutWith1<
   T extends string,
   S extends unknown = { width: string }
 > = {
@@ -7,7 +7,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith2<
   T extends string,
   S extends unknown,
 > = {
@@ -16,7 +16,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith3<
   S extends unknown = { width: string }
 > = {
   type: T;
@@ -24,7 +24,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith4<
   T extends stringggggggggggg,
   T extends stringggggggggggg
 > = {
@@ -33,7 +33,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith5<
   T extends stringggggggggggg,
   S = stringggggggggggggggggg
 > = {

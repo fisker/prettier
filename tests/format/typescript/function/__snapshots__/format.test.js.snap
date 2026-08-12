@@ -36,3 +36,15 @@ class X {
 
 ================================================================================
 `;
+
+exports[`single_expand.ts format[acorn-ts] 1`] = `
+"Unexpected token (5:12)
+  3 |   triggerPosition,
+  4 |   re
+> 5 | }): Promise<void> {
+    |            ^
+  6 | }
+  7 |
+  8 | class X {
+Cause: Unexpected token (5:11)"
+`;

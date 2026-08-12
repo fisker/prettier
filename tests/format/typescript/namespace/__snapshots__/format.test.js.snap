@@ -18,13 +18,13 @@ namespace N {
 `;
 
 exports[`invalid-await.ts format[acorn-ts] 1`] = `
-"Unexpected token (2:19)
+"Cannot use await in class static initialization block (2:13)
   1 | namespace N {
 > 2 |   const x = await 42;
-    |                   ^
+    |             ^
   3 | }
   4 |
-Cause: Unexpected token (2:18)"
+Cause: Cannot use await in class static initialization block (2:12)"
 `;
 
 exports[`invalid-await.ts format[babel-ts] 1`] = `

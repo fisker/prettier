@@ -62,6 +62,18 @@ type TooLongSingleParam = {
 ================================================================================
 `;
 
+exports[`index-signature.ts - {"trailingComma":"all"} format[acorn-ts] 1`] = `
+"Unexpected token (4:13)
+  2 |
+  3 | type TwoParams = {
+> 4 |   [a: string, b: string]: string;
+    |             ^
+  5 | };
+  6 | type ThreeParams = {
+  7 |   [a: string, b: string, c: string]: string;
+Cause: Unexpected token (4:12)"
+`;
+
 exports[`index-signature.ts - {"trailingComma":"all"} format[babel-ts] 1`] = `
 "Unexpected token, expected "]" (4:13)
   2 |
@@ -152,6 +164,18 @@ type TooLongSingleParam = {
 };
 
 ================================================================================
+`;
+
+exports[`index-signature.ts - {"trailingComma":"es5"} format[acorn-ts] 1`] = `
+"Unexpected token (4:13)
+  2 |
+  3 | type TwoParams = {
+> 4 |   [a: string, b: string]: string;
+    |             ^
+  5 | };
+  6 | type ThreeParams = {
+  7 |   [a: string, b: string, c: string]: string;
+Cause: Unexpected token (4:12)"
 `;
 
 exports[`index-signature.ts - {"trailingComma":"es5"} format[babel-ts] 1`] = `
@@ -245,6 +269,18 @@ type TooLongSingleParam = {
 ================================================================================
 `;
 
+exports[`index-signature.ts format[acorn-ts] 1`] = `
+"Unexpected token (4:13)
+  2 |
+  3 | type TwoParams = {
+> 4 |   [a: string, b: string]: string;
+    |             ^
+  5 | };
+  6 | type ThreeParams = {
+  7 |   [a: string, b: string, c: string]: string;
+Cause: Unexpected token (4:12)"
+`;
+
 exports[`index-signature.ts format[babel-ts] 1`] = `
 "Unexpected token, expected "]" (4:13)
   2 |
@@ -303,6 +339,16 @@ let h: !(string | number);
 ================================================================================
 `;
 
+exports[`jsdoc_only_types.ts - {"trailingComma":"all"} format[acorn-ts] 1`] = `
+"Unexpected token (1:8)
+> 1 | let a: *;
+    |        ^
+  2 | function b(x: ?) {}
+  3 | let c: ?string;
+  4 | let d: string?;
+Cause: Unexpected token (1:7)"
+`;
+
 exports[`jsdoc_only_types.ts - {"trailingComma":"all"} format[babel-ts] 1`] = `
 "Unexpected token (1:8)
 > 1 | let a: *;
@@ -359,6 +405,16 @@ let h: !(string | number);
 ================================================================================
 `;
 
+exports[`jsdoc_only_types.ts - {"trailingComma":"es5"} format[acorn-ts] 1`] = `
+"Unexpected token (1:8)
+> 1 | let a: *;
+    |        ^
+  2 | function b(x: ?) {}
+  3 | let c: ?string;
+  4 | let d: string?;
+Cause: Unexpected token (1:7)"
+`;
+
 exports[`jsdoc_only_types.ts - {"trailingComma":"es5"} format[babel-ts] 1`] = `
 "Unexpected token (1:8)
 > 1 | let a: *;
@@ -412,6 +468,16 @@ let g: string!;
 let h: !(string | number);
 
 ================================================================================
+`;
+
+exports[`jsdoc_only_types.ts format[acorn-ts] 1`] = `
+"Unexpected token (1:8)
+> 1 | let a: *;
+    |        ^
+  2 | function b(x: ?) {}
+  3 | let c: ?string;
+  4 | let d: string?;
+Cause: Unexpected token (1:7)"
 `;
 
 exports[`jsdoc_only_types.ts format[babel-ts] 1`] = `

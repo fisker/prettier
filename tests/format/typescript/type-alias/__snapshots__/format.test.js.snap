@@ -86,12 +86,12 @@ export type RequestNextDealAction =
 ================================================================================
 `;
 
-exports[`issue-100857.ts format 1`] = `
+exports[`issue-10857.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
                                                       printWidth: 80 (default) |
 =====================================input======================================
-type FieldLayoutWith<
+type FieldLayoutWith1<
   T extends string,
   S extends unknown = { width: string }
 > = {
@@ -100,7 +100,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith2<
   T extends string,
   S extends unknown,
 > = {
@@ -109,7 +109,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith3<
   S extends unknown = { width: string }
 > = {
   type: T;
@@ -117,7 +117,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith4<
   T extends stringggggggggggg,
   T extends stringggggggggggg
 > = {
@@ -126,7 +126,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith5<
   T extends stringggggggggggg,
   S = stringggggggggggggggggg
 > = {
@@ -136,7 +136,7 @@ type FieldLayoutWith<
 };
 
 =====================================output=====================================
-type FieldLayoutWith<
+type FieldLayoutWith1<
   T extends string,
   S extends unknown = { width: string },
 > = {
@@ -145,19 +145,19 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<T extends string, S extends unknown> = {
+type FieldLayoutWith2<T extends string, S extends unknown> = {
   type: T;
   code: string;
   size: S;
 };
 
-type FieldLayoutWith<S extends unknown = { width: string }> = {
+type FieldLayoutWith3<S extends unknown = { width: string }> = {
   type: T;
   code: string;
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith4<
   T extends stringggggggggggg,
   T extends stringggggggggggg,
 > = {
@@ -166,7 +166,7 @@ type FieldLayoutWith<
   size: S;
 };
 
-type FieldLayoutWith<
+type FieldLayoutWith5<
   T extends stringggggggggggg,
   S = stringggggggggggggggggg,
 > = {

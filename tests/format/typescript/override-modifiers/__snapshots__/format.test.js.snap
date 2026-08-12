@@ -27,6 +27,18 @@ class MyClass extends BaseClass {
 ================================================================================
 `;
 
+exports[`override-modifier.ts format[acorn-ts] 1`] = `
+"Abstract methods can only appear within an abstract class. (6:3)
+  4 |   override size = 5;
+  5 |   override readonly size = 5;
+> 6 |   abstract override foo: string;
+    |   ^
+  7 |   static override foo: string;
+  8 | }
+  9 |
+Cause: Abstract methods can only appear within an abstract class. (6:2)"
+`;
+
 exports[`parameter-property.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]

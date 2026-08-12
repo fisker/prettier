@@ -146,6 +146,18 @@ class Foo {
 ================================================================================
 `;
 
+exports[`keywords-2.ts format[acorn-ts] 1`] = `
+"Unexpected token (11:10)
+   9 |
+  10 | class D {
+> 11 |   declare<T>() {}
+     |          ^
+  12 |   readonly<T>() {}
+  13 |   abstract<T>() {}
+  14 |   static<T>() {}
+Cause: Unexpected token (11:9)"
+`;
+
 exports[`module.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
