@@ -72,6 +72,16 @@ async function f() {
 ================================================================================
 `;
 
+exports[`castOfAwait.ts format[acorn-ts] 1`] = `
+"Unexpected token \`}\`. Did you mean \`&rbrace;\` or \`{"}"}\`? (8:1)
+  6 |     await void <string> typeof <number> void await 0;
+  7 |     await await 0;
+> 8 | }
+    | ^
+  9 |
+Cause: Unexpected token \`}\`. Did you mean \`&rbrace;\` or \`{"}"}\`? (8:0)"
+`;
+
 exports[`castParentheses.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
@@ -103,6 +113,16 @@ var b = <any>new a.b();
 var b = (<any>new a()).b;
 
 ================================================================================
+`;
+
+exports[`castParentheses.ts format[acorn-ts] 1`] = `
+"Unterminated JSX contents (11:15)
+   9 | var b = (<any>new a);
+  10 | var b = (<any>new a.b);
+> 11 | var b = (<any>new a).b
+     |               ^
+  12 |
+Cause: Unterminated JSX contents (11:14)"
 `;
 
 exports[`castTest.ts format 1`] = `
@@ -174,6 +194,18 @@ var p_cast = <Point>{
 };
 
 ================================================================================
+`;
+
+exports[`castTest.ts format[acorn-ts] 1`] = `
+"Unexpected token (10:14)
+   8 | var s = <string>"";
+   9 |
+> 10 | var ar = <any[]>null;
+     |              ^
+  11 |
+  12 | var f = <(res : number) => void>null;
+  13 |
+Cause: Unexpected token (10:13)"
 `;
 
 exports[`checkInfiniteExpansionTermination.ts format 1`] = `
@@ -280,6 +312,17 @@ var id: <T>(x: T) => T;
 var r23 = dot(id)(id);
 
 ================================================================================
+`;
+
+exports[`contextualSignatureInstantiation2.ts format[acorn-ts] 1`] = `
+"Unexpected token (2:10)
+  1 | // dot f g x = f(g(x))
+> 2 | var dot: <T, S>(f: (_: T) => S) => <U>(g: (_: U) => T) => (_: U) => S;
+    |          ^
+  3 | dot = <T, S>(f: (_: T) => S) => <U>(g: (_: U) => T): (r:U) => S => (x) => f(g(x));
+  4 | var id: <T>(x:T) => T;
+  5 | var r23 = dot(id)(id);
+Cause: Unexpected token (2:9)"
 `;
 
 exports[`declareDottedModuleName.ts format 1`] = `
@@ -480,6 +523,18 @@ let obj = {
 };
 
 ================================================================================
+`;
+
+exports[`globalIsContextualKeyword.ts format[acorn-ts] 1`] = `
+"Unexpected token (5:11)
+  3 | }
+  4 | function b() {
+> 5 |     class global {}
+    |           ^
+  6 | }
+  7 |
+  8 | namespace global {
+Cause: Unexpected token (5:10)"
 `;
 
 exports[`indexSignatureWithInitializer.ts format 1`] = `

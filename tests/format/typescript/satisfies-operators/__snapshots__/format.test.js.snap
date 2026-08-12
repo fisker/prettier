@@ -573,6 +573,18 @@ function satisfiesChain() {
 ================================================================================
 `;
 
+exports[`expression-statement.ts - {"semi":false} format[acorn-ts] 1`] = `
+"The keyword 'let' is reserved (19:2)
+  17 |
+  18 | function needParens() {
+> 19 | (let) satisfies unknown;
+     |  ^
+  20 | (interface) satisfies unknown;
+  21 | (module) satisfies unknown;
+  22 | (using) satisfies unknown;
+Cause: The keyword 'let' is reserved (19:1)"
+`;
+
 exports[`expression-statement.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
@@ -657,6 +669,18 @@ function satisfiesChain() {
 }
 
 ================================================================================
+`;
+
+exports[`expression-statement.ts format[acorn-ts] 1`] = `
+"The keyword 'let' is reserved (19:2)
+  17 |
+  18 | function needParens() {
+> 19 | (let) satisfies unknown;
+     |  ^
+  20 | (interface) satisfies unknown;
+  21 | (module) satisfies unknown;
+  22 | (using) satisfies unknown;
+Cause: The keyword 'let' is reserved (19:1)"
 `;
 
 exports[`gt-lt.ts - {"semi":false} format 1`] = `

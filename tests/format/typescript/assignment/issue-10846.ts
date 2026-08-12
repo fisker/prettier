@@ -10,16 +10,16 @@ export const CallRecorderContext =
     deleteAll: () => void;
   } | null>(null);
 
-export const CallRecorderContext =
+export const CallRecorderContext2 =
   createContext<{
     deleteRecording: (id: string) => void;
     deleteAll: () => void;
   } | null>(null, "useless");
 
-const foo =
+const foo1 =
   call<Foooooo, Foooooo, Foooooo, Foooooo, Foooooo, Foooooo, Foooooo>();
 
-const foo =
+const foo2 =
   call<
     | Foooooooooooo
     | Foooooooooooo
@@ -28,7 +28,7 @@ const foo =
     | Foooooooooooo
   >();
 
-const foo =
+const foo3 =
   call<
     Foooooooooooo &
       Foooooooooooo &

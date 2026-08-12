@@ -143,6 +143,17 @@ parsers: ["typescript", "flow"]
 ================================================================================
 `;
 
+exports[`issue-18136-2.ts format[acorn-ts] 1`] = `
+"Unexpected token (2:37)
+  1 | {
+> 2 |   const x = async (xxxxxxxx: string): Promise<void> => {
+    |                                     ^
+  3 |     await (
+  4 |       await (await xxxx.xxxx.x(xxxxxxxxxxxxxxx))?.xxxxxxxxxxxx()
+  5 |     )
+Cause: Unexpected token (2:36)"
+`;
+
 exports[`realworld-cases.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript", "flow"]
