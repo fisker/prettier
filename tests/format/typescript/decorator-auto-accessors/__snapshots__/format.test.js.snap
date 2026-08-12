@@ -29,6 +29,18 @@ abstract class Foo {
 ================================================================================
 `;
 
+exports[`decorator-auto-accessors-abstract-class.ts format[acorn-ts] 1`] = `
+"Private elements cannot have an accessibility modifier ('private'). (3:3)
+  1 | abstract class Foo {
+  2 |   declare accessor prop7: number;
+> 3 |   private accessor #p: any;
+    |   ^
+  4 |
+  5 |   abstract accessor #s;
+  6 |   accessor #d?;
+Cause: Private elements cannot have an accessibility modifier ('private'). (3:2)"
+`;
+
 exports[`decorator-auto-accessors-abstract-class.ts format[babel-ts] 1`] = `
 "An 'accessor' property cannot be declared optional. (6:3)
   4 |
@@ -68,6 +80,17 @@ declare class C {
 }
 
 ================================================================================
+`;
+
+exports[`decorator-auto-accessors-declare-class.ts format[acorn-ts] 1`] = `
+"Initializers are not allowed in ambient contexts. (2:14)
+  1 | declare class C {
+> 2 |   accessor x = 1;
+    |              ^
+  3 |   #y = 1;
+  4 | }
+  5 |
+Cause: Initializers are not allowed in ambient contexts. (2:13)"
 `;
 
 exports[`decorator-auto-accessors-declare-class.ts format[oxc-ts] 1`] = `
@@ -119,6 +142,18 @@ abstract class Foo {
 ================================================================================
 `;
 
+exports[`decorator-auto-accessors-mixed-modifiers.ts format[acorn-ts] 1`] = `
+"Private elements cannot have an accessibility modifier ('private'). (8:3)
+   6 |   private accessor prop5: number = 1;
+   7 |   abstract accessor prop6: number;
+>  8 |   private accessor #p: any;
+     |   ^
+   9 |
+  10 |   accessor a!: any;
+  11 |   accessor aa!: any;
+Cause: Private elements cannot have an accessibility modifier ('private'). (8:2)"
+`;
+
 exports[`decorator-auto-accessors-mixed-modifiers.ts format[oxc-ts] 1`] = `
 "An accessibility modifier cannot be used with a private identifier. (8:3)
    6 |   private accessor prop5: number = 1;
@@ -140,12 +175,12 @@ class Foo {
   ["bar"];
 }
 
-class Foo {
+class Foo2 {
   static accessor
   bar;
 }
 
-class Foo {
+class Foo3 {
   accessor
   bar;
 }
@@ -156,12 +191,12 @@ class Foo {
   ["bar"];
 }
 
-class Foo {
+class Foo2 {
   static accessor;
   bar;
 }
 
-class Foo {
+class Foo3 {
   accessor;
   bar;
 }

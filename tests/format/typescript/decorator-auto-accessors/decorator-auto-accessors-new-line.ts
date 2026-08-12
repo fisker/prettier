@@ -3,12 +3,12 @@ class Foo {
   ["bar"];
 }
 
-class Foo {
+class Foo2 {
   static accessor
   bar;
 }
 
-class Foo {
+class Foo3 {
   accessor
   bar;
 }

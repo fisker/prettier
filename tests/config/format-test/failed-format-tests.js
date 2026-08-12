@@ -53,7 +53,10 @@ const disabledTests = new Map(
   Object.entries({
     espree: commentClosureTypecaseTests,
     acorn: [],
-    "acorn-ts": ["js/classes/multiple-static.js"],
+    "acorn-ts": [
+      "js/classes/multiple-static.js",
+      "typescript/class-and-interface/heritage-break/member-expression-like.ts",
+    ],
     meriyah: [],
     "babel-ts": [],
     oxc: [],
