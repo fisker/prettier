@@ -25,7 +25,11 @@ parsers: ["html"]
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>… Your HTML content here …</p>
+    <p>
+      …
+      Your HTML content here
+      …
+    </p>
   </body>
 </html>
 
@@ -57,7 +61,11 @@ parsers: ["html"]
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>… Your HTML content here …</p>
+    <p>
+      …
+      Your HTML content here
+      …
+    </p>
   </body>
 </html>
 
@@ -89,7 +97,11 @@ parsers: ["html"]
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>… Your HTML content here …</p>
+    <p>
+      …
+      Your HTML content here
+      …
+    </p>
   </body>
 </html>
 
@@ -120,7 +132,11 @@ parsers: ["html"]
     <meta charset="utf-8" />
   </head>
   <body>
-    <p>… Your HTML content here …</p>
+    <p>
+      …
+      Your HTML content here
+      …
+    </p>
   </body>
 </html>
 
