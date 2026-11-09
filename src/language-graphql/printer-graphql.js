@@ -11,12 +11,12 @@ import { printDanglingComments } from "../main/comments/print.js";
 import isNonEmptyArray from "../utilities/is-non-empty-array.js";
 import UnexpectedNodeError from "../utilities/unexpected-node-error.js";
 import getVisitorKeys from "./get-visitor-keys.js";
-import { locStart } from "./loc.js";
 import { massageAstNode } from "./massage-ast/index.js";
 import { insertPragma } from "./pragma.js";
 import { printArguments } from "./print/arguments.js";
 import { printDescription } from "./print/description.js";
 import { printDirectives } from "./print/directives.js";
+import { printOperationDefinition } from "./print/operation-definition.js";
 import { printSequence } from "./print/sequence.js";
 import { printVariableDefinitions } from "./print/variable-definitions.js";
 
@@ -30,22 +30,9 @@ function genericPrint(path, options, print) {
         hardline,
       ];
 
-    case "OperationDefinition": {
-      const hasOperation = options.originalText[locStart(node)] !== "{";
-      const hasName = Boolean(node.name);
-      return [
-        printDescription(path, options, print),
-        hasOperation ? node.operation : "",
-        hasOperation && hasName ? [" ", print("name")] : "",
-        hasOperation && !hasName && isNonEmptyArray(node.variableDefinitions)
-          ? " "
-          : "",
-        printVariableDefinitions(path, print),
-        printDirectives(path, print),
-        !hasOperation && !hasName ? "" : " ",
-        print("selectionSet"),
-      ];
-    }
+    case "OperationDefinition":
+      return printOperationDefinition(path, options, print);
+
     case "FragmentDefinition":
       return [
         printDescription(path, options, print),
